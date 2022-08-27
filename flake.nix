@@ -14,6 +14,7 @@
     nixosConfigurations = {
       desktop = import ./machines/desktop { inherit nixpkgs inputs; };
       work = import ./machines/work { inherit nixpkgs inputs; };
+      rpi3 = import ./machines/rpi3 { inherit nixpkgs inputs; };
     };
   };
 }
