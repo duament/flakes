@@ -18,7 +18,7 @@
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINdmqOuypyBe2tF0fQ3R5vp9YkUg1e0lREno2ezJJE86"
           "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIL6r8qfrXMqjnUBhxuBSMt0cfjHo+Vhvqtod8vvwoQk4AAAABHNzaDo= canokey"
         ];
-        hostKeys = [ "/etc/secrets/initrd/ssh_host_ed25519_key" ];
+        hostKeys = [ ./ssh_host_ed25519_key ];
       };
     };
   };
@@ -28,6 +28,7 @@
     "console=ttyS0,115200n8"
     "console=ttyAMA0,115200n8"
     "console=tty0"
+    "ip=dhcp"
   ];
 
   fileSystems."/" =
