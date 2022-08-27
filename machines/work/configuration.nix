@@ -76,9 +76,9 @@
       }
       {
         routingPolicyRuleConfig = {
-	  To = "172.26.0.2/24";
-	  Priority = 9;
-	};
+          To = "172.26.0.2/24";
+          Priority = 9;
+        };
       }
     ];
     routes = [ { routeConfig = {
