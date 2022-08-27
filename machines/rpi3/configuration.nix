@@ -17,7 +17,7 @@
     useNetworkd = true;
   };
   systemd.network.networks."40-wired" = {
-    enables = true;
+    enable = true;
     name = "eth*";
     DHCP = "yes";
   };
@@ -34,6 +34,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINdmqOuypyBe2tF0fQ3R5vp9YkUg1e0lREno2ezJJE86"
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIL6r8qfrXMqjnUBhxuBSMt0cfjHo+Vhvqtod8vvwoQk4AAAABHNzaDo= canokey"
+    ];
     packages = with pkgs; [
     ];
   };

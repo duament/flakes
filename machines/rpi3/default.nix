@@ -4,5 +4,6 @@
   modules = [
     ./hardware-configuration.nix
     ./configuration.nix
+    inputs.home-manager.nixosModules.home-manager
   ];
 }
