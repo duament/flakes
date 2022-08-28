@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   boot.loader = {
     grub.enable = false;
     generic-extlinux-compatible.enable = true;
@@ -26,6 +28,13 @@
 
   i18n.defaultLocale = "en_US.UTF-8";
   fonts.fontconfig.enable = false;
+  xdg = {
+    autostart.enable = false;
+    icons.enable = false;
+    menus.enable = false;
+    mime.enable = false;
+    sounds.enable = false;
+  };
 
   users.defaultUserShell = pkgs.fish;
   users.users.rvfg = {

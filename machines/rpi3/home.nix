@@ -4,6 +4,8 @@
     ncdu
     mtr
     wireguard-tools
+    usbutils
+    iperf
   ];
 
   programs.fish = {
