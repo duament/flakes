@@ -11,7 +11,7 @@
     #checksec
     #compsize
     wireguard-tools
-    #dig
+    dig
     #tcpdump
     #clang
     gcc
