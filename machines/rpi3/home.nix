@@ -1,4 +1,8 @@
 { pkgs, ... }: {
+  imports = [
+    ../../modules/starship_async_fish.nix
+  ];
+
   home.packages = with pkgs; [
     duf
     ncdu
