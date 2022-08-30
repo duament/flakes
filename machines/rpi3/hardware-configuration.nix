@@ -1,6 +1,7 @@
 { lib, ... }:
 
 {
+  boot.loader.raspberryPi.firmwareConfig = "hdmi_force_hotplug=1";
   boot.initrd = {
     availableKernelModules = [ "usbhid" "usb_storage" "lan78xx" ];
     kernelModules = [ ];
