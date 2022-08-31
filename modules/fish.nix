@@ -21,6 +21,7 @@
       l = "exa -lag --time-style=long-iso";
       ll = "exa -lg --time-style=long-iso";
       lg = "exa -lag --git --time-style=long-iso";
+      sl = "sudo exa -lag --time-style=long-iso";
     };
   };
 }
