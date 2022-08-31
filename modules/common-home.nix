@@ -1,10 +1,10 @@
 { ... }:
 {
   imports = [
-    ../../modules/fish.nix
-    ../../modules/fzf
-    ../../modules/neovim
-    ../../modules/starship
+    ./fish.nix
+    ./fzf
+    ./neovim
+    ./starship
   ];
 
   programs.exa.enable = true;
