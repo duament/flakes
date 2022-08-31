@@ -1,7 +1,8 @@
 { config, pkgs, ... }:
-
 {
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  imports = [
+    ../../modules/nogui.nix
+  ];
 
   #nixpkgs.overlays = [
   #  (self: super: {
@@ -13,31 +14,16 @@
   #  })
   #];
 
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-    kernelPackages = pkgs.linuxPackages_latest;
-    tmpOnTmpfs = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
   };
 
-  networking = {
-    hostName = "work";
-    firewall = {
-      enable = false;
-      #checkReversePath = false;
-      #allowedTCPPorts = [ 22 3128 8000 ];
-    };
-    nftables.enable = true;
-    # extraHosts = "223.166.103.111 h.rvf6.com";
-    useDHCP = false;
-    useNetworkd = true;
-  };
-  systemd.network.networks."40-wired" = {
-    enable = true;
-    name = "eth*";
-    # DHCP = "yes";
+  networking.hostName = "work";
+  #networking.extraHosts = "223.166.103.111 h.rvf6.com";
+
+  systemd.network.networks."80-ethernet" = {
+    DHCP = "no";
     # dhcpV4Config = { SendOption = "50:ipv4address:172.26.0.2"; };
     address = [ "172.26.0.2/24" ];
     gateway = [ "172.26.0.1" ];
@@ -88,27 +74,9 @@
     }; } ];
   };
 
-  time.timeZone = "Asia/Hong_Kong";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  fonts.fontconfig.enable = false;
-
-  users.defaultUserShell = pkgs.fish;
-  users.users.rvfg = {
-    isNormalUser = true;
-    extraGroups = [ "systemd-journal" ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ enflame"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINdmqOuypyBe2tF0fQ3R5vp9YkUg1e0lREno2ezJJE86"
-    ];
-    packages = with pkgs; [
-    ];
-  };
-  security.sudo.extraRules = [ { users = [ "rvfg" ]; commands = [ "ALL" ]; } ];
-  #security.sudo.extraConfig = ''
-  #  Defaults passwd_timeout=0
-  #'';
+  users.users.rvfg.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ enflame"
+  ];
 
   home-manager = {
     useGlobalPkgs = true;
@@ -119,14 +87,6 @@
   #environment.systemPackages = with pkgs; [
   #];
 
-  programs.fish.enable = true;
-
-  services.openssh = {
-    enable = true;
-    kbdInteractiveAuthentication = false;
-    passwordAuthentication = false;
-    permitRootLogin = "no";
-  };
   services.squid = {
     enable = true;
     proxyAddress = "0.0.0.0";

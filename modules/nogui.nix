@@ -1,5 +1,9 @@
-{ ... }:
+{ lib, ... }:
 {
+  imports = [
+    ./common.nix
+  ];
+
   networking = {
     useDHCP = false;
     useNetworkd = true;
@@ -8,7 +12,7 @@
   systemd.network.networks."80-ethernet" = {
     enable = true;
     matchConfig = { Type = "ether"; };
-    DHCP = "yes";
+    DHCP = lib.mkDefault "yes";
   };
 
   fonts.fontconfig.enable = false;

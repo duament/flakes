@@ -5,6 +5,9 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.tmpOnTmpfs = true;
 
+  networking.firewall.enable = false;
+  networking.nftables.enable = true;
+
   time.timeZone = "Asia/Hong_Kong";
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -23,6 +26,8 @@
   #security.sudo.extraConfig = ''
   #  Defaults passwd_timeout=0
   #'';
+
+  programs.fish.enable = true;
 
   services.openssh = {
     enable = true;
