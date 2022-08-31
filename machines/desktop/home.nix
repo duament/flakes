@@ -1,8 +1,6 @@
 { pkgs, ... }: {
   imports = [
-    ../../modules/fish.nix
-    ../../modules/neovim
-    ../../modules/starship
+    ../../modules/common-home.nix
   ];
 
   home.packages = with pkgs; [
@@ -79,13 +77,6 @@
         publish-participants = true;
       };
     };
-  };
-
-  programs.exa.enable = true;
-
-  programs.fzf = {
-    enable = true;
-    enableFishIntegration = true;
   };
 
   programs.firefox = {

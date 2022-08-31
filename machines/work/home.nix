@@ -1,8 +1,6 @@
 { pkgs, ... }: {
   imports = [
-    ../../modules/fish.nix
-    ../../modules/neovim
-    ../../modules/starship
+    ../../modules/common-home.nix
   ];
 
   home.packages = with pkgs; [
@@ -89,26 +87,6 @@
     #    publish-participants = true;
     #  };
     #};
-  };
-
-  programs.exa.enable = true;
-
-  programs.fzf = {
-    enable = true;
-    enableFishIntegration = true;
-  };
-
-  programs.htop = {
-    enable = true;
-    settings = {
-      hide_userland_threads = 1;
-      detailed_cpu_time = 1;
-    };
-  };
-
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    VISUAL = "nvim";
   };
 
   home.stateVersion = "22.11";
