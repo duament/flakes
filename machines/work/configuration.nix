@@ -33,7 +33,7 @@
     dns = [ "223.5.5.5" ];
     domains = [ "~h.rvf6.com" ];
   };
-  systemd.network.netdevs."99-wg0" = {
+  systemd.network.netdevs."25-wg0" = {
     enable = true;
     netdevConfig = { Name = "wg0"; Kind = "wireguard"; };
     wireguardConfig = {
@@ -47,7 +47,7 @@
       PublicKey = "OXMopf5h0m7x2udIdCR7qxBhniN5+coCGqbrm99Lgi4=";
     }; } ];
   };
-  systemd.network.networks."50-wg0" = {
+  systemd.network.networks."25-wg0" = {
     enable = true;
     name = "wg0";
     address = [ "10.0.0.10/32" ];
