@@ -5,11 +5,12 @@
 
   home.packages = with pkgs; [
     duf
-    ncdu
-    mtr
-    wireguard-tools
-    usbutils
+    git-crypt
     iperf
+    mtr
+    ncdu
+    usbutils
+    wireguard-tools
   ];
 
   programs.git = {
