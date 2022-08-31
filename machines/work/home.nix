@@ -7,16 +7,14 @@
     duf
     ncdu
     mtr
-    #starship
-    #curl
     python3
-    #file
-    #unar
-    #checksec
-    #compsize
+    file
+    unar
+    checksec
+    compsize
     wireguard-tools
     dig
-    #tcpdump
+    tcpdump
     #clang
     gcc
     gdb
