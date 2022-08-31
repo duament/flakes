@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   imports = [
     ../../modules/fish.nix
+    ../../modules/neovim
     ../../modules/starship_async_fish.nix
   ];
 
@@ -12,37 +13,6 @@
   ];
 
   xdg.portal.enable = true;
-
-  programs.neovim = {
-    enable = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-    defaultEditor = true;
-    plugins = with pkgs.vimPlugins; [
-      #nvim-lspconfig
-      #nvim-cmp
-      #cmp-nvim-lsp
-      luasnip
-      editorconfig-nvim
-      lualine-nvim
-      which-key-nvim
-      #lualine-lsp-progress
-      (nvim-treesitter.withPlugins (
-        plugins: with plugins; [
-          tree-sitter-nix
-          tree-sitter-lua
-          tree-sitter-rust
-          tree-sitter-go
-          tree-sitter-c
-          tree-sitter-cpp
-          tree-sitter-cmake
-          tree-sitter-fish
-          tree-sitter-json
-          tree-sitter-toml
-        ]
-      ))
-    ];
-  };
 
   programs.ssh = let
     sshIdentities = [ "~/.ssh/id_ed25519.pub" "~/.ssh/id_canokey" "~/.ssh/id_a4b" ];
