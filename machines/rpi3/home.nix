@@ -2,7 +2,7 @@
   imports = [
     ../../modules/fish.nix
     ../../modules/neovim
-    ../../modules/starship_async_fish.nix
+    ../../modules/starship
   ];
 
   home.packages = with pkgs; [
