@@ -18,6 +18,12 @@ require('nvim-treesitter.configs').setup {
 }
 
 require('lualine').setup {
+  options = {
+    icons_enabled = false,
+    theme = 'onelight',
+    section_separators = '',
+    component_separators = ''
+  }
 }
 
 require('which-key').setup {
