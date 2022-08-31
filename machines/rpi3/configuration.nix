@@ -16,7 +16,7 @@
   };
 
   boot.kernel.sysctl = {
-    "net.ipv4.ip_forward": true;
+    "net.ipv4.ip_forward" = true;
   };
 
   networking.hostName = "rpi3";
