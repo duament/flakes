@@ -20,6 +20,9 @@
   };
 
   networking.hostName = "work";
+  networking.nftables.inputAccept = ''
+    tcp dport 3128 accept comment "squid"
+  '';
   #networking.extraHosts = "223.166.103.111 h.rvf6.com";
 
   systemd.network.networks."80-ethernet" = {

@@ -1,12 +1,22 @@
 { pkgs, ... }:
 {
+  imports = [
+    ./nftables
+  ];
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.tmpOnTmpfs = true;
 
   networking.firewall.enable = false;
-  networking.nftables.enable = true;
+  networking.nftables = {
+    enable = true;
+    inputAccept = ''
+      ip6 saddr fe80::/64 udp dport 546 accept comment "DHCPv6 client"
+      tcp dport 22 accept comment "SSH"
+    '';
+  };
 
   time.timeZone = "Asia/Hong_Kong";
 
