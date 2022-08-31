@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   imports = [
+    ../../modules/fish.nix
     ../../modules/starship_async_fish.nix
   ];
 
@@ -11,21 +12,6 @@
   ];
 
   xdg.portal.enable = true;
-
-  programs.fish = {
-    enable = true;
-    shellAbbrs = {
-      s = "systemctl";
-      j = "journalctl";
-      v = "nvim";
-      se = "sudoedit";
-    };
-    shellAliases = {
-      l = "exa -lag --time-style=long-iso";
-      ll = "exa -lg --time-style=long-iso";
-      lg = "exa -lag --git --time-style=long-iso";
-    };
-  };
 
   programs.neovim = {
     enable = true;

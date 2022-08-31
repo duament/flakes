@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   imports = [
+    ../../modules/fish.nix
     ../../modules/starship_async_fish.nix
   ];
 
@@ -11,27 +12,6 @@
     usbutils
     iperf
   ];
-
-  programs.fish = {
-    enable = true;
-    shellAbbrs = {
-      s = "systemctl";
-      sls = "systemctl list-units --type=service";
-      suls = "systemctl --user list-units --type=service";
-      sus = "sudo systemctl";
-      j = "journalctl";
-      jb = "journalctl -b 0";
-      jp = "journalctl -b 0 -p 4";
-      v = "nvim";
-      dl = "curl -LJO";
-      se = "sudoedit";
-    };
-    shellAliases = {
-      l = "exa -lag --time-style=long-iso";
-      ll = "exa -lg --time-style=long-iso";
-      lg = "exa -lag --git --time-style=long-iso";
-    };
-  };
 
   programs.neovim = {
     enable = true;
