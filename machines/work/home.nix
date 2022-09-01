@@ -4,17 +4,11 @@
   ];
 
   home.packages = with pkgs; [
-    duf
     ncdu
-    mtr
     python3
-    file
-    unar
     checksec
     compsize
     wireguard-tools
-    dig
-    tcpdump
     #clang
     gcc
     gdb

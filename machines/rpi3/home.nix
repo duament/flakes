@@ -4,10 +4,8 @@
   ];
 
   home.packages = with pkgs; [
-    duf
     git-crypt
     iperf
-    mtr
     ncdu
     usbutils
     wireguard-tools

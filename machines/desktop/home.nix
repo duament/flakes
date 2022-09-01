@@ -4,9 +4,7 @@
   ];
 
   home.packages = with pkgs; [
-    duf
     ncdu
-    mtr
     tdesktop
   ];
 

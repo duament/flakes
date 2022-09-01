@@ -1,10 +1,20 @@
-{ ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./fish.nix
     ./fzf
     ./neovim
     ./starship
+  ];
+
+  home.packages = with pkgs; [
+    dig
+    duf
+    file
+    mtr
+    sops
+    tcpdump
+    unar
   ];
 
   programs.exa.enable = true;
