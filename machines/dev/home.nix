@@ -4,11 +4,14 @@ let
     ipython
     requests
   ]; 
-  python-with-my-packages = python3.withPackages my-python-packages;
+  python-with-my-packages = pkgs.python3.withPackages my-python-packages;
 in {
   imports = [
     ../../modules/common-home.nix
   ];
+
+  home.username = "rvfg";
+  home.homeDirectory = "/home/rvfg";
 
   home.packages = with pkgs; [
     checksec
