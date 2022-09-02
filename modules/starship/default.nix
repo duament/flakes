@@ -26,16 +26,16 @@
         symbol = "";
       };
       git_status = {
-        conflicted = "=$count ";
-        ahead = "⇡$count ";
-        behind = "⇣$count ";
-        diverged = "⇕$count ";
+        behind = "[⇣$count](green) ";
+        ahead = "[⇡$count](green) ";
+        stashed = "[*$count](green) ";
+        modified = "[!$count](yellow) ";
+        renamed = "[»$count](yellow) ";
+        deleted = "[✘$count](yellow) ";
+        staged = "[+$count](yellow) ";
         untracked = "[?$count](blue) ";
-        stashed = "$$count ";
-        modified = "!$count ";
-        staged = "+$count ";
-        renamed = "»$count ";
-        deleted = "✘$count ";
+        conflicted = "[~$count](red) ";
+        diverged = "[⇕$count](red) ";
         format = "([$all_status$ahead_behind]($style))";
       };
       hostname = {
