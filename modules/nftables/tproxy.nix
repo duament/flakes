@@ -1,10 +1,15 @@
-{ lib, config, ... }:
+{ lib, config, inputs, ... }:
 with lib;
 let
   cfg = config.networking.nftables;
 
-  china_ipv4 = "";
-  china_ipv6 = "";
+  comment_filter = line: builtins.match "^[ \t]*(#.*)?$" line == null;
+  china_ipv4_raw = builtins.readFile ${inputs.chnroutes2.outPath}/chnroutes.txt;
+  china_ipv4_lines = builtins.filter comment_filter (splitString "\n" china_ipv4_raw);
+  china_ipv4 = builtins.concatStringsSep ",\n" china_ipv4_lines;
+  china_ipv6_raw = builtins.readFile ${inputs.china-operator-ip.outPath}/china6.txt;
+  china_ipv6_lines = builtins.filter comment_filter (splitString "\n" china_ipv6_raw);
+  china_ipv6 = builtins.concatStringsSep ",\n" china_ipv6_lines;
 in {
   options = {
     networking.nftables.tproxy.enable = mkOption {

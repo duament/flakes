@@ -1,5 +1,38 @@
 {
   "nodes": {
+    "china-operator-ip": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1662090432,
+        "narHash": "sha256-XWFKpz+duqdiG9RwGeDGVuBqidf5yM3bgxWj2aIHWss=",
+        "owner": "gaoyifan",
+        "repo": "china-operator-ip",
+        "rev": "933ae72c940bea89f0a2d45afc387499b489b6c0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gaoyifan",
+        "ref": "ip-lists",
+        "repo": "china-operator-ip",
+        "type": "github"
+      }
+    },
+    "chnroutes2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1661403606,
+        "narHash": "sha256-Lg7JdfPTONMxVAZKl1jhnN12vMt3HGgXJ5ax7rWjbEk=",
+        "owner": "misakaio",
+        "repo": "chnroutes2",
+        "rev": "230c88f72bb03bd7827d1820f8ed51559154eff7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "misakaio",
+        "repo": "chnroutes2",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -23,11 +56,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1661720780,
-        "narHash": "sha256-AJNGyaB2eKZAYaPNjBZOzap87yL+F9ZLaFzzMkvega0=",
+        "lastModified": 1662019588,
+        "narHash": "sha256-oPEjHKGGVbBXqwwL+UjsveJzghWiWV0n9ogo1X6l4cw=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "a63021a330d8d33d862a8e29924b42d73037dd37",
+        "rev": "2da64a81275b68fdad38af669afeda43d401e94b",
         "type": "github"
       },
       "original": {
@@ -55,6 +88,8 @@
     },
     "root": {
       "inputs": {
+        "china-operator-ip": "china-operator-ip",
+        "chnroutes2": "chnroutes2",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "sops-nix": "sops-nix"
