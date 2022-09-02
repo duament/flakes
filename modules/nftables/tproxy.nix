@@ -190,7 +190,7 @@ in {
           ct mark and ${toString cfg.tproxy.mask} == ${toString cfg.tproxy.mark} mark set mark or ${toString cfg.tproxy.mark};
           ct state != new accept;
           mark and ${toString cfg.tproxy.bypassMask} == ${toString cfg.tproxy.bypassMark} accept;
-          jump dst_bypass;
+          jump tproxy_dst;
           meta l4proto { tcp, udp } mark set mark or ${toString cfg.tproxy.mark} ct mark set ct mark or ${toString cfg.tproxy.mark};
         }
         ''}
