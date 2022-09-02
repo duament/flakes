@@ -16,10 +16,20 @@ in {
   home.packages = with pkgs; [
     checksec
     #clang
+    coreutils
+    curl
+    docker
     gcc
     gdb
+    iproute2
+    jq
+    less
     ncdu
+    openssl
+    procps
     python-with-my-packages
+    strace
+    util-linux
   ];
 
   programs.git = {
