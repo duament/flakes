@@ -4,10 +4,10 @@ let
   cfg = config.networking.nftables;
 
   comment_filter = line: builtins.match "^[ \t]*(#.*)?$" line == null;
-  china_ipv4_raw = builtins.readFile ${inputs.chnroutes2.outPath}/chnroutes.txt;
+  china_ipv4_raw = builtins.readFile "${inputs.chnroutes2.outPath}/chnroutes.txt";
   china_ipv4_lines = builtins.filter comment_filter (splitString "\n" china_ipv4_raw);
   china_ipv4 = builtins.concatStringsSep ",\n" china_ipv4_lines;
-  china_ipv6_raw = builtins.readFile ${inputs.china-operator-ip.outPath}/china6.txt;
+  china_ipv6_raw = builtins.readFile "${inputs.china-operator-ip.outPath}/china6.txt";
   china_ipv6_lines = builtins.filter comment_filter (splitString "\n" china_ipv6_raw);
   china_ipv6 = builtins.concatStringsSep ",\n" china_ipv6_lines;
 in {
@@ -180,13 +180,13 @@ in {
 
         ${optionalString cfg.tproxy.enableLocal ''
         chain tproxy_local_dns_redirect {
-          type nat hook output priority dstnat; policy accept;
+          type nat hook output priority mangle; policy accept;
           mark and ${toString cfg.tproxy.bypassMask} == ${toString cfg.tproxy.bypassMark} accept;
           fib daddr type local meta l4proto { tcp, udp } th dport 53 counter redirect to :${toString cfg.tproxy.dnsPort};
         }
 
         chain tproxy_local_reroute {
-          type route hook output priority 0; policy accept;
+          type route hook output priority mangle; policy accept;
           ct mark and ${toString cfg.tproxy.mask} == ${toString cfg.tproxy.mark} mark set mark or ${toString cfg.tproxy.mark};
           ct state != new accept;
           mark and ${toString cfg.tproxy.bypassMask} == ${toString cfg.tproxy.bypassMark} accept;
