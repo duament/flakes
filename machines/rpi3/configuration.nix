@@ -30,7 +30,7 @@
     '';
     masquerade = [ "oifname \"eth0\"" ];
     tproxy = {
-      enable = false;
+      enable = true;
       enableLocal = true;
       src = ''
         ip saddr 10.6.6.0/24 return;
