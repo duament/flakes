@@ -33,11 +33,6 @@ in {
     util-linux
   ];
 
-  programs.fish.shellInit = ''
-    set -gx EDITOR neovim
-    set -gx VISUAL neovim
-  '';
-
   programs.git = {
     enable = true;
     userEmail = "int.ruifeng.ma@enflame-tech.com";
