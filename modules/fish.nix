@@ -23,5 +23,15 @@
       lg = "exa -lag --git --time-style=long-iso";
       sl = "sudo exa -lag --time-style=long-iso";
     };
+    interactiveShellInit = ''
+      set fish_color_command green
+      set fish_color_comment brblack
+      set fish_color_end yellow
+      set fish_color_escape magenta
+      set fish_color_keyword cyan
+      set fish_color_operator bryellow
+      set fish_color_param black
+      set fish_color_quote brblue
+    '';
   };
 }
