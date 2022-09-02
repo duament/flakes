@@ -3,15 +3,15 @@ let
   my-python-packages = python-packages: with python-packages; [
     ipython
     requests
-  ]; 
+  ];
   python-with-my-packages = pkgs.python3.withPackages my-python-packages;
 in {
   imports = [
     ../../modules/common-home.nix
   ];
 
-  home.username = "rvfg";
-  home.homeDirectory = "/home/rvfg";
+  home.username = "ruifeng.ma";
+  home.homeDirectory = "/home/ruifeng.ma";
 
   home.packages = with pkgs; [
     checksec
