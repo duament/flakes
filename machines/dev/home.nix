@@ -21,6 +21,7 @@ in {
     docker
     gcc
     gdb
+    home-manager
     iproute2
     jq
     less
