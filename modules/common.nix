@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [
     ./nftables
@@ -7,7 +7,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.tmpOnTmpfs = true;
+  boot.tmpOnTmpfs = lib.mkDefault true;
 
   networking.firewall.enable = false;
   networking.nftables = {

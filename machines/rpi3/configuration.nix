@@ -19,6 +19,8 @@
     "net.ipv4.ip_forward" = true;
   };
 
+  boot.tmpOnTmpfs = false;
+
   networking.hostName = "rpi3";
   networking.nftables = {
     inputAccept = ''
