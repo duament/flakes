@@ -20,5 +20,9 @@
       work = import ./machines/work { inherit nixpkgs inputs; };
       rpi3 = import ./machines/rpi3 { inherit nixpkgs inputs; };
     };
+
+    homeConfigurations = {
+      dev = import ./machines/dev { inherit nixpkgs inputs; };
+    };
   };
 }
