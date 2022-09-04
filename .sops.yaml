@@ -3,6 +3,13 @@ keys:
   - &admin_age age1vtztgpzm0y0qqd4jjr37hmgfc6l6ptpyks5mgc5n0qk3zsmv9s8ssfw4xc
   - &rpi3 age1fl08lz0jhvmj468qs0c263dxsgdh0k95wdhz72wgc7rd6whgvu5s47uer0
 creation_rules:
+  - path_regex: modules/shadowsocks/.*
+    key_groups:
+    - pgp:
+      - *admin_pgp
+      age:
+      - *admin_age
+      - *rpi3
   - path_regex: machines/rpi3/.*
     key_groups:
     - pgp:

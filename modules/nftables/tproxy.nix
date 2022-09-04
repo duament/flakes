@@ -11,6 +11,11 @@ let
   china_ipv6_lines = builtins.filter comment_filter (splitString "\n" china_ipv6_raw);
   china_ipv6 = builtins.concatStringsSep ",\n" china_ipv6_lines;
 in {
+  imports = [
+    ../shadowsocks
+    ../smartdns.nix
+  ];
+
   options = {
     networking.nftables.tproxy.enable = mkOption {
       type = types.bool;
@@ -66,6 +71,11 @@ in {
       default = "";
     };
 
+    networking.nftables.tproxy.dnsRedirect = mkOption {
+      type = types.lines;
+      default = "";
+    };
+
     networking.nftables.tproxy.all.enable = mkOption {
       type = types.bool;
       default = false;
@@ -88,6 +98,38 @@ in {
   };
 
   config = mkIf cfg.tproxy.enable {
+    systemd.network.networks."20-lo" = {
+      enable = true;
+      name = "lo";
+      networkConfig = { KeepConfiguration = "static"; };
+      routingPolicyRules = [
+        {
+          routingPolicyRuleConfig = {
+            FirewallMark = cfg.tproxy.mark;
+            Table = 200;
+            Family = "both";
+          };
+        }
+      ];
+      routes = [
+        {
+          routeConfig = {
+            Source = "0.0.0.0/0";
+            Scope = "host";
+            Table = 200;
+            Type = "local";
+          };
+        }
+        {
+          routeConfig = {
+            Source = "::/0";
+            Table = 200;
+            Type = "local";
+          };
+        }
+      ];
+    };
+
     networking.nftables.inputAccept = "mark and ${toString cfg.tproxy.mask} == ${toString cfg.tproxy.mark} accept";
 
     networking.nftables.ruleset = ''
@@ -168,6 +210,7 @@ in {
           type nat hook prerouting priority dstnat; policy accept;
           jump tproxy_src;
           fib daddr type local meta l4proto { tcp, udp } th dport 53 counter redirect to :${toString cfg.tproxy.dnsPort};
+          ${cfg.tproxy.dnsRedirect}
         }
 
         chain tproxy_chain {

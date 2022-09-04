@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
-{
+let
+  smartdnsPort = builtins.toString config.networking.nftables.tproxy.dnsPort;
+in {
   imports = [
     ../../modules/nogui.nix
   ];
@@ -24,7 +26,8 @@
   networking.hostName = "rpi3";
   networking.nftables = {
     inputAccept = ''
-      udp dport 11112 accept comment "wireguard"
+      udp dport 11112 accept comment "wireguard";
+      meta l4proto { tcp, udp } th dport ${smartdnsPort} accept;
     '';
     forwardAccept = ''
       iifname wg0 accept;
@@ -40,6 +43,7 @@
       dst = ''
         ip daddr 17.0.0.0/8 accept comment "Apple"
       '';
+      dnsRedirect = "ip saddr 10.6.6.0/24 ip daddr 192.168.2.1 meta l4proto { tcp, udp } th dport 53 dnat to 10.6.6.1:${smartdnsPort};";
     };
   };
 

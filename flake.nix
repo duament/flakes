@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-cn = {
+      url = "github:nixos-cn/flakes";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     chnroutes2 = {
       url = "github:misakaio/chnroutes2";
       flake = false;
@@ -21,6 +26,11 @@
 
     china-operator-ip = {
       url = "github:gaoyifan/china-operator-ip/ip-lists";
+      flake = false;
+    };
+
+    dnsmasq-china-list = {
+      url = "github:felixonmars/dnsmasq-china-list";
       flake = false;
     };
   };
