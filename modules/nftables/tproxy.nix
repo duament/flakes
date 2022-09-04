@@ -132,6 +132,8 @@ in {
 
     networking.nftables.inputAccept = "mark and ${toString cfg.tproxy.mask} == ${toString cfg.tproxy.mark} accept";
 
+    networking.nftables.tproxy.src = mkIf cfg.tproxy.enableLocal "fib saddr type local return";
+
     networking.nftables.ruleset = ''
       table inet tproxy_table {
         set special_ipv4 {
