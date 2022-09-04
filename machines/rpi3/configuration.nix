@@ -30,7 +30,7 @@
       iifname wg0 accept;
       oifname wg0 accept;
     '';
-    masquerade = [ "oifname \"eth0\"" ];
+    #masquerade = [ "oifname \"eth0\"" ];
     tproxy = {
       enable = true;
       enableLocal = true;
