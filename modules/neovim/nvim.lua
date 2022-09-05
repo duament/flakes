@@ -1,6 +1,7 @@
 vim.opt.background = 'light'
 vim.opt.number = true
 vim.opt.termguicolors = true
+vim.g.one_nvim_transparent_bg = true
 
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
