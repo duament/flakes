@@ -4,14 +4,13 @@
   ];
 
   home.packages = with pkgs; [
-    ncdu
-    python3
     checksec
     compsize
-    wireguard-tools
-    #clang
     gcc
     gdb
+    ncdu
+    python3
+    wireguard-tools
   ];
 
   #programs.ssh = let
