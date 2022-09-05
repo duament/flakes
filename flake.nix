@@ -19,13 +19,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    chnroutes2 = {
-      url = "github:misakaio/chnroutes2";
-      flake = false;
-    };
-
-    china-operator-ip = {
-      url = "github:gaoyifan/china-operator-ip/ip-lists";
+    chn-cidr-list = {
+      url = "github:fernvenue/chn-cidr-list";
       flake = false;
     };
 
