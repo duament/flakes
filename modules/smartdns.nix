@@ -4,7 +4,7 @@ let
   chinaListReplaced = builtins.replaceStrings [ "server=" "114.114.114.114" ] [ "" "china" ] chinaListRaw;
   chinaList = builtins.filter (line: line != "") (lib.splitString "\n" chinaListReplaced);
 in {
-  services.smartdns = {
+  services.smartdns = lib.mkIf config.networking.nftables.tproxy.enable {
     enable = true;
     bindPort = config.networking.nftables.tproxy.dnsPort;
     settings = {
