@@ -1,6 +1,6 @@
 { lib, config, pkgs, inputs, ... }:
 let
-  server = "tw3";
+  tproxyCfg = config.networking.nftables.tproxy;
 in {
   imports = [
     inputs.nixos-cn.nixosModules.nixos-cn
@@ -8,20 +8,20 @@ in {
     ./tunnel.nix
   ];
 
-  config = lib.mkIf config.networking.nftables.tproxy.enable {
+  config = lib.mkIf tproxyCfg.enable {
     services.shadowsocks.redir.default = {
-      server = server;
-      port = config.networking.nftables.tproxy.port;
+      server = tproxyCfg.server;
+      port = tproxyCfg.port;
     };
 
     services.shadowsocks.tunnel.googleDNS = {
-      server = server;
+      server = tproxyCfg.server;
       port = 1070;
       tunnelAddress = "8.8.8.8:53";
     };
 
     services.shadowsocks.tunnel.cfDNS = {
-      server = server;
+      server = tproxyCfg.server;
       port = 1071;
       tunnelAddress = "1.1.1.1:53";
     };

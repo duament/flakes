@@ -27,6 +27,11 @@ in {
       default = false;
     };
 
+    networking.nftables.tproxy.server = mkOption {
+      type = types.str;
+      default = "tw1";
+    };
+
     networking.nftables.tproxy.mask = mkOption {
       type = types.int;
       default = 1;
@@ -74,6 +79,11 @@ in {
     networking.nftables.tproxy.all.enable = mkOption {
       type = types.bool;
       default = false;
+    };
+
+    networking.nftables.tproxy.all.server = mkOption {
+      type = types.str;
+      default = "tw1";
     };
 
     networking.nftables.tproxy.all.port = mkOption {
