@@ -5,14 +5,16 @@
     vimAlias = true;
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins; [
-      #nvim-lspconfig
-      #nvim-cmp
-      #cmp-nvim-lsp
+      one-nvim
+      everforest
+      nvim-lspconfig
+      nvim-cmp
+      cmp-nvim-lsp
       luasnip
       editorconfig-nvim
       lualine-nvim
       which-key-nvim
-      #lualine-lsp-progress
+      lualine-lsp-progress
       (nvim-treesitter.withPlugins (
         plugins: with plugins; [
           tree-sitter-nix
@@ -32,6 +34,8 @@
       lua << EOT
       ${builtins.readFile ./nvim.lua}
       EOT
+
+      colorscheme one-nvim
     '';
   };
 }
