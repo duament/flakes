@@ -16,7 +16,7 @@ rec {
     work = {
       ip = "${addrPre}10";
       pubkey = "Zwg16+rw0uVJHFWsKj56nc9+eli0/XIYrKxespMbGj0=";
-    }
+    };
   };
   peerConfigs = map (peer: {
     wireguardPeerConfig = {
