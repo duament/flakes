@@ -71,11 +71,6 @@ in {
       default = "";
     };
 
-    networking.nftables.tproxy.dnsRedirect = mkOption {
-      type = types.lines;
-      default = "";
-    };
-
     networking.nftables.tproxy.all.enable = mkOption {
       type = types.bool;
       default = false;
@@ -212,7 +207,6 @@ in {
           type nat hook prerouting priority dstnat; policy accept;
           jump tproxy_src;
           fib daddr type local meta l4proto { tcp, udp } th dport 53 counter redirect to :${toString cfg.tproxy.dnsPort};
-          ${cfg.tproxy.dnsRedirect}
         }
 
         chain tproxy_chain {

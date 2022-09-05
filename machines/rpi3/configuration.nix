@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 let
+  wg0 = import ../../lib/wg0.nix;
   smartdnsPort = builtins.toString config.networking.nftables.tproxy.dnsPort;
 in {
   sops = {
@@ -23,24 +24,22 @@ in {
   networking.hostName = "rpi3";
   networking.nftables = {
     inputAccept = ''
-      udp dport 11112 accept comment "wireguard";
-      meta l4proto { tcp, udp } th dport ${smartdnsPort} accept;
+      udp dport ${builtins.toString wg0.port} accept comment "wireguard";
+      ip saddr ${wg0.subnet} meta l4proto { tcp, udp } th dport ${smartdnsPort} accept;
     '';
     forwardAccept = ''
       iifname wg0 accept;
       oifname wg0 accept;
     '';
-    #masquerade = [ "oifname \"eth0\"" ];
     tproxy = {
       enable = true;
       enableLocal = true;
       src = ''
-        ip saddr 10.6.6.0/24 return;
+        ip saddr ${wg0.subnet} return;
       '';
       dst = ''
         ip daddr 17.0.0.0/8 accept comment "Apple"
       '';
-      dnsRedirect = "ip saddr 10.6.6.0/24 ip daddr 192.168.2.1 meta l4proto { tcp, udp } th dport 53 dnat to 10.6.6.1:${smartdnsPort};";
     };
   };
 
@@ -49,10 +48,10 @@ in {
     netdevConfig = { Name = "wg0"; Kind = "wireguard"; };
     wireguardConfig = {
       PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-      ListenPort = 11112;
+      ListenPort = wgPort;
     };
     wireguardPeers = [ { wireguardPeerConfig = {
-      AllowedIPs = [ "10.6.6.3/32" ];
+      AllowedIPs = [ "${wg0.addrPre}2/32" ];
       PersistentKeepalive = 25;
       PublicKey = "BcLh8OUygmCL2m50MREgsAwOLMkF9A+eAhuQDEPaqWI=";
     }; } ];
@@ -60,7 +59,7 @@ in {
   systemd.network.networks."25-wg0" = {
     enable = true;
     name = "wg0";
-    address = [ "10.6.6.2/24" ];
+    address = [ (wg0.addrSubnet 1) ];
   };
 
   home-manager = {
@@ -74,4 +73,3 @@ in {
 
   system.stateVersion = "22.11";
 }
-
