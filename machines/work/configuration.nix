@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
-{
+let
+  wg0 = import ../../lib/wg0.nix;
+  wgMark = 8;
+  wgTable = 1000;
+in {
   #nixpkgs.overlays = [
   #  (self: super: {
   #    llvmPackages_14 = super.llvmPackages_14 // {
@@ -36,28 +40,28 @@
     netdevConfig = { Name = "wg0"; Kind = "wireguard"; };
     wireguardConfig = {
       PrivateKeyFile = "/etc/wireguard/secret.key";
-      FirewallMark = 8;
+      FirewallMark = wgMark;
     };
     wireguardPeers = [ { wireguardPeerConfig = {
       AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-      Endpoint = "h.rvf6.com:11111";
+      Endpoint = wg0.endpoint;
       PersistentKeepalive = 25;
-      PublicKey = "OXMopf5h0m7x2udIdCR7qxBhniN5+coCGqbrm99Lgi4=";
+      PublicKey = wg0.pubkey;
     }; } ];
   };
   systemd.network.networks."25-wg0" = {
     enable = true;
     name = "wg0";
-    address = [ "10.0.0.10/32" ];
-    dns = [ "192.168.2.1" ];
+    address = [ "${wg0.peers.work.ip}/32" ];
+    dns = [ wg0.gateway ];
     domains = [ "~." ];
     networkConfig = { DNSDefaultRoute = "yes"; };
     routingPolicyRules = [
       {
         routingPolicyRuleConfig = {
-          FirewallMark = 8;
+          FirewallMark = wgMark;
           InvertRule = "yes";
-          Table = 1000;
+          Table = wgTable;
           Priority = 10;
         };
       }
@@ -69,9 +73,9 @@
       }
     ];
     routes = [ { routeConfig = {
-      Gateway = "10.0.0.1";
+      Gateway = wg0.gateway;
       GatewayOnLink = "yes";
-      Table = 1000;
+      Table = wgTable;
     }; } ];
   };
 

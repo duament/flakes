@@ -51,16 +51,12 @@ in {
       PrivateKeyFile = config.sops.secrets.wireguard_key.path;
       ListenPort = wg0.port;
     };
-    wireguardPeers = [ { wireguardPeerConfig = {
-      AllowedIPs = [ "${wg0.addrPre}2/32" ];
-      PersistentKeepalive = 25;
-      PublicKey = "BcLh8OUygmCL2m50MREgsAwOLMkF9A+eAhuQDEPaqWI=";
-    }; } ];
+    wireguardPeers = wg0.peerConfigs;
   };
   systemd.network.networks."25-wg0" = {
     enable = true;
     name = "wg0";
-    address = [ (wg0.addrSubnet 1) ];
+    address = [ wg0.gatewaySubnet ];
   };
 
   home-manager = {
