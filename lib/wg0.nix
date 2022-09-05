@@ -1,4 +1,4 @@
-{
+rec {
   port = 11112;
   addrPre = "10.6.6.";
   mask = 24;

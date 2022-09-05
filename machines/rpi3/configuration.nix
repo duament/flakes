@@ -48,7 +48,7 @@ in {
     netdevConfig = { Name = "wg0"; Kind = "wireguard"; };
     wireguardConfig = {
       PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-      ListenPort = wgPort;
+      ListenPort = wg0.port;
     };
     wireguardPeers = [ { wireguardPeerConfig = {
       AllowedIPs = [ "${wg0.addrPre}2/32" ];
