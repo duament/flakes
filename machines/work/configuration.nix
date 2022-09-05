@@ -1,9 +1,5 @@
 { config, pkgs, ... }:
 {
-  imports = [
-    ../../modules/nogui.nix
-  ];
-
   #nixpkgs.overlays = [
   #  (self: super: {
   #    llvmPackages_14 = super.llvmPackages_14 // {

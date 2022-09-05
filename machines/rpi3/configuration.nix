@@ -2,10 +2,6 @@
 let
   smartdnsPort = builtins.toString config.networking.nftables.tproxy.dnsPort;
 in {
-  imports = [
-    ../../modules/nogui.nix
-  ];
-
   sops = {
     defaultSopsFile = ./secrets.yaml;
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];

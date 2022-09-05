@@ -1,10 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ../../modules/workstation.nix
-  ];
-
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.devices.cryptroot.allowDiscards = true;
