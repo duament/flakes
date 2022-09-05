@@ -25,8 +25,8 @@ let
     after = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = import ../../lib/systemd-harden.nix // {
-      AmbientCapabilities = "CAP_NET_ADMIN";
-      CapabilityBoundingSet = "CAP_NET_ADMIN";
+      AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_BIND_SERVICE" ];
+      CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_BIND_SERVICE" ];
       LoadCredential = "${temp}:${config.sops.templates.${temp}.path}";
       ExecStart = "${pkgs.shadowsocks-libev}/bin/ss-redir -c %d/${temp}";
       PrivateNetwork = false;
