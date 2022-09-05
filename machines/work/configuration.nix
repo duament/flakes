@@ -15,6 +15,8 @@
     efi.canTouchEfiVariables = true;
   };
 
+  boot.tmpOnTmpfs = false;
+
   networking.hostName = "work";
   networking.nftables.inputAccept = ''
     tcp dport 3128 accept comment "squid"
