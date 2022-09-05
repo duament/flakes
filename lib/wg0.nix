@@ -21,7 +21,6 @@ rec {
   peerConfigs = map (peer: {
     wireguardPeerConfig = {
       AllowedIPs = [ "${peer.ip}/32" ];
-      PersistentKeepalive = 25;
       PublicKey = peer.pubkey;
     };
   }) (attrValues peers);
