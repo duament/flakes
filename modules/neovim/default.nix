@@ -5,8 +5,7 @@
     vimAlias = true;
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins; [
-      one-nvim
-      everforest
+      onenord-nvim
       nvim-lspconfig
       nvim-cmp
       cmp-nvim-lsp
@@ -35,7 +34,7 @@
       ${builtins.readFile ./nvim.lua}
       EOT
 
-      colorscheme one-nvim
+      colorscheme onenord
     '';
   };
 }
