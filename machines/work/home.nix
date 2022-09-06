@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
   imports = [
     ../../modules/common-home.nix
   ];
@@ -79,6 +79,9 @@
     #  };
     #};
   };
+
+  programs.gpg.enable = true;
+  programs.gpg.homedir = "${config.xdg.dataHome}/gnupg";
 
   home.stateVersion = "22.11";
 }
