@@ -14,6 +14,9 @@ in {
   #  })
   #];
 
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets.wireguard_key.owner = "systemd-network";
+
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
@@ -39,7 +42,7 @@ in {
     enable = true;
     netdevConfig = { Name = "wg0"; Kind = "wireguard"; };
     wireguardConfig = {
-      PrivateKeyFile = "/etc/wireguard/secret.key";
+      PrivateKeyFile = config.sops.secrets.wireguard_key.path;
       FirewallMark = wgMark;
     };
     wireguardPeers = [ { wireguardPeerConfig = {

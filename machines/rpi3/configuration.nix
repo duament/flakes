@@ -3,12 +3,8 @@ let
   wg0 = import ../../lib/wg0.nix;
   smartdnsPort = builtins.toString config.networking.nftables.tproxy.dnsPort;
 in {
-  sops = {
-    defaultSopsFile = ./secrets.yaml;
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-    gnupg.sshKeyPaths = [ ];
-    secrets.wireguard_key.owner = "systemd-network";
-  };
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets.wireguard_key.owner = "systemd-network";
 
   boot.loader = {
     grub.enable = false;
