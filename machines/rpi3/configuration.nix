@@ -30,7 +30,7 @@ in {
     tproxy = {
       enable = true;
       enableLocal = true;
-      server = "tw1";
+      server = "tw2";
       src = ''
         ip saddr ${wg0.subnet} return;
       '';
