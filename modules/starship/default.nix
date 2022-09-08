@@ -44,6 +44,10 @@
       package = {
         symbol = "";
       };
+      shlvl = {
+        disabled = false;
+        symbol = "↕";
+      };
       status = {
         disabled = false;
         symbol = "✗";
