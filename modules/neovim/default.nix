@@ -5,27 +5,39 @@
     vimAlias = true;
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins; [
-      onenord-nvim
-      nvim-lspconfig
-      nvim-cmp
       cmp-nvim-lsp
-      luasnip
+      cmp_luasnip
+      cmp-buffer
+      cmp-path
       editorconfig-nvim
-      lualine-nvim
-      which-key-nvim
       lualine-lsp-progress
+      lualine-nvim
+      luasnip
+      nvim-cmp
+      nvim-lspconfig
+      onenord-nvim
+      which-key-nvim
       (nvim-treesitter.withPlugins (
         plugins: with plugins; [
-          tree-sitter-nix
-          tree-sitter-lua
-          tree-sitter-rust
-          tree-sitter-go
+          tree-sitter-bash
+          tree-sitter-beancount
           tree-sitter-c
-          tree-sitter-cpp
           tree-sitter-cmake
+          tree-sitter-comment
+          tree-sitter-cpp
+          tree-sitter-dockerfile
           tree-sitter-fish
+          tree-sitter-go
+          tree-sitter-gomod
           tree-sitter-json
+          tree-sitter-latex
+          tree-sitter-lua
+          tree-sitter-markdown
+          tree-sitter-nix
+          tree-sitter-rust
+          tree-sitter-rst
           tree-sitter-toml
+          tree-sitter-yaml
         ]
       ))
     ];
