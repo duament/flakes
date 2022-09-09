@@ -35,8 +35,8 @@ in {
     # dhcpV4Config = { SendOption = "50:ipv4address:172.26.0.2"; };
     address = [ "172.26.0.2/24" ];
     gateway = [ "172.26.0.1" ];
-    dns = [ "223.5.5.5" ];
-    domains = [ "~h.rvf6.com" ];
+    dns = [ "10.9.231.5" ];
+    domains = [ "~enflame.cn" "~h.rvf6.com" ];
   };
   systemd.network.netdevs."25-wg0" = {
     enable = true;
@@ -70,7 +70,13 @@ in {
       }
       {
         routingPolicyRuleConfig = {
-          To = "172.26.0.2/24";
+          To = "172.16.0.0/12";
+          Priority = 9;
+        };
+      }
+      {
+        routingPolicyRuleConfig = {
+          To = "10.9.0.0/16";
           Priority = 9;
         };
       }
