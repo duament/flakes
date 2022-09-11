@@ -5,5 +5,6 @@
     ./hardware-configuration.nix
     ./configuration.nix
     ../../modules/nogui.nix
+    ./ns.nix
   ];
 }
