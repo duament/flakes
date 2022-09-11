@@ -15,6 +15,11 @@ in {
     address = [ "10.6.7.1/24" ];
   };
 
+  networking.nftables.forwardAccept = ''
+    iifname veth-owrt oifname eth0 accept;
+    iifname eth0 oifname veth-owrt accept;
+  '';
+
   systemd.services."systemd-nspawn-${machine}" = {
     wants = [ "modprobe@tun.service" "sys-devices-virtual-net-${vlan}.device" ];
     partOf = [ "machines.target" ];
