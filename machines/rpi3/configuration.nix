@@ -47,7 +47,7 @@ in {
   networking.warp = {
     enable = true;
     mark = 3;
-    routingId = "routingId";
+    routingId = "0x4c442d";
     pubkey = "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=";
     address = [ "172.16.0.2" "2606:4700:110:87da:a33b:6e8e:c964:11af" ];
     table = 20;
