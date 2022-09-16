@@ -163,6 +163,7 @@ in {
       };
       path = [ pkgs.iproute2 pkgs.jq ];
       script = ''
+        sleep 5
         gateway4=$(ip --json route | jq -r '[.[] | select(.dst=="default")][0] | .gateway')
         dev4=$(ip --json route | jq -r '[.[] | select(.dst=="default")][0] | .dev')
         gateway6=$(ip -6 --json route | jq -r '[.[] | select(.dst=="default")][0] | .gateway')
