@@ -113,6 +113,11 @@ in {
           type filter hook input priority mangle;
           ip saddr ${cfg.endpointAddr} udp sport ${builtins.toString cfg.endpointPort} @th,72,24 set 0x0;
         }
+
+        chain masq {
+          type nat hook postrouting priority srcnat;
+          oifname warp masquerade;
+        }
       }
     '';
 
@@ -137,7 +142,6 @@ in {
     systemd.network.networks."25-warp" = {
       name = "warp";
       address = cfg.address;
-      networkConfig = { IPMasquerade = "both"; };
       routingPolicyRules = [
         {
           routingPolicyRuleConfig = {
