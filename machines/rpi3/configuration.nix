@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
 let
   wg0 = import ../../lib/wg0.nix;
-  smartdnsPort = builtins.toString config.networking.nftables.tproxy.dnsPort;
 in {
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.wireguard_key.owner = "systemd-network";
+  sops.secrets.warp_key.owner = "systemd-network";
 
   boot.loader = {
     grub.enable = false;
@@ -21,23 +21,12 @@ in {
   networking.nftables = {
     inputAccept = ''
       udp dport ${builtins.toString wg0.port} accept comment "wireguard";
-      ip saddr ${wg0.subnet} meta l4proto { tcp, udp } th dport ${smartdnsPort} accept;
+      ip saddr ${wg0.subnet} meta l4proto { tcp, udp } th dport 53 accept;
     '';
     forwardAccept = ''
       iifname wg0 accept;
       oifname wg0 accept;
     '';
-    tproxy = {
-      enable = true;
-      enableLocal = true;
-      server = "tw2";
-      src = ''
-        ip saddr ${wg0.subnet} return;
-      '';
-      dst = ''
-        ip daddr 17.0.0.0/8 accept comment "Apple"
-      '';
-    };
   };
 
   systemd.network.netdevs."25-wg0" = {
@@ -54,6 +43,23 @@ in {
     name = "wg0";
     address = [ wg0.gatewaySubnet ];
   };
+
+  networking.warp = {
+    enable = true;
+    mark = 3;
+    routingId = "routingId";
+    pubkey = "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=";
+    address = [ "172.16.0.2" "2606:4700:110:87da:a33b:6e8e:c964:11af" ];
+    table = 20;
+  };
+  systemd.network.networks."25-warp".routingPolicyRules = [
+    { # Bypass OpenWrt container
+      routingPolicyRuleConfig = {
+        From = "10.6.7.0/24";
+        Priority = 9;
+      };
+    }
+  ];
 
   home-manager = {
     useGlobalPkgs = true;

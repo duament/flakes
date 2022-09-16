@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ./configuration.nix
     ../../modules/nogui.nix
+    ../../modules/warp.nix
     ./ns.nix
   ];
 }

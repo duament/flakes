@@ -3,11 +3,11 @@
     "chn-cidr-list": {
       "flake": false,
       "locked": {
-        "lastModified": 1662346982,
-        "narHash": "sha256-0ryRCONJsiJCMrNzuxNnFnDc53c9/hMoghmVVrsBXhc=",
+        "lastModified": 1663297351,
+        "narHash": "sha256-vr6oz8TEUUHMCWZPj5IqO3ohbs2rr0U1+xKzI2iAz5I=",
         "owner": "fernvenue",
         "repo": "chn-cidr-list",
-        "rev": "ee497c58dc86099229879764c0ae7b5035edad9c",
+        "rev": "d15ac0faa017b440f80c0f77ab88f872b9b5302e",
         "type": "github"
       },
       "original": {
@@ -19,11 +19,11 @@
     "dnsmasq-china-list": {
       "flake": false,
       "locked": {
-        "lastModified": 1662384051,
-        "narHash": "sha256-4+ExgPPPhqfUiBedxOtn0qhY9/fo3EmAAREinxNuRV0=",
+        "lastModified": 1663258169,
+        "narHash": "sha256-BHbLqqGBp4xkm2f8op/5tWqhHPnY8ZjG1gA9mQkUneM=",
         "owner": "felixonmars",
         "repo": "dnsmasq-china-list",
-        "rev": "fc5efcff0c6c1596edd1e20cb7d7129ebb61dc3f",
+        "rev": "805ba70b83dcb0eae3a266693381982fa9636a10",
         "type": "github"
       },
       "original": {
@@ -55,11 +55,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1662382359,
-        "narHash": "sha256-X8O4fns0XtXkBBzgKQ2+7TUGIdFOvg+TQpCI7wFHP74=",
+        "lastModified": 1663328500,
+        "narHash": "sha256-7n+J/exp8ky4dmk02y5a9R7CGmJvHpzrHMzfEkMtSWA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "140aaed3dffbe33bb8b2e0cf333c67f36765c85e",
+        "rev": "5427f3d1f0ea4357cd4af0bffee7248d640c6ffc",
         "type": "github"
       },
       "original": {
@@ -76,11 +76,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1662345472,
-        "narHash": "sha256-Gk6PDWjYiP4YiUdj0zqXvePVgQOg7khX9MNooM+EL+I=",
+        "lastModified": 1663296185,
+        "narHash": "sha256-HLQuPTZnoMRMJE/oaaRbXXcOd3XRj4Va6aeiY4tjpE0=",
         "owner": "nixos-cn",
         "repo": "flakes",
-        "rev": "1dbe0f35b0edc489f84b0eae515da6d5e7cd1d72",
+        "rev": "d8a5f0aaa0dfff8d2c654d9dff01b99606b6a7f1",
         "type": "github"
       },
       "original": {
@@ -91,11 +91,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1662019588,
-        "narHash": "sha256-oPEjHKGGVbBXqwwL+UjsveJzghWiWV0n9ogo1X6l4cw=",
+        "lastModified": 1663178737,
+        "narHash": "sha256-ayOtdyoNx6BqJtTYVzdQCDz/YWb67TY/CMGacFCgNQo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "2da64a81275b68fdad38af669afeda43d401e94b",
+        "rev": "1158501e7c7cba26d922723cf9f70099995eb755",
         "type": "github"
       },
       "original": {
@@ -107,11 +107,11 @@
     },
     "nixpkgs-22_05": {
       "locked": {
-        "lastModified": 1662221733,
-        "narHash": "sha256-dw1xjYyQ0JidXIpzeQh/gQX+ih1sJO1zBHKs5QSYp8Q=",
+        "lastModified": 1662864125,
+        "narHash": "sha256-AtjyEFK7Zp9+hOOUNO1/YZRADV/wC94R3yeKN8saUK4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "013e8d86d9a3f33074c903c8ffcab0d34087b1ed",
+        "rev": "e6f053b6079c16e7df97531e3e0524ace1304d4d",
         "type": "github"
       },
       "original": {
@@ -139,11 +139,11 @@
         "nixpkgs-22_05": "nixpkgs-22_05"
       },
       "locked": {
-        "lastModified": 1662390490,
-        "narHash": "sha256-HnFHRFu0eoB0tLOZRjLgVfHzK+4bQzAmAmHSzOquuyI=",
+        "lastModified": 1662870301,
+        "narHash": "sha256-O+ABD+WzEBLVH6FwxKCIpps0hsR6b5dpYe6fB3e3Ju8=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "044ccfe24b349859cd9efc943e4465cc993ac84e",
+        "rev": "20929e1c5722a6db2f2dbe4cd36d4af0de0a9df0",
         "type": "github"
       },
       "original": {
@@ -154,11 +154,11 @@
     },
     "utils": {
       "locked": {
-        "lastModified": 1653893745,
-        "narHash": "sha256-0jntwV3Z8//YwuOjzhV2sgJJPt+HY6KhU7VZUL0fKZQ=",
+        "lastModified": 1659877975,
+        "narHash": "sha256-zllb8aq3YO3h8B/U0/J1WBgAL8EX5yWf5pMj3G0NAmc=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "1ed9fb1935d260de5fe1c2f7ee0ebaae17ed2fa1",
+        "rev": "c0e246b9b83f637f4681389ecabcb2681b4f3af0",
         "type": "github"
       },
       "original": {
