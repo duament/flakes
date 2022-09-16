@@ -103,6 +103,7 @@ in {
 
   config = mkIf cfg.enable {
     services.resolved.enable = false;
+    environment.etc."resolv.conf".text = "nameserver 127.0.0.1";
 
     services.smartdns.enable = true;
     services.smartdns.nonChinaDns = [ "1.1.1.1" ];
