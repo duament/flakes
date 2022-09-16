@@ -1,4 +1,4 @@
-{ lib, config, inputs, ... }:
+{ lib, config, inputs, pkgs, ... }:
 with lib;
 let
   cfg = config.networking.warp;
@@ -155,10 +155,25 @@ in {
       ];
     };
     systemd.network.networks."${cfg.chinaNetwork}" = {
-      routes = (map (generateRoute "_dhcp4") china_ipv4)
-            ++ (map (generateRoute "_dhcp4") special_ipv4)
-            ++ (map (generateRoute "_ipv6ra") china_ipv6)
+      routes = (map (generateRoute "_dhcp4") special_ipv4)
             ++ (map (generateRoute "_ipv6ra") special_ipv6);
+    };
+    systemd.services."warp-setup-china-routes" = {
+      after = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+      };
+      path = [ pkgs.iproute2 pkgs.jq ];
+      script = ''
+        gateway4=$(ip --json route | jq -r '[.[] | select(.dst=="default")][0] | .gateway')
+        dev4=$(ip --json route | jq -r '[.[] | select(.dst=="default")][0] | .dev')
+        gateway6=$(ip -6 --json route | jq -r '[.[] | select(.dst=="default")][0] | .gateway')
+        dev6=$(ip -6 --json route | jq -r '[.[] | select(.dst=="default")][0] | .dev')
+
+        ${concatStringsSep "\n" (map (i: "ip route add ${i} table ${cfg.table} via $gateway4 dev $dev4") china_ipv4)}
+        ${concatStringsSep "\n" (map (i: "ip -6 route add ${i} table ${cfg.table} via $gateway6 dev $dev6") china_ipv6)}
+      '';
     };
   };
 }
