@@ -37,11 +37,10 @@ let
     "fe80::/10"
   ];
 
-  generateRoute = gateway: ip: {
-    routeConfig = {
-      Gateway = gateway;
-      Destination = ip;
-      Table = cfg.table;
+  generateRule = ip: {
+    routingPolicyRuleConfig = {
+      To = ip;
+      Priority = 9;
     };
   };
 in {
@@ -93,11 +92,6 @@ in {
     networking.warp.table = mkOption {
       type = types.int;
       default = 1;
-    };
-
-    networking.warp.chinaNetwork = mkOption {
-      type = types.str;
-      default = "80-ethernet";
     };
   };
 
@@ -153,11 +147,8 @@ in {
             Family = "both";
           };
         }
-      ];
-    };
-    systemd.network.networks."${cfg.chinaNetwork}" = {
-      routes = (map (generateRoute "_dhcp4") special_ipv4)
-            ++ (map (generateRoute "_ipv6ra") special_ipv6);
+      ] ++ (map generateRule special_ipv4)
+        ++ (map generateRule special_ipv6);
     };
     systemd.services."warp-setup-china-routes" = {
       after = [ "network-online.target" ];
