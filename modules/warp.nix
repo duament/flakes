@@ -137,6 +137,7 @@ in {
     systemd.network.networks."25-warp" = {
       name = "warp";
       address = cfg.address;
+      networkConfig = { IPMasquerade = "both"; };
       routingPolicyRules = [
         {
           routingPolicyRuleConfig = {
