@@ -1,25 +1,29 @@
 { lib, config, inputs, ... }:
+with lib;
 let
   chinaListRaw = (builtins.readFile "${inputs.dnsmasq-china-list.outPath}/accelerated-domains.china.conf") + (builtins.readFile "${inputs.dnsmasq-china-list.outPath}/apple.china.conf");
   chinaListReplaced = builtins.replaceStrings [ "server=" "114.114.114.114" ] [ "" "china" ] chinaListRaw;
   chinaList = builtins.filter (line: line != "") (lib.splitString "\n" chinaListReplaced);
 in {
-  services.smartdns = lib.mkIf config.networking.nftables.tproxy.enable {
-    enable = true;
-    bindPort = config.networking.nftables.tproxy.dnsPort;
-    settings = {
-      response-mode = "fastest-response";
-      server = [
-        "223.5.5.5 -group china -exclude-default-group"
-        "119.29.29.29 -group china -exclude-default-group"
-        "127.0.0.1:${builtins.toString config.services.shadowsocks.tunnel.googleDNS.port}"
-        "127.0.0.1:${builtins.toString config.services.shadowsocks.tunnel.cfDNS.port}"
-      ];
-      server-tcp = [
-        "127.0.0.1:${builtins.toString config.services.shadowsocks.tunnel.googleDNS.port}"
-        "127.0.0.1:${builtins.toString config.services.shadowsocks.tunnel.cfDNS.port}"
-      ];
-      nameserver = chinaList;
+  options = {
+    services.smartdns.chinaDns = mkOption {
+      type = types.listOf types.str;
+      default = [ "223.5.5.5" "119.29.29.29" ];
+    };
+
+    services.smartdns.nonChinaDns = mkOption {
+      type = types.listOf types.str;
+      default = [ "1.1.1.1" "8.8.8.8" ];
+    };
+  };
+
+  config = lib.mkIf config.services.smartdns.enable {
+    services.smartdns = {
+      settings = {
+        response-mode = "fastest-response";
+        nameserver = chinaList;
+        server = (map (i: "${i} -group china -exclude-default-group") config.services.smartdns.chinaDns) ++ config.services.smartdns.nonChinaDns;
+      };
     };
   };
 }

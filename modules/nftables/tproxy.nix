@@ -59,7 +59,7 @@ in {
 
     networking.nftables.tproxy.dnsPort = mkOption {
       type = types.port;
-      default = 1053;
+      default = config.services.smartdns.bindPort;
     };
 
     networking.nftables.tproxy.src = mkOption {
@@ -133,6 +133,16 @@ in {
           };
         }
       ];
+    };
+
+    services.smartdns = {
+      enable = true;
+      bindPort = mkDefault 1053;
+      nonChinaDns = [
+        "127.0.0.1:${builtins.toString config.services.shadowsocks.tunnel.googleDNS.port}"
+        "127.0.0.1:${builtins.toString config.services.shadowsocks.tunnel.cfDNS.port}"
+      ];
+      settings.server-tcp = config.services.smartdns.nonChinaDns;
     };
 
     networking.nftables.inputAccept = "mark and ${toString cfg.tproxy.mask} == ${toString cfg.tproxy.mark} accept";
