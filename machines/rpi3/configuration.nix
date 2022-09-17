@@ -46,10 +46,11 @@ in {
 
   networking.warp = {
     enable = true;
+    endpointAddr = "162.159.193.1";
     mark = 3;
-    routingId = "0x4c442d";
+    routingId = "0xac1789";
     pubkey = "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=";
-    address = [ "172.16.0.2/32" "2606:4700:110:87da:a33b:6e8e:c964:11af/128" ];
+    address = [ "172.16.0.2/32" "2606:4700:110:8721:a63a:693c:cb0d:6de0/128" ];
     table = 20;
   };
   systemd.network.networks."25-warp".routingPolicyRules = [
