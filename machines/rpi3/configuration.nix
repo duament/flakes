@@ -29,6 +29,7 @@ in {
     '';
   };
 
+  systemd.network.networks."80-ethernet".dhcpV6Config = { PrefixDelegationHint = "::/64" };
   systemd.network.netdevs."25-wg0" = {
     enable = true;
     netdevConfig = { Name = "wg0"; Kind = "wireguard"; };
@@ -42,6 +43,7 @@ in {
     enable = true;
     name = "wg0";
     address = [ wg0.gatewaySubnet ];
+    networkConfig = { DHCPPrefixDelegation = true; };
   };
 
   networking.warp = {
