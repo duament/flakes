@@ -169,8 +169,8 @@ in {
         gateway6=$(ip -6 --json route | jq -r '[.[] | select(.dst=="default")][0] | .gateway')
         dev6=$(ip -6 --json route | jq -r '[.[] | select(.dst=="default")][0] | .dev')
 
-        ${concatStringsSep "\n" (map (i: "ip route add ${i} table ${builtins.toString cfg.table} via $gateway4 dev $dev4") china_ipv4)}
-        ${concatStringsSep "\n" (map (i: "ip -6 route add ${i} table ${builtins.toString cfg.table} via $gateway6 dev $dev6") china_ipv6)}
+        ${concatStringsSep "\n" (map (i: "ip route replace ${i} table ${builtins.toString cfg.table} via $gateway4 dev $dev4") china_ipv4)}
+        ${concatStringsSep "\n" (map (i: "ip -6 route replace ${i} table ${builtins.toString cfg.table} via $gateway6 dev $dev6") china_ipv6)}
       '';
     };
   };
