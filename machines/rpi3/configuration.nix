@@ -43,7 +43,7 @@ in {
     enable = true;
     name = "wg0";
     address = [ wg0.gatewaySubnet ];
-    networkConfig = { DHCPPrefixDelegation = true; };
+    networkConfig = { DHCPv6PrefixDelegation = true; };
   };
 
   networking.warp = {
