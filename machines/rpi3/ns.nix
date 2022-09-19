@@ -17,7 +17,8 @@ in {
   systemd.network.networks."50-simns" = {
     name = "simns";
     linkConfig = { MACAddress = "CC:5B:31:2F:BE:AD"; };
-    DHCP = "yes";
+    networkConfig = { IPv6AcceptRA = false; };
+    DHCP = "ipv4";
     dhcpV4Config = {
       SendHostname = false;
       ClientIdentifier = "mac";
