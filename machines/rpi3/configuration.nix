@@ -44,7 +44,6 @@ in {
     name = "wg0";
     address = [ wg0.gatewaySubnet ];
     networkConfig = { DHCPv6PrefixDelegation = true; };
-    dhcpV6PrefixDelegationConfig = { UplinkInterface = "eth0"; };
   };
 
   networking.warp = {
