@@ -1,9 +1,8 @@
-{ lib, config, inputs, ... }:
+{ lib, config, inputs, pkgs, ... }:
 with lib;
 let
   chinaListRaw = (builtins.readFile "${inputs.dnsmasq-china-list.outPath}/accelerated-domains.china.conf") + (builtins.readFile "${inputs.dnsmasq-china-list.outPath}/apple.china.conf");
-  chinaListReplaced = builtins.replaceStrings [ "server=" "114.114.114.114" ] [ "" "china" ] chinaListRaw;
-  chinaList = builtins.filter (line: line != "") (lib.splitString "\n" chinaListReplaced);
+  chinaList = builtins.replaceStrings [ "server=" "114.114.114.114" ] [ "nameserver " "china" ] chinaListRaw;
 in {
   options = {
     services.smartdns.chinaDns = mkOption {
@@ -18,12 +17,29 @@ in {
   };
 
   config = lib.mkIf config.services.smartdns.enable {
+    environment.etc."smartdns/china-list.conf".text = chinaList;
+
     services.smartdns = {
       settings = {
         response-mode = "fastest-response";
-        nameserver = chinaList;
+        conf-file = "china-list.conf";
         server = (map (i: "${i} -group china -exclude-default-group") config.services.smartdns.chinaDns) ++ config.services.smartdns.nonChinaDns;
+        cache-persist = "yes";
+        cache-file = "/var/cache/smartdns/smartdns.cache";
+        log-file = "/dev/null";
       };
+    };
+
+    systemd.services.smartdns.serviceConfig = import ../lib/systemd-harden.nix // {
+      Type = "simple";
+      PIDFile = "";
+      ExecStart = [ "" "${pkgs.smartdns}/bin/smartdns -f -x -p - $SMART_DNS_OPTS" ];
+      CacheDirectory = "%N";
+      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+      PrivateNetwork = false;
+      PrivateUsers = false;
+      SocketBindAllow = config.services.smartdns.bindPort;
     };
   };
 }
