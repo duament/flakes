@@ -2,47 +2,6 @@
 with lib;
 let
   cfg = config.networking.warp;
-
-  comment_filter = line: builtins.match "^[ \t]*(#.*)?$" line == null;
-  china_ipv4_raw = builtins.readFile "${inputs.chn-cidr-list.outPath}/ipv4.txt";
-  china_ipv4 = builtins.filter comment_filter (splitString "\n" china_ipv4_raw);
-  china_ipv6_raw = builtins.readFile "${inputs.chn-cidr-list.outPath}/ipv6.txt";
-  china_ipv6 = builtins.filter comment_filter (splitString "\n" china_ipv6_raw);
-
-  special_ipv4 = [
-    "10.0.0.0/8"
-    "100.64.0.0/10"
-    "169.254.0.0/16"
-    "172.16.0.0/12"
-    "192.0.0.0/24"
-    "192.0.2.0/24"
-    "192.31.196.0/24"
-    "192.52.193.0/24"
-    "192.88.99.0/24"
-    "192.168.0.0/16"
-    "192.175.48.0/24"
-    "198.18.0.0/15"
-    "198.51.100.0/24"
-    "203.0.113.0/24"
-    "224.0.0.0/4"
-    "240.0.0.0/4"
-  ];
-
-  special_ipv6 = [
-    "::ffff:0.0.0.0/96"
-    "64:ff9b:1::/48"
-    "100::/64"
-    "2001::/23"
-    "fc00::/7"
-    "fe80::/10"
-  ];
-
-  generateRule = ip: {
-    routingPolicyRuleConfig = {
-      To = ip;
-      Priority = 9;
-    };
-  };
 in {
   imports = [
     ./smartdns.nix
@@ -74,6 +33,10 @@ in {
       default = 1;
     };
 
+    networking.warp.routeMark = mkOption {
+      type = types.int;
+      default = 2;
+    };
     networking.warp.routingId = mkOption {
       type = types.str;
       default = "0x0";
@@ -104,6 +67,8 @@ in {
 
     networking.nftables.ruleset = ''
       table inet warp {
+        ${import ../lib/nftChinaIP.nix { inherit lib inputs; }}
+
         chain out {
           type filter hook output priority mangle;
           ip daddr ${cfg.endpointAddr} udp dport ${builtins.toString cfg.endpointPort} @th,72,24 set ${cfg.routingId};
@@ -117,6 +82,25 @@ in {
         chain masq {
           type nat hook postrouting priority srcnat;
           oifname warp masquerade;
+        }
+
+        chain mark_chain {
+          fib daddr type local accept;
+          ip daddr @special_ipv4 accept;
+          ip6 daddr @special_ipv6 accept;
+          ip daddr @china_ipv4 accept;
+          ip6 daddr @china_ipv6 accept;
+          mark 0 mark set ${builtins.toString cfg.routeMark};
+        }
+
+        chain mark_chain_pre {
+          type filter hook prerouting priority mangle;
+          jump mark_chain;
+        }
+
+        chain mark_chain_out {
+          type route hook output priority mangle;
+          jump mark_chain;
         }
       }
     '';
@@ -145,33 +129,13 @@ in {
       routingPolicyRules = [
         {
           routingPolicyRuleConfig = {
-            FirewallMark = cfg.mark;
-            InvertRule = true;
+            FirewallMark = cfg.routeMark;
             Table = cfg.table;
             Priority = 10;
             Family = "both";
           };
         }
-      ] ++ (map generateRule special_ipv4)
-        ++ (map generateRule special_ipv6);
-    };
-    systemd.services."warp-setup-china-routes" = {
-      after = [ "network-online.target" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-      };
-      path = [ pkgs.iproute2 pkgs.jq ];
-      script = ''
-        sleep 5
-        gateway4=$(ip --json route | jq -r '[.[] | select(.dst=="default")][0] | .gateway')
-        dev4=$(ip --json route | jq -r '[.[] | select(.dst=="default")][0] | .dev')
-        gateway6=$(ip -6 --json route | jq -r '[.[] | select(.dst=="default")][0] | .gateway')
-        dev6=$(ip -6 --json route | jq -r '[.[] | select(.dst=="default")][0] | .dev')
-
-        ${concatStringsSep "\n" (map (i: "ip route replace ${i} table ${builtins.toString cfg.table} via $gateway4 dev $dev4") china_ipv4)}
-        ${concatStringsSep "\n" (map (i: "ip -6 route replace ${i} table ${builtins.toString cfg.table} via $gateway6 dev $dev6") china_ipv6)}
-      '';
+      ];
     };
   };
 }
