@@ -8,8 +8,6 @@
     tdesktop
   ];
 
-  xdg.portal.enable = true;
-
   programs.ssh = let
     sshIdentities = [ "~/.ssh/id_ed25519.pub" "~/.ssh/id_canokey" "~/.ssh/id_a4b" ];
   in {
