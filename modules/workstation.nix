@@ -4,6 +4,8 @@
     ./common.nix
   ];
 
+  hardware.enableRedistributableFirmware = true;
+
   boot.loader.grub.enable = false;
 
   networking.networkmanager.enable = true;
