@@ -67,7 +67,7 @@ in {
 
     networking.nftables.ruleset = ''
       table inet warp {
-        ${import ../lib/nftChinaIP.nix { inherit lib inputs; }}
+        ${import ../lib/nft-china-ip.nix { inherit lib inputs; }}
 
         chain out {
           type filter hook output priority mangle;
