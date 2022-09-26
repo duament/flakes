@@ -7,11 +7,7 @@
   networking.hostName = "desktop";
   # networking.wireless.enable = true;
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.rvfg = import ./home.nix;
-  };
+  home-manager.users.rvfg = import ./home.nix;
 
   environment.systemPackages = with pkgs; [
     clash

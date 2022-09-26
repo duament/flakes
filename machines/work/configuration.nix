@@ -92,11 +92,7 @@ in {
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ enflame"
   ];
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.rvfg = import ./home.nix;
-  };
+  home-manager.users.rvfg = import ./home.nix;
 
   services.squid = {
     enable = true;

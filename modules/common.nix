@@ -38,6 +38,9 @@ in {
   #  Defaults passwd_timeout=0
   #'';
 
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+
   programs.fish.enable = true;
 
   services.openssh = {
