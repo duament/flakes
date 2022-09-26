@@ -2,6 +2,7 @@
 {
   imports = [
     ./common.nix
+    ./ssh-agent
   ];
 
   hardware.enableRedistributableFirmware = true;
