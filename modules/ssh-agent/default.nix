@@ -20,6 +20,8 @@ in {
     serviceConfig = {
       Type = "oneshot";
       ExecStart = map (key: "${pkgs.openssh}/bin/ssh-add ${config.sops.secrets."ssh-key/id_${key}".path}") keys;
+      Restart = "on-failure";
+      RestartSec = 1;
     };
   };
 }
