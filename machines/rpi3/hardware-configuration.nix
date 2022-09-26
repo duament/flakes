@@ -1,6 +1,7 @@
 { lib, ... }:
-
-{
+let
+  sshPub = import ../../lib/ssh-pubkeys.nix;
+in {
   boot.loader.raspberryPi.firmwareConfig = "hdmi_force_hotplug=1";
   boot.initrd = {
     availableKernelModules = [ "usbhid" "usb_storage" "lan78xx" ];
@@ -15,10 +16,7 @@
       ssh = {
         enable = true;
         port = 22;
-        authorizedKeys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINdmqOuypyBe2tF0fQ3R5vp9YkUg1e0lREno2ezJJE86"
-          "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIL6r8qfrXMqjnUBhxuBSMt0cfjHo+Vhvqtod8vvwoQk4AAAABHNzaDo= canokey"
-        ];
+        authorizedKeys = [ sshPub.canokey sshPub.a4b sshPub.ed25519 ];
         hostKeys = [ ./ssh_host_ed25519_key ];
       };
     };
