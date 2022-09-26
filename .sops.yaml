@@ -33,3 +33,10 @@ creation_rules:
       age:
       - *admin_age
       - *work
+  - path_regex: machines/desktop/.*
+    key_groups:
+    - pgp:
+      - *admin_pgp
+      age:
+      - *admin_age
+      - *desktop
