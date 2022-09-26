@@ -1,4 +1,7 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+let
+  sshPub = import ../../lib/ssh-pubkeys.nix;
+in {
   imports = [
     ../../modules/common-home.nix
     ../../modules/ssh
@@ -14,7 +17,7 @@
     wireguard-tools
   ];
 
-  home.file.".ssh/allowed_signers".text = "i@rvf6.com ${builtins.readFile ../../modules/ssh/id_canokey.pub}";
+  home.file.".ssh/allowed_signers".text = "i@rvf6.com ${sshPub.canokey}";
 
   programs.git = {
     enable = true;

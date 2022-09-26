@@ -1,5 +1,7 @@
 { lib, pkgs, inputs, ... }:
-{
+let
+  sshPub = import ../lib/ssh-pubkeys.nix;
+in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
@@ -28,10 +30,7 @@
   users.users.rvfg = {
     isNormalUser = true;
     extraGroups = [ "systemd-journal" ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINdmqOuypyBe2tF0fQ3R5vp9YkUg1e0lREno2ezJJE86"
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIL6r8qfrXMqjnUBhxuBSMt0cfjHo+Vhvqtod8vvwoQk4AAAABHNzaDo= canokey"
-    ];
+    openssh.authorizedKeys.keys = [ sshPub.canokey sshPub.a4b sshPub.ed25519 ];
   };
 
   security.sudo.extraRules = [ { users = [ "rvfg" ]; commands = [ "ALL" ]; } ];
@@ -47,6 +46,25 @@
     kbdInteractiveAuthentication = false;
     passwordAuthentication = false;
     permitRootLogin = "no";
+    ciphers = [ "chacha20-poly1305@openssh.com" "aes256-gcm@openssh.com" ];
+    kexAlgorithms = [ "sntrup761x25519-sha512@openssh.com" "curve25519-sha256" "curve25519-sha256@libssh.org" ];
+    macs = [ "hmac-sha2-512-etm@openssh.com" "umac-128-etm@openssh.com" ];
+    extraConfig = ''
+      AuthenticationMethods publickey
+      AllowUsers rvfg
+    '';
+    knownHosts = builtins.listToAttrs (map (host: {
+      name = host;
+      value = {
+        hostNames = [ "${host}.rvf6.com" ];
+        publicKey = sshPub."${host}";
+      };
+    }) [ "nl" "az" "or1" "or2" "or3" ]) // {
+      rpi3 = {
+        hostNames = [ "10.6.6.1" ];
+        publicKey = sshPub.rpi3;
+      };
+    };
   };
 
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];

@@ -1,12 +1,15 @@
 { ... }:
-{
-  home.file.".ssh/id_canokey.pub".source = ./id_canokey.pub;
-  home.file.".ssh/id_a4b.pub".source = ./id_a4b.pub;
-  home.file.".ssh/id_ed25519.pub".source = ./id_ed25519.pub;
+let
+  sshPub = import ../../lib/ssh-pubkeys.nix;
+  keys = [ "canokey" "a4b" "ed25519" ];
+  sshIdentities = map (key: "~/.ssh/id_${key}.pub") keys;
+in {
+  home.file = builtins.listToAttrs (map (key: {
+    name = ".ssh/id_${key}.pub";
+    value.text = sshPub."${key}";
+  }) keys);
 
-  programs.ssh = let
-    sshIdentities = [ "~/.ssh/id_canokey" "~/.ssh/id_a4b" "~/.ssh/id_ed25519.pub" ];
-  in {
+  programs.ssh = {
     enable = true;
     compression = true;
     serverAliveInterval = 10;
