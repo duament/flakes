@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   imports = [
-    ../../modules/common-home.nix
-    ../../modules/ssh
+    ../../home-modules/common.nix
+    ../../home-modules/ssh.nix
   ];
 
   home.packages = with pkgs; [

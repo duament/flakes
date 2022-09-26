@@ -7,7 +7,7 @@ let
   python-with-my-packages = pkgs.python3.withPackages my-python-packages;
 in {
   imports = [
-    ../../modules/common-home.nix
+    ../../home-modules/common.nix
   ];
 
   home.username = "ruifeng.ma";

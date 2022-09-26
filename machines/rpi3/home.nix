@@ -1,6 +1,6 @@
 { pkgs, ... }: {
   imports = [
-    ../../modules/common-home.nix
+    ../../home-modules/common.nix
   ];
 
   home.packages = with pkgs; [
