@@ -33,4 +33,6 @@
     LESS = "LRS";
     SYSTEMD_COLORS = "16";
   };
+
+  home.stateVersion = "22.11";
 }

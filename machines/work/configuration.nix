@@ -98,9 +98,6 @@ in {
     users.rvfg = import ./home.nix;
   };
 
-  #environment.systemPackages = with pkgs; [
-  #];
-
   services.squid = {
     enable = true;
     proxyAddress = "0.0.0.0";
@@ -109,6 +106,4 @@ in {
       http_access allow ip_acl
     '';
   };
-
-  system.stateVersion = "22.11";
 }

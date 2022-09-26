@@ -23,6 +23,4 @@
       init.defaultBranch = "main";
     };
   };
-
-  home.stateVersion = "22.11";
 }

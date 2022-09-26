@@ -43,6 +43,4 @@ in {
   };
 
   programs.starship.settings.command_timeout = 4000;
-
-  home.stateVersion = "22.11";
 }

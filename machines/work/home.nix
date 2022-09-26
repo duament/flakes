@@ -36,6 +36,4 @@ in {
 
   programs.gpg.enable = true;
   programs.gpg.homedir = "${config.xdg.dataHome}/gnupg";
-
-  home.stateVersion = "22.11";
 }
