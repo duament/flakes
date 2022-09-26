@@ -24,20 +24,20 @@
         use_graphics_for osx,linux,windows
 
         menuentry "Arch Linux" {
-            loader \EFI\Arch\linux-signed.efi
+            loader /EFI/Arch/linux-signed.efi
             submenuentry "Boot using linux-signed.efi.bak" {
-                loader \EFI\Arch\linux-signed.efi.bak
+                loader /EFI/Arch/linux-signed.efi.bak
             }
             submenuentry "Boot linux-dracut" {
-                loader \EFI\Arch\linux-dracut.efi
+                loader /EFI/Arch/linux-dracut.efi
             }
             submenuentry "Boot archiso" {
-                loader \EFI\Arch\archiso-signed.efi
+                loader /EFI/Arch/archiso-signed.efi
             }
         }
 
         menuentry "Windows 10" {
-            loader \EFI\Microsoft\Boot\bootmgfw.efi
+            loader /EFI/Microsoft/Boot/bootmgfw.efi
         }
       '';
     };
