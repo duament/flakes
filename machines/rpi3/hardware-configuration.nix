@@ -17,7 +17,7 @@ in {
         enable = true;
         port = 22;
         authorizedKeys = [ sshPub.canokey sshPub.a4b sshPub.ed25519 ];
-        hostKeys = [ ./ssh_host_ed25519_key ];
+        hostKeys = [ ../../crypt/initrd_ssh_host_ed25519_key ];
       };
     };
   };
