@@ -8,5 +8,7 @@
   };
   boot.tmpOnTmpfs = false;
 
+  networking.hostName = "t430";
+
   home-manager.users.rvfg = import ./home.nix;
 }

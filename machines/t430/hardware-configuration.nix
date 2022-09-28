@@ -3,8 +3,8 @@ let
   sshPub = import ../../lib/ssh-pubkeys.nix;
 in {
   boot.initrd = {
-    availableKernelModules = [  ];
-    kernelModules = [ ];
+    availableKernelModules = [ "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci" "r8169" ];
+    kernelModules = [ "kvm-intel" ];
     luks.devices."cryptroot" = {
       device = "/dev/disk/by-label/system_luks";
       allowDiscards = true;
@@ -48,4 +48,6 @@ in {
     };
 
   swapDevices = [ { device = "/swap/swapfile"; } ];
+
+  hardware.video.hidpi.enable = lib.mkDefault true;
 }
