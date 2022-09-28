@@ -32,6 +32,8 @@
       set fish_color_operator bryellow
       set fish_color_param black
       set fish_color_quote brblue
+
+      set -U fish_features qmark-noglob
     '';
   };
 }
