@@ -95,12 +95,12 @@ in {
 
         chain mark_warp_pre {
           type filter hook prerouting priority mangle;
-          goto mark_chain
+          goto mark_warp
         }
 
         chain mark_warp_out {
           type route hook output priority mangle;
-          goto mark_chain
+          goto mark_warp
         }
       }
     '';
