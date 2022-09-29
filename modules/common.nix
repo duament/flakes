@@ -6,6 +6,7 @@ in {
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
     ./nftables
+    ./wireguard-re-resolve.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

@@ -28,7 +28,6 @@ in {
   networking.nftables.inputAccept = ''
     tcp dport 3128 accept comment "squid"
   '';
-  #networking.extraHosts = "223.166.103.111 h.rvf6.com";
 
   systemd.network.networks."80-ethernet" = {
     DHCP = "no";
@@ -87,6 +86,7 @@ in {
       Table = wgTable;
     }; } ];
   };
+  services.wireguardReResolve.interfaces = [ "wg0" ];
 
   users.users.rvfg.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ enflame"

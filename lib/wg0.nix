@@ -1,12 +1,13 @@
 with builtins;
 rec {
+  host = "h.rvf6.com";
   port = 11112;
   addrPre = "10.6.6.";
   mask = 24;
   gateway = "${addrPre}1";
   gatewaySubnet = "${gateway}/${toString mask}";
   subnet = "${addrPre}0/${toString mask}";
-  endpoint = "h.rvf6.com:${toString port}";
+  endpoint = "${host}:${toString port}";
   pubkey = "LKEU/VwW+TFNuHWwNzOhxh0FVjnfMYHE9bxSx2luNjw=";
   peers = {
     iphone = {
