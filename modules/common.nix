@@ -18,7 +18,6 @@ in {
   networking.nftables = {
     enable = true;
     inputAccept = ''
-      ip6 saddr fe80::/64 udp dport 546 accept comment "DHCPv6 client"
       tcp dport 22 accept comment "SSH"
     '';
   };

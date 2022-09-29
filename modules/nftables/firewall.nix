@@ -29,6 +29,16 @@ in {
       type = types.bool;
       default = false;
     };
+
+    networking.nftables.allowPing = mkOption {
+      type = types.bool;
+      default = true;
+    };
+
+    networking.nftables.allowMulticast = mkOption {
+      type = types.bool;
+      default = false;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -44,28 +54,31 @@ in {
 
       table inet firewall {
         chain input {
-          type filter hook input priority 0; policy drop;
-
-          iif lo accept comment "Accept any localhost traffic"
-          ct state invalid drop comment "Drop invalid connections"
-          ct state established,related accept comment "Accept traffic originated from us"
-          meta l4proto ipv6-icmp icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, mld-listener-query, mld-listener-report, mld-listener-reduction, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert, ind-neighbor-solicit, ind-neighbor-advert, mld2-listener-report } accept comment "Accept ICMPv6"
-          meta l4proto icmp icmp type { destination-unreachable, router-solicitation, router-advertisement, time-exceeded, parameter-problem } accept comment "Accept ICMP"
-          meta l4proto udp ct state new jump input_accept
-          meta l4proto tcp tcp flags & (fin|syn|rst|ack) == syn ct state new jump input_accept
-          reject with icmpx type port-unreachable
+          type filter hook input priority filter; policy drop;
+          iif lo accept
+          ct state vmap { established : accept, related : accept, invalid : drop, new : jump input_accept }
+          reject
         }
 
         chain input_accept {
+          icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } accept
+          ${optionalString cfg.allowMulticast ''
+          meta l4proto igmp accept
+          ip6 saddr fe80::/10 icmpv6 type { mld-listener-query, mld-listener-report, mld-listener-reduction, mld2-listener-report } accept
+          ''}
+          ${optionalString cfg.allowPing ''
+          icmp type echo-request limit rate 20/second accept
+          icmpv6 type echo-request limit rate 20/second accept
+          ''}
+          meta nfproto ipv4 udp dport 68 accept comment "DHCP client"
+          meta nfproto ipv6 udp dport 546 accept comment "DHCPv6 client"
           ${cfg.inputAccept}
         }
 
         chain forward {
-          type filter hook forward priority 0; policy drop;
-
-          ct state related,established accept
-          jump forward_accept
-          reject with icmpx type port-unreachable
+          type filter hook forward priority filter; policy drop;
+          ct state vmap { established : accept, related : accept, invalid : drop, new : jump forward_accept }
+          reject
         }
 
         chain forward_accept {
@@ -73,15 +86,15 @@ in {
         }
 
         ${optionalString (length cfg.masquerade != 0) ''
-        chain nat_chain {
-          type nat hook postrouting priority 0;
+        chain masq {
+          type nat hook postrouting priority srcnat;
           ${concatStringsSep " masquerade\n" cfg.masquerade} masquerade
         }
         ''}
 
         ${optionalString cfg.mssClamping ''
         chain mss_clamping {
-          type filter hook forward priority -150;
+          type filter hook forward priority mangle;
           tcp flags syn tcp option maxseg size set rt mtu
         }
         ''}

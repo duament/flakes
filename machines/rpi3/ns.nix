@@ -39,8 +39,8 @@ in {
   };
 
   networking.nftables.forwardAccept = ''
-    iifname veth-owrt oifname eth0 accept;
-    iifname eth0 oifname veth-owrt accept;
+    iifname veth-owrt oifname eth0 accept
+    iifname eth0 oifname veth-owrt accept
   '';
 
   systemd.services."systemd-nspawn-${machine}" = {

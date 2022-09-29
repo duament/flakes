@@ -67,6 +67,6 @@ in {
       DHCP = "yes";
     };
 
-    networking.nftables.forwardAccept = concatStringsSep "\n" (map (i: "iifname ${i} oifname ${cfg.wan} accept;") cfg.lan);
+    networking.nftables.forwardAccept = concatStringsSep "\n" (map (i: "iifname ${i} oifname ${cfg.wan} accept") cfg.lan);
   };
 }

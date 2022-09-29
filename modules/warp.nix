@@ -71,36 +71,36 @@ in {
 
         chain out {
           type filter hook output priority mangle;
-          ip daddr ${cfg.endpointAddr} udp dport ${builtins.toString cfg.endpointPort} @th,72,24 set ${cfg.routingId};
+          ip daddr ${cfg.endpointAddr} udp dport ${builtins.toString cfg.endpointPort} @th,72,24 set ${cfg.routingId}
         }
 
         chain in {
           type filter hook input priority mangle;
-          ip saddr ${cfg.endpointAddr} udp sport ${builtins.toString cfg.endpointPort} @th,72,24 set 0x0;
+          ip saddr ${cfg.endpointAddr} udp sport ${builtins.toString cfg.endpointPort} @th,72,24 set 0x0
         }
 
         chain masq {
           type nat hook postrouting priority srcnat;
-          oifname warp masquerade;
+          oifname warp masquerade
         }
 
-        chain mark_chain {
-          fib daddr type local accept;
-          ip daddr @special_ipv4 accept;
-          ip6 daddr @special_ipv6 accept;
-          ip daddr @china_ipv4 accept;
-          ip6 daddr @china_ipv6 accept;
-          mark 0 mark set ${builtins.toString cfg.routeMark};
+        chain mark_warp {
+          fib daddr type local accept
+          ip daddr @special_ipv4 accept
+          ip6 daddr @special_ipv6 accept
+          ip daddr @china_ipv4 accept
+          ip6 daddr @china_ipv6 accept
+          mark 0 mark set ${builtins.toString cfg.routeMark}
         }
 
-        chain mark_chain_pre {
+        chain mark_warp_pre {
           type filter hook prerouting priority mangle;
-          jump mark_chain;
+          goto mark_chain
         }
 
-        chain mark_chain_out {
+        chain mark_warp_out {
           type route hook output priority mangle;
-          jump mark_chain;
+          goto mark_chain
         }
       }
     '';

@@ -143,7 +143,7 @@ in {
 
     networking.nftables.ruleset = ''
       table inet tproxy_table {
-        ${import ../../lib/nft-china-ip.nix lib inputs}
+        ${import ../../lib/nft-china-ip.nix { inherit lib inputs; }}
 
         chain tproxy_src {
           mark and ${toString cfg.tproxy.bypassMask} == ${toString cfg.tproxy.bypassMark} accept;

@@ -20,12 +20,12 @@ in {
   networking.hostName = "rpi3";
   networking.nftables = {
     inputAccept = ''
-      udp dport ${builtins.toString wg0.port} accept comment "wireguard";
-      ip saddr ${wg0.subnet} meta l4proto { tcp, udp } th dport 53 accept;
+      udp dport ${builtins.toString wg0.port} accept comment "wireguard"
+      ip saddr ${wg0.subnet} meta l4proto { tcp, udp } th dport 53 accept
     '';
     forwardAccept = ''
-      iifname wg0 accept;
-      oifname wg0 accept;
+      iifname wg0 accept
+      oifname wg0 accept
     '';
   };
 
