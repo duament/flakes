@@ -3,8 +3,11 @@ let
   wg0 = import ../../lib/wg0.nix;
 in {
   sops.defaultSopsFile = ./secrets.yaml;
-  sops.secrets.wireguard_key.owner = "systemd-network";
-  sops.secrets.warp_key.owner = "systemd-network";
+  sops.secrets = {
+    wireguard_key.owner = "systemd-network";
+    warp_key.owner = "systemd-network";
+    initrd_ssh_host_ed25519_key = {};
+  };
 
   boot.loader.generationsDir.copyKernels = true;
   boot.loader.systemd-boot.enable = true;
