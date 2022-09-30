@@ -1,4 +1,5 @@
-{ lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, ... }:
+with lib;
 let
   sshPub = import ../lib/ssh-pubkeys.nix;
 in {
@@ -22,7 +23,9 @@ in {
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.tmpOnTmpfs = lib.mkDefault true;
+  boot.loader.systemd-boot.editor = mkDefault false;
+  boot.loader.timeout = mkDefault 2;
+  boot.tmpOnTmpfs = mkDefault true;
 
   networking.firewall.enable = false;
   networking.nftables = {

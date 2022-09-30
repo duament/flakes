@@ -17,10 +17,7 @@ in {
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.wireguard_key.owner = "systemd-network";
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-  };
+  boot.loader.systemd-boot.enable = true;
 
   boot.tmpOnTmpfs = false;
 

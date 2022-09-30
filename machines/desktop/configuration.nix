@@ -6,7 +6,6 @@
 
   boot.loader = {
     efi.efiSysMountPoint = "/efi";
-    timeout = 2;
     refind = {
       enable = true;
       sign = true;
