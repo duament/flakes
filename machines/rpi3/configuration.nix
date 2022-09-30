@@ -45,6 +45,7 @@ in {
     name = "wg0";
     address = [ wg0.gatewaySubnet ];
     networkConfig = { DHCPv6PrefixDelegation = true; };
+    linkConfig = { RequiredForOnline = false; };
   };
 
   networking.warp = {
