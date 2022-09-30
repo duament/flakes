@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ config, lib, ... }:
 let
   sshPub = import ../../lib/ssh-pubkeys.nix;
 in {
