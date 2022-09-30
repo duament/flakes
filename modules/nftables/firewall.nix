@@ -56,16 +56,16 @@ in {
         chain input {
           type filter hook input priority filter; policy drop;
           iif lo accept
-          ct state vmap { established : accept, related : accept, invalid : drop, new : jump input_accept }
-          reject
-        }
-
-        chain input_accept {
           icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } accept
           ${optionalString cfg.allowMulticast ''
           meta l4proto igmp accept
           ip6 saddr fe80::/10 icmpv6 type { mld-listener-query, mld-listener-report, mld-listener-reduction, mld2-listener-report } accept
           ''}
+          ct state vmap { established : accept, related : accept, invalid : drop, new : jump input_accept }
+          reject
+        }
+
+        chain input_accept {
           ${optionalString cfg.allowPing ''
           icmp type echo-request limit rate 20/second accept
           icmpv6 type echo-request limit rate 20/second accept
