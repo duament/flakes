@@ -19,6 +19,8 @@ in {
         hostKeys = [ config.sops.secrets.initrd_ssh_host_ed25519_key.path ];
       };
     };
+    preLVMCommands = lib.mkOrder 400 "sleep 1";
+    postMountCommands = "rm -rf /run/secrets";
   };
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
