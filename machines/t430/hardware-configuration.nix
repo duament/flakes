@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ config, lib, ... }:
 let
   sshPub = import ../../lib/ssh-pubkeys.nix;
 in {
@@ -16,9 +16,10 @@ in {
         enable = true;
         port = 22;
         authorizedKeys = [ sshPub.canokey sshPub.a4b sshPub.ed25519 ];
-        hostKeys = [ ../../crypt/initrd_ssh_host_ed25519_key ];
+        hostKeys = [ config.sops.secrets.initrd_ssh_host_ed25519_key.path ];
       };
     };
+    postMountCommands = "rm -rf /run/secrets";
   };
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
