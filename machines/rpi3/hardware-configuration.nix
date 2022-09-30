@@ -2,7 +2,6 @@
 let
   sshPub = import ../../lib/ssh-pubkeys.nix;
 in {
-  boot.loader.raspberryPi.firmwareConfig = "hdmi_force_hotplug=1";
   boot.initrd = {
     availableKernelModules = [ "usbhid" "usb_storage" "lan78xx" ];
     kernelModules = [ ];
@@ -54,6 +53,8 @@ in {
     };
 
   swapDevices = [ { device = "/swap/swapfile"; } ];
+
+  hardware.enableRedistributableFirmware = true;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
 }

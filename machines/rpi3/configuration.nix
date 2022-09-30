@@ -6,10 +6,8 @@ in {
   sops.secrets.wireguard_key.owner = "systemd-network";
   sops.secrets.warp_key.owner = "systemd-network";
 
-  boot.loader = {
-    grub.enable = false;
-    generic-extlinux-compatible.enable = true;
-  };
+  boot.loader.generationsDir.copyKernels = true;
+  boot.loader.systemd-boot.enable = true;
 
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = true;
