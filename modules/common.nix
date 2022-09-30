@@ -9,7 +9,17 @@ in {
     ./wireguard-re-resolve.nix
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = [
+      "https://nix-community.cachix.org"
+      "https://rvfg.cachix.org"
+    ];
+    trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "rvfg.cachix.org-1:Y4KBTduWzzLGMyy/SQPkzXuHiYeeaIFszIQI0kA59lQ="
+    ];
+  };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.tmpOnTmpfs = lib.mkDefault true;
