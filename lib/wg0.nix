@@ -18,6 +18,10 @@ rec {
       ip = "${addrPre}10";
       pubkey = "Zwg16+rw0uVJHFWsKj56nc9+eli0/XIYrKxespMbGj0=";
     };
+    xiaoxin = {
+      ip = "${addrPre}3";
+      pubkey = "EB86zlOPDzQLKkByxWznf/deQiIssQ6LAcMuw2oDbRI=";
+    };
   };
   peerConfigs = map (peer: {
     wireguardPeerConfig = {
