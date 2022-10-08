@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, self, ... }:
 let
   my-python-packages = python-packages: with python-packages; [
     ipython
@@ -7,7 +7,7 @@ let
   python-with-my-packages = pkgs.python3.withPackages my-python-packages;
 in {
   imports = [
-    ../../home-modules/common.nix
+    self.nixosModules.myHomeModules
   ];
 
   home.username = "ruifeng.ma";

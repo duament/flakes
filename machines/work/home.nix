@@ -1,11 +1,12 @@
-{ config, pkgs, ... }:
+{ config, pkgs, self, ... }:
 let
   sshPub = import ../../lib/ssh-pubkeys.nix;
 in {
   imports = [
-    ../../home-modules/common.nix
-    ../../home-modules/ssh.nix
+    self.nixosModules.myHomeModules
   ];
+
+  presets.ssh.enable = true;
 
   home.packages = with pkgs; [
     checksec

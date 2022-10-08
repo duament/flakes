@@ -1,6 +1,8 @@
 { lib, config, inputs, pkgs, ... }:
 with lib;
 let
+  cfg = config.services.smartdns;
+
   chinaListRaw = (builtins.readFile "${inputs.dnsmasq-china-list.outPath}/accelerated-domains.china.conf") + (builtins.readFile "${inputs.dnsmasq-china-list.outPath}/apple.china.conf");
   chinaList = builtins.replaceStrings [ "server=" "114.114.114.114" ] [ "nameserver " "china" ] chinaListRaw;
 in {
@@ -16,14 +18,14 @@ in {
     };
   };
 
-  config = lib.mkIf config.services.smartdns.enable {
+  config = lib.mkIf cfg.enable {
     environment.etc."smartdns/china-list.conf".text = chinaList;
 
     services.smartdns = {
       settings = {
         response-mode = "fastest-response";
         conf-file = "china-list.conf";
-        server = (map (i: "${i} -group china -exclude-default-group") config.services.smartdns.chinaDns) ++ config.services.smartdns.nonChinaDns;
+        server = (map (i: "${i} -group china -exclude-default-group") cfg.chinaDns) ++ cfg.nonChinaDns;
         cache-persist = "yes";
         cache-file = "/var/cache/smartdns/smartdns.cache";
         log-file = "/dev/null";
@@ -39,7 +41,7 @@ in {
       CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
       PrivateNetwork = false;
       PrivateUsers = false;
-      SocketBindAllow = config.services.smartdns.bindPort;
+      SocketBindAllow = cfg.bindPort;
     };
   };
 }

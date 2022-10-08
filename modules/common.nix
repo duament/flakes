@@ -1,15 +1,8 @@
-{ config, lib, pkgs, inputs, ... }:
+{ lib, pkgs, self, ... }:
 with lib;
 let
   sshPub = import ../lib/ssh-pubkeys.nix;
 in {
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
-    inputs.sops-nix.nixosModules.sops
-    ./nftables
-    ./wireguard-re-resolve.nix
-  ];
-
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [
@@ -51,8 +44,11 @@ in {
   #  Defaults passwd_timeout=0
   #'';
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
+  home-manager = {
+    extraSpecialArgs = { inherit self; };
+    useGlobalPkgs = true;
+    useUserPackages = true;
+  };
 
   programs.fish.enable = true;
 

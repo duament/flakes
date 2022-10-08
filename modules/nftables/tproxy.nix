@@ -1,13 +1,8 @@
 { lib, config, inputs, ... }:
 with lib;
 let
-  cfg = config.networking.nftables;
+  cfg = config.networking.nftables.tproxy;
 in {
-  imports = [
-    ../shadowsocks
-    ../smartdns.nix
-  ];
-
   options = {
     networking.nftables.tproxy.enable = mkOption {
       type = types.bool;
@@ -94,7 +89,7 @@ in {
     };
   };
 
-  config = mkIf cfg.tproxy.enable {
+  config = mkIf cfg.enable {
     systemd.network.networks."20-lo" = {
       enable = true;
       name = "lo";
@@ -102,7 +97,7 @@ in {
       routingPolicyRules = [
         {
           routingPolicyRuleConfig = {
-            FirewallMark = cfg.tproxy.mark;
+            FirewallMark = cfg.mark;
             Table = 200;
             Family = "both";
           };
@@ -127,6 +122,25 @@ in {
       ];
     };
 
+    services.shadowsocks = {
+      redir.default = {
+        server = cfg.server;
+        port = cfg.port;
+      };
+
+      tunnel.googleDNS = {
+        server = cfg.server;
+        port = 1070;
+        tunnelAddress = "8.8.8.8:53";
+      };
+
+      tunnel.cfDNS = {
+        server = cfg.server;
+        port = 1071;
+        tunnelAddress = "1.1.1.1:53";
+      };
+    };
+
     services.smartdns = {
       enable = true;
       bindPort = mkDefault 1053;
@@ -137,17 +151,17 @@ in {
       settings.server-tcp = config.services.smartdns.nonChinaDns;
     };
 
-    networking.nftables.inputAccept = "mark and ${toString cfg.tproxy.mask} == ${toString cfg.tproxy.mark} accept";
+    networking.nftables.inputAccept = "mark and ${toString cfg.mask} == ${toString cfg.mark} accept";
 
-    networking.nftables.tproxy.src = mkIf cfg.tproxy.enableLocal "fib saddr type local return";
+    networking.nftables.tproxy.src = mkIf cfg.enableLocal "fib saddr type local return";
 
     networking.nftables.ruleset = ''
       table inet tproxy_table {
         ${import ../../lib/nft-china-ip.nix { inherit lib inputs; }}
 
         chain tproxy_src {
-          mark and ${toString cfg.tproxy.bypassMask} == ${toString cfg.tproxy.bypassMark} accept;
-          ${cfg.tproxy.src}
+          mark and ${toString cfg.bypassMask} == ${toString cfg.bypassMark} accept;
+          ${cfg.src}
           accept;
         }
 
@@ -157,44 +171,44 @@ in {
           ip6 daddr @special_ipv6 accept;
           ip daddr @china_ipv4 accept;
           ip6 daddr @china_ipv6 accept;
-          ${cfg.tproxy.dst}
+          ${cfg.dst}
         }
 
         chain tproxy_dns_redirect {
           type nat hook prerouting priority dstnat; policy accept;
           jump tproxy_src;
-          fib daddr type local meta l4proto { tcp, udp } th dport 53 counter redirect to :${toString cfg.tproxy.dnsPort};
+          fib daddr type local meta l4proto { tcp, udp } th dport 53 counter redirect to :${toString cfg.dnsPort};
         }
 
         chain tproxy_chain {
           type filter hook prerouting priority mangle; policy accept;
           jump tproxy_src;
           jump tproxy_dst;
-          meta l4proto { tcp, udp } tproxy to :${toString cfg.tproxy.port} mark set mark or ${toString cfg.tproxy.mark};
+          meta l4proto { tcp, udp } tproxy to :${toString cfg.port} mark set mark or ${toString cfg.mark};
         }
 
 
-        ${optionalString cfg.tproxy.enableLocal ''
+        ${optionalString cfg.enableLocal ''
         chain tproxy_local_dns_redirect {
           type nat hook output priority mangle; policy accept;
-          mark and ${toString cfg.tproxy.bypassMask} == ${toString cfg.tproxy.bypassMark} accept;
-          fib daddr type local meta l4proto { tcp, udp } th dport 53 counter redirect to :${toString cfg.tproxy.dnsPort};
+          mark and ${toString cfg.bypassMask} == ${toString cfg.bypassMark} accept;
+          fib daddr type local meta l4proto { tcp, udp } th dport 53 counter redirect to :${toString cfg.dnsPort};
         }
 
         chain tproxy_local_reroute {
           type route hook output priority mangle; policy accept;
-          ct mark and ${toString cfg.tproxy.mask} == ${toString cfg.tproxy.mark} mark set mark or ${toString cfg.tproxy.mark};
+          ct mark and ${toString cfg.mask} == ${toString cfg.mark} mark set mark or ${toString cfg.mark};
           ct state != new accept;
-          mark and ${toString cfg.tproxy.bypassMask} == ${toString cfg.tproxy.bypassMark} accept;
+          mark and ${toString cfg.bypassMask} == ${toString cfg.bypassMark} accept;
           jump tproxy_dst;
-          meta l4proto { tcp, udp } mark set mark or ${toString cfg.tproxy.mark} ct mark set ct mark or ${toString cfg.tproxy.mark};
+          meta l4proto { tcp, udp } mark set mark or ${toString cfg.mark} ct mark set ct mark or ${toString cfg.mark};
         }
         ''}
 
 
-        ${optionalString cfg.tproxy.all.enable ''
+        ${optionalString cfg.all.enable ''
         chain tproxy_all_src {
-          ${cfg.tproxy.all.src}
+          ${cfg.all.src}
           accept;
         }
 
@@ -207,14 +221,14 @@ in {
         chain tproxy_all_dns_redirect {
           type nat hook prerouting priority dstnat; policy accept;
           jump tproxy_all_src;
-          fib daddr type local meta l4proto { tcp, udp } th dport 53 counter redirect to :${toString cfg.tproxy.all.dnsPort};
+          fib daddr type local meta l4proto { tcp, udp } th dport 53 counter redirect to :${toString cfg.all.dnsPort};
         }
 
         chain tproxy_all_chain {
           type filter hook prerouting priority mangle; policy accept;
           jump tproxy_all_src;
           jump tproxy_all_dst;
-          meta l4proto { tcp, udp } tproxy to :${toString cfg.tproxy.all.port} mark set mark or ${toString cfg.tproxy.mark};
+          meta l4proto { tcp, udp } tproxy to :${toString cfg.all.port} mark set mark or ${toString cfg.mark};
         }
         ''}
       }

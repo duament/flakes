@@ -3,10 +3,6 @@ with lib;
 let
   cfg = config.networking.warp;
 in {
-  imports = [
-    ./smartdns.nix
-  ];
-
   options = {
     networking.warp.enable = mkOption {
       type = types.bool;

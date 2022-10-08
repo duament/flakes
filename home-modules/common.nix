@@ -1,12 +1,5 @@
 { pkgs, ... }:
 {
-  imports = [
-    ./fish.nix
-    ./fzf
-    ./neovim
-    ./starship
-  ];
-
   home.packages = with pkgs; [
     dig
     duf

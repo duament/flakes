@@ -14,6 +14,8 @@ in {
   #  })
   #];
 
+  presets.nogui.enable = true;
+
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.wireguard_key.owner = "systemd-network";
 

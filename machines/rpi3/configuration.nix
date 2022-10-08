@@ -2,6 +2,8 @@
 let
   wg0 = import ../../lib/wg0.nix;
 in {
+  presets.nogui.enable = true;
+
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     wireguard_key.owner = "systemd-network";

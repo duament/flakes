@@ -1,6 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, self, ... }: {
   imports = [
-    ../../home-modules/common.nix
+    self.nixosModules.myHomeModules
   ];
 
   home.packages = with pkgs; [

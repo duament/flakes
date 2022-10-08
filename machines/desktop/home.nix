@@ -1,5 +1,7 @@
-{ pkgs, ... }: {
+{ self, ... }: {
   imports = [
-    ../../home-modules/workstation.nix
+    self.nixosModules.myHomeModules
   ];
+
+  presets.workstation.enable = true;
 }

@@ -1,6 +1,6 @@
 { ... }:
 {
-   programs.fish = {
+  programs.fish = {
     enable = true;
     shellAbbrs = {
       d = "docker";

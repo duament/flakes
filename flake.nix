@@ -32,15 +32,18 @@
 
   outputs = inputs@{ self, nixpkgs, ... }:
   {
+    nixosModules.myModules = import ./modules;
+    nixosModules.myHomeModules = import ./home-modules;
+
     nixosConfigurations = {
-      desktop = import ./machines/desktop { inherit nixpkgs inputs; };
-      work = import ./machines/work { inherit nixpkgs inputs; };
-      rpi3 = import ./machines/rpi3 { inherit nixpkgs inputs; };
-      t430 = import ./machines/t430 { inherit nixpkgs inputs; };
+      desktop = import ./machines/desktop { inherit inputs nixpkgs self; };
+      work = import ./machines/work { inherit inputs nixpkgs self; };
+      rpi3 = import ./machines/rpi3 { inherit inputs nixpkgs self; };
+      t430 = import ./machines/t430 { inherit inputs nixpkgs self; };
     };
 
     homeConfigurations = {
-      dev = import ./machines/dev { inherit nixpkgs inputs; };
+      dev = import ./machines/dev { inherit inputs nixpkgs self; };
     };
   };
 }

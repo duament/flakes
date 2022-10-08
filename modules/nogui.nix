@@ -1,26 +1,32 @@
-{ lib, ... }:
+{ config, lib, ... }:
+with lib;
 {
-  imports = [
-    ./common.nix
-  ];
-
-  networking = {
-    useDHCP = false;
-    useNetworkd = true;
+  options = {
+    presets.nogui.enable = mkOption {
+      type = types.bool;
+      default = false;
+    };
   };
 
-  systemd.network.networks."80-ethernet" = {
-    enable = true;
-    matchConfig = { Type = "ether"; };
-    DHCP = lib.mkDefault "yes";
-  };
+  config = mkIf config.presets.nogui.enable {
+    networking = {
+      useDHCP = false;
+      useNetworkd = true;
+    };
 
-  fonts.fontconfig.enable = false;
-  xdg = {
-    autostart.enable = false;
-    icons.enable = false;
-    menus.enable = false;
-    mime.enable = false;
-    sounds.enable = false;
+    systemd.network.networks."80-ethernet" = {
+      enable = true;
+      matchConfig = { Type = "ether"; };
+      DHCP = mkDefault "yes";
+    };
+
+    fonts.fontconfig.enable = false;
+    xdg = {
+      autostart.enable = false;
+      icons.enable = false;
+      menus.enable = false;
+      mime.enable = false;
+      sounds.enable = false;
+    };
   };
 }

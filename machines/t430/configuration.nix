@@ -1,5 +1,7 @@
 { ... }:
 {
+  presets.nogui.enable = true;
+
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.initrd_ssh_host_ed25519_key = {};
 

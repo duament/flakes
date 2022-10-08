@@ -1,11 +1,10 @@
-{ nixpkgs, inputs }: nixpkgs.lib.nixosSystem {
+{ inputs, nixpkgs, self }: nixpkgs.lib.nixosSystem {
   system = "aarch64-linux";
-  specialArgs = { inherit nixpkgs inputs; };
+  specialArgs = { inherit inputs nixpkgs self; };
   modules = [
+    self.nixosModules.myModules
     ./hardware-configuration.nix
     ./configuration.nix
-    ../../modules/nogui.nix
-    ../../modules/warp.nix
     ./ns.nix
   ];
 }

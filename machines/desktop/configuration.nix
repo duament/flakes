@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 {
+  presets.workstation.enable = true;
+
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets."sbsign-key" = {};
   sops.secrets."sbsign-cert" = {};
