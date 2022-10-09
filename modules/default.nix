@@ -10,6 +10,7 @@
     ./shadowsocks
     ./smartdns.nix
     ./ssh-agent
+    ./traefik.nix
     ./warp.nix
     ./wireguard-re-resolve.nix
     ./workstation.nix
