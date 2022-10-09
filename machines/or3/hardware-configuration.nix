@@ -22,7 +22,7 @@
   fileSystems."/swap" =
     { device = "/dev/disk/by-label/system";
       fsType = "btrfs";
-      options = [ "subvol=@swap" "compress=zstd" "noatime" "discard=async" ];
+      options = [ "subvol=swap" "compress=zstd" "noatime" "discard=async" ];
     };
 
   fileSystems."/boot" =
