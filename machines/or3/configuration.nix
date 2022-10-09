@@ -16,6 +16,8 @@ in {
   networking.hostName = "or3";
   networking.nftables.inputAccept = ''
     tcp dport { 80, 443 } accept
+    udp dport { 21027, 22000 } accept comment "syncthing udp"
+    tcp dport 22000 accept comment "syncthing tcp"
   '';
 
   home-manager.users.rvfg = import ./home.nix;
