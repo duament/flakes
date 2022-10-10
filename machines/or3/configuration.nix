@@ -8,6 +8,7 @@ in {
   sops.secrets = {
     "syncthing/cert".owner = config.services.syncthing.user;
     "syncthing/key".owner = config.services.syncthing.user;
+    "cache" = { group = "hydra"; mode = "0440"; };
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -53,34 +54,6 @@ in {
     };
   };
 
-  services.traefik = {
-    enable = true;
-    dynamicConfigOptions.http = {
-      routers = {
-        navidrome = {
-          rule = "Host(`music.rvf6.com`)";
-          service = "navidrome";
-        };
-        hydra = {
-          rule = "Host(`hydra.rvf6.com`)";
-          service = "hydra";
-        };
-      };
-      services = {
-        navidrome.loadBalancer = let
-          cfg = config.services.navidrome.settings;
-        in {
-          servers = [ { url = "http://${cfg.Address}:${builtins.toString cfg.Port}"; } ];
-        };
-        hydra.loadBalancer = let
-          cfg = config.services.hydra;
-        in {
-          servers = [ { url = "http://${cfg.listenHost}:${builtins.toString cfg.port}"; } ];
-        };
-      };
-    };
-  };
-
   services.hydra = {
     enable = true;
     listenHost = "127.0.0.1";
@@ -94,4 +67,48 @@ in {
     '';
   };
   nix.settings = { allowed-uris = [ "https://github.com" "https://gitlab.com" ]; };
+
+  services.nix-serve = {
+    enable = true;
+    bindAddress = "127.0.0.1";
+    port = 5000;
+    secretKeyFile = config.sops.secrets.cache.path;
+  };
+
+  services.traefik = {
+    enable = true;
+    dynamicConfigOptions.http = {
+      routers = {
+        navidrome = {
+          rule = "Host(`music.rvf6.com`)";
+          service = "navidrome";
+        };
+        hydra = {
+          rule = "Host(`hydra.rvf6.com`)";
+          service = "hydra";
+        };
+        cache = {
+          rule = "Host(`cache.rvf6.com`)";
+          service = "cache";
+        };
+      };
+      services = {
+        navidrome.loadBalancer = let
+          cfg = config.services.navidrome.settings;
+        in {
+          servers = [ { url = "http://${cfg.Address}:${builtins.toString cfg.Port}"; } ];
+        };
+        hydra.loadBalancer = let
+          cfg = config.services.hydra;
+        in {
+          servers = [ { url = "http://${cfg.listenHost}:${builtins.toString cfg.port}"; } ];
+        };
+        cache.loadBalancer = let
+          cfg = config.services.nix-serve;
+        in {
+          servers = [ { url = "http://${cfg.bindAddress}:${builtins.toString cfg.port}"; } ];
+        };
+      };
+    };
+  };
 }

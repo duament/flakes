@@ -8,10 +8,12 @@ in {
     substituters = [
       "https://nix-community.cachix.org"
       "https://rvfg.cachix.org"
+      "https://cache.rvf6.com"
     ];
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "rvfg.cachix.org-1:Y4KBTduWzzLGMyy/SQPkzXuHiYeeaIFszIQI0kA59lQ="
+      "cache.rvf6.com-1:puyypMB+P2nYa5Zg40uzzAh2ncg/cwSTR/OxqQ8yK7Q="
     ];
   };
 
