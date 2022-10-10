@@ -67,6 +67,7 @@ in {
     '';
   };
   nix.settings = { allowed-uris = [ "https://github.com" "https://gitlab.com" ]; };
+  systemd.services.hydra-evaluator.environment.GC_DONT_GC = "true";
 
   services.nix-serve = {
     enable = true;
