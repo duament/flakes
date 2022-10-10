@@ -24,6 +24,8 @@
       sl = "sudo exa -lag --time-style=long-iso";
     };
     interactiveShellInit = ''
+      set fish_greeting
+
       set fish_color_command green
       set fish_color_comment brblack
       set fish_color_end yellow
