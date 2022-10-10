@@ -47,9 +47,6 @@
       dev = import ./machines/dev { inherit inputs nixpkgs self; };
     };
 
-    hydraJobs = {
-      rpi3 = self.nixosConfigurations.rpi3.config.system.build.toplevel;
-      or3 = self.nixosConfigurations.or3.config.system.build.toplevel;
-    };
+    hydraJobs.rpi3 = self.nixosConfigurations.rpi3.config.system.build.toplevel;
   };
 }
