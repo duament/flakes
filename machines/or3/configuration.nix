@@ -87,5 +87,10 @@ in {
     hydraURL = "https://hydra.rvf6.com";
     useSubstitutes = true;
     notificationSender = "hydra@rvf6.com";
+    extraConfig = ''
+      <dynamicruncommand>
+        enable = 1
+      </dynamicruncommand>
+    '';
   };
 }
