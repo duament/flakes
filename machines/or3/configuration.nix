@@ -93,4 +93,5 @@ in {
       </dynamicruncommand>
     '';
   };
+  nix.settings = { allowed-uris = [ "https://github.com" "https://gitlab.com" ]; };
 }
