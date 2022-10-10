@@ -28,12 +28,20 @@ in {
       matchBlocks = builtins.listToAttrs (map (host: {
         name = host;
         value = {
+          user = "rvfg";
+          hostname = "${host}.rvf6.com";
+          identityFile = sshIdentities;
+          forwardAgent = true;
+        };
+      }) [ "or3" ]) // builtins.listToAttrs (map (host: {
+        name = host;
+        value = {
           user = "duama";
           hostname = "${host}.rvf6.com";
           identityFile = sshIdentities;
           forwardAgent = true;
         };
-      }) [ "nl" "az" "or1" "or2" "or3" ]) // {
+      }) [ "nl" "az" "or1" "or2" ]) // {
         "github.com" = {
           identityFile = sshIdentities;
         };
