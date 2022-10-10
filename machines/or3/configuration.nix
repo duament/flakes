@@ -61,6 +61,10 @@ in {
           rule = "Host(`music.rvf6.com`)";
           service = "navidrome";
         };
+        hydra = {
+          rule = "Host(`hydra.rvf6.com`)";
+          service = "hydra";
+        };
       };
       services = {
         navidrome.loadBalancer = let
@@ -68,7 +72,20 @@ in {
         in {
           servers = [ { url = "http://${cfg.Address}:${builtins.toString cfg.Port}"; } ];
         };
+        hydra.loadBalancer = let
+          cfg = config.services.hydra;
+        in {
+          servers = [ { url = "http://${cfg.listenHost}:${builtins.toString cfg.port}"; } ];
+        };
       };
     };
+  };
+
+  services.hydra = {
+    enable = true;
+    listenHost = "127.0.0.1";
+    hydraURL = "https://hydra.rvf6.com";
+    useSubstitutes = true;
+    notificationSender = "hydra@rvf6.com";
   };
 }

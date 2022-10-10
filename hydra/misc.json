@@ -1,0 +1,14 @@
+{
+  "flakes": {
+    "enabled": 1,
+    "hidden": false,
+    "type": 1,
+    "flake": "github:duament/flakes",
+    "checkinterval": 120,
+    "schedulingshares": 100,
+    "enableemail": false,
+    "emailoverride": "",
+    "enable_dynamic_run_command": false,
+    "keepnr": 3
+  }
+}
