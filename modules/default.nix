@@ -12,6 +12,7 @@
     ./ssh-agent
     ./traefik.nix
     ./warp.nix
+    ./wireguard-dynamic-ipv6.nix
     ./wireguard-re-resolve.nix
     ./workstation.nix
   ];

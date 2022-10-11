@@ -1,0 +1,62 @@
+{ config, lib, pkgs, ... }:
+with lib;
+let
+  cfg = config.services.wireguardDynamicIPv6;
+in {
+  options = {
+    services.wireguardDynamicIPv6.interfaces = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+    };
+  };
+
+  config = {
+    systemd.services = builtins.listToAttrs (map (interface: {
+      name = "${interface}-dynamic-ipv6";
+      value = {
+        after = [ "network-online.target" ];
+        path = [ pkgs.iproute2 pkgs.jq pkgs.sipcalc pkgs.gawk pkgs.wireguard-tools ];
+        script = ''
+          set -o pipefail
+          IPV6=$(ip -j -6 a show dev ${interface} scope global | jq '.[0].addr_info | .[0].local')
+          IPV6_EXPANDED=$(sipcalc -6 "$IPV6" | grep 'Expanded Address' | awk '{print $NF}')
+          IPV6_PREFIX=''${IPV6_EXPANDED%:*:*:*:*}
+          if [[ -z "$IPV6_PREFIX" ]]; then exit; fi
+          wg show ${interface} allowed-ips | while read line; do
+            pubkey=$(echo "$line" | awk '{print $1}')
+            ipv4=$(echo "$line" | awk '{print $2}')
+            ipv6=$(echo "$line" | awk '{print $3}')
+            ipv4_host=$(sipcalc -4 "$ipv4" | grep 'Host address' | awk '{print $NF}')
+            host_num=''${ipv4_host##*.}
+            if [[ -z "$host_num" ]]; then exit; fi
+            host_hex=$(printf '%x' "$host_num")
+            ipv6_expanded=$(sipcalc -6 "$ipv6" | grep 'Expanded Address' | awk '{print $NF}')
+            ipv6_prefix=''${ipv6_expanded%:*:*:*:*}
+            if [[ "IPV6_PREFIX" != "$ipv6_prefix" ]]; then
+              wg set ${interface} peer "$pubkey" allowed-ips "$ipv4,$IPV6_PREFIX::$host_hex/128"
+            fi
+          done
+        '';
+        serviceConfig = import ../lib/systemd-harden.nix // {
+          Type = "oneshot";
+          AmbientCapabilities = [ "CAP_NET_ADMIN" ];
+          CapabilityBoundingSet = [ "CAP_NET_ADMIN" ];
+          RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+          PrivateNetwork = false;
+          PrivateUsers = false;
+        };
+      };
+    }) cfg.interfaces);
+
+    systemd.timers = builtins.listToAttrs (map (interface: {
+      name = "${interface}-dynamic-ipv6";
+      value = {
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnStartupSec = 60;
+          OnUnitActiveSec = 300;
+        };
+      };
+    }) cfg.interfaces);
+  };
+}

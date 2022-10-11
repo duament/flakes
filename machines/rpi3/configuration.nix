@@ -50,6 +50,7 @@ in {
     networkConfig = { DHCPv6PrefixDelegation = true; };
     linkConfig = { RequiredForOnline = false; };
   };
+  services.wireguardDynamicIPv6.interfaces = [ "wg0" ];
 
   networking.warp = {
     enable = true;
