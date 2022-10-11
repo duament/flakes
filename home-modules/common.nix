@@ -22,6 +22,8 @@
     };
   };
 
+  programs.jq.enable = true;
+
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";

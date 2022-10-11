@@ -25,7 +25,6 @@ in {
     gdb
     home-manager
     iproute2
-    jq
     less
     ncdu
     openssl
