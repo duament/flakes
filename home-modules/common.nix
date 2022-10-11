@@ -12,6 +12,8 @@
 
   programs.exa.enable = true;
 
+  programs.git.enable = true;
+
   programs.htop = {
     enable = true;
     settings = {
