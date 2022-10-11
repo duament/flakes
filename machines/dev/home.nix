@@ -14,6 +14,8 @@ in {
   home.homeDirectory = "/home/ruifeng.ma";
 
   home.packages = with pkgs; [
+    abi-compliance-checker
+    abi-dumper
     checksec
     #clang
     coreutils
