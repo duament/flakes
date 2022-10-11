@@ -30,11 +30,20 @@ rec {
       ip = "${addrPre}10";
       pubkey = "Zwg16+rw0uVJHFWsKj56nc9+eli0/XIYrKxespMbGj0=";
     };
+    or3 = {
+      ip = "${addrPre}23";
+      pubkey = "60W+Pr5CKSpiJ1tY8Dnz+D/vD+r0au3exf3NgZ5DMVM=";
+      endpointAddr = "or3.rvf6.com";
+      endpointPort = 11111;
+    };
   };
   peerConfigs = map (peer: {
     wireguardPeerConfig = {
       AllowedIPs = [ "${peer.ip}/32" ];
       PublicKey = peer.pubkey;
-    };
+    } // (if (peer ? endpointAddr) then {
+      Endpoint = "${peer.endpointAddr}:${toString peer.endpointPort}";
+      PersistentKeepalive = 25;
+    } else { });
   }) (attrValues peers);
 }

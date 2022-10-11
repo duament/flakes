@@ -1,6 +1,7 @@
 { config, lib, ... }:
 let
   musicDir = "/var/lib/music";
+  wg0 = import ../../lib/wg0.nix;
 in {
   presets.nogui.enable = true;
 
@@ -9,6 +10,7 @@ in {
     "syncthing/cert".owner = config.services.syncthing.user;
     "syncthing/key".owner = config.services.syncthing.user;
     "cache" = { group = "hydra"; mode = "0440"; };
+    "wireguard_key".owner = "systemd-network";
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -17,9 +19,32 @@ in {
   networking.hostName = "or3";
   networking.nftables.inputAccept = ''
     tcp dport { 80, 443 } accept
+    udp dport ${builtins.toString wg0.peers.or3.endpointPort} accept comment "wireguard"
     udp dport { 21027, 22000 } accept comment "syncthing udp"
     tcp dport 22000 accept comment "syncthing tcp"
   '';
+
+  systemd.network.netdevs."25-wg0" = {
+    enable = true;
+    netdevConfig = { Name = "wg0"; Kind = "wireguard"; };
+    wireguardConfig = {
+      PrivateKeyFile = config.sops.secrets.wireguard_key.path;
+      ListenPort = wg0.peers.or3.endpointPort;
+    };
+    wireguardPeers = [
+      {
+        wireguardPeerConfig = {
+          AllowedIPs = [ "0.0.0.0/0" "::/0" ];
+          PublicKey = wg0.pubkey;
+        };
+      }
+    ];
+  };
+  systemd.network.networks."25-wg0" = {
+    enable = true;
+    name = "wg0";
+    address = [ "${wg0.peers.or3.ip}/${builtins.toString wg0.mask}" ];
+  };
 
   home-manager.users.rvfg = import ./home.nix;
 
