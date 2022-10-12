@@ -2,6 +2,7 @@
 with lib;
 let
   sshPub = import ../lib/ssh-pubkeys.nix;
+  wg0 = import ../lib/wg0.nix;
 in {
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
@@ -70,15 +71,13 @@ in {
     knownHosts = builtins.listToAttrs (map (host: {
       name = host;
       value = {
-        hostNames = [ "${host}.rvf6.com" ];
+        extraHostNames = [ "${host}.rvf6.com" ];
         publicKey = sshPub."${host}";
       };
-    }) [ "nl" "az" "or1" "or2" "or3" ]) // {
-      rpi3 = {
-        hostNames = [ "10.6.6.1" ];
-        publicKey = sshPub.rpi3;
-      };
-    };
+    }) [ "nl" "az" "or1" "or2" "or3" ]) // builtins.listToAttrs (map (host: {
+      name = host;
+      value.publicKey = sshPub."${host}";
+    }) [ "owrt" "rpi3" "t430" "k2" "k1" "work" ]);
   };
 
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];

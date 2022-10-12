@@ -16,7 +16,10 @@ in {
     home.file = builtins.listToAttrs (map (key: {
       name = ".ssh/id_${key}.pub";
       value.text = sshPub."${key}";
-    }) keys);
+    }) keys) // builtins.listToAttrs (map (host: {
+      name = ".ssh/known_hosts_${host}_init";
+      value.text = "${host} ${sshPub."${host}-init"}";
+    }) [ "rpi3" "t430" ]);
 
     programs.ssh = {
       enable = true;
@@ -41,7 +44,20 @@ in {
           identityFile = sshIdentities;
           forwardAgent = true;
         };
-      }) [ "nl" "az" "or1" "or2" ]) // {
+      }) [ "nl" "az" "or1" "or2" ]) // builtins.listToAttrs (map (host: {
+        name = host;
+        value = {
+          user = "root";
+          identityFile = sshIdentities;
+        };
+      }) [ "k2" "k1" ]) // builtins.listToAttrs (map (host: {
+        name = "${host}-init";
+        value = {
+          user = "root";
+          identityFile = sshIdentities;
+          extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_${host}_init";
+        };
+      }) [ "rpi3" "t430" ]) // {
         "github.com" = {
           identityFile = sshIdentities;
         };
