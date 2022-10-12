@@ -71,13 +71,10 @@ in {
     knownHosts = builtins.listToAttrs (map (host: {
       name = host;
       value = {
-        extraHostNames = [ "${host}.rvf6.com" ];
+        hostNames = [ "${host}.rvf6.com" ];
         publicKey = sshPub."${host}";
       };
-    }) [ "nl" "az" "or1" "or2" "or3" ]) // builtins.listToAttrs (map (host: {
-      name = host;
-      value.publicKey = sshPub."${host}";
-    }) [ "owrt" "rpi3" "t430" "k2" "k1" "work" ]);
+    }) [ "nl" "az" "or1" "or2" "or3" "owrt" "rpi3" "t430" "k2" "k1" "work" ]);
   };
 
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];

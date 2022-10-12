@@ -18,7 +18,7 @@ in {
       value.text = sshPub."${key}";
     }) keys) // builtins.listToAttrs (map (host: {
       name = ".ssh/known_hosts_${host}_init";
-      value.text = "${host} ${sshPub."${host}-init"}";
+      value.text = "${host}.rvf6.com ${sshPub."${host}-init"}";
     }) [ "rpi3" "t430" ]);
 
     programs.ssh = {
@@ -36,7 +36,7 @@ in {
           identityFile = sshIdentities;
           forwardAgent = true;
         };
-      }) [ "or3" ]) // builtins.listToAttrs (map (host: {
+      }) [ "or3" "owrt" "rpi3" "t430" "k2" "k1" "work" ]) // builtins.listToAttrs (map (host: {
         name = host;
         value = {
           user = "duama";
@@ -48,12 +48,14 @@ in {
         name = host;
         value = {
           user = "root";
+          hostname = "${host}.rvf6.com";
           identityFile = sshIdentities;
         };
       }) [ "k2" "k1" ]) // builtins.listToAttrs (map (host: {
         name = "${host}-init";
         value = {
           user = "root";
+          hostname = "${host}.rvf6.com";
           identityFile = sshIdentities;
           extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_${host}_init";
         };

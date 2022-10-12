@@ -71,10 +71,10 @@ in {
   ];
   services.smartdns.chinaDns = [ "192.168.2.1" ];
   services.smartdns.settings.address = with builtins;
-    attrValues (mapAttrs (name: value: "/${name}/${value.ip}") wg0.peers) ++ [
-      "/rpi3/${wg0.gateway}"
-      "/owrt/192.168.2.1"
-      "/t430/192.168.2.8"
+    attrValues (mapAttrs (name: value: "/${name}.rvf6.com/${value.ip}") wg0.peers) ++ [
+      "/rpi3.rvf6.com/${wg0.gateway}"
+      "/owrt.rvf6.com/192.168.2.1"
+      "/t430.rvf6.com/192.168.2.8"
     ];
 
   home-manager.users.rvfg = import ./home.nix;
