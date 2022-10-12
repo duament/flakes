@@ -36,7 +36,7 @@ in {
           identityFile = sshIdentities;
           forwardAgent = true;
         };
-      }) [ "or3" "owrt" "rpi3" "t430" "k2" "k1" "work" ]) // builtins.listToAttrs (map (host: {
+      }) [ "or3" "rpi3" "t430" "work" ]) // builtins.listToAttrs (map (host: {
         name = host;
         value = {
           user = "duama";
@@ -51,7 +51,7 @@ in {
           hostname = "${host}.rvf6.com";
           identityFile = sshIdentities;
         };
-      }) [ "k2" "k1" ]) // builtins.listToAttrs (map (host: {
+      }) [ "owrt" "k2" "k1" ]) // builtins.listToAttrs (map (host: {
         name = "${host}-init";
         value = {
           user = "root";
