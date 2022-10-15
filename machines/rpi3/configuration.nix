@@ -47,7 +47,7 @@ in {
     enable = true;
     name = "wg0";
     address = [ wg0.gatewaySubnet ];
-    networkConfig = { DHCPv6PrefixDelegation = true; };
+    networkConfig = { DHCPPrefixDelegation = true; };
     linkConfig = { RequiredForOnline = false; };
   };
   services.wireguardDynamicIPv6.interfaces = [ "wg0" ];
