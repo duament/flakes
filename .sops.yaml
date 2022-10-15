@@ -6,6 +6,7 @@ keys:
   - &desktop age1y6fkn5p6x5zr6rw9r8p5urz0gnhuqqwup0g69hpf4wtuhv4sty3qe7zpu4
   - &t430 age1nprdnw6pdhstfll7hy8jv74evy2kajr257hc7p9jhe446l5xz52qej7y0v
   - &or3 age1t7fpg9m0n5cg5vz0fypltc6c7py548uhpyp8f37hmdnq2j73ky9s6cvhgr
+  - &az age1tpln8534w0ttdp7sd7tf3zeyr3m4w707dakt8kgm8j8c9r0vhyjqhae023
 creation_rules:
   - path_regex: modules/shadowsocks/.*
     key_groups:
@@ -56,3 +57,10 @@ creation_rules:
       age:
       - *admin_age
       - *or3
+  - path_regex: machines/az/.*
+    key_groups:
+    - pgp:
+      - *admin_pgp
+      age:
+      - *admin_age
+      - *az

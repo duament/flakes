@@ -36,6 +36,12 @@ rec {
       endpointAddr = "or3.rvf6.com";
       endpointPort = 11111;
     };
+    az = {
+      ip = "${addrPre}24";
+      pubkey = "K8CvTzxt9fEatQzYkhdxuxKfNrCQ/XXVhI2vLlRnESE=";
+      endpointAddr = "az.rvf6.com";
+      endpointPort = 11111;
+    };
   };
   peerConfigs = map (peer: {
     wireguardPeerConfig = {
