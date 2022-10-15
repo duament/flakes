@@ -4,6 +4,10 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
+  boot.kernelParams = [
+    "console=ttyS0,115200n8"
+    "earlyprintk=ttyS0,115200"
+  ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-label/system";
