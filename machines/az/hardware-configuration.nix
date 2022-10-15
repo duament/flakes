@@ -26,7 +26,16 @@
       fsType = "vfat";
     };
 
-  swapDevices = [ ];
+  fileSystems."/mnt/resource" =
+    { device = "/dev/disk/by-label/resource";
+      fsType = "ext4";
+      options = [ "nofail" "x-systemd.automount" ];
+    };
+
+  swapDevices = [{
+    device = "/mnt/resource/swapfile";
+    options = [ "nofail" "x-systemd.automount" ];
+  }];
 
   virtualisation.hypervGuest.enable = true;
 }
