@@ -57,9 +57,10 @@ in {
     key = config.sops.secrets."syncthing/key".path;
     devices = lib.getAttrs [ "desktop" "xiaoxin" ] st.devices;
     folders = {
-      music = {
+      keepass = {
         id = "xudus-kdccy";
         label = "KeePass";
+        path = "${config.services.syncthing.dataDir}/KeePass";
         devices = [ "desktop" "xiaoxin" ];
         versioning = {
           type = "staggered";
