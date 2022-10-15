@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   host = "az";
   wg0 = import ../../lib/wg0.nix;
@@ -95,20 +95,22 @@ in {
     port = 13926;
   };
 
-  services.traefik = {
+  security.acme.acceptTerms = true;
+  security.acme.defaults.email = "le@rvf6.com";
+  services.nginx = {
     enable = true;
-    dynamicConfigOptions.http = {
-      routers = {
-        ete = {
-          rule = "Host(`ete.rvf6.com`)";
-          service = "ete";
-        };
-      };
-      services = {
-        ete.loadBalancer = let
-          cfg = config.services.etebase-server;
-        in {
-          servers = [ { url = "http://127.0.0.1:${builtins.toString cfg.port}"; } ];
+    package = pkgs.nginxMainline;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+    virtualHosts = {
+      "ete.rvf6.com" = {
+        forceSSL = true;
+        enableACME = true;
+        extraConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${builtins.toString config.services.etebase-server.port}";
         };
       };
     };
