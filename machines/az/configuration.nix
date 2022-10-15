@@ -56,13 +56,13 @@ in {
     enable = true;
     cert = config.sops.secrets."syncthing/cert".path;
     key = config.sops.secrets."syncthing/key".path;
-    devices = lib.getAttrs [ "desktop" "xiaoxin" ] st.devices;
+    devices = lib.getAttrs [ "desktop" "xiaoxin" "iphone" ] st.devices;
     folders = {
       keepass = {
         id = "xudus-kdccy";
         label = "KeePass";
         path = "${config.services.syncthing.dataDir}/KeePass";
-        devices = [ "desktop" "xiaoxin" ];
+        devices = [ "desktop" "xiaoxin" "iphone" ];
         versioning = {
           type = "staggered";
           params.cleanInterval = "3600";
