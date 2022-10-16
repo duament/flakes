@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./browser.nix
     ./common.nix
     ./fish.nix
     ./fzf

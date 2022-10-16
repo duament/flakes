@@ -10,6 +10,7 @@ with lib;
 
   config = mkIf config.presets.workstation.enable {
     presets.ssh.enable = true;
+    presets.browser.enable = true;
 
     home.packages = with pkgs; [
       ncdu
@@ -34,13 +35,6 @@ with lib;
     };
 
     programs.gpg.enable = true;
-
-    programs.firefox = {
-      enable = true;
-      package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-        forceWayland = true;
-      };
-    };
 
     programs.mpv = {
       enable = true;
