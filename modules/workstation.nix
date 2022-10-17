@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 with lib;
 {
   options = {
@@ -36,5 +36,15 @@ with lib;
 
     services.pcscd.enable = true;
     programs.gnupg.agent.enable = true;
+
+    fonts.fonts = with pkgs; [ inter hack-font noto-fonts noto-fonts-cjk-sans noto-fonts-cjk-serif ];
+    fonts.fontconfig = {
+      defaultFonts = {
+        monospace = [ "Hack" ];
+        sansSerif = [ "Inter" "Noto Sans CJK SC" ];
+        serif = [ "Noto Serif" "Noto Serif CJK SC" ];
+      };
+      subpixel.lcdfilter = "none";
+    };
   };
 }
