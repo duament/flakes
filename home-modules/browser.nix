@@ -85,7 +85,7 @@ with lib;
           "layers.acceleration.force-enabled" = true;
           "media.autoplay.default" = 5;
           "media.eme.enabled" = false;
-          "network.http.referer.XOriginPolicy" = 2;
+          "network.http.referer.XOriginPolicy" = 1;
           "privacy.donottrackheader.enabled" = true;
           "privacy.trackingprotection.enabled" = true;
           "privacy.trackingprotection.pbmode.enabled" = true;
