@@ -3,6 +3,7 @@
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
+    ./chromium.nix
     ./common.nix
     ./nftables
     ./nogui.nix

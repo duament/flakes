@@ -10,6 +10,7 @@ with lib;
 
   config = mkIf config.presets.workstation.enable {
     presets.ssh-agent.enable = true;
+    presets.chromium.enable = true;
 
     hardware.enableRedistributableFirmware = true;
 

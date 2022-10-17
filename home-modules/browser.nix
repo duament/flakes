@@ -47,6 +47,10 @@ with lib;
               installation_mode = "force_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi";
             };
+            "headereditor-amo@addon.firefoxcn.net" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/header-editor/latest.xpi";
+            };
           };
         };
       };
@@ -97,8 +101,6 @@ with lib;
     programs.chromium = {
       enable = true;
       commandLineArgs = [ ];
-      extensions = [
-      ];
     };
   };
 }
