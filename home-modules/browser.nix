@@ -52,6 +52,39 @@ with lib;
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/header-editor/latest.xpi";
             };
           };
+          "3rdparty".Extensions."uBlock0@raymondhill.net".adminSettings = let
+            LegitimateURLShortener = "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt";
+          in {
+            userSettings = {
+              externalLists = LegitimateURLShortener;
+              importedLists = [ LegitimateURLShortener ];
+            };
+            selectedFilterLists = [
+              "user-filters"
+              "ublock-filters"
+              "ublock-badware"
+              "ublock-privacy"
+              "ublock-quick-fixes"
+              "ublock-abuse"
+              "ublock-unbreak"
+              "easylist"
+              "adguard-spyware"
+              "adguard-spyware-url"
+              "easyprivacy"
+              "urlhaus-1"
+              "adguard-annoyance"
+              "fanboy-annoyance"
+              "ublock-annoyances"
+              "plowe-0"
+              "CHN-0"
+              "JPN-1"
+              LegitimateURLShortener
+            ];
+            userFilters = ''
+              bilibili.com##.unlogin-popover-avatar:xpath(..)
+              bilibili.com##.login-panel-popover:xpath(..)
+            '';
+          };
         };
       };
       profiles.default = {
