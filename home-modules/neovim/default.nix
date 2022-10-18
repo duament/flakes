@@ -10,6 +10,7 @@
       cmp-buffer
       cmp-path
       editorconfig-nvim
+      indent-blankline-nvim
       lualine-lsp-progress
       lualine-nvim
       luasnip
