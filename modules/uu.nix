@@ -138,5 +138,6 @@ in {
         };
       };
     };
+    systemd.services."container@uu".environment.SYSTEMD_NSPAWN_UNIFIED_HIERARCHY = "1";
   };
 }
