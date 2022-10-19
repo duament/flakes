@@ -92,6 +92,7 @@ in {
             type = "static";
             address = "10.6.7.2/24";
             gateway = "10.6.7.1";
+            dns = "192.168.2.1";
           };
           lan = {
             interfaces = [ vlan "simns" ];
@@ -134,10 +135,8 @@ in {
             RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
             PrivateNetwork = false;
             PrivateUsers = false;
-            DeviceAllow = [ "/dev/net/tun rw" ];
-            StateDirectory = "%N";
-            WorkingDirectory = "%S/%N";
-            BindReadOnlyPaths = "";
+            DeviceAllow = [ "/dev/net/tun rwm" ];
+            BindReadOnlyPaths = [ "/proc/net" "/proc/sys/kernel/random/uuid" ];
             PIDFile = "/run/uuplugin.pid";
             ExecStartPre = "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'";
             ExecStart = "${uu}/uuplugin ${uu}/uu.conf";

@@ -105,8 +105,11 @@ in {
     };
 
     networking.nftables.inputAccept = ''
-      meta nfproto ipv4 udp dport 67 accept comment "DHCP server"
+      iifname ${cfg.lan.bridge.name} meta l4proto { tcp, udp } th dport 53 accept comment "DNS"
+      iifname ${cfg.lan.bridge.name} meta nfproto ipv4 udp dport 67 accept comment "DHCP server"
     '';
-    networking.nftables.forwardAccept = concatStringsSep "\n" (map (i: "iifname ${i} oifname ${cfg.wan.interface} accept") cfg.lan.interfaces);
+    networking.nftables.forwardAccept = ''
+      iifname ${cfg.lan.bridge.name} oifname ${cfg.wan.interface} accept
+    '';
   };
 }
