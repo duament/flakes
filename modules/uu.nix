@@ -1,11 +1,10 @@
-{ config, inputs, lib, pkgs, self, ... }:
+{ config, inputs, lib, pkgs, ... }:
 with lib;
 let
   cfg = config.services.uu;
 
   vlan = "gaming";
-  vethHost = "ve-uu";
-  vethContainer = "ve-uu";
+  veth = "ve-uu";
 in {
   options = {
     services.uu.enable = mkOption {
@@ -20,8 +19,8 @@ in {
       netdevConfig = { Name = vlan; Kind = "vlan"; };
       vlanConfig = { Id = 2; };
     };
-    systemd.network.networks."50-${vethHost}" = {
-      name = vethHost;
+    systemd.network.networks."50-${veth}" = {
+      name = veth;
       address = [ "10.6.7.1/24" ];
     };
     systemd.network.networks."50-simns" = {
@@ -48,27 +47,27 @@ in {
         {
           routingPolicyRuleConfig = {
             To = "10.6.8.0/24";
+            Table = 10;
           };
         }
       ];
     };
 
     networking.nftables.forwardAccept = ''
-      iifname ${vethHost} accept
+      iifname ${veth} accept
     '';
-    networking.nftables.masquerade = [ "iifname ${vethHost}" ];
+    networking.nftables.masquerade = [ "iifname ${veth}" ];
 
     containers.uu = {
       autoStart = true;
       enableTun = true;
       ephemeral = true;
       privateNetwork = true;
-      extraVeths."ve-uu" = {};
+      extraVeths.${veth} = {};
       extraVeths.simns = {};
       interfaces = [ vlan ];
       config = { ... }: {
         imports = [
-          #self.nixosModules.myModules
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
           ./common.nix
@@ -78,6 +77,9 @@ in {
         ];
         networking.hostName = "uu";
         networking.useHostResolvConf = false;
+        networking.nftables.inputAccept = ''
+          iifname ${config.presets.router.lan.bridge.name} tcp dport 16363 accept comment "uu"
+        '';
         networking.nftables.forwardAccept = ''
           iifname "tun*" oifname ${config.presets.router.lan.bridge.name} accept
           iifname ${config.presets.router.lan.bridge.name} oifname "tun*" accept
@@ -86,7 +88,7 @@ in {
         presets.router = {
           enable = true;
           wan = {
-            interface = vethContainer;
+            interface = veth;
             type = "static";
             address = "10.6.7.2/24";
             gateway = "10.6.7.1";
@@ -132,6 +134,11 @@ in {
             RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
             PrivateNetwork = false;
             PrivateUsers = false;
+            DeviceAllow = [ "/dev/net/tun rw" ];
+            StateDirectory = "%N";
+            WorkingDirectory = "%S/%N";
+            BindReadOnlyPaths = "";
+            PIDFile = "/run/uuplugin.pid";
             ExecStartPre = "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'";
             ExecStart = "${uu}/uuplugin ${uu}/uu.conf";
           };
