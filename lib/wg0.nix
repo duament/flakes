@@ -33,13 +33,13 @@ rec {
     or3 = {
       ip = "${addrPre}23";
       pubkey = "60W+Pr5CKSpiJ1tY8Dnz+D/vD+r0au3exf3NgZ5DMVM=";
-      endpointAddr = "or3.rvf6.com";
+      endpointAddr = "[2603:c020:2:8c00:79ea:4095:6b07:144d]"; # or3.rvf6.com
       endpointPort = 11111;
     };
     az = {
       ip = "${addrPre}24";
       pubkey = "K8CvTzxt9fEatQzYkhdxuxKfNrCQ/XXVhI2vLlRnESE=";
-      endpointAddr = "az.rvf6.com";
+      endpointAddr = "104.208.105.145"; # az.rvf6.com
       endpointPort = 11111;
     };
   };
