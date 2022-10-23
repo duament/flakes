@@ -8,6 +8,13 @@ keys:
   - &or3 age1t7fpg9m0n5cg5vz0fypltc6c7py548uhpyp8f37hmdnq2j73ky9s6cvhgr
   - &az age1tpln8534w0ttdp7sd7tf3zeyr3m4w707dakt8kgm8j8c9r0vhyjqhae023
 creation_rules:
+  - path_regex: lib/clash.secrets
+    key_groups:
+    - pgp:
+      - *admin_pgp
+      age:
+      - *admin_age
+      - *desktop
   - path_regex: modules/shadowsocks/.*
     key_groups:
     - pgp:

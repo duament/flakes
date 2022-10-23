@@ -5,6 +5,10 @@
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets."sbsign-key" = {};
   sops.secrets."sbsign-cert" = {};
+  sops.secrets."clash" = {
+    format = "binary";
+    sopsFile = ../../lib/clash.secrets;
+  };
 
   boot.loader = {
     efi.efiSysMountPoint = "/efi";
@@ -48,7 +52,6 @@
 
   home-manager.users.rvfg = import ./home.nix;
 
-  environment.systemPackages = with pkgs; [
-    clash
-  ];
+  services.clash.enable = true;
+  services.clash.configFile = config.sops.secrets.clash.path;
 }
