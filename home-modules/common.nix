@@ -6,7 +6,6 @@
     file
     mtr
     sops
-    tcpdump
     unar
   ];
 

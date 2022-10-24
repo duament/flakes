@@ -18,6 +18,11 @@ in {
     ];
   };
 
+  environment.systemPackages = [
+    compsize
+    tcpdump
+  ];
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.systemd-boot.editor = mkDefault false;
   boot.loader.timeout = mkDefault 2;

@@ -11,7 +11,6 @@ in {
 
   home.packages = with pkgs; [
     checksec
-    compsize
     gcc
     gdb
     ncdu
