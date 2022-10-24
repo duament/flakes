@@ -39,14 +39,28 @@ with lib;
 
     fonts = {
       enableDefaultFonts = false;
-      fonts = with pkgs; [ inter hack-font noto-fonts noto-fonts-cjk-sans noto-fonts-cjk-serif noto-fonts-emoji ];
+      fonts = with pkgs; mkForce [ inter source-serif hack-font noto-fonts-cjk-sans noto-fonts-cjk-serif noto-fonts-emoji ];
       fontconfig = {
         defaultFonts = {
           monospace = [ "Hack" ];
           sansSerif = [ "Inter" "Noto Sans CJK SC" ];
-          serif = [ "Noto Serif" "Noto Serif CJK SC" ];
+          serif = [ "Source Serif" "Noto Serif CJK SC" ];
         };
         subpixel.lcdfilter = "none";
+        localConf = ''
+          <?xml version="1.0"?>
+          <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+          <fontconfig>
+
+            <alias>
+              <family>Source Code Pro</family>
+              <prefer>
+                <family>Hack</family>
+              </prefer>
+            </alias>
+
+          </fontconfig>
+        '';
       };
     };
   };
