@@ -22,7 +22,7 @@ in {
       serviceConfig = import ../lib/systemd-harden.nix // {
         StateDirectory = "%N";
         LoadCredential = "clash.conf:${cfg.configFile}";
-        ExecStart = "${pkgs.clash}/bin/clash -d %S/%N -f $CREDENTIALS_DIRECTORY/clash.conf";
+        ExecStart = "${pkgs.clash}/bin/clash -d %S/%N -f \${CREDENTIALS_DIRECTORY}/clash.conf";
         PrivateNetwork = false;
       };
     };
