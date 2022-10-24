@@ -1,5 +1,13 @@
 { pkgs, ... }:
-{
+let luaConfig = pkgs.substituteAll {
+  src = ./nvim.lua;
+  clangd = "${pkgs.clang}/bin/clangd";
+  gopls = "${pkgs.gopls}/bin/gopls";
+  rust_analyzer = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+  rnix_lsp = "${pkgs.rnix-lsp}/bin/rnix-lsp";
+  beancount_language_server = "${pkgs.beancount-language-server}/bin/beancount-language-server";
+};
+in {
   programs.neovim = {
     enable = true;
     vimAlias = true;
@@ -43,10 +51,7 @@
       ))
     ];
     extraConfig = ''
-      lua << EOT
-      ${builtins.readFile ./nvim.lua}
-      EOT
-
+      luafile ${luaConfig}
       colorscheme onenord
     '';
   };

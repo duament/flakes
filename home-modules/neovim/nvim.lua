@@ -56,12 +56,11 @@ cmp.setup({
       luasnip.lsp_expand(args.body)
     end,
   },
-  mapping = cmp.mapping.preset.insert({
+  mapping = {
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -82,7 +81,7 @@ cmp.setup({
         fallback()
       end
     end, { "i", "s" }),
-  }),
+  },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
@@ -126,11 +125,33 @@ local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,
 }
-require('lspconfig')['pyright'].setup{
+require('lspconfig')['pylsp'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
+    cmd = { "pylsp" },
 }
 require('lspconfig')['clangd'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
+    cmd = { "@clangd@" },
+}
+require('lspconfig')['gopls'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    cmd = { "@gopls@" },
+}
+require('lspconfig')['rust_analyzer'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    cmd = { "@rust_analyzer@" },
+}
+require('lspconfig')['rnix'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    cmd = { "@rnix_lsp@" },
+}
+require('lspconfig')['beancount'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    cmd = { "@beancount_language_server@", "--stdio" },
 }
