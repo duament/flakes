@@ -11,6 +11,7 @@ with lib;
   config = mkIf config.presets.workstation.enable {
     presets.ssh.enable = true;
     presets.browser.enable = true;
+    presets.python.enable = true;
 
     home.packages = with pkgs; [
       ncdu

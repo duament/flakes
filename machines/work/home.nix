@@ -7,6 +7,7 @@ in {
   ];
 
   presets.ssh.enable = true;
+  presets.python.enable = true;
 
   home.packages = with pkgs; [
     checksec
@@ -14,7 +15,6 @@ in {
     gcc
     gdb
     ncdu
-    python3
     wireguard-tools
   ];
 

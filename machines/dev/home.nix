@@ -1,14 +1,10 @@
 { pkgs, self, ... }:
-let
-  my-python-packages = python-packages: with python-packages; [
-    ipython
-    requests
-  ];
-  python-with-my-packages = pkgs.python3.withPackages my-python-packages;
-in {
+{
   imports = [
     self.nixosModules.myHomeModules
   ];
+
+  presets.python.enable = true;
 
   home.username = "ruifeng.ma";
   home.homeDirectory = "/home/ruifeng.ma";
