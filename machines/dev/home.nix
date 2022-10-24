@@ -25,7 +25,6 @@
     ncdu
     openssl
     procps
-    python-with-my-packages
     strace
     util-linux
   ];
