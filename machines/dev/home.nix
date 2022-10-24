@@ -6,6 +6,13 @@
 
   presets.python.enable = true;
 
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = [
+      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+    ];
+  };
+
   home.username = "ruifeng.ma";
   home.homeDirectory = "/home/ruifeng.ma";
 
