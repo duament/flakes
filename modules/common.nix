@@ -18,7 +18,7 @@ in {
     ];
   };
 
-  environment.systemPackages = [
+  environment.systemPackages = with pkgs; [
     compsize
     tcpdump
   ];
