@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let luaConfig = pkgs.substituteAll {
   src = ./nvim.lua;
-  clangd = "${pkgs.clang}/bin/clangd";
+  clangd = "${pkgs.clang-tools}/bin/clangd";
   gopls = "${pkgs.gopls}/bin/gopls";
   rust_analyzer = "${pkgs.rust-analyzer}/bin/rust-analyzer";
   rnix_lsp = "${pkgs.rnix-lsp}/bin/rnix-lsp";
