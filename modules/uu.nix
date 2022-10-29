@@ -25,7 +25,7 @@ in {
     };
     systemd.network.networks."50-simns" = {
       name = "simns";
-      linkConfig = { MACAddress = "CC:5B:31:2F:BE:AD"; };
+      linkConfig = { MACAddress = "CC:5B:31:2F:BE:AE"; };
       networkConfig = { IPv6AcceptRA = false; };
       DHCP = "ipv4";
       dhcpV4Config = {
@@ -66,7 +66,7 @@ in {
       extraVeths.${veth} = {};
       extraVeths.simns = {};
       interfaces = [ vlan ];
-      config = { ... }: {
+      config = { config, ... }: {
         imports = [
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
@@ -78,7 +78,8 @@ in {
         networking.hostName = "uu";
         networking.useHostResolvConf = false;
         networking.nftables.inputAccept = ''
-          iifname ${config.presets.router.lan.bridge.name} tcp dport 16363 accept comment "uu"
+          iifname ${config.presets.router.lan.bridge.name} meta l4proto { tcp, udp } th dport 10000-65535 accept comment "uu"
+          iifname "tun*" accept comment "uu"
         '';
         networking.nftables.forwardAccept = ''
           iifname "tun*" oifname ${config.presets.router.lan.bridge.name} accept
@@ -100,7 +101,7 @@ in {
             staticLeases = [
               {
                 dhcpServerStaticLeaseConfig = { # simns
-                  MACAddress = "CC:5B:31:2F:BE:AD";
+                  MACAddress = "CC:5B:31:2F:BE:AE";
                   Address = "10.6.8.2";
                 };
               }
@@ -125,18 +126,23 @@ in {
             hash = "sha256-79EIuoFs9kVbO/WF5qohNXbHUQdtDkwBBNP6DPyaSBY=";
             stripRoot = false;
           };
+          uupluginUUID = pkgs.writeText "uuplugin_uuid" "78ed0c77-ef23-46ee-b242-6b09796ff95a";
         in {
           after = [ "network-online.target" ];
           wantedBy = [ "multi-user.target" ];
-          path = [ pkgs.iptables ];
+          path = [ pkgs.iproute2 pkgs.nettools pkgs.iptables ];  # ip ifconfig iptables
           serviceConfig = import ../lib/systemd-harden.nix // {
             AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
             CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
-            RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+            RestrictAddressFamilies = "";
             PrivateNetwork = false;
             PrivateUsers = false;
+            PrivateDevices = false;
+            ProcSubset = "all";
             DeviceAllow = [ "/dev/net/tun rwm" ];
-            BindReadOnlyPaths = [ "/proc/net" "/proc/sys/kernel/random/uuid" ];
+            StateDirectory = "%N";
+            WorkingDirectory = "%S/%N";
+            BindReadOnlyPaths = "${uupluginUUID}:%S/%N/.uuplugin_uuid";
             PIDFile = "/run/uuplugin.pid";
             ExecStartPre = "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'";
             ExecStart = "${uu}/uuplugin ${uu}/uu.conf";
