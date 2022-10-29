@@ -87,7 +87,6 @@ in {
         networkConfig = {
           DHCPServer = true;
           IPForward = "ipv4";
-          IPMasquerade = "ipv4";
         };
         dhcpServerConfig = { DNS = "_server_address"; };
         dhcpServerStaticLeases = cfg.lan.staticLeases;
@@ -111,5 +110,8 @@ in {
     networking.nftables.forwardAccept = ''
       iifname ${cfg.lan.bridge.name} oifname ${cfg.wan.interface} accept
     '';
+    networking.nftables.masquerade = [
+      "iifname ${cfg.lan.bridge.name} oifname ${cfg.wan.interface}"
+    ];
   };
 }
