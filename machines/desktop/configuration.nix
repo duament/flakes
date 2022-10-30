@@ -52,6 +52,8 @@
 
   home-manager.users.rvfg = import ./home.nix;
 
+  systemd.tmpfiles.rules = [ "L+ /run/gdm/.config/monitors.xml - - - - ${./monitors.xml}" ];
+
   services.clash.enable = true;
   services.clash.configFile = config.sops.secrets.clash.path;
 }
