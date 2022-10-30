@@ -57,6 +57,11 @@ in {
       type = types.int;
       default = 1;
     };
+
+    networking.warp.extraMarkRules = mkOption {
+      type = types.lines;
+      default = "";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -91,6 +96,7 @@ in {
           ip6 daddr @special_ipv6 accept
           ip daddr @china_ipv4 accept
           ip6 daddr @china_ipv6 accept
+          ${cfg.extraMarkRules}
           mark 0 mark set ${builtins.toString cfg.routeMark}
         }
 
