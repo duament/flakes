@@ -11,10 +11,15 @@ in {
       type = types.bool;
       default = false;
     };
+
+    services.uu.wanName = mkOption {
+      type = types.str;
+      default = "80-ethernet";
+    };
   };
 
   config = mkIf cfg.enable {
-    systemd.network.networks."80-ethernet".vlan = [ vlan ];
+    systemd.network.networks.${cfg.wanName}.vlan = [ vlan ];
     systemd.network.netdevs."50-${vlan}" = {
       netdevConfig = { Name = vlan; Kind = "vlan"; };
       vlanConfig = { Id = 2; };
