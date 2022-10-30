@@ -38,9 +38,14 @@ in {
       default = "0x0";
     };
 
+    networking.warp.keyFile = mkOption {
+      type = types.str;
+      default = config.sops.secrets.warp_key.path;
+    };
+
     networking.warp.pubkey = mkOption {
       type = types.str;
-      default = "";
+      default = "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=";
     };
 
     networking.warp.address = mkOption {
@@ -104,7 +109,7 @@ in {
     systemd.network.netdevs."25-warp" = {
       netdevConfig = { Name = "warp"; Kind = "wireguard"; };
       wireguardConfig = {
-        PrivateKeyFile = config.sops.secrets.warp_key.path;
+        PrivateKeyFile = cfg.keyFile;
         FirewallMark = cfg.mark;
         RouteTable = cfg.table;
       };
