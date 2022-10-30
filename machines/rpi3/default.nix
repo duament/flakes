@@ -5,6 +5,5 @@
     self.nixosModules.myModules
     ./hardware-configuration.nix
     ./configuration.nix
-    ./ns.nix
   ];
 }
