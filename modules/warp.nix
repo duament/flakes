@@ -121,7 +121,7 @@ in {
       netdevConfig = {
         Name = "warp";
         Kind = "wireguard";
-        MTUBytes = cfg.mtu;
+        MTUBytes = toString cfg.mtu;
       };
       wireguardConfig = {
         PrivateKeyFile = cfg.keyFile;
