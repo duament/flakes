@@ -24,6 +24,11 @@ in {
       default = "${cfg.endpointAddr}:${builtins.toString cfg.endpointPort}";
     };
 
+    networking.warp.mtu = mkOption {
+      type = types.int;
+      default = 1420;
+    };
+
     networking.warp.mark = mkOption {
       type = types.int;
       default = 1;
@@ -113,7 +118,11 @@ in {
     '';
 
     systemd.network.netdevs."25-warp" = {
-      netdevConfig = { Name = "warp"; Kind = "wireguard"; };
+      netdevConfig = {
+        Name = "warp";
+        Kind = "wireguard";
+        MTUBytes = cfg.mtu;
+      };
       wireguardConfig = {
         PrivateKeyFile = cfg.keyFile;
         FirewallMark = cfg.mark;

@@ -62,6 +62,7 @@ in {
   networking.warp = {
     enable = true;
     endpointAddr = "162.159.193.1";
+    mtu = 1412;
     mark = 3;
     routingId = "0xac1789";
     keyFile = config.sops.secrets.warp_key.path;
