@@ -98,4 +98,15 @@ in {
     mkdir -p /etc/swanctl
     ln -sf ${config.sops.secrets.swanctl.path} /etc/swanctl/swanctl.conf
   '';
+  services.swanctlDynamicIPv6 = {
+    enable = true;
+    prefixInterface = "wg0";
+    suffix = ":1::2";
+    poolName = "iphone_vip6";
+    extraPools = ''
+      iphone_vip {
+        addrs = 10.6.9.2/32
+      }
+    '';
+  };
 }

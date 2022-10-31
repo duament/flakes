@@ -12,6 +12,7 @@
     ./shadowsocks
     ./smartdns.nix
     ./ssh-agent
+    ./swanctl-dynamic-ipv6.nix
     ./traefik.nix
     ./uu.nix
     ./warp.nix
