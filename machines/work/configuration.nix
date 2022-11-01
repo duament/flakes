@@ -95,10 +95,8 @@ in {
 
   services.squid = {
     enable = true;
-    proxyAddress = "0.0.0.0";
+    proxyAddress = "[::]";
     extraConfig = ''
-      acl ip_acl src 192.168.0.0/16
-      http_access allow ip_acl
     '';
   };
 }
