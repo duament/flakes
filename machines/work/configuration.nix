@@ -32,7 +32,7 @@ in {
     DHCP = "no";
     # dhcpV4Config = { SendOption = "50:ipv4address:172.26.0.2"; };
     address = [ "172.26.0.2/24" "fc00::2/64" ];
-    gateway = [ "172.26.0.1" ];
+    gateway = [ "172.26.0.1" "fc00::1" ];
     dns = [ "10.9.231.5" ];
     domains = [ "~enflame.cn" "~h.rvf6.com" ];
   };
@@ -53,13 +53,14 @@ in {
   systemd.network.networks."25-wg0" = {
     enable = true;
     name = "wg0";
-    address = [ "${wg0.peers.work.ip}/32" ];
-    dns = [ wg0.gateway ];
+    address = [ "${wg0.peers.work.ipv4}/24" "${wg0.peers.work.ipv6}/120" ];
+    dns = [ wg0.gateway6 ];
     domains = [ "~." ];
     networkConfig = { DNSDefaultRoute = "yes"; };
     routingPolicyRules = [
       {
         routingPolicyRuleConfig = {
+          Family = "both";
           FirewallMark = wgMark;
           InvertRule = "yes";
           Table = wgTable;
@@ -78,12 +79,27 @@ in {
           Priority = 9;
         };
       }
+      {
+        routingPolicyRuleConfig = {
+          To = "fc00::/64";
+          Priority = 9;
+        };
+      }
     ];
-    routes = [ { routeConfig = {
-      Gateway = wg0.gateway;
-      GatewayOnLink = "yes";
-      Table = wgTable;
-    }; } ];
+    routes = [
+      {
+        routeConfig = {
+          Destination = "0.0.0.0/0";
+          Table = wgTable;
+        };
+      }
+      {
+        routeConfig = {
+          Destination = "::/0";
+          Table = wgTable;
+        };
+      }
+    ];
   };
   services.wireguardReResolve.interfaces = [ "wg0" ];
 

@@ -45,7 +45,7 @@ in {
           fi
         }
 
-        IPV6=$(ip -j -6 a show dev ${cfg.prefixInterface} scope global | jq -r '.[0].addr_info | .[0].local')
+        IPV6=$(ip -j -6 a show dev ${cfg.prefixInterface} scope global | jq -r '.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd").local')
         IPV6_PREFIX=$(get_prefix "$IPV6")
         if [[ -z "$IPV6_PREFIX" ]]; then exit; fi
 
@@ -59,6 +59,7 @@ in {
             ${cfg.extraPools}
             ${cfg.poolName} {
                addrs = $IPV6_PREFIX${cfg.suffix}/128
+               dns = $IPV6_PREFIX::1
             }
           }
         EOF

@@ -26,7 +26,8 @@ in {
     ip protocol { ah, esp } accept
     udp dport { 500, 4500 } accept
     udp dport ${builtins.toString wg0.port} accept comment "wireguard"
-    ip saddr { ${wg0.subnet}, 10.6.9.0/24 } meta l4proto { tcp, udp } th dport 53 accept
+    meta ipsec exists meta l4proto { tcp, udp } th dport 53 accept
+    iifname wg0 meta l4proto { tcp, udp } th dport 53 accept
   '';
   networking.nftables.forwardAccept = ''
     meta ipsec exists accept
@@ -53,8 +54,9 @@ in {
   };
   systemd.network.networks."25-wg0" = {
     name = "wg0";
-    address = [ wg0.gatewaySubnet ];
+    address = [ "${wg0.gateway4}/24" "${wg0.gateway6}/120" ];
     networkConfig = { DHCPPrefixDelegation = true; };
+    dhcpPrefixDelegationConfig = { Token = "::1"; };
     linkConfig = { RequiredForOnline = false; };
   };
   services.wireguardDynamicIPv6.interfaces = [ "wg0" ];
@@ -72,10 +74,14 @@ in {
   };
 
   services.smartdns.chinaDns = [ "192.168.2.1" ];
-  services.smartdns.settings.bind = [ "[::1]:53" "127.0.0.1:53" "${wg0.gateway}:53" ];
+  services.smartdns.settings.bind = [ "[::]:53" ];
   services.smartdns.settings.address = with builtins;
-    attrValues (mapAttrs (name: value: "/${name}.rvf6.com/${value.ip}") wg0.peers) ++ [
-      "/t430.rvf6.com/${wg0.gateway}"
+    concatLists (attrValues (mapAttrs (name: value: [
+      "/${name}.rvf6.com/${value.ipv4}"
+      "/${name}.rvf6.com/${value.ipv6}"
+    ]) wg0.peers)) ++ [
+      "/t430.rvf6.com/${wg0.gateway4}"
+      "/t430.rvf6.com/${wg0.gateway6}"
       "/owrt.rvf6.com/192.168.2.1"
       "/rpi3.rvf6.com/192.168.2.7"
     ];
@@ -84,15 +90,6 @@ in {
   services.uu.wanName = "10-enp1s0";
 
   services.strongswan-swanctl.enable = true;
-  services.strongswan-swanctl.strongswan.extraConfig = ''
-    charon {
-      plugins {
-        attr {
-          dns = ${wg0.gateway}
-        }
-      }
-    }
-  '';
   environment.etc."swanctl/swanctl.conf".enable = false;
   system.activationScripts.strongswan-swanctl-secret-conf = lib.stringAfter ["etc"] ''
     mkdir -p /etc/swanctl
@@ -105,7 +102,8 @@ in {
     poolName = "iphone_vip6";
     extraPools = ''
       iphone_vip {
-        addrs = 10.6.9.2/32
+        addrs = ${wg0.ipv4Pre}254/32
+        dns = ${wg0.gateway4}
       }
     '';
   };

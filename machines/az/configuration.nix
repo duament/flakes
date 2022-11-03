@@ -49,7 +49,7 @@ in {
   systemd.network.networks."25-wg0" = {
     enable = true;
     name = "wg0";
-    address = [ "${wg0.peers.${host}.ip}/${builtins.toString wg0.mask}" ];
+    address = [ "${wg0.peers.${host}.ipv4}/24" "${wg0.peers.${host}.ipv6}/120" ];
   };
 
   home-manager.users.rvfg = import ./home.nix;

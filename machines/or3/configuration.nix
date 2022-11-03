@@ -43,7 +43,7 @@ in {
   systemd.network.networks."25-wg0" = {
     enable = true;
     name = "wg0";
-    address = [ "${wg0.peers.or3.ip}/${builtins.toString wg0.mask}" ];
+    address = [ "${wg0.peers.or3.ipv4}/24" "${wg0.peers.or3.ipv6}/120" ];
   };
 
   home-manager.users.rvfg = import ./home.nix;
