@@ -31,7 +31,7 @@ in {
   systemd.network.networks."80-ethernet" = {
     DHCP = "no";
     # dhcpV4Config = { SendOption = "50:ipv4address:172.26.0.2"; };
-    address = [ "172.26.0.2/24" ];
+    address = [ "172.26.0.2/24" "fc00::2/64" ];
     gateway = [ "172.26.0.1" ];
     dns = [ "10.9.231.5" ];
     domains = [ "~enflame.cn" "~h.rvf6.com" ];
