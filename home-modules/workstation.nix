@@ -16,6 +16,8 @@ with lib;
     home.packages = with pkgs; [
       ncdu
       tdesktop
+      usbutils
+      wireguard-tools
     ];
 
     programs.git = {
