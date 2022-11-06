@@ -76,10 +76,13 @@ in {
     services.smartdns.enable = true;
     services.smartdns.nonChinaDns = [ "1.1.1.1" ];
 
+    networking.nftables.markChinaIP = {
+      enable = true;
+      mark = cfg.routeMark;
+      extraRules = cfg.extraMarkRules;
+    };
     networking.nftables.ruleset = ''
       table inet warp {
-        ${import ../lib/nft-china-ip.nix { inherit lib inputs; }}
-
         chain out {
           type filter hook output priority mangle;
           ip daddr ${cfg.endpointAddr} udp dport ${builtins.toString cfg.endpointPort} @th,72,24 set ${cfg.routingId}
@@ -93,26 +96,6 @@ in {
         chain masq {
           type nat hook postrouting priority srcnat;
           oifname warp masquerade
-        }
-
-        chain mark_warp {
-          fib daddr type local accept
-          ip daddr @special_ipv4 accept
-          ip6 daddr @special_ipv6 accept
-          ip daddr @china_ipv4 accept
-          ip6 daddr @china_ipv6 accept
-          ${cfg.extraMarkRules}
-          mark 0 mark set ${builtins.toString cfg.routeMark}
-        }
-
-        chain mark_warp_pre {
-          type filter hook prerouting priority mangle;
-          goto mark_warp
-        }
-
-        chain mark_warp_out {
-          type route hook output priority mangle;
-          goto mark_warp
         }
       }
     '';
