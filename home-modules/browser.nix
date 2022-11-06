@@ -135,7 +135,9 @@ with lib;
 
     programs.chromium = {
       enable = true;
-      commandLineArgs = [ ];
+      commandLineArgs = [
+        "--ozone-platform-hint=auto"
+      ];
     };
   };
 }
