@@ -22,19 +22,22 @@ in {
   };
 
   networking.hostName = "t430";
-  networking.nftables.inputAccept = ''
-    ip protocol { ah, esp } accept
-    udp dport { 500, 4500 } accept
-    udp dport ${builtins.toString wg0.port} accept comment "wireguard"
-    meta ipsec exists meta l4proto { tcp, udp } th dport 53 accept
-    iifname wg0 meta l4proto { tcp, udp } th dport 53 accept
-  '';
-  networking.nftables.forwardAccept = ''
-    meta ipsec exists accept
-    rt ipsec exists accept
-    iifname wg0 accept
-    oifname wg0 accept
-  '';
+  networking.nftables = {
+    inputAccept = ''
+      ip protocol { ah, esp } accept
+      udp dport { 500, 4500 } accept
+      udp dport ${builtins.toString wg0.port} accept comment "wireguard"
+      meta ipsec exists meta l4proto { tcp, udp } th dport 53 accept
+      iifname wg0 meta l4proto { tcp, udp } th dport 53 accept
+    '';
+    forwardAccept = ''
+      meta ipsec exists accept
+      rt ipsec exists accept
+      iifname wg0 accept
+      oifname wg0 accept
+    '';
+    mssClamping = true;
+  };
 
   home-manager.users.rvfg = import ./home.nix;
 
