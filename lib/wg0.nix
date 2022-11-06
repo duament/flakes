@@ -31,6 +31,11 @@ rec {
       ipv6 = "${ipv6Pre}5";
       pubkey = "XQss9kzHipmjizrqUsBYQltHuj3NvyR8+e0hLRfunQE=";
     };
+    desktop = {
+      ipv4 = "${ipv4Pre}6";
+      ipv6 = "${ipv6Pre}6";
+      pubkey = "K2YNC2GnrCp0ZEozBkY8KPGwPldJ68/dAsz9bwNOiQg=";
+    };
     work = {
       ipv4 = "${ipv4Pre}10";
       ipv6 = "${ipv6Pre}a";
