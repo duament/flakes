@@ -39,7 +39,7 @@ in {
 
   time.timeZone = "Asia/Hong_Kong";
 
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "C.UTF-8";
 
   users.defaultUserShell = pkgs.fish;
   users.users.rvfg = {
