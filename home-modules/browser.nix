@@ -9,8 +9,6 @@ with lib;
   };
 
   config = mkIf config.presets.browser.enable {
-    home.sessionVariables.MOZ_USE_XINPUT2 = "1";
-
     programs.firefox = {
       enable = true;
       package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
