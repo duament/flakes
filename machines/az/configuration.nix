@@ -13,6 +13,7 @@ in {
     "etebase/secret".owner = config.services.etebase-server.user;
     "etebase/postgresql".owner = config.services.etebase-server.user;
     "shadowsocks" = {};
+    "miniflux" = {};
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -92,6 +93,25 @@ in {
     };
   };
 
+  systemd.services.miniflux = {
+    description = "Miniflux";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    environment = {
+      LISTEN_ADDR = "%t/%p/%p";
+      RUN_MIGRATIONS = "1";
+      POLLING_FREQUENCY = "30";
+      POLLING_PARSING_ERROR_LIMIT = "16";
+    };
+    serviceConfig = import ../../lib/systemd-harden.nix // {
+      PrivateNetwork = false;
+      Type = "notify";
+      RuntimeDirectory = "%p";
+      LoadCredential = "miniflux.conf:${config.sops.secrets.miniflux.path}";
+      ExecStart = "${pkgs.miniflux}/bin/miniflux -c \${CREDENTIALS_DIRECTORY}/miniflux.conf";
+    };
+  };
+
   services.shadowsocks = {
     enable = true;
     fastOpen = false;
@@ -101,7 +121,9 @@ in {
 
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "le@rvf6.com";
-  services.nginx = {
+  services.nginx = let
+    hstsConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
+  in {
     enable = true;
     package = pkgs.nginxMainline;
     recommendedGzipSettings = true;
@@ -112,9 +134,17 @@ in {
       "ete.rvf6.com" = {
         forceSSL = true;
         enableACME = true;
-        extraConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
+        extraConfig = hstsConfig;
         locations."/" = {
           proxyPass = "http://127.0.0.1:${builtins.toString config.services.etebase-server.port}";
+        };
+      };
+      "rss.rvf6.com" = {
+        forceSSL = true;
+        enableACME = true;
+        extraConfig = hstsConfig;
+        locations."/" = {
+          proxyPass = "http://unix:/run/miniflux/miniflux:/";
         };
       };
     };
