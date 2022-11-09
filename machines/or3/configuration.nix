@@ -26,7 +26,11 @@ in {
 
   systemd.network.netdevs."25-wg0" = {
     enable = true;
-    netdevConfig = { Name = "wg0"; Kind = "wireguard"; };
+    netdevConfig = {
+      Name = "wg0";
+      Kind = "wireguard";
+      MTUBytes = "1320";
+    };
     wireguardConfig = {
       PrivateKeyFile = config.sops.secrets.wireguard_key.path;
       ListenPort = wg0.peers.or3.endpointPort;
