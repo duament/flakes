@@ -79,6 +79,7 @@ in {
 
   services.etebase-server = {
     enable = true;
+    unixSocket = "/run/etebase-server/etebase-server";
     settings = {
       global.secret_file = config.sops.secrets."etebase/secret".path;
       allowed_hosts.allowed_host1 = "ete.rvf6.com";
@@ -89,8 +90,18 @@ in {
         host = "rvfg.postgres.database.azure.com";
         port = 5432;
       };
-      database-options.passfile = config.sops.secrets."etebase/postgresql".path;
+      database-options = {
+        passfile = config.sops.secrets."etebase/postgresql".path;
+        sslmode = "verify-full";
+        sslrootcert = "/etc/ssl/certs/ca-bundle.crt";
+      };
     };
+  };
+  systemd.services.etebase-server.serviceConfig = import ../../lib/systemd-harden.nix // {
+    DynamicUser = false;
+    PrivateNetwork = false;
+    RuntimeDirectory = "%p";
+    StateDirectory = "%p";
   };
 
   systemd.services.miniflux = {
@@ -136,7 +147,7 @@ in {
         enableACME = true;
         extraConfig = hstsConfig;
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${builtins.toString config.services.etebase-server.port}";
+          proxyPass = "http://unix:/run/etebase-server/etebase-server:/";
         };
       };
       "rss.rvf6.com" = {
