@@ -126,8 +126,13 @@ in {
   services.shadowsocks = {
     enable = true;
     fastOpen = false;
-    passwordFile = config.sops.secrets.shadowsocks.path;
+    passwordFile = "/run/credentials/shadowsocks-libev.service/shadowsocks";
     port = 13926;
+    extraConfig.user = null;
+  };
+  systemd.services.shadowsocks-libev.serviceConfig = import ../../lib/systemd-harden.nix // {
+    PrivateNetwork = false;
+    LoadCredential = "shadowsocks:${config.sops.secrets.shadowsocks.path}";
   };
 
   security.acme.acceptTerms = true;
