@@ -28,25 +28,25 @@ in {
       which-key-nvim
       (nvim-treesitter.withPlugins (
         plugins: with plugins; [
-          tree-sitter-bash
-          tree-sitter-beancount
-          tree-sitter-c
-          tree-sitter-cmake
-          tree-sitter-comment
-          tree-sitter-cpp
-          tree-sitter-dockerfile
-          tree-sitter-fish
-          tree-sitter-go
-          tree-sitter-gomod
-          tree-sitter-json
-          tree-sitter-latex
-          tree-sitter-lua
-          tree-sitter-markdown
-          tree-sitter-nix
-          tree-sitter-rust
-          tree-sitter-rst
-          tree-sitter-toml
-          tree-sitter-yaml
+          bash
+          beancount
+          c
+          cmake
+          comment
+          cpp
+          dockerfile
+          fish
+          go
+          gomod
+          json
+          latex
+          lua
+          markdown
+          nix
+          rust
+          rst
+          toml
+          yaml
         ]
       ))
     ];
