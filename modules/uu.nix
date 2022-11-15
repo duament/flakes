@@ -127,8 +127,8 @@ in {
         };
         systemd.services.uuplugin = let
           uu = pkgs.fetchzip {
-            url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.0.4/uu.tar.gz";
-            hash = "sha256-79EIuoFs9kVbO/WF5qohNXbHUQdtDkwBBNP6DPyaSBY=";
+            url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.3.2/uu.tar.gz";
+            hash = "sha256-UbZxXW69oegpoXH+oMJYzwHAoqN5zpdJTm2c4TP+pKM=";
             stripRoot = false;
           };
           uupluginUUID = pkgs.writeText "uuplugin_uuid" "78ed0c77-ef23-46ee-b242-6b09796ff95a";
