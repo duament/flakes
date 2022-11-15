@@ -24,9 +24,9 @@ in {
   boot.tmpOnTmpfs = false;
 
   networking.hostName = "work";
-  networking.nftables.inputAccept = ''
-    tcp dport 3128 accept comment "squid"
-  '';
+  networking.firewall.allowedTCPPorts = [
+    config.services.squid.proxyPort
+  ];
 
   systemd.network.networks."80-ethernet" = {
     DHCP = "no";

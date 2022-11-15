@@ -2,6 +2,11 @@
 with lib;
 let
   cfg = config.networking.nftables;
+  fwCfg = config.networking.firewall;
+  toNftSet = ports: portRanges: concatStringsSep ", " (
+    map (x: toString x) ports
+    ++ map (x: "${toString x.from}-${toString x.to}") portRanges
+  );
 in {
   options = {
     networking.nftables.inputAccept = mkOption {
@@ -28,11 +33,6 @@ in {
     networking.nftables.mssClamping = mkOption {
       type = types.bool;
       default = false;
-    };
-
-    networking.nftables.allowPing = mkOption {
-      type = types.bool;
-      default = true;
     };
 
     networking.nftables.allowMulticast = mkOption {
@@ -62,17 +62,20 @@ in {
           ip6 saddr fe80::/10 icmpv6 type { mld-listener-query, mld-listener-report, mld-listener-reduction, mld2-listener-report } accept
           ''}
           ct state vmap { established : accept, related : accept, invalid : drop, new : jump input_accept }
+          ${optionalString fwCfg.rejectPackets ''
           meta l4proto tcp reject with tcp reset
           reject
+          ''}
         }
 
         chain input_accept {
-          ${optionalString cfg.allowPing ''
+          tcp dport { ${toNftSet fwCfg.allowedTCPPorts fwCfg.allowedTCPPortRanges} } accept
+          udp dport { ${toNftSet fwCfg.allowedUDPPorts fwCfg.allowedUDPPortRanges} } accept
+          ${optionalString fwCfg.allowPing ''
           icmp type echo-request limit rate 20/second accept
           icmpv6 type echo-request limit rate 20/second accept
           ''}
-          meta nfproto ipv4 udp dport 68 accept comment "DHCP client"
-          meta nfproto ipv6 udp dport 546 accept comment "DHCPv6 client"
+          meta nfproto . udp dport { ipv4 . 68, ipv6 . 546 } accept comment "DHCP/DHCPv6 client"
           ${cfg.inputAccept}
         }
 

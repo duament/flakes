@@ -17,12 +17,14 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "or3";
-  networking.nftables.inputAccept = ''
-    tcp dport { 80, 443 } accept
-    udp dport ${builtins.toString wg0.peers.or3.endpointPort} accept comment "wireguard"
-    udp dport { 21027, 22000 } accept comment "syncthing udp"
-    tcp dport 22000 accept comment "syncthing tcp"
-  '';
+  networking.firewall = {
+    allowedTCPPorts = [
+      80 443
+    ];
+    allowedUDPPorts = [
+      wg0.peers.or3.endpointPort
+    ];
+  };
 
   systemd.network.netdevs."25-wg0" = {
     enable = true;
@@ -61,6 +63,7 @@ in {
     st = import ../../lib/syncthing.nix;
   in {
     enable = true;
+    openDefaultPorts = true;
     cert = config.sops.secrets."syncthing/cert".path;
     key = config.sops.secrets."syncthing/key".path;
     devices = lib.getAttrs [ "desktop" "xiaoxin" ] st.devices;

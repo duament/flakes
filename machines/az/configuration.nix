@@ -21,13 +21,16 @@ in {
   boot.tmpOnTmpfs = false;
 
   networking.hostName = host;
-  networking.nftables.inputAccept = ''
-    tcp dport { 80, 443 } accept
-    udp dport ${builtins.toString wg0.peers.${host}.endpointPort} accept comment "wireguard"
-    udp dport { 21027, 22000 } accept comment "syncthing udp"
-    tcp dport 22000 accept comment "syncthing tcp"
-    meta l4proto { tcp, udp } th dport ${builtins.toString config.services.shadowsocks.port} accept comment "shadowsocks"
-  '';
+  networking.firewall = {
+    allowedTCPPorts = [
+      80 443
+      config.services.shadowsocks.port
+    ];
+    allowedUDPPorts = [
+      wg0.peers.${host}.endpointPort
+      config.services.shadowsocks.port
+    ];
+  };
 
   systemd.network.netdevs."25-wg0" = {
     enable = true;
@@ -59,6 +62,7 @@ in {
     st = import ../../lib/syncthing.nix;
   in {
     enable = true;
+    openDefaultPorts = true;
     cert = config.sops.secrets."syncthing/cert".path;
     key = config.sops.secrets."syncthing/key".path;
     devices = lib.getAttrs [ "desktop" "xiaoxin" "iphone" ] st.devices;

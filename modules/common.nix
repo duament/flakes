@@ -29,12 +29,10 @@ in {
   boot.loader.timeout = mkDefault 2;
   boot.tmpOnTmpfs = mkDefault true;
 
-  networking.firewall.enable = false;
-  networking.nftables = {
-    enable = true;
-    inputAccept = ''
-      tcp dport 22 accept comment "SSH"
-    '';
+  networking = {
+    firewall.enable = false;
+    firewall.allowedTCPPorts = [ 22 ];
+    nftables.enable = true;
   };
 
   time.timeZone = "Asia/Hong_Kong";
