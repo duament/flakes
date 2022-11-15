@@ -1,5 +1,6 @@
 { config, lib, ... }:
 let
+  host = "or3";
   musicDir = "/var/lib/music";
   wg0 = import ../../lib/wg0.nix;
 in {
@@ -16,13 +17,13 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "or3";
+  networking.hostName = host;
   networking.firewall = {
     allowedTCPPorts = [
       80 443
     ];
     allowedUDPPorts = [
-      wg0.peers.or3.endpointPort
+      wg0.peers.${host}.endpointPort
     ];
   };
 
@@ -35,7 +36,7 @@ in {
     };
     wireguardConfig = {
       PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-      ListenPort = wg0.peers.or3.endpointPort;
+      ListenPort = wg0.peers.${host}.endpointPort;
     };
     wireguardPeers = [
       {
@@ -49,7 +50,7 @@ in {
   systemd.network.networks."25-wg0" = {
     enable = true;
     name = "wg0";
-    address = [ "${wg0.peers.or3.ipv4}/24" "${wg0.peers.or3.ipv6}/120" ];
+    address = [ "${wg0.peers.${host}.ipv4}/24" "${wg0.peers.${host}.ipv6}/120" ];
   };
 
   home-manager.users.rvfg = import ./home.nix;

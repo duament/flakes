@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 let
+  host = "work";
   wg0 = import ../../lib/wg0.nix;
   wgMark = 8;
   wgTable = 1000;
@@ -23,7 +24,7 @@ in {
 
   boot.tmpOnTmpfs = false;
 
-  networking.hostName = "work";
+  networking.hostName = host;
   networking.firewall.allowedTCPPorts = [
     config.services.squid.proxyPort
   ];
@@ -53,7 +54,7 @@ in {
   systemd.network.networks."25-wg0" = {
     enable = true;
     name = "wg0";
-    address = [ "${wg0.peers.work.ipv4}/24" "${wg0.peers.work.ipv6}/120" ];
+    address = [ "${wg0.peers.${host}.ipv4}/24" "${wg0.peers.${host}.ipv6}/120" ];
     dns = [ wg0.gateway6 ];
     domains = [ "~." ];
     networkConfig = { DNSDefaultRoute = "yes"; };
