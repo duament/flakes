@@ -7,6 +7,8 @@ let
     map (x: toString x) ports
     ++ map (x: "${toString x.from}-${toString x.to}") portRanges
   );
+  tcpPorts = toNftSet fwCfg.allowedTCPPorts fwCfg.allowedTCPPortRanges;
+  udpPorts = toNftSet fwCfg.allowedUDPPorts fwCfg.allowedUDPPortRanges;
 in {
   options = {
     networking.nftables.inputAccept = mkOption {
@@ -69,8 +71,8 @@ in {
         }
 
         chain input_accept {
-          tcp dport { ${toNftSet fwCfg.allowedTCPPorts fwCfg.allowedTCPPortRanges} } accept
-          udp dport { ${toNftSet fwCfg.allowedUDPPorts fwCfg.allowedUDPPortRanges} } accept
+          ${optionalString (tcpPorts != "") "tcp dport { ${tcpPorts} } accept"}
+          ${optionalString (udpPorts != "") "udp dport { ${udpPorts} } accept"}
           ${optionalString fwCfg.allowPing ''
           icmp type echo-request limit rate 20/second accept
           icmpv6 type echo-request limit rate 20/second accept
