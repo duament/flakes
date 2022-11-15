@@ -46,7 +46,7 @@ in {
       ${optionalString cfg.rpfilter ''
       table ip6 rpfilter {
         chain rpfilter {
-          type filter hook prerouting priority -300; policy drop;
+          type filter hook prerouting priority raw; policy drop;
           fib saddr oif != 0 accept
         }
       }
@@ -62,6 +62,7 @@ in {
           ip6 saddr fe80::/10 icmpv6 type { mld-listener-query, mld-listener-report, mld-listener-reduction, mld2-listener-report } accept
           ''}
           ct state vmap { established : accept, related : accept, invalid : drop, new : jump input_accept }
+          meta l4proto tcp reject with tcp reset
           reject
         }
 
@@ -78,7 +79,6 @@ in {
         chain forward {
           type filter hook forward priority filter; policy drop;
           ct state vmap { established : accept, related : accept, invalid : drop, new : jump forward_accept }
-          reject
         }
 
         chain forward_accept {
