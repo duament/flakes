@@ -95,6 +95,11 @@ in {
   services.uu.wanName = "10-enp1s0";
 
   services.strongswan-swanctl.enable = true;
+  services.strongswan-swanctl.strongswan.extraConfig = ''
+    charon {
+      install_routes = no
+    }
+  '';
   environment.etc."swanctl/swanctl.conf".enable = false;
   system.activationScripts.strongswan-swanctl-secret-conf = lib.stringAfter ["etc"] ''
     mkdir -p /etc/swanctl
