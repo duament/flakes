@@ -27,7 +27,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
-    LESS = "LRS";
+    LESS = "FRS";
     SYSTEMD_COLORS = "16";
   };
 
