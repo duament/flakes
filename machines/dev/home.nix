@@ -38,6 +38,12 @@
     util-linux
   ];
 
+  programs.fish.interactiveShellInit = ''
+    if not set -q IN_NIX_SHELL
+      fish_add_path -g /home/.devtools/tools/bin ~/.nix-profile/bin
+    end
+  '';
+
   programs.git = {
     enable = true;
     userEmail = "int.ruifeng.ma@enflame-tech.com";
