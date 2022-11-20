@@ -12,6 +12,7 @@ in {
     "syncthing/key".owner = config.services.syncthing.user;
     "cache" = { group = "hydra"; mode = "0440"; };
     "wireguard_key".owner = "systemd-network";
+    "keycloak/database" = {};
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -109,6 +110,19 @@ in {
     secretKeyFile = config.sops.secrets.cache.path;
   };
 
+  services.keycloak = {
+    enable = true;
+    database.passwordFile = config.sops.secrets."keycloak/database".path;
+    settings = {
+      hostname = "id.rvf6.com";
+      hostname-strict-backchannel = true;
+      http-host = "[::1]";
+      http-port = 6000;
+      proxy = "edge";
+    };
+  };
+  systemd.services.keycloak.environment.JAVA_OPTS_APPEND = "-Djava.net.preferIPv4Stack=false -Djava.net.preferIPv6Addresses=true";
+
   services.traefik = {
     enable = true;
     dynamicConfigOptions.http = {
@@ -124,6 +138,10 @@ in {
         cache = {
           rule = "Host(`cache.rvf6.com`)";
           service = "cache";
+        };
+        keycloak = {
+          rule = "Host(`id.rvf6.com`)";
+          service = "keycloak";
         };
       };
       services = {
@@ -141,6 +159,11 @@ in {
           cfg = config.services.nix-serve;
         in {
           servers = [ { url = "http://${cfg.bindAddress}:${builtins.toString cfg.port}"; } ];
+        };
+        keycloak.loadBalancer = let
+          cfg = config.services.keycloak.settings;
+        in {
+          servers = [ { url = "http://${cfg.http-host}:${builtins.toString cfg.http-port}"; } ];
         };
       };
     };
