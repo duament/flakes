@@ -83,14 +83,14 @@ in {
     enable = true;
     settings = {
       MusicFolder = musicDir;
-      Address = "127.0.0.1";
+      Address = "[::1]";
       Port = 4533;
     };
   };
 
   services.hydra = {
     enable = true;
-    listenHost = "127.0.0.1";
+    listenHost = "localhost";
     hydraURL = "https://hydra.rvf6.com";
     useSubstitutes = true;
     notificationSender = "hydra@rvf6.com";
@@ -105,7 +105,7 @@ in {
 
   services.nix-serve = {
     enable = true;
-    bindAddress = "127.0.0.1";
+    bindAddress = "localhost";
     port = 5000;
     secretKeyFile = config.sops.secrets.cache.path;
   };
