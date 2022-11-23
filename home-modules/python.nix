@@ -6,7 +6,8 @@ let
     python-lsp-server
     ipython
     requests
-  ] ++ cfg.extraPackages python-packages;
+  ] ++ python-lsp-server.optional-dependencies.all
+    ++ cfg.extraPackages python-packages;
   python-with-my-packages = pkgs.python3.withPackages my-python-packages;
 in {
   options = {

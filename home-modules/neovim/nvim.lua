@@ -126,32 +126,41 @@ local lsp_flags = {
   debounce_text_changes = 150,
 }
 require('lspconfig')['pylsp'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    cmd = { "pylsp" },
+  on_attach = on_attach,
+  flags = lsp_flags,
+  cmd = { "pylsp" },
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          ignore = { 'E501' },
+        }
+      }
+    }
+  }
 }
 require('lspconfig')['clangd'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    cmd = { "@clangd@" },
+  on_attach = on_attach,
+  flags = lsp_flags,
+  cmd = { "@clangd@" },
 }
 require('lspconfig')['gopls'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    cmd = { "@gopls@" },
+  on_attach = on_attach,
+  flags = lsp_flags,
+  cmd = { "@gopls@" },
 }
 require('lspconfig')['rust_analyzer'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    cmd = { "@rust_analyzer@" },
+  on_attach = on_attach,
+  flags = lsp_flags,
+  cmd = { "@rust_analyzer@" },
 }
 require('lspconfig')['rnix'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    cmd = { "@rnix_lsp@" },
+  on_attach = on_attach,
+  flags = lsp_flags,
+  cmd = { "@rnix_lsp@" },
 }
 require('lspconfig')['beancount'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    cmd = { "@beancount_language_server@", "--stdio" },
+  on_attach = on_attach,
+  flags = lsp_flags,
+  cmd = { "@beancount_language_server@", "--stdio" },
 }
