@@ -117,6 +117,7 @@ in {
       RUN_MIGRATIONS = "1";
       POLLING_FREQUENCY = "30";
       POLLING_PARSING_ERROR_LIMIT = "16";
+      HTTP_CLIENT_TIMEOUT = "60";
     };
     serviceConfig = import ../../lib/systemd-harden.nix // {
       PrivateNetwork = false;
