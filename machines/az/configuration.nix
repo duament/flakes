@@ -118,6 +118,10 @@ in {
       POLLING_FREQUENCY = "30";
       POLLING_PARSING_ERROR_LIMIT = "16";
       HTTP_CLIENT_TIMEOUT = "60";
+      OAUTH2_PROVIDER = "oidc";
+      OAUTH2_CLIENT_ID = "miniflux";
+      OAUTH2_REDIRECT_URL = "https://rss.rvf6.com/oauth2/oidc/callback";
+      OAUTH2_OIDC_DISCOVERY_ENDPOINT = "https://id.rvf6.com/realms/rvfg";
     };
     serviceConfig = import ../../lib/systemd-harden.nix // {
       PrivateNetwork = false;
