@@ -164,3 +164,8 @@ require('lspconfig')['beancount'].setup{
   flags = lsp_flags,
   cmd = { "@beancount_language_server@", "--stdio" },
 }
+require('lspconfig')['tsserver'].setup{
+  on_attach = on_attach,
+  flags = lsp_flags,
+  cmd = { "@typescript_language_server@", "--stdio" },
+}

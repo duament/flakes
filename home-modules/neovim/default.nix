@@ -6,6 +6,7 @@ let luaConfig = pkgs.substituteAll {
   rust_analyzer = "${pkgs.rust-analyzer}/bin/rust-analyzer";
   rnix_lsp = "${pkgs.rnix-lsp}/bin/rnix-lsp";
   beancount_language_server = "${pkgs.beancount-language-server}/bin/beancount-language-server";
+  typescript_language_server = "${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server";
 };
 in {
   programs.neovim = {
