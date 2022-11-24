@@ -154,10 +154,10 @@ require('lspconfig')['rust_analyzer'].setup{
   flags = lsp_flags,
   cmd = { "@rust_analyzer@" },
 }
-require('lspconfig')['rnix'].setup{
+require('lspconfig')['nil_ls'].setup{
   on_attach = on_attach,
   flags = lsp_flags,
-  cmd = { "@rnix_lsp@" },
+  cmd = { "@nil@" },
 }
 require('lspconfig')['beancount'].setup{
   on_attach = on_attach,

@@ -4,7 +4,7 @@ let luaConfig = pkgs.substituteAll {
   clangd = "${pkgs.clang-tools}/bin/clangd";
   gopls = "${pkgs.gopls}/bin/gopls";
   rust_analyzer = "${pkgs.rust-analyzer}/bin/rust-analyzer";
-  rnix_lsp = "${pkgs.rnix-lsp}/bin/rnix-lsp";
+  nil = "${pkgs.nil}/bin/nil";
   beancount_language_server = "${pkgs.beancount-language-server}/bin/beancount-language-server";
   typescript_language_server = "${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server";
 };
