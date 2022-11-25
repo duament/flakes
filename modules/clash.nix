@@ -2,7 +2,8 @@
 with lib;
 let
   cfg = config.services.clash;
-in {
+in
+{
   options = {
     services.clash.enable = mkOption {
       type = types.bool;

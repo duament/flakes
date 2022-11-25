@@ -1,7 +1,8 @@
 { config, lib, ... }:
 let
   sshPub = import ../../lib/ssh-pubkeys.nix;
-in {
+in
+{
   boot.initrd = {
     availableKernelModules = [ "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci" "r8169" ];
     kernelModules = [ "kvm-intel" ];
@@ -26,29 +27,33 @@ in {
   boot.kernelParams = [ "ip=dhcp" ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-label/system";
+    {
+      device = "/dev/disk/by-label/system";
       fsType = "btrfs";
       options = [ "subvol=NixOS" "compress=zstd" "discard=async" ];
     };
 
   fileSystems."/nix" =
-    { device = "/dev/disk/by-label/system";
+    {
+      device = "/dev/disk/by-label/system";
       fsType = "btrfs";
       options = [ "subvol=NixOS/nix" "compress=zstd" "discard=async" "noatime" ];
     };
 
   fileSystems."/swap" =
-    { device = "/dev/disk/by-label/system";
+    {
+      device = "/dev/disk/by-label/system";
       fsType = "btrfs";
       options = [ "subvol=swap" "compress=zstd" "discard=async" "noatime" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-label/boot";
+    {
+      device = "/dev/disk/by-label/boot";
       fsType = "vfat";
     };
 
-  swapDevices = [ { device = "/swap/swapfile"; } ];
+  swapDevices = [{ device = "/swap/swapfile"; }];
 
   hardware.video.hidpi.enable = lib.mkDefault true;
 }

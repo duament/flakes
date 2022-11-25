@@ -7,9 +7,10 @@ let
     ipython
     requests
   ] ++ python-lsp-server.optional-dependencies.all
-    ++ cfg.extraPackages python-packages;
+  ++ cfg.extraPackages python-packages;
   python-with-my-packages = pkgs.python3.withPackages my-python-packages;
-in {
+in
+{
   options = {
     presets.python.enable = mkOption {
       type = types.bool;
@@ -18,7 +19,7 @@ in {
 
     presets.python.extraPackages = mkOption {
       type = types.functionTo (types.listOf types.package);
-      default = _: [];
+      default = _: [ ];
     };
   };
 

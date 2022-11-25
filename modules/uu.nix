@@ -5,7 +5,8 @@ let
 
   vlan = "gaming";
   veth = "ve-uu";
-in {
+in
+{
   options = {
     services.uu.enable = mkOption {
       type = types.bool;
@@ -68,8 +69,8 @@ in {
       enableTun = true;
       ephemeral = true;
       privateNetwork = true;
-      extraVeths.${veth} = {};
-      extraVeths.simns = {};
+      extraVeths.${veth} = { };
+      extraVeths.simns = { };
       interfaces = [ vlan ];
       config = { config, ... }: {
         imports = [
@@ -105,19 +106,22 @@ in {
             address = "10.6.8.1/24";
             staticLeases = [
               {
-                dhcpServerStaticLeaseConfig = { # simns
+                dhcpServerStaticLeaseConfig = {
+                  # simns
                   MACAddress = "CC:5B:31:2F:BE:AE";
                   Address = "10.6.8.2";
                 };
               }
               {
-                dhcpServerStaticLeaseConfig = { # NS
+                dhcpServerStaticLeaseConfig = {
+                  # NS
                   MACAddress = "CC:5B:31:F5:96:3A";
                   Address = "10.6.8.3";
                 };
               }
               {
-                dhcpServerStaticLeaseConfig = { # NS-wire
+                dhcpServerStaticLeaseConfig = {
+                  # NS-wire
                   MACAddress = "CC:5B:31:2F:D6:BD";
                   Address = "10.6.8.4";
                 };
@@ -125,34 +129,36 @@ in {
             ];
           };
         };
-        systemd.services.uuplugin = let
-          uu = pkgs.fetchzip {
-            url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.3.2/uu.tar.gz";
-            hash = "sha256-UbZxXW69oegpoXH+oMJYzwHAoqN5zpdJTm2c4TP+pKM=";
-            stripRoot = false;
+        systemd.services.uuplugin =
+          let
+            uu = pkgs.fetchzip {
+              url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.3.2/uu.tar.gz";
+              hash = "sha256-UbZxXW69oegpoXH+oMJYzwHAoqN5zpdJTm2c4TP+pKM=";
+              stripRoot = false;
+            };
+            uupluginUUID = pkgs.writeText "uuplugin_uuid" "78ed0c77-ef23-46ee-b242-6b09796ff95a";
+          in
+          {
+            after = [ "network-online.target" ];
+            wantedBy = [ "multi-user.target" ];
+            path = [ pkgs.iproute2 pkgs.nettools pkgs.iptables ]; # ip ifconfig iptables
+            serviceConfig = import ../lib/systemd-harden.nix // {
+              AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
+              CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
+              RestrictAddressFamilies = "";
+              PrivateNetwork = false;
+              PrivateUsers = false;
+              PrivateDevices = false;
+              ProcSubset = "all";
+              DeviceAllow = [ "/dev/net/tun rwm" ];
+              StateDirectory = "%N";
+              WorkingDirectory = "%S/%N";
+              BindReadOnlyPaths = "${uupluginUUID}:%S/%N/.uuplugin_uuid";
+              PIDFile = "/run/uuplugin.pid";
+              ExecStartPre = "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'";
+              ExecStart = "${uu}/uuplugin ${uu}/uu.conf";
+            };
           };
-          uupluginUUID = pkgs.writeText "uuplugin_uuid" "78ed0c77-ef23-46ee-b242-6b09796ff95a";
-        in {
-          after = [ "network-online.target" ];
-          wantedBy = [ "multi-user.target" ];
-          path = [ pkgs.iproute2 pkgs.nettools pkgs.iptables ];  # ip ifconfig iptables
-          serviceConfig = import ../lib/systemd-harden.nix // {
-            AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
-            CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
-            RestrictAddressFamilies = "";
-            PrivateNetwork = false;
-            PrivateUsers = false;
-            PrivateDevices = false;
-            ProcSubset = "all";
-            DeviceAllow = [ "/dev/net/tun rwm" ];
-            StateDirectory = "%N";
-            WorkingDirectory = "%S/%N";
-            BindReadOnlyPaths = "${uupluginUUID}:%S/%N/.uuplugin_uuid";
-            PIDFile = "/run/uuplugin.pid";
-            ExecStartPre = "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'";
-            ExecStart = "${uu}/uuplugin ${uu}/uu.conf";
-          };
-        };
       };
     };
     systemd.services."container@uu".environment.SYSTEMD_NSPAWN_UNIFIED_HIERARCHY = "1";

@@ -2,7 +2,8 @@
 let
   host = "az";
   wg0 = import ../../lib/wg0.nix;
-in {
+in
+{
   presets.nogui.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
@@ -12,8 +13,8 @@ in {
     "wireguard_key".owner = "systemd-network";
     "etebase/secret".owner = config.services.etebase-server.user;
     "etebase/postgresql".owner = config.services.etebase-server.user;
-    "shadowsocks" = {};
-    "miniflux" = {};
+    "shadowsocks" = { };
+    "miniflux" = { };
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -23,7 +24,8 @@ in {
   networking.hostName = host;
   networking.firewall = {
     allowedTCPPorts = [
-      80 443
+      80
+      443
       config.services.shadowsocks.port
     ];
     allowedUDPPorts = [
@@ -58,28 +60,30 @@ in {
 
   home-manager.users.rvfg = import ./home.nix;
 
-  services.syncthing = let
-    st = import ../../lib/syncthing.nix;
-  in {
-    enable = true;
-    openDefaultPorts = true;
-    cert = config.sops.secrets."syncthing/cert".path;
-    key = config.sops.secrets."syncthing/key".path;
-    devices = lib.getAttrs [ "desktop" "xiaoxin" "iphone" ] st.devices;
-    folders = {
-      keepass = {
-        id = "xudus-kdccy";
-        label = "KeePass";
-        path = "${config.services.syncthing.dataDir}/KeePass";
-        devices = [ "desktop" "xiaoxin" "iphone" ];
-        versioning = {
-          type = "staggered";
-          params.cleanInterval = "3600";
-          params.maxAge = "15552000";
+  services.syncthing =
+    let
+      st = import ../../lib/syncthing.nix;
+    in
+    {
+      enable = true;
+      openDefaultPorts = true;
+      cert = config.sops.secrets."syncthing/cert".path;
+      key = config.sops.secrets."syncthing/key".path;
+      devices = lib.getAttrs [ "desktop" "xiaoxin" "iphone" ] st.devices;
+      folders = {
+        keepass = {
+          id = "xudus-kdccy";
+          label = "KeePass";
+          path = "${config.services.syncthing.dataDir}/KeePass";
+          devices = [ "desktop" "xiaoxin" "iphone" ];
+          versioning = {
+            type = "staggered";
+            params.cleanInterval = "3600";
+            params.maxAge = "15552000";
+          };
         };
       };
     };
-  };
 
   services.etebase-server = {
     enable = true;
@@ -146,32 +150,34 @@ in {
 
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "le@rvf6.com";
-  services.nginx = let
-    hstsConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
-  in {
-    enable = true;
-    package = pkgs.nginxMainline;
-    recommendedGzipSettings = true;
-    recommendedOptimisation = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-    virtualHosts = {
-      "ete.rvf6.com" = {
-        forceSSL = true;
-        enableACME = true;
-        extraConfig = hstsConfig;
-        locations."/" = {
-          proxyPass = "http://unix:/run/etebase-server/etebase-server:/";
+  services.nginx =
+    let
+      hstsConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
+    in
+    {
+      enable = true;
+      package = pkgs.nginxMainline;
+      recommendedGzipSettings = true;
+      recommendedOptimisation = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      virtualHosts = {
+        "ete.rvf6.com" = {
+          forceSSL = true;
+          enableACME = true;
+          extraConfig = hstsConfig;
+          locations."/" = {
+            proxyPass = "http://unix:/run/etebase-server/etebase-server:/";
+          };
         };
-      };
-      "rss.rvf6.com" = {
-        forceSSL = true;
-        enableACME = true;
-        extraConfig = hstsConfig;
-        locations."/" = {
-          proxyPass = "http://unix:/run/miniflux/miniflux:/";
+        "rss.rvf6.com" = {
+          forceSSL = true;
+          enableACME = true;
+          extraConfig = hstsConfig;
+          locations."/" = {
+            proxyPass = "http://unix:/run/miniflux/miniflux:/";
+          };
         };
       };
     };
-  };
 }

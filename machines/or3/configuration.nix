@@ -3,7 +3,8 @@ let
   host = "or3";
   musicDir = "/var/lib/music";
   wg0 = import ../../lib/wg0.nix;
-in {
+in
+{
   presets.nogui.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
@@ -12,7 +13,7 @@ in {
     "syncthing/key".owner = config.services.syncthing.user;
     "cache" = { group = "hydra"; mode = "0440"; };
     "wireguard_key".owner = "systemd-network";
-    "keycloak/database" = {};
+    "keycloak/database" = { };
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -21,7 +22,8 @@ in {
   networking.hostName = host;
   networking.firewall = {
     allowedTCPPorts = [
-      80 443
+      80
+      443
     ];
     allowedUDPPorts = [
       wg0.peers.${host}.endpointPort
@@ -56,28 +58,30 @@ in {
 
   home-manager.users.rvfg = import ./home.nix;
 
-  users.groups."music" = {};
+  users.groups."music" = { };
   systemd.tmpfiles.rules = [ "d ${musicDir} 2770 root music" "a ${musicDir} - - - - d:g::rwx" ];
   systemd.services.syncthing.serviceConfig.SupplementaryGroups = [ "music" ];
   systemd.services.navidrome.serviceConfig.SupplementaryGroups = [ "music" ];
 
-  services.syncthing = let
-    st = import ../../lib/syncthing.nix;
-  in {
-    enable = true;
-    openDefaultPorts = true;
-    cert = config.sops.secrets."syncthing/cert".path;
-    key = config.sops.secrets."syncthing/key".path;
-    devices = lib.getAttrs [ "desktop" "xiaoxin" ] st.devices;
-    folders = {
-      music = {
-        id = "hngav-zprin";
-        label = "Music";
-        path = musicDir;
-        devices = [ "desktop" "xiaoxin" ];
+  services.syncthing =
+    let
+      st = import ../../lib/syncthing.nix;
+    in
+    {
+      enable = true;
+      openDefaultPorts = true;
+      cert = config.sops.secrets."syncthing/cert".path;
+      key = config.sops.secrets."syncthing/key".path;
+      devices = lib.getAttrs [ "desktop" "xiaoxin" ] st.devices;
+      folders = {
+        music = {
+          id = "hngav-zprin";
+          label = "Music";
+          path = musicDir;
+          devices = [ "desktop" "xiaoxin" ];
+        };
       };
     };
-  };
 
   services.navidrome = {
     enable = true;
@@ -145,26 +149,34 @@ in {
         };
       };
       services = {
-        navidrome.loadBalancer = let
-          cfg = config.services.navidrome.settings;
-        in {
-          servers = [ { url = "http://${cfg.Address}:${builtins.toString cfg.Port}"; } ];
-        };
-        hydra.loadBalancer = let
-          cfg = config.services.hydra;
-        in {
-          servers = [ { url = "http://${cfg.listenHost}:${builtins.toString cfg.port}"; } ];
-        };
-        cache.loadBalancer = let
-          cfg = config.services.nix-serve;
-        in {
-          servers = [ { url = "http://${cfg.bindAddress}:${builtins.toString cfg.port}"; } ];
-        };
-        keycloak.loadBalancer = let
-          cfg = config.services.keycloak.settings;
-        in {
-          servers = [ { url = "http://${cfg.http-host}:${builtins.toString cfg.http-port}"; } ];
-        };
+        navidrome.loadBalancer =
+          let
+            cfg = config.services.navidrome.settings;
+          in
+          {
+            servers = [{ url = "http://${cfg.Address}:${builtins.toString cfg.Port}"; }];
+          };
+        hydra.loadBalancer =
+          let
+            cfg = config.services.hydra;
+          in
+          {
+            servers = [{ url = "http://${cfg.listenHost}:${builtins.toString cfg.port}"; }];
+          };
+        cache.loadBalancer =
+          let
+            cfg = config.services.nix-serve;
+          in
+          {
+            servers = [{ url = "http://${cfg.bindAddress}:${builtins.toString cfg.port}"; }];
+          };
+        keycloak.loadBalancer =
+          let
+            cfg = config.services.keycloak.settings;
+          in
+          {
+            servers = [{ url = "http://${cfg.http-host}:${builtins.toString cfg.http-port}"; }];
+          };
       };
     };
   };

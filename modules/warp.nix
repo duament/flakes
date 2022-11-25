@@ -2,7 +2,8 @@
 with lib;
 let
   cfg = config.networking.warp;
-in {
+in
+{
   options = {
     networking.warp.enable = mkOption {
       type = types.bool;

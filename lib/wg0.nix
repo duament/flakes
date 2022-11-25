@@ -56,13 +56,15 @@ rec {
       endpointPort = 11111;
     };
   };
-  peerConfigs = map (peer: {
-    wireguardPeerConfig = {
-      AllowedIPs = [ "${peer.ipv4}/32" "${peer.ipv6}/128" ];
-      PublicKey = peer.pubkey;
-    } // (if (peer ? endpointAddr) then {
-      Endpoint = "${peer.endpointAddr}:${toString peer.endpointPort}";
-      PersistentKeepalive = 25;
-    } else { });
-  }) (attrValues peers);
+  peerConfigs = map
+    (peer: {
+      wireguardPeerConfig = {
+        AllowedIPs = [ "${peer.ipv4}/32" "${peer.ipv6}/128" ];
+        PublicKey = peer.pubkey;
+      } // (if (peer ? endpointAddr) then {
+        Endpoint = "${peer.endpointAddr}:${toString peer.endpointPort}";
+        PersistentKeepalive = 25;
+      } else { });
+    })
+    (attrValues peers);
 }

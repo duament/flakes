@@ -9,7 +9,8 @@ let
   );
   tcpPorts = toNftSet fwCfg.allowedTCPPorts fwCfg.allowedTCPPortRanges;
   udpPorts = toNftSet fwCfg.allowedUDPPorts fwCfg.allowedUDPPortRanges;
-in {
+in
+{
   options = {
     networking.nftables.inputAccept = mkOption {
       type = types.lines;
@@ -28,7 +29,7 @@ in {
 
     networking.nftables.masquerade = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       example = [ "oifname \"extern*\"" ];
     };
 

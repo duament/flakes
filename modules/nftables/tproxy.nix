@@ -2,7 +2,8 @@
 with lib;
 let
   cfg = config.networking.nftables.tproxy;
-in {
+in
+{
   options = {
     networking.nftables.tproxy.enable = mkOption {
       type = types.bool;

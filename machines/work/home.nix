@@ -1,7 +1,8 @@
 { config, pkgs, self, ... }:
 let
   sshPub = import ../../lib/ssh-pubkeys.nix;
-in {
+in
+{
   imports = [
     self.nixosModules.myHomeModules
   ];

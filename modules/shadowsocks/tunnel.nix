@@ -19,17 +19,18 @@ let
     };
 
   generateSystemdService = name: values:
-  let
-    temp = "shadowsocks-tunnel-${name}";
-  in nameValuePair temp {
-    after = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = import ../../lib/systemd-harden.nix // {
-      LoadCredential = "${temp}:${config.sops.templates.${temp}.path}";
-      ExecStart = "${pkgs.shadowsocks-libev}/bin/ss-tunnel -c %d/${temp}";
-      PrivateNetwork = false;
+    let
+      temp = "shadowsocks-tunnel-${name}";
+    in
+    nameValuePair temp {
+      after = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = import ../../lib/systemd-harden.nix // {
+        LoadCredential = "${temp}:${config.sops.templates.${temp}.path}";
+        ExecStart = "${pkgs.shadowsocks-libev}/bin/ss-tunnel -c %d/${temp}";
+        PrivateNetwork = false;
+      };
     };
-  };
 
   ssOpts = { ... }: {
     options = {
@@ -51,15 +52,16 @@ let
       };
     };
   };
-in {
+in
+{
   options = {
     services.shadowsocks.tunnel = mkOption {
       type = with types; attrsOf (submodule ssOpts);
-      default = {};
+      default = { };
     };
   };
 
-  config = mkIf (cfg != {}) {
+  config = mkIf (cfg != { }) {
     sops.secrets = mapAttrs' (generateSopsSecret "server") cfg
       // mapAttrs' (generateSopsSecret "server_port") cfg
       // mapAttrs' (generateSopsSecret "password") cfg

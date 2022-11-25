@@ -10,24 +10,28 @@
   ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-label/system";
+    {
+      device = "/dev/disk/by-label/system";
       fsType = "btrfs";
       options = [ "subvol=NixOS" "compress=zstd" "discard=async" ];
     };
 
   fileSystems."/nix" =
-    { device = "/dev/disk/by-label/system";
+    {
+      device = "/dev/disk/by-label/system";
       fsType = "btrfs";
       options = [ "subvol=NixOS/nix" "compress=zstd" "noatime" "discard=async" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-label/boot";
+    {
+      device = "/dev/disk/by-label/boot";
       fsType = "vfat";
     };
 
   fileSystems."/mnt/resource" =
-    { device = "/dev/disk/by-label/resource";
+    {
+      device = "/dev/disk/by-label/resource";
       fsType = "ext4";
       options = [ "nofail" "x-systemd.automount" ];
     };

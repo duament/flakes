@@ -3,7 +3,8 @@ with lib;
 let
   keys = [ "canokey" "a4b" ];
   user = config.users.users.rvfg.name;
-in {
+in
+{
   options = {
     presets.ssh-agent.enable = mkOption {
       type = types.bool;
@@ -12,14 +13,16 @@ in {
   };
 
   config = mkIf config.presets.ssh-agent.enable {
-    sops.secrets = builtins.listToAttrs (map (key: {
-      name = "ssh-key/id_${key}";
-      value = {
-        sopsFile = ./secrets.yaml;
-        mode = "0400";
-        owner = user;
-      };
-    }) keys);
+    sops.secrets = builtins.listToAttrs (map
+      (key: {
+        name = "ssh-key/id_${key}";
+        value = {
+          sopsFile = ./secrets.yaml;
+          mode = "0400";
+          owner = user;
+        };
+      })
+      keys);
 
     programs.ssh.startAgent = true;
     systemd.user.services.ssh-add-key = {

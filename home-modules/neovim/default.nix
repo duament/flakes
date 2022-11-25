@@ -1,14 +1,16 @@
 { pkgs, ... }:
-let luaConfig = pkgs.substituteAll {
-  src = ./nvim.lua;
-  clangd = "${pkgs.clang-tools}/bin/clangd";
-  gopls = "${pkgs.gopls}/bin/gopls";
-  rust_analyzer = "${pkgs.rust-analyzer}/bin/rust-analyzer";
-  nil = "${pkgs.nil}/bin/nil";
-  beancount_language_server = "${pkgs.beancount-language-server}/bin/beancount-language-server";
-  typescript_language_server = "${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server";
-};
-in {
+let
+  luaConfig = pkgs.substituteAll {
+    src = ./nvim.lua;
+    clangd = "${pkgs.clang-tools}/bin/clangd";
+    gopls = "${pkgs.gopls}/bin/gopls";
+    rust_analyzer = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+    nil = "${pkgs.nil}/bin/nil";
+    beancount_language_server = "${pkgs.beancount-language-server}/bin/beancount-language-server";
+    typescript_language_server = "${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server";
+  };
+in
+{
   programs.neovim = {
     enable = true;
     vimAlias = true;

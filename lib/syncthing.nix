@@ -10,8 +10,10 @@ rec {
     az = "3M5RKEG-CA737AY-43AYUKG-6M63PHI-JB3DEB5-2WPJAZG-PB766LJ-4MLSTQS";
   };
 
-  devices = mapAttrs (name: id: {
-    id = id;
-    name = name;
-  }) dev;
+  devices = mapAttrs
+    (name: id: {
+      id = id;
+      name = name;
+    })
+    dev;
 }

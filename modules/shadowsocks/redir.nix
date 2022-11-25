@@ -19,20 +19,21 @@ let
     };
 
   generateSystemdService = name: values:
-  let
-    temp = "shadowsocks-redir-${name}";
-  in nameValuePair temp {
-    after = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = import ../../lib/systemd-harden.nix // {
-      AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_BIND_SERVICE" ];
-      CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_BIND_SERVICE" ];
-      LoadCredential = "${temp}:${config.sops.templates.${temp}.path}";
-      ExecStart = "${pkgs.shadowsocks-libev}/bin/ss-redir -c %d/${temp}";
-      PrivateNetwork = false;
-      PrivateUsers = false;
+    let
+      temp = "shadowsocks-redir-${name}";
+    in
+    nameValuePair temp {
+      after = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = import ../../lib/systemd-harden.nix // {
+        AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_BIND_SERVICE" ];
+        CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_BIND_SERVICE" ];
+        LoadCredential = "${temp}:${config.sops.templates.${temp}.path}";
+        ExecStart = "${pkgs.shadowsocks-libev}/bin/ss-redir -c %d/${temp}";
+        PrivateNetwork = false;
+        PrivateUsers = false;
+      };
     };
-  };
 
   ssOpts = { ... }: {
     options = {
@@ -48,15 +49,16 @@ let
       };
     };
   };
-in {
+in
+{
   options = {
     services.shadowsocks.redir = mkOption {
       type = with types; attrsOf (submodule ssOpts);
-      default = {};
+      default = { };
     };
   };
 
-  config = mkIf (cfg != {}) {
+  config = mkIf (cfg != { }) {
     sops.secrets = mapAttrs' (generateSopsSecret "server") cfg
       // mapAttrs' (generateSopsSecret "server_port") cfg
       // mapAttrs' (generateSopsSecret "password") cfg

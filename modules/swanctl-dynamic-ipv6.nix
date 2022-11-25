@@ -2,7 +2,8 @@
 with lib;
 let
   cfg = config.services.swanctlDynamicIPv6;
-in {
+in
+{
   options = {
     services.swanctlDynamicIPv6.enable = mkOption {
       type = types.bool;

@@ -3,7 +3,8 @@ with lib;
 let
   sshPub = import ../lib/ssh-pubkeys.nix;
   wg0 = import ../lib/wg0.nix;
-in {
+in
+{
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [
@@ -46,7 +47,7 @@ in {
     openssh.authorizedKeys.keys = [ sshPub.canokey sshPub.a4b sshPub.ed25519 ];
   };
 
-  security.sudo.extraRules = [ { users = [ "rvfg" ]; commands = [ "ALL" ]; } ];
+  security.sudo.extraRules = [{ users = [ "rvfg" ]; commands = [ "ALL" ]; }];
   #security.sudo.extraConfig = ''
   #  Defaults passwd_timeout=0
   #'';
@@ -61,7 +62,7 @@ in {
 
   services.openssh = {
     enable = true;
-    hostKeys = [ { path = "/etc/ssh/ssh_host_ed25519_key"; type = "ed25519"; } ];
+    hostKeys = [{ path = "/etc/ssh/ssh_host_ed25519_key"; type = "ed25519"; }];
     kbdInteractiveAuthentication = false;
     passwordAuthentication = false;
     permitRootLogin = "no";
@@ -72,13 +73,14 @@ in {
       AuthenticationMethods publickey
       AllowUsers rvfg
     '';
-    knownHosts = builtins.listToAttrs (map (host: {
-      name = host;
-      value = {
-        hostNames = [ "${host}.rvf6.com" ];
-        publicKey = sshPub."${host}";
-      };
-    }) [ "nl" "az" "or1" "or2" "or3" "owrt" "rpi3" "t430" "k2" "k1" "work" ]);
+    knownHosts = builtins.listToAttrs (map
+      (host: {
+        name = host;
+        value = {
+          hostNames = [ "${host}.rvf6.com" ];
+          publicKey = sshPub."${host}";
+        };
+      }) [ "nl" "az" "or1" "or2" "or3" "owrt" "rpi3" "t430" "k2" "k1" "work" ]);
   };
 
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];

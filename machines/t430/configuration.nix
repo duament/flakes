@@ -1,13 +1,14 @@
 { config, lib, ... }:
 let
   wg0 = import ../../lib/wg0.nix;
-in {
+in
+{
   presets.nogui.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
-    initrd_ssh_host_ed25519_key = {};
-    swanctl = {};
+    initrd_ssh_host_ed25519_key = { };
+    swanctl = { };
     warp_key.owner = "systemd-network";
     wireguard_key.owner = "systemd-network";
   };
@@ -23,7 +24,8 @@ in {
 
   networking.hostName = "t430";
   networking.firewall.allowedUDPPorts = [
-    500 4500  # IPsec
+    500
+    4500 # IPsec
     wg0.port
   ];
   networking.nftables = {
@@ -81,10 +83,13 @@ in {
   services.smartdns.chinaDns = [ "192.168.2.1" ];
   services.smartdns.settings.bind = [ "[::]:53" ];
   services.smartdns.settings.address = with builtins;
-    concatLists (attrValues (mapAttrs (name: value: [
-      "/${name}.rvf6.com/${value.ipv4}"
-      "/${name}.rvf6.com/${value.ipv6}"
-    ]) wg0.peers)) ++ [
+    concatLists
+      (attrValues (mapAttrs
+        (name: value: [
+          "/${name}.rvf6.com/${value.ipv4}"
+          "/${name}.rvf6.com/${value.ipv6}"
+        ])
+        wg0.peers)) ++ [
       "/t430.rvf6.com/${wg0.gateway4}"
       "/t430.rvf6.com/${wg0.gateway6}"
       "/owrt.rvf6.com/192.168.2.1"
@@ -101,7 +106,7 @@ in {
     }
   '';
   environment.etc."swanctl/swanctl.conf".enable = false;
-  system.activationScripts.strongswan-swanctl-secret-conf = lib.stringAfter ["etc"] ''
+  system.activationScripts.strongswan-swanctl-secret-conf = lib.stringAfter [ "etc" ] ''
     mkdir -p /etc/swanctl
     ln -sf ${config.sops.secrets.swanctl.path} /etc/swanctl/swanctl.conf
   '';

@@ -4,7 +4,8 @@ let
   wg0 = import ../../lib/wg0.nix;
   wgMark = 8;
   wgTable = 1000;
-in {
+in
+{
   #nixpkgs.overlays = [
   #  (self: super: {
   #    llvmPackages_14 = super.llvmPackages_14 // {
@@ -44,12 +45,14 @@ in {
       PrivateKeyFile = config.sops.secrets.wireguard_key.path;
       FirewallMark = wgMark;
     };
-    wireguardPeers = [ { wireguardPeerConfig = {
-      AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-      Endpoint = wg0.endpoint;
-      PersistentKeepalive = 25;
-      PublicKey = wg0.pubkey;
-    }; } ];
+    wireguardPeers = [{
+      wireguardPeerConfig = {
+        AllowedIPs = [ "0.0.0.0/0" "::/0" ];
+        Endpoint = wg0.endpoint;
+        PersistentKeepalive = 25;
+        PublicKey = wg0.pubkey;
+      };
+    }];
   };
   systemd.network.networks."25-wg0" = {
     enable = true;

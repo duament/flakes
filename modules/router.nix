@@ -12,7 +12,8 @@ let
       bridge = [ cfg.lan.bridge.name ];
     };
   };
-in {
+in
+{
   options = {
     presets.router.enable = mkOption {
       type = types.bool;
@@ -66,7 +67,7 @@ in {
 
     presets.router.lan.staticLeases = mkOption {
       type = types.listOf types.attrs;
-      default = [];
+      default = [ ];
     };
   };
 
@@ -80,7 +81,7 @@ in {
     };
 
     systemd.network.networks = builtins.listToAttrs (map generateLan cfg.lan.interfaces)
-    // {
+      // {
       "50-${cfg.lan.bridge.name}" = {
         name = cfg.lan.bridge.name;
         address = [ cfg.lan.address ];
@@ -92,15 +93,16 @@ in {
         dhcpServerStaticLeases = cfg.lan.staticLeases;
       };
 
-      "50-${cfg.wan.interface}" = if cfg.wan.type == "DHCP" then {
-        name = cfg.wan.interface;
-        DHCP = "yes";
-      } else {
-        name = cfg.wan.interface;
-        address = [ cfg.wan.address ];
-        gateway = [ cfg.wan.gateway ];
-        dns = [ cfg.wan.dns ];
-      };
+      "50-${cfg.wan.interface}" =
+        if cfg.wan.type == "DHCP" then {
+          name = cfg.wan.interface;
+          DHCP = "yes";
+        } else {
+          name = cfg.wan.interface;
+          address = [ cfg.wan.address ];
+          gateway = [ cfg.wan.gateway ];
+          dns = [ cfg.wan.dns ];
+        };
     };
 
     networking.nftables.inputAccept = ''

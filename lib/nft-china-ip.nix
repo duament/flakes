@@ -7,7 +7,8 @@ let
   china_ipv6_raw = builtins.readFile "${inputs.chn-cidr-list.outPath}/ipv6.txt";
   china_ipv6_list = builtins.filter comment_filter (lib.splitString "\n" china_ipv6_raw);
   china_ipv6 = builtins.concatStringsSep ",\n" china_ipv6_list;
-in ''
+in
+''
   set special_ipv4 {
     type ipv4_addr
     flags interval

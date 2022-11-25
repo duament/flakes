@@ -5,7 +5,8 @@ let
 
   chinaListRaw = (builtins.readFile "${inputs.dnsmasq-china-list.outPath}/accelerated-domains.china.conf") + (builtins.readFile "${inputs.dnsmasq-china-list.outPath}/apple.china.conf");
   chinaList = builtins.replaceStrings [ "server=" "114.114.114.114" ] [ "nameserver " "china" ] chinaListRaw;
-in {
+in
+{
   options = {
     services.smartdns.chinaDns = mkOption {
       type = types.listOf types.str;

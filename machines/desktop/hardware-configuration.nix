@@ -14,13 +14,15 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/75dffd2b-9f67-4428-9fc4-67298fea3528";
+    {
+      device = "/dev/disk/by-uuid/75dffd2b-9f67-4428-9fc4-67298fea3528";
       fsType = "btrfs";
       options = [ "subvol=NixOS" "compress=zstd" "discard=async" ];
     };
 
   fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/75dffd2b-9f67-4428-9fc4-67298fea3528";
+    {
+      device = "/dev/disk/by-uuid/75dffd2b-9f67-4428-9fc4-67298fea3528";
       fsType = "btrfs";
       options = [ "subvol=NixOS/nix" "compress=zstd" "noatime" "discard=async" ];
     };

@@ -3,7 +3,8 @@ with lib;
 let
   cfg = config.networking.nftables.markChinaIP;
   nftChinaIP = import ../../lib/nft-china-ip.nix { inherit lib inputs; };
-in {
+in
+{
   options = {
     networking.nftables.markChinaIP.enable = mkOption {
       type = types.bool;
