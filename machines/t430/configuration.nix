@@ -23,25 +23,25 @@ in
   };
 
   networking.hostName = "t430";
-  networking.firewall.allowedUDPPorts = [
-    500
-    4500 # IPsec
-    wg0.port
-  ];
-  networking.nftables = {
-    inputAccept = ''
+  networking.firewall = {
+    allowedUDPPorts = [
+      500  # IPsec
+      4500 # IPsec
+      wg0.port
+    ];
+    extraInputRules = ''
       ip protocol { ah, esp } accept
       meta ipsec exists meta l4proto { tcp, udp } th dport 53 accept
       iifname wg0 meta l4proto { tcp, udp } th dport 53 accept
     '';
-    forwardAccept = ''
+    extraForwardRules = ''
       meta ipsec exists accept
       rt ipsec exists accept
       iifname wg0 accept
       oifname wg0 accept
     '';
-    mssClamping = true;
   };
+  networking.nftables.mssClamping = true;
 
   home-manager.users.rvfg = import ./home.nix;
 

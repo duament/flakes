@@ -59,7 +59,7 @@ in
       ];
     };
 
-    networking.nftables.forwardAccept = ''
+    networking.firewall.extraForwardRules = ''
       iifname ${veth} accept
     '';
     networking.nftables.masquerade = [ "iifname ${veth}" ];
@@ -83,11 +83,11 @@ in
         ];
         networking.hostName = "uu";
         networking.useHostResolvConf = false;
-        networking.nftables.inputAccept = ''
+        networking.firewall.extraInputRules = ''
           iifname ${config.presets.router.lan.bridge.name} meta l4proto { tcp, udp } th dport 10000-65535 accept comment "uu"
           iifname "tun*" accept comment "uu"
         '';
-        networking.nftables.forwardAccept = ''
+        networking.firewall.extraForwardRules = ''
           iifname "tun*" oifname ${config.presets.router.lan.bridge.name} accept
           iifname ${config.presets.router.lan.bridge.name} oifname "tun*" accept
         '';

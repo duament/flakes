@@ -105,11 +105,11 @@ in
         };
     };
 
-    networking.nftables.inputAccept = ''
+    networking.firewall.extraInputRules = ''
       iifname ${cfg.lan.bridge.name} meta l4proto { tcp, udp } th dport 53 accept comment "DNS"
       iifname ${cfg.lan.bridge.name} meta nfproto ipv4 udp dport 67 accept comment "DHCP server"
     '';
-    networking.nftables.forwardAccept = ''
+    networking.firewall.extraForwardRules = ''
       iifname ${cfg.lan.bridge.name} oifname ${cfg.wan.interface} accept
     '';
     networking.nftables.masquerade = [

@@ -2,7 +2,6 @@
 with lib;
 let
   sshPub = import ../lib/ssh-pubkeys.nix;
-  wg0 = import ../lib/wg0.nix;
 in
 {
   nix.settings = {
@@ -31,8 +30,13 @@ in
   boot.tmpOnTmpfs = mkDefault true;
 
   networking = {
-    firewall.enable = false;
-    firewall.allowedTCPPorts = [ 22 ];
+    firewall = {
+      allowedTCPPorts = [ 22 ];
+      filterForward = true;
+      checkReversePath = "loose";
+      logRefusedConnections = false;
+      pingLimit = "20/second";
+    };
     nftables.enable = true;
   };
 
