@@ -12,9 +12,11 @@ in
     hostName = host;
     firewall.enable = false;
     nftables.enable = false;
+    resolvconf.enable = false;
   };
 
   services.resolved.enable = false;
+  services.openssh.enable = false;
   systemd.services.systemd-networkd-wait-online.enable = false;
 
   home-manager.users.rvfg = import ./home.nix;
