@@ -17,7 +17,7 @@ in
   };
 
   services.resolved.enable = false;
-  services.openssh.enable = false;
+  services.openssh.listenAddresses = [ { addr = "[::1]"; port = 10022; } ];
   systemd.services.systemd-networkd-wait-online.enable = false;
 
   home-manager.users.rvfg = import ./home.nix;
