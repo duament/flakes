@@ -7,6 +7,7 @@ in
   presets.nogui.enableNetwork = false;
 
   boot.isContainer = true;
+  boot.loader.initScript.enable = true;
 
   networking = {
     hostName = host;
