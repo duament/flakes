@@ -1,23 +1,33 @@
 { config, lib, ... }:
 with lib;
+let
+  cfg = config.presets.nogui;
+in
 {
   options = {
     presets.nogui.enable = mkOption {
       type = types.bool;
       default = false;
     };
+
+    presets.nogui.enableNetwork = mkOption {
+      type = types.bool;
+      default = true;
+    };
   };
 
-  config = mkIf config.presets.nogui.enable {
+  config = mkIf cfg.enable {
     networking = {
       useDHCP = false;
       useNetworkd = true;
     };
 
-    systemd.network.networks."80-ethernet" = {
-      enable = true;
-      matchConfig = { Type = "ether"; };
-      DHCP = mkDefault "yes";
+    systemd.network.networks = mkIf cfg.enableNetwork {
+      "80-ethernet" = {
+        enable = true;
+        matchConfig = { Type = "ether"; };
+        DHCP = mkDefault "yes";
+      };
     };
 
     fonts.fontconfig.enable = false;

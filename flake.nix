@@ -45,6 +45,7 @@
         t430 = import ./machines/t430 { inherit inputs nixpkgs self; };
         or3 = import ./machines/or3 { inherit inputs nixpkgs self; };
         az = import ./machines/az { inherit inputs nixpkgs self; };
+        nixctnr = import ./machines/nixctnr { inherit inputs nixpkgs self; };
       };
 
       homeConfigurations = {

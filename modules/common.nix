@@ -37,7 +37,7 @@ in
       logRefusedConnections = false;
       pingLimit = "20/second";
     };
-    nftables.enable = true;
+    nftables.enable = mkDefault true;
   };
 
   time.timeZone = "Asia/Hong_Kong";
