@@ -24,8 +24,9 @@ in
 
   networking.hostName = "t430";
   networking.firewall = {
+    checkReversePath = "loose";
     allowedUDPPorts = [
-      500  # IPsec
+      500 # IPsec
       4500 # IPsec
       wg0.port
     ];

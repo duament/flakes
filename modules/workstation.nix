@@ -34,6 +34,7 @@ in
     boot.loader.grub.enable = false;
 
     networking.networkmanager.enable = true;
+    networking.firewall.checkReversePath = "loose";
 
     services.xserver.enable = true;
     services.xserver.displayManager.gdm.enable = true;

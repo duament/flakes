@@ -33,7 +33,6 @@ in
     firewall = {
       allowedTCPPorts = [ 22 ];
       filterForward = true;
-      checkReversePath = "loose";
       logRefusedConnections = false;
       pingLimit = "20/second";
     };

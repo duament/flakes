@@ -18,20 +18,25 @@ in
   };
 
   config = mkIf cfg.enable {
+    networking.nftables.stopRuleset = ''
+      table inet misc
+      delete table inet misc
+    '';
+
     networking.nftables.ruleset = ''
-      table inet fw_ext {
+      table inet misc {
         ${optionalString (length cfg.masquerade != 0) ''
-        chain masq {
-          type nat hook postrouting priority srcnat;
-          ${concatStringsSep " masquerade\n" cfg.masquerade} masquerade
-        }
+          chain masq {
+            type nat hook postrouting priority srcnat;
+            ${concatStringsSep " masquerade\n" cfg.masquerade} masquerade
+          }
         ''}
 
         ${optionalString cfg.mssClamping ''
-        chain mss_clamping {
-          type filter hook forward priority mangle;
-          tcp flags syn tcp option maxseg size set rt mtu
-        }
+          chain mss-clamping {
+            type filter hook forward priority mangle;
+            tcp flags syn tcp option maxseg size set rt mtu
+          }
         ''}
       }
     '';

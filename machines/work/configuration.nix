@@ -26,10 +26,12 @@ in
   boot.tmpOnTmpfs = false;
 
   networking.hostName = host;
-  networking.firewall.allowedTCPPorts = [
-    config.services.squid.proxyPort
-  ];
-
+  networking.firewall = {
+    checkReversePath = "loose";
+    allowedTCPPorts = [
+      config.services.squid.proxyPort
+    ];
+  };
   systemd.network.networks."80-ethernet" = {
     DHCP = "no";
     # dhcpV4Config = { SendOption = "50:ipv4address:172.26.0.2"; };

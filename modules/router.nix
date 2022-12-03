@@ -109,11 +109,10 @@ in
       iifname ${cfg.lan.bridge.name} meta l4proto { tcp, udp } th dport 53 accept comment "DNS"
       iifname ${cfg.lan.bridge.name} meta nfproto ipv4 udp dport 67 accept comment "DHCP server"
     '';
-    networking.firewall.extraForwardRules = ''
-      iifname ${cfg.lan.bridge.name} oifname ${cfg.wan.interface} accept
-    '';
-    networking.nftables.masquerade = [
-      "iifname ${cfg.lan.bridge.name} oifname ${cfg.wan.interface}"
-    ];
+    networking.nat = {
+      enable = true;
+      internalInterfaces = [ cfg.lan.bridge.name ];
+      externalInterface = cfg.wan.interface;
+    };
   };
 }
