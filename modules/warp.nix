@@ -64,7 +64,7 @@ in
       default = 1;
     };
 
-    networking.warp.extraMarkRules = mkOption {
+    networking.warp.extraIPv4MarkRules = mkOption {
       type = types.lines;
       default = "";
     };
@@ -80,7 +80,7 @@ in
     networking.nftables.markChinaIP = {
       enable = true;
       mark = cfg.routeMark;
-      extraRules = cfg.extraMarkRules;
+      extraIPv4Rules = cfg.extraIPv4MarkRules;
     };
     networking.nftables.ruleset = ''
       table inet warp {

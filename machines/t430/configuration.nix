@@ -78,7 +78,7 @@ in
     keyFile = config.sops.secrets.warp_key.path;
     address = [ "172.16.0.2/32" "2606:4700:110:8721:a63a:693c:cb0d:6de0/128" ];
     table = 20;
-    extraMarkRules = "ip saddr 10.6.7.0/24 accept";
+    extraIPv4MarkRules = "ip saddr 10.6.7.0/24 accept";
   };
 
   services.smartdns.chinaDns = [ "192.168.2.1" ];
