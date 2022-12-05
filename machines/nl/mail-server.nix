@@ -49,6 +49,7 @@ in
 
   services.dovecot2 = rec {
     enable = true;
+    enableLmtp = true;
     enablePAM = false;
     mailUser = "vmail";
     mailGroup = "vmail";
