@@ -18,4 +18,6 @@ jobs:
     - run: nix build .#nixosConfigurations.desktop.config.system.build.toplevel
     - run: nix build .#nixosConfigurations.work.config.system.build.toplevel
     - run: nix build .#nixosConfigurations.t430.config.system.build.toplevel
+    - run: nix build .#nixosConfigurations.nl.config.system.build.toplevel
     - run: nix build .#nixosConfigurations.az.config.system.build.toplevel
+    - run: nix build .#nixosConfigurations.nixctnr.config.system.build.toplevel

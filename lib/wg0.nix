@@ -41,6 +41,13 @@ rec {
       ipv6 = "${ipv6Pre}a";
       pubkey = "Zwg16+rw0uVJHFWsKj56nc9+eli0/XIYrKxespMbGj0=";
     };
+    nl = {
+      ipv4 = "${ipv4Pre}20";
+      ipv6 = "${ipv6Pre}14";
+      pubkey = "Pt/nY6/QPGfVSGRfYCDHRYZ4B+N7BZWKLxEJtEWAYxk=";
+      endpointAddr = "2a04:52c0:106:496f::1"; # nl.rvf6.com
+      endpointPort = 11111;
+    };
     or3 = {
       ipv4 = "${ipv4Pre}23";
       ipv6 = "${ipv6Pre}17";

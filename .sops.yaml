@@ -5,6 +5,7 @@ keys:
   - &work age1qqnqkt2emdm9tqg8err2h80r0g37lkqaujjzeqp0zq32thnkefestmwuru
   - &desktop age1y6fkn5p6x5zr6rw9r8p5urz0gnhuqqwup0g69hpf4wtuhv4sty3qe7zpu4
   - &t430 age1nprdnw6pdhstfll7hy8jv74evy2kajr257hc7p9jhe446l5xz52qej7y0v
+  - &nl age1h3eu4fukupn8ssquqyfgn587hv5l0ck0gmmvyv8lhncpq0myhq8sg54mxy
   - &or3 age1t7fpg9m0n5cg5vz0fypltc6c7py548uhpyp8f37hmdnq2j73ky9s6cvhgr
   - &az age1tpln8534w0ttdp7sd7tf3zeyr3m4w707dakt8kgm8j8c9r0vhyjqhae023
 creation_rules:
@@ -57,6 +58,13 @@ creation_rules:
       age:
       - *admin_age
       - *t430
+  - path_regex: machines/nl/.*
+    key_groups:
+    - pgp:
+      - *admin_pgp
+      age:
+      - *admin_age
+      - *nl
   - path_regex: machines/or3/.*
     key_groups:
     - pgp:
