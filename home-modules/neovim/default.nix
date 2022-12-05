@@ -2,7 +2,6 @@
 let
   luaConfig = pkgs.substituteAll {
     src = ./nvim.lua;
-    clangd = "${pkgs.clang-tools}/bin/clangd";
     gopls = "${pkgs.gopls}/bin/gopls";
     rust_analyzer = "${pkgs.rust-analyzer}/bin/rust-analyzer";
     nil = "${pkgs.nil}/bin/nil";
@@ -53,9 +52,9 @@ in
         ]
       ))
     ];
-    extraConfig = ''
-      luafile ${luaConfig}
-      colorscheme onenord
-    '';
   };
+
+  xdg.configFile."nvim/init.lua".text = ''
+    dofile("${luaConfig}")
+  '';
 }

@@ -142,7 +142,7 @@ require('lspconfig')['pylsp'].setup{
 require('lspconfig')['clangd'].setup{
   on_attach = on_attach,
   flags = lsp_flags,
-  cmd = { "@clangd@" },
+  cmd = { "clangd" },
 }
 require('lspconfig')['gopls'].setup{
   on_attach = on_attach,
