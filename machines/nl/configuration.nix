@@ -144,6 +144,11 @@ in
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
       virtualHosts = {
+        "${host}.rvf6.com" = {
+          forceSSL = true;
+          enableACME = true;
+          default = true;
+        };
         "d.rvf6.com" = {
           forceSSL = true;
           enableACME = true;

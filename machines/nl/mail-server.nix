@@ -127,15 +127,6 @@ in
       };
     };
 
-  services.nginx = {
-    enable = true;
-    virtualHosts.${hostname} = {
-      serverName = hostname;
-      forceSSL = true;
-      enableACME = true;
-    };
-  };
-
   security.acme.certs.${hostname}.reloadServices = [
     "postfix.service"
     "dovecot2.service"
