@@ -55,7 +55,7 @@ in
     netdevConfig = {
       Name = "wg0";
       Kind = "wireguard";
-      MTUBytes = "1380";
+      MTUBytes = "1364";
     };
     wireguardConfig = {
       PrivateKeyFile = config.sops.secrets.wireguard_key.path;
