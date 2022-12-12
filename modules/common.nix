@@ -2,6 +2,7 @@
 with lib;
 let
   sshPub = import ../lib/ssh-pubkeys.nix;
+  authorizedKeys = with sshPub; [ canokey a4b ed25519 ];
 in
 {
   nix.settings = {
@@ -47,10 +48,35 @@ in
   users.users.rvfg = {
     isNormalUser = true;
     extraGroups = [ "systemd-journal" ];
-    openssh.authorizedKeys.keys = [ sshPub.canokey sshPub.a4b sshPub.ed25519 ];
+    openssh.authorizedKeys.keys = authorizedKeys;
   };
 
-  security.sudo.extraRules = [{ users = [ "rvfg" ]; commands = [ "ALL" ]; }];
+  users.groups.deploy = { };
+  users.users.deploy = {
+    isSystemUser = true;
+    group = "deploy";
+    openssh.authorizedKeys.keys = authorizedKeys;
+  };
+
+  security.sudo.extraRules = [
+    {
+      users = [ "rvfg" ];
+      commands = [ "ALL" ];
+    }
+    {
+      users = [ "deploy" ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/nix-env";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/nix/store/*/bin/switch-to-configuration";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
   #security.sudo.extraConfig = ''
   #  Defaults passwd_timeout=0
   #'';
@@ -76,7 +102,7 @@ in
     macs = [ "hmac-sha2-512-etm@openssh.com" "umac-128-etm@openssh.com" ];
     extraConfig = ''
       AuthenticationMethods publickey
-      AllowUsers rvfg
+      AllowUsers rvfg deploy
     '';
     knownHosts = builtins.listToAttrs (map
       (host: {
