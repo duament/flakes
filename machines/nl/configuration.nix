@@ -137,7 +137,7 @@ in
     {
       enable = true;
       package = pkgs.nginxMainline;
-      additionalModules = with pkgs.nginxModules; [ dav fancyindex ];
+      additionalModules = with pkgs.nginxModules; [ fancyindex ];
       commonHttpConfig = "dav_ext_lock_zone zone=default:10m;";
       recommendedGzipSettings = true;
       recommendedOptimisation = true;
