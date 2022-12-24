@@ -55,6 +55,7 @@ in
   users.users.deploy = {
     isSystemUser = true;
     group = "deploy";
+    useDefaultShell = true;
     openssh.authorizedKeys.keys = authorizedKeys;
   };
 
