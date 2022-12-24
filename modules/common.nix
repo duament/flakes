@@ -17,6 +17,7 @@ in
       "rvfg.cachix.org-1:Y4KBTduWzzLGMyy/SQPkzXuHiYeeaIFszIQI0kA59lQ="
       "cache.rvf6.com-1:puyypMB+P2nYa5Zg40uzzAh2ncg/cwSTR/OxqQ8yK7Q="
     ];
+    trusted-users = [ "deploy" ];
   };
 
   environment.systemPackages = with pkgs; [
