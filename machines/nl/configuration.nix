@@ -16,7 +16,7 @@ in
     "syncthing/key".owner = config.services.syncthing.user;
     "wireguard_key".owner = "systemd-network";
     "shadowsocks" = { };
-    "transmission".owner = config.services.transmission.user;
+    "transmission".owner = config.services.nginx.user;
     "basic_auth".owner = config.services.nginx.user;
     "vouch-bt" = { };
   };
