@@ -30,7 +30,7 @@ in
       };
     };
 
-    environment.noXlibs = true;
+    fonts.fontconfig.enable = false;
     xdg = {
       autostart.enable = false;
       icons.enable = false;
