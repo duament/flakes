@@ -4,8 +4,8 @@ let
   fcitx5-pinyin-zhwiki =
     let
       src = pkgs.fetchurl {
-        url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20221029.dict";
-        sha256 = "sha256-GWbYTudS74iaw+7+mvcjt+QXkC4tFm+v4dDXWTx7aG8=";
+        url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20221128.dict";
+        sha256 = "sha256-zP1jVvpcgoUrkLTUACzl0uMYSp7ybAacSVcBAPIyii4=";
       };
     in
     pkgs.runCommand "fcitx5-pinyin-zhwiki"
