@@ -34,6 +34,11 @@
       url = "github:Naereen/Nginx-Fancyindex-Theme";
       flake = false;
     };
+
+    transmission-web-control = {
+      url = "github:ronggang/transmission-web-control";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, ... }:

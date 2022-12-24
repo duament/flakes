@@ -18,6 +18,7 @@ in
     "shadowsocks" = { };
     "transmission".owner = config.services.transmission.user;
     "basic_auth".owner = config.services.nginx.user;
+    "vouch-bt" = { };
   };
 
   boot.loader.grub = {
@@ -116,15 +117,25 @@ in
   services.transmission = {
     enable = true;
     openPeerPorts = true;
-    credentialsFile = config.sops.secrets.transmission.path;
     downloadDirPermissions = "770";
     settings = {
-      rpc-authentication-required = true;
+      rpc-authentication-required = false;
       rpc-bind-address = "::1";
       rpc-port = 9091;
       rpc-whitelist-enabled = false;
       rpc-host-whitelist-enabled = false;
       umask = 7; # 007
+    };
+  };
+
+  systemd.services.vouch-bt = {
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    environment.VOUCH_CONFIG = "/run/credentials/vouch-bt.service/vouch-bt";
+    serviceConfig = import ../../lib/systemd-harden.nix // {
+      ExecStart = "${pkgs.vouch-proxy}/bin/vouch-proxy";
+      LoadCredential = "vouch-bt:${config.sops.secrets.vouch-bt.path}";
+      PrivateNetwork = false;
     };
   };
 
@@ -147,6 +158,7 @@ in
         "${host}.rvf6.com" = {
           forceSSL = true;
           enableACME = true;
+          extraConfig = hstsConfig;
           default = true;
         };
         "d.rvf6.com" = {
@@ -169,10 +181,47 @@ in
           forceSSL = true;
           enableACME = true;
           extraConfig = hstsConfig;
+          basicAuthFile = config.sops.secrets.transmission.path;
           locations = {
             "/".proxyPass = "http://[::1]:9091/";
-            "= /".return = "301 /transmission/web/";
-            "/transmission/web/".alias = flood + "/";
+          };
+        };
+        "bt.rvf6.com" = {
+          forceSSL = true;
+          enableACME = true;
+          extraConfig = ''
+            ${hstsConfig}
+            error_page 401 = @error401;
+          '';
+          locations = {
+            "/vouch" = {
+              proxyPass = "http://[::1]:2001";
+              extraConfig = ''
+                proxy_pass_request_body off;
+                proxy_set_header Content-Length "";
+                auth_request_set $auth_resp_jwt $upstream_http_x_vouch_jwt;
+                auth_request_set $auth_resp_err $upstream_http_x_vouch_err;
+                auth_request_set $auth_resp_failcount $upstream_http_x_vouch_failcount;
+              '';
+            };
+            "@error401".return = "302 /vouch/login?url=$scheme://$http_host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
+            "= /".return = "301 /flood/";
+            "/flood/" = {
+              alias = flood + "/";
+              extraConfig = "auth_request /vouch/validate;";
+            };
+            "/twc/" = {
+              alias = self.inputs.transmission-web-control + "/src/";
+              extraConfig = "auth_request /vouch/validate;";
+            };
+            "/og/" = {
+              proxyPass = "http://[::1]:9091/transmission/web/";
+              extraConfig = "auth_request /vouch/validate;";
+            };
+            "/rpc" = {
+              proxyPass = "http://[::1]:9091/transmission/rpc";
+              extraConfig = "auth_request /vouch/validate;";
+            };
           };
         };
       };
