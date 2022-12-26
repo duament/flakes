@@ -48,6 +48,13 @@ rec {
       endpointAddr = "2a04:52c0:106:496f::1"; # nl.rvf6.com
       endpointPort = 11111;
     };
+    or2 = {
+      ipv4 = "${ipv4Pre}22";
+      ipv6 = "${ipv6Pre}16";
+      pubkey = "y30Ml/mpgpeGz1vPmzn6V6CFshQnvuzub4TLOmhzYXI=";
+      endpointAddr = "[2603:c020:2:8c00:bdc1:ea21:3fa7:95e6]"; # or2.rvf6.com
+      endpointPort = 11111;
+    };
     or3 = {
       ipv4 = "${ipv4Pre}23";
       ipv6 = "${ipv6Pre}17";

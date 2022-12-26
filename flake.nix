@@ -53,6 +53,7 @@
         work = import ./machines/work { inherit inputs nixpkgs self; };
         rpi3 = import ./machines/rpi3 { inherit inputs nixpkgs self; };
         t430 = import ./machines/t430 { inherit inputs nixpkgs self; };
+        or2 = import ./machines/or2 { inherit inputs nixpkgs self; };
         or3 = import ./machines/or3 { inherit inputs nixpkgs self; };
         az = import ./machines/az { inherit inputs nixpkgs self; };
         nl = import ./machines/nl { inherit inputs nixpkgs self; };
