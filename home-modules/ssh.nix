@@ -43,7 +43,7 @@ in
               identityFile = sshIdentities;
               forwardAgent = true;
             };
-          }) [ "nl" "or3" "az" "rpi3" "t430" "work" ]) // builtins.listToAttrs (map
+          }) [ "nl" "or2" "or3" "az" "rpi3" "t430" "work" ]) // builtins.listToAttrs (map
         (host: {
           name = host;
           value = {
@@ -52,7 +52,7 @@ in
             identityFile = sshIdentities;
             forwardAgent = true;
           };
-        }) [ "or1" "or2" ]) // builtins.listToAttrs (map
+        }) [ "or1" ]) // builtins.listToAttrs (map
         (host: {
           name = host;
           value = {
