@@ -69,13 +69,13 @@ in
       openDefaultPorts = true;
       cert = config.sops.secrets."syncthing/cert".path;
       key = config.sops.secrets."syncthing/key".path;
-      devices = lib.getAttrs [ "desktop" "xiaoxin" "iphone" ] st.devices;
+      devices = st.devices;
       folders = {
         keepass = {
           id = "xudus-kdccy";
           label = "KeePass";
           path = "${config.services.syncthing.dataDir}/KeePass";
-          devices = [ "desktop" "xiaoxin" "iphone" ];
+          devices = [ "desktop" "xiaoxin" "iphone" "t430" "nl" ];
           versioning = {
             type = "staggered";
             params.cleanInterval = "3600";

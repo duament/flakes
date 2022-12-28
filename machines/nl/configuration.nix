@@ -79,20 +79,19 @@ in
   services.syncthing =
     let
       st = import ../../lib/syncthing.nix;
-      devs = [ "desktop" "xiaoxin" "iphone" "az" ];
     in
     {
       enable = true;
       openDefaultPorts = true;
       cert = config.sops.secrets."syncthing/cert".path;
       key = config.sops.secrets."syncthing/key".path;
-      devices = lib.getAttrs devs st.devices;
+      devices = st.devices;
       folders = {
         keepass = {
           id = "xudus-kdccy";
           label = "KeePass";
           path = "${config.services.syncthing.dataDir}/KeePass";
-          devices = devs;
+          devices = [ "desktop" "xiaoxin" "iphone" "t430" "az" ];
           versioning = {
             type = "staggered";
             params.cleanInterval = "3600";

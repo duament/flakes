@@ -72,7 +72,7 @@ in
       openDefaultPorts = true;
       cert = config.sops.secrets."syncthing/cert".path;
       key = config.sops.secrets."syncthing/key".path;
-      devices = lib.getAttrs [ "desktop" "xiaoxin" ] st.devices;
+      devices = st.devices;
       folders = {
         music = {
           id = "hngav-zprin";

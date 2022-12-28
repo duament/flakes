@@ -11,6 +11,8 @@ in
     swanctl = { };
     warp_key.owner = "systemd-network";
     wireguard_key.owner = "systemd-network";
+    "syncthing/cert".owner = config.services.syncthing.user;
+    "syncthing/key".owner = config.services.syncthing.user;
   };
 
   boot.loader.generationsDir.copyKernels = true;
@@ -123,4 +125,41 @@ in
       }
     '';
   };
+
+  services.syncthing =
+    let
+      st = import ../../lib/syncthing.nix;
+    in
+    {
+      enable = true;
+      openDefaultPorts = true;
+      cert = config.sops.secrets."syncthing/cert".path;
+      key = config.sops.secrets."syncthing/key".path;
+      devices = st.devices;
+      folders = {
+        keepass = {
+          id = "xudus-kdccy";
+          label = "KeePass";
+          path = "${config.services.syncthing.dataDir}/KeePass";
+          devices = [ "desktop" "xiaoxin" "iphone" "az" "nl" ];
+          versioning = {
+            type = "staggered";
+            params.cleanInterval = "3600";
+            params.maxAge = "15552000";
+          };
+        };
+        notes = {
+          id = "m4f2r-yzqvs";
+          label = "notes";
+          path = "${config.services.syncthing.dataDir}/notes";
+          devices = [ "desktop" "xiaoxin" ];
+        };
+        session = {
+          id = "upou4-bdgln";
+          label = "session";
+          path = "${config.services.syncthing.dataDir}/session";
+          devices = [ "desktop" "xiaoxin" ];
+        };
+      };
+    };
 }
