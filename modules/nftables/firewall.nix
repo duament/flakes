@@ -21,21 +21,18 @@ in
     networking.nftables.tables.misc = {
       family = "inet";
       content = ''
-        table inet misc {
-          ${optionalString (length cfg.masquerade != 0) ''
-            chain masq {
-              type nat hook postrouting priority srcnat;
-              ${concatStringsSep " masquerade\n" cfg.masquerade} masquerade
-            }
-          ''}
-
-          ${optionalString cfg.mssClamping ''
-            chain mss-clamping {
-              type filter hook forward priority mangle;
-              tcp flags syn tcp option maxseg size set rt mtu
-            }
-          ''}
-        }
+        ${optionalString (length cfg.masquerade != 0) ''
+          chain masq {
+            type nat hook postrouting priority srcnat;
+            ${concatStringsSep " masquerade\n" cfg.masquerade} masquerade
+          }
+        ''}
+        ${optionalString cfg.mssClamping ''
+          chain mss-clamping {
+            type filter hook forward priority mangle;
+            tcp flags syn tcp option maxseg size set rt mtu
+          }
+        ''}
       '';
     };
   };

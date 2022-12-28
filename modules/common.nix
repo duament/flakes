@@ -38,7 +38,10 @@ in
       logRefusedConnections = false;
       pingLimit = "20/second";
     };
-    nftables.enable = mkDefault true;
+    nftables = {
+      enable = mkDefault true;
+      flushRuleset = false;
+    };
   };
 
   time.timeZone = "Asia/Hong_Kong";
