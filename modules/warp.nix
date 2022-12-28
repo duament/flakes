@@ -82,8 +82,9 @@ in
       mark = cfg.routeMark;
       extraIPv4Rules = cfg.extraIPv4MarkRules;
     };
-    networking.nftables.ruleset = ''
-      table inet warp {
+    networking.nftables.tables.warp = {
+      family = "inet";
+      content = ''
         chain out {
           type filter hook output priority mangle;
           ip daddr ${cfg.endpointAddr} udp dport ${builtins.toString cfg.endpointPort} @th,72,24 set ${cfg.routingId}
@@ -98,8 +99,8 @@ in
           type nat hook postrouting priority srcnat;
           oifname warp masquerade
         }
-      }
     '';
+    };
 
     systemd.network.netdevs."25-warp" = {
       netdevConfig = {
