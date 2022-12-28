@@ -45,7 +45,7 @@ rec {
       ipv4 = "${ipv4Pre}20";
       ipv6 = "${ipv6Pre}14";
       pubkey = "Pt/nY6/QPGfVSGRfYCDHRYZ4B+N7BZWKLxEJtEWAYxk=";
-      endpointAddr = "2a04:52c0:106:496f::1"; # nl.rvf6.com
+      endpointAddr = "[2a04:52c0:106:496f::1]"; # nl.rvf6.com
       endpointPort = 11111;
     };
     or2 = {
@@ -77,7 +77,6 @@ rec {
         PublicKey = peer.pubkey;
       } // (if (peer ? endpointAddr) then {
         Endpoint = "${peer.endpointAddr}:${toString peer.endpointPort}";
-        PersistentKeepalive = 25;
       } else { });
     })
     (attrValues peers);
