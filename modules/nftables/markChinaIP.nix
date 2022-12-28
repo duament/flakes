@@ -56,7 +56,7 @@ in
       };
 
       mark-china-ip6 = {
-        family = "ip";
+        family = "ip6";
         name = "mark-china-ip";
         content = ''
           ${nftChinaIP.ipv6}
