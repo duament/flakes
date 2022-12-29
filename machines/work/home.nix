@@ -14,7 +14,7 @@ in
     checksec
     gcc
     gdb
-    ncdu
+    unar
     wireguard-tools
   ];
 

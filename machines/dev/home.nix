@@ -26,16 +26,17 @@
     #clang
     coreutils
     curl
+    dig
     docker
     gcc
     gdb
     home-manager
     iproute2
     less
-    ncdu
     openssl
     procps
     strace
+    unar
     util-linux
   ];
 

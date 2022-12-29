@@ -10,6 +10,8 @@ in
   presets.ssh.enable = true;
 
   home.packages = with pkgs; [
+    sops
+    unar
   ];
 
   home.file.".ssh/allowed_signers".text = "i@rvf6.com ${sshPub.canokey}";

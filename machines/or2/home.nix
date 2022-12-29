@@ -4,7 +4,6 @@
   ];
 
   home.packages = with pkgs; [
-    ncdu
     wireguard-tools
   ];
 }

@@ -16,8 +16,9 @@ with lib;
     home.packages = with pkgs; [
       gnome.gnome-tweaks
       gnomeExtensions.appindicator
-      ncdu
+      sops
       tdesktop
+      unar
       usbutils
       wireguard-tools
     ];

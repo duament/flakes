@@ -2,12 +2,11 @@
 {
   home.packages = with pkgs; [
     binutils
-    dig
     duf
     file
     mtr
-    sops
-    unar
+    ncdu
+    tmux
   ];
 
   programs.exa.enable = true;

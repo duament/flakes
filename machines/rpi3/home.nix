@@ -5,7 +5,6 @@
 
   home.packages = with pkgs; [
     iperf
-    ncdu
     usbutils
     wireguard-tools
   ];
