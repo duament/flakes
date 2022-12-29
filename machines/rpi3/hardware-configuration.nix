@@ -22,6 +22,7 @@ in
     };
     preLVMCommands = lib.mkOrder 400 "sleep 1";
     postMountCommands = "rm -rf /run/secrets";
+    systemd.enable = false;
   };
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];

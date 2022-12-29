@@ -21,6 +21,7 @@ in
       };
     };
     postMountCommands = "rm -rf /run/secrets";
+    systemd.enable = false;
   };
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];

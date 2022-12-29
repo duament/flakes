@@ -28,6 +28,7 @@ in
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.initrd.systemd.enable = mkDefault true;
   boot.loader.systemd-boot.editor = mkDefault false;
   boot.loader.timeout = mkDefault 2;
   boot.tmpOnTmpfs = mkDefault true;
