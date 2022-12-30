@@ -67,7 +67,7 @@ in
 
       userdb {
         driver = static
-        args = uid=${mailUser} gid=${mailGroup} home=/var/mail
+        args = uid=${mailUser} gid=${mailGroup} home=/var/mail allow_all_users=yes
       }
 
       auth_mechanisms = plain login
