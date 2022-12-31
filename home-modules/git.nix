@@ -12,7 +12,7 @@ in
   };
 
   config = {
-    home.file.".ssh/allowed_signers".text = concatMapStringsSep "\n" (x: "i@rvf6.com ${x}") (with sshPub; [ ybk canokey ]);
+    home.file.".ssh/allowed_signers".text = concatMapStrings (x: "i@rvf6.com ${x}\n") (with sshPub; [ ybk canokey ]);
 
     programs.git = {
       enable = true;
