@@ -81,6 +81,7 @@ in
           ./nogui.nix
           ./router.nix
         ];
+        boot.initrd.systemd.enable = false;
         networking.hostName = "uu";
         networking.useHostResolvConf = false;
         networking.firewall.extraInputRules = ''
