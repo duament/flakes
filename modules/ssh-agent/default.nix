@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  keys = [ "canokey" "a4b" ];
+  keys = [ "canokey" "a4b" "ybk" ];
   user = config.users.users.rvfg.name;
 in
 {

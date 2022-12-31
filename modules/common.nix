@@ -2,7 +2,7 @@
 with lib;
 let
   sshPub = import ../lib/ssh-pubkeys.nix;
-  authorizedKeys = with sshPub; [ canokey a4b ed25519 ];
+  authorizedKeys = with sshPub; [ ybk canokey a4b ed25519 ];
 in
 {
   nix.settings = {

@@ -23,21 +23,10 @@ with lib;
       wireguard-tools
     ];
 
-    programs.git = {
-      enable = true;
-      userEmail = "i@rvf6.com";
-      userName = "Rvfg";
-      signing = {
-        signByDefault = true;
-        key = "F2E3DA8DE23F4EA11033EDEC535D184864C05736";
-      };
-      extraConfig = {
-        init.defaultBranch = "main";
-        gcrypt = {
-          participants = "F2E3DA8DE23F4EA11033EDEC535D184864C05736";
-          publish-participants = true;
-        };
-      };
+    presets.git.enable = true;
+    programs.git.extraConfig.gcrypt = {
+      participants = "F2E3DA8DE23F4EA11033EDEC535D184864C05736";
+      publish-participants = true;
     };
 
     programs.gpg.enable = true;

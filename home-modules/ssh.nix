@@ -2,7 +2,7 @@
 with lib;
 let
   sshPub = import ../lib/ssh-pubkeys.nix;
-  keys = [ "canokey" "a4b" "ed25519" ];
+  keys = [ "ybk" "canokey" "a4b" "ed25519" ];
   sshIdentities = map (key: "~/.ssh/id_${key}.pub") keys;
 in
 {
