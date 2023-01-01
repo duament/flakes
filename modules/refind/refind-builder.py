@@ -217,7 +217,7 @@ def write_refind_config(path: str, default_generation: SystemIdentifier, generat
         # prevent refind from adding boot-entries for kernels in /EFI/nixos
         # this is done so that the default_selection will not mistakenly use the wrong entry
         f.write("dont_scan_dirs ESP:/EFI/nixos\n")
-        f.write("default_selection @defaultSelection@\n")
+        f.write("default_selection \"@defaultSelection@\"\n")
 
         f.write('''@extraConfig@''')
 
