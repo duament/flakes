@@ -32,7 +32,8 @@ let
     inherit (config.boot.loader.efi) efiSysMountPoint canTouchEfiVariables;
   };
 
-in {
+in
+{
 
   options.presets.refind = {
 

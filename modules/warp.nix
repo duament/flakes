@@ -99,7 +99,7 @@ in
           type nat hook postrouting priority srcnat;
           oifname warp masquerade
         }
-    '';
+      '';
     };
 
     systemd.network.netdevs."25-warp" = {

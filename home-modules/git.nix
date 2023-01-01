@@ -5,7 +5,7 @@ let
 in
 {
   options = {
-    presets.git.enable =  mkOption {
+    presets.git.enable = mkOption {
       type = types.bool;
       default = false;
     };
