@@ -8,6 +8,7 @@ in
 
   boot.isContainer = true;
   boot.loader.initScript.enable = true;
+  boot.initrd.systemd.enable = false;
 
   networking = {
     hostName = host;
