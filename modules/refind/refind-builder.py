@@ -1,0 +1,292 @@
+#! @python3@/bin/python3 -B
+import argparse
+import os
+import os.path
+import sys
+import errno
+import subprocess
+import glob
+import tempfile
+import datetime
+import shutil
+import ctypes
+import re
+import glob
+from typing import NamedTuple, List, Optional
+libc = ctypes.CDLL("libc.so.6")
+
+
+class SystemIdentifier(NamedTuple):
+    profile: Optional[str]
+    generation: int
+    specialisation: Optional[str]
+
+
+def generation_dir(profile: Optional[str], generation: int) -> str:
+    if profile:
+        return "/nix/var/nix/profiles/system-profiles/%s-%d-link" % (profile, generation)
+    else:
+        return "/nix/var/nix/profiles/system-%d-link" % (generation)
+
+
+def system_dir(profile: Optional[str], generation: int, specialisation: Optional[str]) -> str:
+    d = generation_dir(profile, generation)
+    if specialisation:
+        return os.path.join(d, "specialisation", specialisation)
+    else:
+        return d
+
+
+def generation_filename(profile: Optional[str], generation: int, specialisation: Optional[str]) -> str:
+    pieces = [
+        "nixos",
+        profile or None,
+        "generation",
+        str(generation),
+        f"specialisation-{specialisation}" if specialisation else None,
+    ]
+    return "-".join(p for p in pieces if p)
+
+
+def profile_path(profile: Optional[str], generation: int, specialisation: Optional[str], name: str) -> str:
+    return os.path.realpath("%s/%s" % (system_dir(profile, generation, specialisation), name))
+
+
+def describe_generation(generation_dir: str) -> str:
+    try:
+        with open("%s/nixos-version" % generation_dir) as f:
+            nixos_version = f.read()
+    except IOError:
+        nixos_version = "Unknown"
+
+    kernel_dir = os.path.dirname(os.path.realpath("%s/kernel" % generation_dir))
+    module_dir = glob.glob("%s/lib/modules/*" % kernel_dir)[0]
+    kernel_version = os.path.basename(module_dir)
+
+    build_time = int(os.path.getctime(generation_dir))
+    build_date = datetime.datetime.fromtimestamp(build_time).strftime('%F')
+
+    description = "NixOS {}, Linux Kernel {}, Built on {}".format(
+        nixos_version, kernel_version, build_date
+    )
+
+    return description
+
+
+def mkdir_p(path: str) -> None:
+    try:
+        os.makedirs(path)
+    except OSError as e:
+        if e.errno != errno.EEXIST or not os.path.isdir(path):
+            raise
+
+
+def get_generations(profile: Optional[str] = None) -> List[SystemIdentifier]:
+    gen_list = subprocess.check_output([
+        "@nix@/bin/nix-env",
+        "--list-generations",
+        "-p",
+        "/nix/var/nix/profiles/%s" % ("system-profiles/" + profile if profile else "system"),
+        "--option", "build-users-group", ""],
+        universal_newlines=True)
+    gen_lines = gen_list.split('\n')
+    gen_lines.pop()
+
+    configurationLimit = @configurationLimit@
+    configurations = [
+        SystemIdentifier(
+            profile=profile,
+            generation=int(line.split()[0]),
+            specialisation=None
+        )
+        for line in gen_lines
+    ]
+    return configurations[-configurationLimit:]
+
+
+def get_specialisations(profile: Optional[str], generation: int, _: Optional[str]) -> List[SystemIdentifier]:
+    specialisations_dir = os.path.join(
+        system_dir(profile, generation, None), "specialisation")
+    if not os.path.exists(specialisations_dir):
+        return []
+    return [SystemIdentifier(profile, generation, spec) for spec in os.listdir(specialisations_dir)]
+
+
+def remove_old_entries(gens: List[SystemIdentifier]) -> None:
+    rex_profile = re.compile(r"^@efiSysMountPoint@/efi/nixos/nixos-(.*)-generation-.*\.efi$")
+    rex_generation = re.compile(r"^@efiSysMountPoint@/efi/nixos/nixos.*-generation-([0-9]+)(-specialisation-.*)?\.efi$")
+    for path in glob.iglob("@efiSysMountPoint@/efi/nixos/nixos*-generation-*.efi"):
+        if rex_profile.match(path):
+            prof = rex_profile.sub(r"\1", path)
+        else:
+            prof = None
+        try:
+            gen_number = int(rex_generation.sub(r"\1", path))
+        except ValueError:
+            continue
+        if not (prof, gen_number, None) in gens:
+            os.unlink(path)
+
+
+def get_profiles() -> List[str]:
+    if os.path.isdir("/nix/var/nix/profiles/system-profiles/"):
+        return [
+            x for x in os.listdir("/nix/var/nix/profiles/system-profiles/")
+            if not x.endswith("-link")
+        ]
+    return []
+
+
+def generate_efi(profile: Optional[str], generation: int, specialisation: Optional[str], kernel_params: str) -> str:
+    osrel = profile_path(profile, generation, specialisation, "etc/os-release")
+    kernel = profile_path(profile, generation, specialisation, "kernel")
+    initrd_store = profile_path(profile, generation, specialisation, "initrd")
+    efi_file_path = f"/efi/nixos/{generation_filename(profile, generation, specialisation)}.efi"
+    efi_file_full_path = "@efiSysMountPoint@" + efi_file_path
+    if os.path.exists(efi_file_full_path):
+        return efi_file_path
+    with tempfile.TemporaryDirectory() as tmpdir:
+        initrd = os.path.join(tmpdir, 'initrd')
+        shutil.copyfile(initrd_store, initrd)
+        try:
+            append_initrd_secrets = profile_path(profile, generation, specialisation, "append-initrd-secrets")
+            subprocess.check_call([append_initrd_secrets, "@efiSysMountPoint@%s" % (initrd)])
+        except FileNotFoundError:
+            pass
+        unsigned_efi_path = os.path.join(tmpdir, 'efi')
+        if "@sign@" == "1":
+            objcopy_output = unsigned_efi_path
+        else:
+            objcopy_output = efi_file_full_path
+        with tempfile.NamedTemporaryFile('w') as cmdline:
+            cmdline.write(kernel_params)
+            cmdline.flush()
+            subprocess.check_call([
+                "@objcopy@",
+                "--add-section", f".osrel={osrel}", "--change-section-vma", ".osrel=0x20000",
+                "--add-section", f".cmdline={cmdline.name}", "--change-section-vma", ".cmdline=0x30000",
+                "--add-section", ".splash=/dev/null", "--change-section-vma", ".splash=0x40000",
+                "--add-section", f".linux={kernel}", "--change-section-vma", ".linux=0x2000000",
+                "--add-section", f".initrd={initrd}", "--change-section-vma", ".initrd=0x3000000",
+                "@efiStubPath@", objcopy_output])
+        if "@sign@" == "1":
+            subprocess.check_call(["@sbsign@", "--key", "@signKey@", "--cert", "@signCert@", "--output", efi_file_full_path, unsigned_efi_path])
+    return efi_file_path
+
+
+def generation_details(profile: Optional[str], generation: int, specialisation: Optional[str]):
+    generation_dir = os.readlink(system_dir(profile, generation, specialisation))
+    kernel_params = "init=%s/init " % (generation_dir)
+    with open("%s/kernel-params" % (generation_dir)) as params_file:
+        kernel_params = kernel_params + params_file.read()
+    efi_file_path = generate_efi(profile, generation, specialisation, kernel_params)
+    description = describe_generation(generation_dir)
+    return {
+        "profile": f"[{profile}] " if profile else "",
+        "specialisation": f"({specialisation}) " if specialisation else "",
+        "generation": generation,
+        "loader": efi_file_path,
+        "description": description
+    }
+
+
+MENU_ENTRY = """
+menuentry "NixOS" {{
+    loader {loader}
+    {submenuentries}
+}}
+"""
+
+SUBMENUENTRY = """
+    submenuentry "{profile}{specialisation}Generation {generation} {description}" {{
+        loader {loader}
+    }}
+"""
+
+
+def write_refind_config(path: str, default_generation: SystemIdentifier, generations: List[SystemIdentifier]) -> None:
+    with open(path, 'w') as f:
+        if "@canTouchEfiVariables@" == "1":
+            f.write("use_nvram true\n")
+        else:
+            f.write("use_nvram false\n")
+
+        if "@timeout@" != "":
+            f.write("timeout @timeout@\n")
+
+        # prevent refind from adding boot-entries for kernels in /EFI/nixos
+        # this is done so that the default_selection will not mistakenly use the wrong entry
+        f.write("dont_scan_dirs ESP:/EFI/nixos\n")
+        f.write("default_selection @defaultSelection@\n")
+
+        f.write('''@extraConfig@''')
+
+        rev_generations = sorted(generations, key=lambda x: x[1], reverse=True)
+        submenuentries = []
+        for generation in rev_generations:
+            submenuentries.append(SUBMENUENTRY.format(
+                **generation_details(*generation)
+            ))
+            for specialisation in get_specialisations(*generation):
+                submenuentries.append(SUBMENUENTRY.format(
+                    **generation_details(*specialisation)
+                ))
+
+        f.write(MENU_ENTRY.format(
+            **generation_details(*default_generation),
+            submenuentries="\n".join(submenuentries)
+        ))
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Update NixOS-related refind files')
+    parser.add_argument('default_config', metavar='DEFAULT-CONFIG', help='The default NixOS config to boot')
+    args = parser.parse_args()
+
+    if "@installAsRemovable@":
+        install_target = "@efiSysMountPoint@/EFI/BOOT"
+    else:
+        install_target = "@efiSysMountPoint@/EFI/refind"
+
+    mkdir_p(install_target)
+    mkdir_p("@efiSysMountPoint@/efi/nixos")
+
+    gens = get_generations()
+    for profile in get_profiles():
+        gens += get_generations(profile)
+    remove_old_entries(gens)
+    default_gen = None
+    for gen in gens:
+        if os.readlink(system_dir(*gen)) == args.default_config:
+            default_gen = gen
+
+    # write config before installing refind in order to enforce update
+    # this results in using the location of refind.conf as install-directory
+    write_refind_config(f"{install_target}/refind.conf", default_gen, gens)
+
+    if os.getenv("NIXOS_INSTALL_BOOTLOADER") == "1":
+        subprocess.check_call(
+            ["@refind@/bin/refind-install", "--yes"],
+            env={"PATH": ":".join([
+                "@efibootmgr@/bin",
+                "@coreutils@/bin",
+                "@utillinux@/bin",
+                "@gnugrep@/bin",
+                "@gnused@/bin",
+                "@gawk@/bin",
+            ])}
+        )
+        # TODO Sign
+    # TODO Update refind efi
+
+    # Since fat32 provides little recovery facilities after a crash,
+    # it can leave the system in an unbootable state, when a crash/outage
+    # happens shortly after an update. To decrease the likelihood of this
+    # event sync the efi filesystem after each update.
+    rc = libc.syncfs(os.open("@efiSysMountPoint@", os.O_RDONLY))
+    if rc != 0:
+        print("could not sync @efiSysMountPoint@: {}".format(os.strerror(rc)), file=sys.stderr)
+
+
+if __name__ == '__main__':
+    main()

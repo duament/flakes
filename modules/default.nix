@@ -8,6 +8,7 @@
     ./common.nix
     ./nftables
     ./nogui.nix
+    ./refind
     ./router.nix
     ./shadowsocks
     ./smartdns.nix
