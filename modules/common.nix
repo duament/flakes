@@ -1,4 +1,4 @@
-{ lib, pkgs, self, ... }:
+{ inputs, lib, pkgs, self, ... }:
 with lib;
 let
   sshPub = import ../lib/ssh-pubkeys.nix;
@@ -19,6 +19,7 @@ in
     ];
     trusted-users = [ "deploy" ];
   };
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
   environment.systemPackages = with pkgs; [
     compsize
