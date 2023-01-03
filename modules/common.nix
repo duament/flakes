@@ -28,11 +28,17 @@ in
     tcpdump
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.initrd.systemd.enable = mkDefault true;
-  boot.loader.systemd-boot.editor = mkDefault false;
-  boot.loader.timeout = mkDefault 2;
-  boot.tmpOnTmpfs = mkDefault true;
+  boot = {
+    loader.systemd-boot.editor = mkDefault false;
+    loader.timeout = mkDefault 2;
+    kernelPackages = pkgs.linuxPackages_latest;
+    kernel.sysctl = {
+      "net.core.default_qdisc" = "fq";
+      "net.ipv4.tcp_congestion_control" = "bbr";
+    };
+    initrd.systemd.enable = mkDefault true;
+    tmpOnTmpfs = mkDefault true;
+  };
 
   networking = {
     firewall = {
@@ -98,6 +104,7 @@ in
   programs.fish.enable = true;
 
   services.dbus.implementation = "broker";
+  services.nscd.enableNsncd = true;
 
   services.openssh = {
     enable = mkDefault true;
