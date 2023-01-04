@@ -18,6 +18,7 @@ in
       "cache.rvf6.com-1:puyypMB+P2nYa5Zg40uzzAh2ncg/cwSTR/OxqQ8yK7Q="
     ];
     trusted-users = [ "deploy" ];
+    flake-registry = "/etc/nix/registry.json";
   };
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
