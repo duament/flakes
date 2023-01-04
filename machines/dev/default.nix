@@ -3,5 +3,5 @@
   modules = [
     ./home.nix
   ];
-  extraSpecialArgs = { inherit self; };
+  extraSpecialArgs = { inherit inputs self; };
 }

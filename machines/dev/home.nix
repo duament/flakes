@@ -1,4 +1,4 @@
-{ pkgs, self, ... }:
+{ config, inputs, pkgs, self, ... }:
 {
   imports = [
     self.nixosModules.myHomeModules
@@ -14,7 +14,9 @@
       "https://mirror.sjtu.edu.cn/nix-channels/store"
       "https://cache.nixos.org/"
     ];
+    flake-registry = "${config.home.homeDirectory}/.config/nix/registry.json";
   };
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
   home.username = "ruifeng.ma";
   home.homeDirectory = "/home/ruifeng.ma";
