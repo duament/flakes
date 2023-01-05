@@ -6,6 +6,7 @@
     ./chromium.nix
     ./clash.nix
     ./common.nix
+    ./git.nix
     ./nftables
     ./nogui.nix
     ./refind

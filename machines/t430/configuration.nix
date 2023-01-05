@@ -1,5 +1,6 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
+  host = "t430";
   wg0 = import ../../lib/wg0.nix;
 in
 {
@@ -13,6 +14,8 @@ in
     wireguard_key.owner = "systemd-network";
     "syncthing/cert".owner = config.services.syncthing.user;
     "syncthing/key".owner = config.services.syncthing.user;
+    cloudflare = { };
+    vouch-fava = { };
   };
 
   boot.loader.generationsDir.copyKernels = true;
@@ -24,9 +27,13 @@ in
     "net.ipv6.conf.all.forwarding" = true;
   };
 
-  networking.hostName = "t430";
+  networking.hostName = host;
   networking.firewall = {
     checkReversePath = "loose";
+    allowedTCPPorts = [
+      80
+      443
+    ];
     allowedUDPPorts = [
       500 # IPsec
       4500 # IPsec
@@ -97,6 +104,8 @@ in
       "/t430.rvf6.com/${wg0.gateway6}"
       "/owrt.rvf6.com/192.168.2.1"
       "/rpi3.rvf6.com/192.168.2.7"
+      "/fava.rvf6.com/fd64::1"
+      "/fava.rvf6.com/-4"
     ];
 
   services.uu.enable = true;
@@ -159,6 +168,105 @@ in
           label = "session";
           path = "${config.services.syncthing.dataDir}/session";
           devices = [ "desktop" "xiaoxin" ];
+        };
+      };
+    };
+
+  presets.git.enable = true;
+  systemd.services.init-git-beancount = {
+    wantedBy = [ "multi-user.target" ];
+    unitConfig.ConditionPathExists = "!/var/lib/git/beancount";
+    serviceConfig = {
+      Type = "oneshot";
+      User = "git";
+      Group = "git";
+      WorkingDirectory = "/var/lib/git";
+      ExecStart = [
+        "${pkgs.git}/bin/git init -b main beancount"
+        "${pkgs.git}/bin/git config --file ./beancount/.git/config receive.denyCurrentBranch updateInstead"
+      ];
+    };
+  };
+  systemd.services.fava = {
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    unitConfig.ConditionPathExists = "/var/lib/git/beancount/main.beancount";
+    serviceConfig = import ../../lib/systemd-harden.nix // {
+      SupplementaryGroups = [ "git" ];
+      ExecStart = "${pkgs.fava}/bin/fava -H ::1 -p 5000 /var/lib/git/beancount/main.beancount";
+      PrivateNetwork = false;
+    };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "le@rvf6.com";
+    certs."rvf6.com" = {
+      domain = "*.rvf6.com";
+      extraDomainNames = [ "rvf6.com" ];
+      dnsProvider = "cloudflare";
+      credentialsFile = "/dev/null";
+      group = "nginx";
+    };
+  };
+  systemd.services."acme-rvf6.com" = {
+    environment.CF_DNS_API_TOKEN_FILE = "%d/cloudflare";
+    serviceConfig.LoadCredential = "cloudflare:${config.sops.secrets.cloudflare.path}";
+  };
+
+  systemd.services.vouch-fava = {
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    environment.VOUCH_CONFIG = "%d/vouch-fava";
+    serviceConfig = import ../../lib/systemd-harden.nix // {
+      ExecStart = "${pkgs.vouch-proxy}/bin/vouch-proxy";
+      LoadCredential = "vouch-fava:${config.sops.secrets.vouch-fava.path}";
+      PrivateNetwork = false;
+    };
+  };
+
+  services.nginx =
+    let
+      hstsConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
+    in
+    {
+      enable = true;
+      package = pkgs.nginxMainline;
+      recommendedGzipSettings = true;
+      recommendedOptimisation = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      virtualHosts = {
+        "${host}.rvf6.com" = {
+          forceSSL = true;
+          useACMEHost = "rvf6.com";
+          extraConfig = hstsConfig;
+          default = true;
+        };
+        "fava.rvf6.com" = {
+          forceSSL = true;
+          useACMEHost = "rvf6.com";
+          extraConfig = ''
+            ${hstsConfig}
+            error_page 401 = @error401;
+          '';
+          locations = {
+            "/vouch" = {
+              proxyPass = "http://[::1]:2001";
+              extraConfig = ''
+                proxy_pass_request_body off;
+                proxy_set_header Content-Length "";
+                auth_request_set $auth_resp_jwt $upstream_http_x_vouch_jwt;
+                auth_request_set $auth_resp_err $upstream_http_x_vouch_err;
+                auth_request_set $auth_resp_failcount $upstream_http_x_vouch_failcount;
+              '';
+            };
+            "@error401".return = "302 /vouch/login?url=$scheme://$http_host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
+            "/" = {
+              proxyPass = "http://[::1]:5000";
+              extraConfig = "auth_request /vouch/validate;";
+            };
+          };
         };
       };
     };

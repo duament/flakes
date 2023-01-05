@@ -130,7 +130,7 @@ in
   systemd.services.vouch-bt = {
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
-    environment.VOUCH_CONFIG = "/run/credentials/vouch-bt.service/vouch-bt";
+    environment.VOUCH_CONFIG = "%d/vouch-bt";
     serviceConfig = import ../../lib/systemd-harden.nix // {
       ExecStart = "${pkgs.vouch-proxy}/bin/vouch-proxy";
       LoadCredential = "vouch-bt:${config.sops.secrets.vouch-bt.path}";
