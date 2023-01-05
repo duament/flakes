@@ -16,6 +16,8 @@ in
     "syncthing/key".owner = config.services.syncthing.user;
     cloudflare = { };
     vouch-fava = { };
+    vouch-luci = { };
+    luci-nginx-add-auth.owner = config.services.nginx.user;
   };
 
   boot.loader.generationsDir.copyKernels = true;
@@ -106,6 +108,8 @@ in
       "/rpi3.rvf6.com/192.168.2.7"
       "/fava.rvf6.com/fd64::1"
       "/fava.rvf6.com/-4"
+      "/luci.rvf6.com/fd64::1"
+      "/luci.rvf6.com/-4"
     ];
 
   services.uu.enable = true;
@@ -225,9 +229,28 @@ in
     };
   };
 
+  systemd.services.vouch-luci = {
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    environment.VOUCH_CONFIG = "%d/vouch-luci";
+    serviceConfig = import ../../lib/systemd-harden.nix // {
+      ExecStart = "${pkgs.vouch-proxy}/bin/vouch-proxy";
+      LoadCredential = "vouch-luci:${config.sops.secrets.vouch-luci.path}";
+      PrivateNetwork = false;
+    };
+  };
+
   services.nginx =
     let
       hstsConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
+      vouchConfig = ''
+        proxy_pass_request_body off;
+        proxy_set_header Content-Length "";
+        auth_request_set $auth_resp_jwt $upstream_http_x_vouch_jwt;
+        auth_request_set $auth_resp_err $upstream_http_x_vouch_err;
+        auth_request_set $auth_resp_failcount $upstream_http_x_vouch_failcount;
+      '';
+      vouchRedirect = "302 /vouch/login?url=$scheme://$http_host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
     in
     {
       enable = true;
@@ -253,21 +276,60 @@ in
           locations = {
             "/vouch" = {
               proxyPass = "http://[::1]:2001";
-              extraConfig = ''
-                proxy_pass_request_body off;
-                proxy_set_header Content-Length "";
-                auth_request_set $auth_resp_jwt $upstream_http_x_vouch_jwt;
-                auth_request_set $auth_resp_err $upstream_http_x_vouch_err;
-                auth_request_set $auth_resp_failcount $upstream_http_x_vouch_failcount;
-              '';
+              extraConfig = vouchConfig;
             };
-            "@error401".return = "302 /vouch/login?url=$scheme://$http_host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
+            "@error401".return = vouchRedirect;
             "/" = {
               proxyPass = "http://[::1]:5000";
               extraConfig = "auth_request /vouch/validate;";
             };
           };
         };
+        "luci.rvf6.com" =
+          let
+            cert = pkgs.writeText "luci-cert" ''
+              -----BEGIN CERTIFICATE-----
+              MIIB+zCCAaGgAwIBAgIQcFw40pwuLjL+pf2hj/pUeTAKBggqhkjOPQQDAjBfMQsw
+              CQYDVQQGEwJaWjESMBAGA1UECAwJU29tZXdoZXJlMRAwDgYDVQQHDAdVbmtub3du
+              MRgwFgYDVQQKDA9PcGVuV3J0NDQwNDVhZDAxEDAOBgNVBAMMB09wZW5XcnQwIhgP
+              MjAyMjA3MzAxNTEyNTFaGA8yMDI0MDczMDE1MTI1MVowXzELMAkGA1UEBhMCWlox
+              EjAQBgNVBAgMCVNvbWV3aGVyZTEQMA4GA1UEBwwHVW5rbm93bjEYMBYGA1UECgwP
+              T3BlbldydDQ0MDQ1YWQwMRAwDgYDVQQDDAdPcGVuV3J0MFkwEwYHKoZIzj0CAQYI
+              KoZIzj0DAQcDQgAE3JY0GGHiGELBwwauOio7cBa8k6jv6OhUzpFRS09jgSsMZlfs
+              KFe/ZRKwgCtWJLBCGjAXJsvNpUDO6Qs3V1z5qaM7MDkwEgYDVR0RBAswCYIHT3Bl
+              bldydDAOBgNVHQ8BAf8EBAMCBeAwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCgYIKoZI
+              zj0EAwIDSAAwRQIgfkMwUiWA6lvh7sJhTcSqlOPLv9AVpwZ5kmWjcYS0+0ACIQD7
+              obh8c9tPl7tIo56av7HYI/PCTK6JIeCvgN7QXmAtJw==
+              -----END CERTIFICATE-----
+            '';
+          in
+          {
+            forceSSL = true;
+            useACMEHost = "rvf6.com";
+            extraConfig = ''
+              ${hstsConfig}
+              error_page 401 = @error401;
+              proxy_ssl_trusted_certificate ${cert};
+            '';
+            locations = {
+              "/vouch" = {
+                proxyPass = "http://[::1]:2002";
+                extraConfig = vouchConfig;
+              };
+              "@error401".return = vouchRedirect;
+              "= /cgi-bin/luci/" = {
+                proxyPass = "https://192.168.2.1";
+                extraConfig = ''
+                  auth_request /vouch/validate;
+                  include ${config.sops.secrets.luci-nginx-add-auth.path};
+                '';
+              };
+              "/" = {
+                proxyPass = "https://192.168.2.1";
+                extraConfig = "auth_request /vouch/validate;";
+              };
+            };
+          };
       };
     };
 }
