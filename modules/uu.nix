@@ -17,6 +17,11 @@ in
       type = types.str;
       default = "80-ethernet";
     };
+
+    services.uu.uuidFile = mkOption {
+      type = types.nullOr types.path;
+      default = null;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -72,6 +77,7 @@ in
       extraVeths.${veth} = { };
       extraVeths.simns = { };
       interfaces = [ vlan ];
+      extraFlags = [ "--load-credential=uuplugin-uuid:uuplugin-uuid" ];
       config = { config, ... }: {
         _module.args.inputs = inputs;
         imports = [
@@ -138,12 +144,11 @@ in
               hash = "sha256-stqtBRucMJByO6dOB5qUDqVsKGMPMxQdGDlPWlUMjbM=";
               stripRoot = false;
             };
-            uupluginUUID = pkgs.writeText "uuplugin_uuid" "78ed0c77-ef23-46ee-b242-6b09796ff95a";
           in
           {
             after = [ "network-online.target" ];
             wantedBy = [ "multi-user.target" ];
-            path = [ pkgs.iproute2 pkgs.nettools pkgs.iptables ]; # ip ifconfig iptables
+            path = with pkgs; [ iproute2 nettools iptables ]; # ip ifconfig iptables
             serviceConfig = import ../lib/systemd-harden.nix // {
               AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
               CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
@@ -155,13 +160,17 @@ in
               DeviceAllow = [ "/dev/net/tun rwm" ];
               StateDirectory = "%N";
               WorkingDirectory = "%S/%N";
-              BindReadOnlyPaths = "${uupluginUUID}:%S/%N/.uuplugin_uuid";
+              LoadCredential = "uuplugin-uuid";
               PIDFile = "/run/uuplugin.pid";
-              ExecStartPre = "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'";
+              ExecStartPre = [
+                "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'"
+                "${pkgs.coreutils}/bin/ln -s \${CREDENTIALS_DIRECTORY}/uuplugin-uuid %S/%N/.uuplugin_uuid"
+              ];
               ExecStart = "${uu}/uuplugin ${uu}/uu.conf";
             };
           };
       };
     };
+    systemd.services."container@uu".serviceConfig.LoadCredential = "uuplugin-uuid:${cfg.uuidFile}";
   };
 }

@@ -20,6 +20,7 @@ in
     "vouch-luci/jwt" = { };
     "vouch-luci/client" = { };
     luci-nginx-add-auth.owner = config.services.nginx.user;
+    uuplugin-uuid = { };
   };
 
   boot.loader.generationsDir.copyKernels = true;
@@ -114,8 +115,11 @@ in
       "/luci.rvf6.com/-4"
     ];
 
-  services.uu.enable = true;
-  services.uu.wanName = "10-enp1s0";
+  services.uu = {
+    enable = true;
+    wanName = "10-enp1s0";
+    uuidFile = config.sops.secrets.uuplugin-uuid.path;
+  };
 
   services.strongswan-swanctl.enable = true;
   services.strongswan-swanctl.strongswan.extraConfig = ''
