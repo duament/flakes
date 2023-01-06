@@ -18,7 +18,8 @@ in
     "shadowsocks" = { };
     "transmission".owner = config.services.nginx.user;
     "basic_auth".owner = config.services.nginx.user;
-    "vouch-bt" = { };
+    "vouch-bt/jwt" = { };
+    "vouch-bt/client" = { };
   };
 
   boot.loader.grub = {
@@ -127,15 +128,10 @@ in
     };
   };
 
-  systemd.services.vouch-bt = {
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
-    environment.VOUCH_CONFIG = "%d/vouch-bt";
-    serviceConfig = import ../../lib/systemd-harden.nix // {
-      ExecStart = "${pkgs.vouch-proxy}/bin/vouch-proxy";
-      LoadCredential = "vouch-bt:${config.sops.secrets.vouch-bt.path}";
-      PrivateNetwork = false;
-    };
+  presets.vouch.bt = {
+    settings.vouch.port = 2001;
+    jwtSecretFile = config.sops.secrets."vouch-bt/jwt".path;
+    clientSecretFile = config.sops.secrets."vouch-bt/client".path;
   };
 
   security.acme.acceptTerms = true;
@@ -188,22 +184,8 @@ in
         "bt.rvf6.com" = {
           forceSSL = true;
           enableACME = true;
-          extraConfig = ''
-            ${hstsConfig}
-            error_page 401 = @error401;
-          '';
+          extraConfig = hstsConfig;
           locations = {
-            "/vouch" = {
-              proxyPass = "http://[::1]:2001";
-              extraConfig = ''
-                proxy_pass_request_body off;
-                proxy_set_header Content-Length "";
-                auth_request_set $auth_resp_jwt $upstream_http_x_vouch_jwt;
-                auth_request_set $auth_resp_err $upstream_http_x_vouch_err;
-                auth_request_set $auth_resp_failcount $upstream_http_x_vouch_failcount;
-              '';
-            };
-            "@error401".return = "302 /vouch/login?url=$scheme://$http_host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
             "= /".return = "301 /flood/";
             "/flood/" = {
               alias = flood + "/";

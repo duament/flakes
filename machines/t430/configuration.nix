@@ -15,8 +15,10 @@ in
     "syncthing/cert".owner = config.services.syncthing.user;
     "syncthing/key".owner = config.services.syncthing.user;
     cloudflare = { };
-    vouch-fava = { };
-    vouch-luci = { };
+    "vouch-fava/jwt" = { };
+    "vouch-fava/client" = { };
+    "vouch-luci/jwt" = { };
+    "vouch-luci/client" = { };
     luci-nginx-add-auth.owner = config.services.nginx.user;
   };
 
@@ -218,39 +220,23 @@ in
     serviceConfig.LoadCredential = "cloudflare:${config.sops.secrets.cloudflare.path}";
   };
 
-  systemd.services.vouch-fava = {
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
-    environment.VOUCH_CONFIG = "%d/vouch-fava";
-    serviceConfig = import ../../lib/systemd-harden.nix // {
-      ExecStart = "${pkgs.vouch-proxy}/bin/vouch-proxy";
-      LoadCredential = "vouch-fava:${config.sops.secrets.vouch-fava.path}";
-      PrivateNetwork = false;
+  presets.vouch = {
+    fava = {
+      settings.vouch.port = 2001;
+      jwtSecretFile = config.sops.secrets."vouch-fava/jwt".path;
+      clientSecretFile = config.sops.secrets."vouch-fava/client".path;
     };
-  };
 
-  systemd.services.vouch-luci = {
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
-    environment.VOUCH_CONFIG = "%d/vouch-luci";
-    serviceConfig = import ../../lib/systemd-harden.nix // {
-      ExecStart = "${pkgs.vouch-proxy}/bin/vouch-proxy";
-      LoadCredential = "vouch-luci:${config.sops.secrets.vouch-luci.path}";
-      PrivateNetwork = false;
+    luci = {
+      settings.vouch.port = 2002;
+      jwtSecretFile = config.sops.secrets."vouch-luci/jwt".path;
+      clientSecretFile = config.sops.secrets."vouch-luci/client".path;
     };
   };
 
   services.nginx =
     let
       hstsConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
-      vouchConfig = ''
-        proxy_pass_request_body off;
-        proxy_set_header Content-Length "";
-        auth_request_set $auth_resp_jwt $upstream_http_x_vouch_jwt;
-        auth_request_set $auth_resp_err $upstream_http_x_vouch_err;
-        auth_request_set $auth_resp_failcount $upstream_http_x_vouch_failcount;
-      '';
-      vouchRedirect = "302 /vouch/login?url=$scheme://$http_host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
     in
     {
       enable = true;
@@ -269,16 +255,8 @@ in
         "fava.rvf6.com" = {
           forceSSL = true;
           useACMEHost = "rvf6.com";
-          extraConfig = ''
-            ${hstsConfig}
-            error_page 401 = @error401;
-          '';
+          extraConfig = hstsConfig;
           locations = {
-            "/vouch" = {
-              proxyPass = "http://[::1]:2001";
-              extraConfig = vouchConfig;
-            };
-            "@error401".return = vouchRedirect;
             "/" = {
               proxyPass = "http://[::1]:5000";
               extraConfig = "auth_request /vouch/validate;";
@@ -308,15 +286,9 @@ in
             useACMEHost = "rvf6.com";
             extraConfig = ''
               ${hstsConfig}
-              error_page 401 = @error401;
               proxy_ssl_trusted_certificate ${cert};
             '';
             locations = {
-              "/vouch" = {
-                proxyPass = "http://[::1]:2002";
-                extraConfig = vouchConfig;
-              };
-              "@error401".return = vouchRedirect;
               "= /cgi-bin/luci/" = {
                 proxyPass = "https://192.168.2.1";
                 extraConfig = ''

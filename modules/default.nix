@@ -17,6 +17,7 @@
     ./swanctl-dynamic-ipv6.nix
     ./traefik.nix
     ./uu.nix
+    ./vouch.nix
     ./warp.nix
     ./wireguard-dynamic-ipv6.nix
     ./wireguard-re-resolve.nix
