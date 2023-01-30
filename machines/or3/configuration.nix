@@ -104,7 +104,7 @@ in
       </dynamicruncommand>
     '';
   };
-  nix.settings = { allowed-uris = [ "https://github.com" "https://gitlab.com" ]; };
+  nix.settings = { allowed-uris = [ "https://github.com" "https://gitlab.com" "https://git.sr.ht" ]; };
   systemd.services.hydra-evaluator.environment.GC_DONT_GC = "true";
 
   services.nix-serve = {
