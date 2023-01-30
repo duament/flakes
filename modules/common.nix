@@ -110,16 +110,16 @@ in
   services.openssh = {
     enable = mkDefault true;
     hostKeys = [{ path = "/etc/ssh/ssh_host_ed25519_key"; type = "ed25519"; }];
-    kbdInteractiveAuthentication = false;
-    passwordAuthentication = false;
-    permitRootLogin = "no";
     ciphers = [ "chacha20-poly1305@openssh.com" "aes256-gcm@openssh.com" ];
     kexAlgorithms = [ "sntrup761x25519-sha512@openssh.com" "curve25519-sha256" "curve25519-sha256@libssh.org" ];
     macs = [ "hmac-sha2-512-etm@openssh.com" "umac-128-etm@openssh.com" ];
-    extraConfig = ''
-      AuthenticationMethods publickey
-      AllowUsers rvfg deploy
-    '';
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      AuthenticationMethods = "publickey";
+      AllowUsers = "rvfg deploy";
+    };
     knownHosts = builtins.listToAttrs (map
       (host: {
         name = host;
