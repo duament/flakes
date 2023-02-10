@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "Nginx-Fancyindex-Theme": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1663359405,
-        "narHash": "sha256-BFXmTwKcgX94+0wH5x77c9sEP6h9JR73WGY5gp5cyGQ=",
-        "owner": "Naereen",
-        "repo": "Nginx-Fancyindex-Theme",
-        "rev": "32d124a0885a7a4409c2dc557c9b1d4bcf836dd5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Naereen",
-        "repo": "Nginx-Fancyindex-Theme",
-        "type": "github"
-      }
-    },
     "chn-cidr-list": {
       "flake": false,
       "locked": {
@@ -127,15 +111,13 @@
     },
     "root": {
       "inputs": {
-        "Nginx-Fancyindex-Theme": "Nginx-Fancyindex-Theme",
         "chn-cidr-list": "chn-cidr-list",
         "dnsmasq-china-list": "dnsmasq-china-list",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "nixos-cn": "nixos-cn",
         "nixpkgs": "nixpkgs",
-        "sops-nix": "sops-nix",
-        "transmission-web-control": "transmission-web-control"
+        "sops-nix": "sops-nix"
       }
     },
     "sops-nix": {
@@ -158,22 +140,6 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
-        "type": "github"
-      }
-    },
-    "transmission-web-control": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1645657022,
-        "narHash": "sha256-JMgrbnf6fe3rRO8oWQabchYrUPobwqGJPnbutUtOewU=",
-        "owner": "ronggang",
-        "repo": "transmission-web-control",
-        "rev": "0bbe64d28667a72130aded6e6d6826efa68566ad",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ronggang",
-        "repo": "transmission-web-control",
         "type": "github"
       }
     }

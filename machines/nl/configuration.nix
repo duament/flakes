@@ -166,7 +166,7 @@ in
             fancyindex_header "/Nginx-Fancyindex-Theme/header.html";
             fancyindex_footer "/Nginx-Fancyindex-Theme/footer.html";
           '';
-          locations."/Nginx-Fancyindex-Theme/".alias = "${mypkgs.Nginx-Fancyindex}/share/Nginx-Fancyindex/";
+          locations."/Nginx-Fancyindex-Theme/".alias = "${mypkgs.Nginx-Fancyindex-Theme}/share/Nginx-Fancyindex/";
         };
         "transmission.rvf6.com" = {
           forceSSL = true;
