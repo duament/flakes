@@ -20,3 +20,7 @@ fetch.github = "Naereen/Nginx-Fancyindex-Theme"
 [transmission-web-control]
 src.git = "https://github.com/ronggang/transmission-web-control"
 fetch.github = "ronggang/transmission-web-control"
+
+[transmission-client]
+src.git = "https://github.com/zj9495/transmission-client"
+fetch.github = "zj9495/transmission-client"

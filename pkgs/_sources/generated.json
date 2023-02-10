@@ -48,6 +48,26 @@
         },
         "version": "2023-02-03T16-14-28"
     },
+    "transmission-client": {
+        "cargoLocks": null,
+        "date": "2023-01-18",
+        "extract": null,
+        "name": "transmission-client",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "zj9495",
+            "repo": "transmission-client",
+            "rev": "f4fdb1a8cdbc56684cf1d8b19c3d252d53c12e2d",
+            "sha256": "sha256-FE5d5/H82wSgllmK7/3/qKmdAJn2kYHnSq/E7z4r7fc=",
+            "type": "github"
+        },
+        "version": "f4fdb1a8cdbc56684cf1d8b19c3d252d53c12e2d"
+    },
     "transmission-web-control": {
         "cargoLocks": null,
         "date": "2022-02-23",

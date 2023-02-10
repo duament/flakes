@@ -29,6 +29,18 @@
       sha256 = "0w8h7f2jyqgd8m3mpjprh8kiinz14wnywgbny9pabl07vvs335zm";
     };
   };
+  transmission-client = {
+    pname = "transmission-client";
+    version = "f4fdb1a8cdbc56684cf1d8b19c3d252d53c12e2d";
+    src = fetchFromGitHub ({
+      owner = "zj9495";
+      repo = "transmission-client";
+      rev = "f4fdb1a8cdbc56684cf1d8b19c3d252d53c12e2d";
+      fetchSubmodules = false;
+      sha256 = "sha256-FE5d5/H82wSgllmK7/3/qKmdAJn2kYHnSq/E7z4r7fc=";
+    });
+    date = "2023-01-18";
+  };
   transmission-web-control = {
     pname = "transmission-web-control";
     version = "0bbe64d28667a72130aded6e6d6826efa68566ad";

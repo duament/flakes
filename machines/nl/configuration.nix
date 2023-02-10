@@ -191,6 +191,10 @@ in
               alias = "${mypkgs.transmission-web-control}/share/transmission-web-control/";
               extraConfig = "auth_request /vouch/validate;";
             };
+            "/tc/" = {
+              alias = "${mypkgs.transmission-client}/share/transmission-client/";
+              extraConfig = "auth_request /vouch/validate;";
+            };
             "/og/" = {
               proxyPass = "http://[::1]:9091/transmission/web/";
               extraConfig = "auth_request /vouch/validate;";
