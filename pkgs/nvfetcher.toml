@@ -12,3 +12,11 @@ fetch.url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v$ver/uu.tar.gz"
 src.github_tag = "johman10/flood-for-transmission"
 src.ignored = "Latest"
 fetch.tarball = "https://github.com/johman10/flood-for-transmission/releases/download/$ver/flood-for-transmission.tar.gz"
+
+[Nginx-Fancyindex-Theme]
+src.git = "https://github.com/Naereen/Nginx-Fancyindex-Theme"
+fetch.github = "Naereen/Nginx-Fancyindex-Theme"
+
+[transmission-web-control]
+src.git = "https://github.com/ronggang/transmission-web-control"
+fetch.github = "ronggang/transmission-web-control"

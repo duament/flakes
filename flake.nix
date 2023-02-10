@@ -32,16 +32,6 @@
       url = "github:felixonmars/dnsmasq-china-list";
       flake = false;
     };
-
-    Nginx-Fancyindex-Theme = {
-      url = "github:Naereen/Nginx-Fancyindex-Theme";
-      flake = false;
-    };
-
-    transmission-web-control = {
-      url = "github:ronggang/transmission-web-control";
-      flake = false;
-    };
   };
 
   outputs = inputs@{ self, nixpkgs, ... }:

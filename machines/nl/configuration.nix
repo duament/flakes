@@ -1,4 +1,4 @@
-{ config, lib, mypkgs, pkgs, self, ... }:
+{ config, lib, mypkgs, pkgs, ... }:
 let
   host = "nl";
   wg0 = import ../../lib/wg0.nix;
@@ -166,7 +166,7 @@ in
             fancyindex_header "/Nginx-Fancyindex-Theme/header.html";
             fancyindex_footer "/Nginx-Fancyindex-Theme/footer.html";
           '';
-          locations."/Nginx-Fancyindex-Theme/".alias = "${self.inputs.Nginx-Fancyindex-Theme.outPath}/Nginx-Fancyindex/";
+          locations."/Nginx-Fancyindex-Theme/".alias = "${mypkgs.Nginx-Fancyindex}/share/Nginx-Fancyindex/";
         };
         "transmission.rvf6.com" = {
           forceSSL = true;
@@ -188,7 +188,7 @@ in
               extraConfig = "auth_request /vouch/validate;";
             };
             "/twc/" = {
-              alias = self.inputs.transmission-web-control + "/src/";
+              alias = "${mypkgs.transmission-web-control}/share/transmission-web-control/";
               extraConfig = "auth_request /vouch/validate;";
             };
             "/og/" = {
