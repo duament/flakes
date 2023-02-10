@@ -1,11 +1,7 @@
-{ config, lib, pkgs, self, ... }:
+{ config, lib, mypkgs, pkgs, self, ... }:
 let
   host = "nl";
   wg0 = import ../../lib/wg0.nix;
-  flood = pkgs.fetchzip {
-    url = "https://github.com/johman10/flood-for-transmission/releases/download/2022-11-27T11-31-25/flood-for-transmission.tar.gz";
-    hash = "sha256-fWmiGFq0IZIApzQmZkz7kGTsNGI2i8HJPy9raArQ3GM=";
-  };
 in
 {
   presets.nogui.enable = true;
@@ -188,7 +184,7 @@ in
           locations = {
             "= /".return = "301 /flood/";
             "/flood/" = {
-              alias = flood + "/";
+              alias = "${mypkgs.flood-for-transmission}/share/flood-for-transmission/";
               extraConfig = "auth_request /vouch/validate;";
             };
             "/twc/" = {

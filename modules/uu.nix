@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, ... }:
+{ config, inputs, lib, mypkgs, pkgs, ... }:
 with lib;
 let
   cfg = config.services.uu;
@@ -137,38 +137,30 @@ in
             ];
           };
         };
-        systemd.services.uuplugin =
-          let
-            uu = pkgs.fetchzip {
-              url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.6.2/uu.tar.gz";
-              hash = "sha256-stqtBRucMJByO6dOB5qUDqVsKGMPMxQdGDlPWlUMjbM=";
-              stripRoot = false;
-            };
-          in
-          {
-            after = [ "network-online.target" ];
-            wantedBy = [ "multi-user.target" ];
-            path = with pkgs; [ iproute2 nettools iptables ]; # ip ifconfig iptables
-            serviceConfig = import ../lib/systemd-harden.nix // {
-              AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
-              CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
-              RestrictAddressFamilies = "";
-              PrivateNetwork = false;
-              PrivateUsers = false;
-              PrivateDevices = false;
-              ProcSubset = "all";
-              DeviceAllow = [ "/dev/net/tun rwm" ];
-              StateDirectory = "%N";
-              WorkingDirectory = "%S/%N";
-              LoadCredential = "uuplugin-uuid";
-              PIDFile = "/run/uuplugin.pid";
-              ExecStartPre = [
-                "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'"
-                "${pkgs.coreutils}/bin/ln -s \${CREDENTIALS_DIRECTORY}/uuplugin-uuid %S/%N/.uuplugin_uuid"
-              ];
-              ExecStart = "${uu}/uuplugin ${uu}/uu.conf";
-            };
+        systemd.services.uuplugin = {
+          after = [ "network-online.target" ];
+          wantedBy = [ "multi-user.target" ];
+          path = with pkgs; [ iproute2 nettools iptables ]; # ip ifconfig iptables
+          serviceConfig = import ../lib/systemd-harden.nix // {
+            AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
+            CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
+            RestrictAddressFamilies = "";
+            PrivateNetwork = false;
+            PrivateUsers = false;
+            PrivateDevices = false;
+            ProcSubset = "all";
+            DeviceAllow = [ "/dev/net/tun rwm" ];
+            StateDirectory = "%N";
+            WorkingDirectory = "%S/%N";
+            LoadCredential = "uuplugin-uuid";
+            PIDFile = "/run/uuplugin.pid";
+            ExecStartPre = [
+              "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'"
+              "${pkgs.coreutils}/bin/ln -s \${CREDENTIALS_DIRECTORY}/uuplugin-uuid %S/%N/.uuplugin_uuid"
+            ];
+            ExecStart = with mypkgs; "${uuplugin}/bin/uuplugin ${uuplugin}/share/uuplugin/uu.conf";
           };
+        };
       };
     };
     systemd.services."container@uu".serviceConfig.LoadCredential = "uuplugin-uuid:${cfg.uuidFile}";

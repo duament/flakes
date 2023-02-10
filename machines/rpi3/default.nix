@@ -1,6 +1,9 @@
-{ inputs, nixpkgs, self }: nixpkgs.lib.nixosSystem {
+{ inputs, nixpkgs, self }: nixpkgs.lib.nixosSystem rec {
   system = "aarch64-linux";
-  specialArgs = { inherit inputs nixpkgs self; };
+  specialArgs = {
+    inherit inputs nixpkgs self;
+    mypkgs = self.packages.${system};
+  };
   modules = [
     self.nixosModules.myModules
     ./hardware-configuration.nix

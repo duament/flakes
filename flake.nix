@@ -3,10 +3,12 @@
 
   inputs = {
     nixpkgs.url = "github:duament/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.utils.follows = "flake-utils";
     };
 
     sops-nix = {
@@ -18,6 +20,7 @@
     nixos-cn = {
       url = "github:nixos-cn/flakes";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
     };
 
     chn-cidr-list = {
@@ -42,9 +45,18 @@
   };
 
   outputs = inputs@{ self, nixpkgs, ... }:
-    {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
-
+    inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
+      (
+        system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+        in
+        {
+          formatter = pkgs.nixpkgs-fmt;
+          packages = import ./pkgs pkgs;
+        }
+      )
+    // {
       nixosModules.myModules = import ./modules;
       nixosModules.myHomeModules = import ./home-modules;
 
