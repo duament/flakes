@@ -15,6 +15,7 @@ mkYarnPackage {
   buildPhase = ''
     export HOME=$(mktemp -d)
     export NODE_OPTIONS=--openssl-legacy-provider
+    export REACT_APP_MUIX_LICENSE_KEY=ca15e5b68b66fc9813877228ab994c77T1JERVI6eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHgsRVhQSVJZPTE4OTYxMDU2MDAwMDAsS0VZVkVSU0lPTj0x
     yarn --offline build
   '';
   installPhase = ''
