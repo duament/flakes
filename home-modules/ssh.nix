@@ -41,6 +41,7 @@ in
               user = "rvfg";
               hostname = "${host}.rvf6.com";
               identityFile = sshIdentities;
+              identitiesOnly = true;
               forwardAgent = true;
             };
           }) [ "nl" "or2" "or3" "az" "rpi3" "t430" "work" ]) // builtins.listToAttrs (map
@@ -50,6 +51,7 @@ in
             user = "duama";
             hostname = "${host}.rvf6.com";
             identityFile = sshIdentities;
+            identitiesOnly = true;
             forwardAgent = true;
           };
         }) [ "or1" ]) // builtins.listToAttrs (map
@@ -58,6 +60,7 @@ in
           value = {
             user = "root";
             hostname = "${host}.rvf6.com";
+            identitiesOnly = true;
             identityFile = sshIdentities;
           };
         }) [ "owrt" "k2" "k1" ]) // builtins.listToAttrs (map
@@ -67,11 +70,13 @@ in
             user = "root";
             hostname = "${host}.rvf6.com";
             identityFile = sshIdentities;
+            identitiesOnly = true;
             extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_${host}_init";
           };
         }) [ "rpi3" "t430" ]) // {
         "github.com" = {
           identityFile = sshIdentities;
+          identitiesOnly = true;
         };
       };
     };
