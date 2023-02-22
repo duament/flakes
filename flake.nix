@@ -52,6 +52,7 @@
 
       nixosConfigurations = {
         desktop = import ./machines/desktop { inherit inputs nixpkgs self; };
+        xiaoxin = import ./machines/xiaoxin { inherit inputs nixpkgs self; };
         work = import ./machines/work { inherit inputs nixpkgs self; };
         rpi3 = import ./machines/rpi3 { inherit inputs nixpkgs self; };
         t430 = import ./machines/t430 { inherit inputs nixpkgs self; };

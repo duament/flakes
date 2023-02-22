@@ -7,7 +7,7 @@ let
 
   generateSopsSecret = item: name: values:
     nameValuePair "shadowsocks/${values.server}/${item}" {
-      sopsFile = ./secrets.yaml;
+      sopsFile = ../../secrets/shadowsocks.yaml;
     };
 
   generateSopsTemplate = name: values:

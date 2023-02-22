@@ -13,9 +13,10 @@
     ./router.nix
     ./shadowsocks
     ./smartdns.nix
-    ./ssh-agent
+    ./ssh-agent.nix
     ./swanctl-dynamic-ipv6.nix
     ./traefik.nix
+    ./users.nix
     ./uu.nix
     ./vouch.nix
     ./warp.nix

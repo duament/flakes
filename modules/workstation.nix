@@ -1,5 +1,9 @@
 { config, lib, mypkgs, pkgs, ... }:
 with lib;
+let
+  mark = 2;
+  host = config.networking.hostName;
+in
 {
   options = {
     presets.workstation.enable = mkOption {
@@ -9,6 +13,8 @@ with lib;
   };
 
   config = mkIf config.presets.workstation.enable {
+    boot.loader.grub.enable = false;
+    boot.kernel.sysctl."kernel.sysrq" = 1;
     presets.refind = {
       enable = true;
       defaultSelection = "Arch Linux";
@@ -43,23 +49,76 @@ with lib;
       '';
     };
 
+    networking.firewall.checkReversePath = "loose";
+    networking.nftables.masquerade = [ "oifname \"wg0\"" ];
+    networking.nftables.markChinaIP = {
+      enable = true;
+      mark = mark;
+    };
+    systemd.network =
+      let
+        wg0 = import ../lib/wg0.nix;
+        wgTable = 10;
+        wgMark = 1;
+      in
+      {
+        enable = true;
+        netdevs."25-wg0" = {
+          netdevConfig = {
+            Name = "wg0";
+            Kind = "wireguard";
+          };
+          wireguardConfig = {
+            PrivateKeyFile = config.sops.secrets.wireguard_key.path;
+            FirewallMark = wgMark;
+            RouteTable = wgTable;
+          };
+          wireguardPeers = [
+            {
+              wireguardPeerConfig = {
+                AllowedIPs = [ "0.0.0.0/0" "::/0" ];
+                Endpoint = wg0.endpoint;
+                PublicKey = wg0.pubkey;
+              };
+            }
+          ];
+        };
+        networks."25-wg0" = {
+          name = "wg0";
+          address = [ "${wg0.peers.${host}.ipv4}/24" "${wg0.peers.${host}.ipv6}/120" ];
+          dns = [ wg0.gateway6 ];
+          domains = [ "~." ];
+          routingPolicyRules = [
+            {
+              routingPolicyRuleConfig = {
+                Family = "both";
+                FirewallMark = wgMark;
+                Priority = 9;
+              };
+            }
+            {
+              routingPolicyRuleConfig = {
+                Family = "both";
+                FirewallMark = mark;
+                Table = wgTable;
+                Priority = 10;
+              };
+            }
+          ];
+        };
+      };
+
     presets.ssh-agent.enable = true;
     presets.chromium.enable = true;
 
     hardware.enableRedistributableFirmware = true;
+    hardware.bluetooth.enable = true;
     hardware.logitech.wireless.enable = true;
     hardware.logitech.wireless.enableGraphical = true;
 
-    boot.loader.grub.enable = false;
-
-    networking.networkmanager.enable = true;
-    networking.firewall.checkReversePath = "loose";
-
-    services.xserver.enable = true;
-    services.xserver.displayManager.gdm.enable = true;
-    services.xserver.desktopManager.gnome.enable = true;
-
     xdg.portal.enable = true;
+
+    security.polkit.enable = true;
 
     security.rtkit.enable = true;
     hardware.pulseaudio.enable = false;
@@ -76,7 +135,15 @@ with lib;
 
     fonts = {
       enableDefaultFonts = false;
-      fonts = with pkgs; mkForce [ inter source-serif hack-font noto-fonts-cjk-sans noto-fonts-cjk-serif noto-fonts-emoji ];
+      fonts = with pkgs; mkForce [
+        inter
+        source-serif
+        hack-font
+        noto-fonts-cjk-sans
+        noto-fonts-cjk-serif
+        noto-fonts-emoji
+        (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+      ];
       fontconfig = {
         defaultFonts = {
           monospace = [ "Hack" ];

@@ -17,7 +17,7 @@ in
       (key: {
         name = "ssh-key/id_${key}";
         value = {
-          sopsFile = ./secrets.yaml;
+          sopsFile = ../secrets/ssh-keys.yaml;
           mode = "0400";
           owner = user;
         };

@@ -88,6 +88,8 @@ in
           ./nogui.nix
           ./router.nix
         ];
+        users.allowNoPasswordLogin = true;
+        services.openssh.enable = false;
         boot.initrd.systemd.enable = false;
         networking.hostName = "uu";
         networking.useHostResolvConf = false;
