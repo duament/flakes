@@ -94,6 +94,7 @@ in
     table = 20;
     extraIPv4MarkRules = "ip saddr 10.6.7.0/24 accept";
   };
+  services.wireguardKeepAlive.interfaces = [ "warp" ];
 
   services.smartdns.chinaDns = [ "192.168.2.1" ];
   services.smartdns.settings.bind = [ "[::]:53" ];

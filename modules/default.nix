@@ -21,6 +21,7 @@
     ./vouch.nix
     ./warp.nix
     ./wireguard-dynamic-ipv6.nix
+    ./wireguard-keep-alive.nix
     ./wireguard-re-resolve.nix
     ./workstation.nix
   ];
