@@ -72,10 +72,10 @@ in
 
   config = mkIf cfg.enable {
     services.resolved.enable = false;
-    environment.etc."resolv.conf".text = "nameserver 127.0.0.1";
+    environment.etc."resolv.conf".text = "nameserver ::1";
 
     services.smartdns.enable = true;
-    services.smartdns.nonChinaDns = [ "1.1.1.1" ];
+    services.smartdns.nonChinaDns = [ "2606:4700::1111" "2001:4860:4860::8888" ];
 
     networking.nftables.markChinaIP = {
       enable = true;
@@ -118,7 +118,6 @@ in
           wireguardPeerConfig = {
             AllowedIPs = [ "0.0.0.0/0" "::/0" ];
             Endpoint = cfg.endpoint;
-            PersistentKeepalive = 25;
             PublicKey = cfg.pubkey;
           };
         }

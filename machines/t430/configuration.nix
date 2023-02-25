@@ -88,9 +88,9 @@ in
     endpointAddr = "162.159.193.1";
     mtu = 1412;
     mark = 3;
-    routingId = "0xac1789";
+    routingId = "0x38e45e";
     keyFile = config.sops.secrets.warp_key.path;
-    address = [ "172.16.0.2/32" "2606:4700:110:8721:a63a:693c:cb0d:6de0/128" ];
+    address = [ "172.16.0.2/32" "2606:4700:110:8445:a7a2:21a2:9279:bd82/128" ];
     table = 20;
     extraIPv4MarkRules = "ip saddr 10.6.7.0/24 accept";
   };
