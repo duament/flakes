@@ -11,4 +11,6 @@
     sops
     unar
   ];
+
+  programs.gpg.enable = true;
 }
