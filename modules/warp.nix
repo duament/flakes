@@ -72,7 +72,9 @@ in
 
   config = mkIf cfg.enable {
     services.resolved.enable = false;
-    environment.etc."resolv.conf".text = "nameserver ::1";
+    environment.etc."resolv.conf".text = ''
+      nameserver ::1
+    '';
 
     services.smartdns.enable = true;
     services.smartdns.nonChinaDns = [ "2606:4700::1111" "2001:4860:4860::8888" ];
