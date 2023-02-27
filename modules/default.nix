@@ -6,6 +6,7 @@
     ./chromium.nix
     ./clash.nix
     ./common.nix
+    ./gammu-smsd.nix
     ./git.nix
     ./nftables
     ./nogui.nix

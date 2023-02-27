@@ -21,6 +21,8 @@ in
     "vouch-luci/client" = { };
     luci-nginx-add-auth.owner = config.services.nginx.user;
     uuplugin-uuid = { };
+    sim-pin = { };
+    tg-bot-token = { };
   };
 
   boot.loader.generationsDir.copyKernels = true;
@@ -309,4 +311,40 @@ in
           };
       };
     };
+
+  presets.gammu-smsd = {
+    enable = true;
+    pinFile = config.sops.secrets.sim-pin.path;
+    settings = {
+      gammu.Device = "/dev/ttyUSB2";
+      smsd.Service = "files";
+    };
+  };
+
+  systemd.services.gammu-smsd.serviceConfig.LoadCredential = [ "tg-bot-token:${config.sops.secrets.tg-bot-token.path}" ];
+  presets.gammu-smsd.settings.smsd.RunOnReceive = toString (pkgs.writers.writePython3 "gammu-smsd-on-receive"
+    {
+      libraries = [ pkgs.python3Packages.requests ];
+    } ''
+    import os
+    import requests
+
+    cred_dir = os.environ['CREDENTIALS_DIRECTORY']
+    with open(os.path.join(cred_dir, 'tg-bot-token')) as f:
+        token = f.read()
+
+    text = '''
+    n = int(os.environ['SMS_MESSAGES'])
+    for i in range(n):
+        text += f'class: {os.environ[f"SMS_{i + 1}_CLASS"]}\n'
+        text += f'number: {os.environ[f"SMS_{i + 1}_NUMBER"]}\n'
+        text += f'text: {os.environ[f"SMS_{i + 1}_TEXT"]}\n\n'
+
+    url = f'https://api.telegram.org/bot{token}/sendMessage'
+    data = {
+        'chat_id': 96994562,
+        'text': text,
+    }
+    requests.post(url, json=data)
+  '');
 }
