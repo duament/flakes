@@ -9,7 +9,10 @@ in
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     initrd_ssh_host_ed25519_key = { };
-    swanctl = { };
+    "pki/ca" = { };
+    "pki/ybk" = { };
+    "pki/t430-bundle" = { };
+    "pki/t430-pkcs8-key" = { };
     warp_key.owner = "systemd-network";
     wireguard_key.owner = "systemd-network";
     "syncthing/cert".owner = config.services.syncthing.user;
@@ -124,16 +127,38 @@ in
     uuidFile = config.sops.secrets.uuplugin-uuid.path;
   };
 
-  services.strongswan-swanctl.enable = true;
-  services.strongswan-swanctl.strongswan.extraConfig = ''
-    charon {
-      install_routes = no
-    }
-  '';
-  environment.etc."swanctl/swanctl.conf".enable = false;
-  system.activationScripts.strongswan-swanctl-secret-conf = lib.stringAfter [ "etc" ] ''
-    mkdir -p /etc/swanctl
-    ln -sf ${config.sops.secrets.swanctl.path} /etc/swanctl/swanctl.conf
+  services.strongswan-swanctl = {
+    enable = true;
+    swanctl = {
+      connections.iphone = {
+        local.t430 = {
+          auth = "pubkey";
+          id = "t430.rvf6.com";
+          certs = [ config.sops.secrets."pki/t430-bundle".path ];
+        };
+        remote.iphone = {
+          auth = "pubkey";
+          id = "iphone.rvf6.com";
+          cacerts = [ config.sops.secrets."pki/ca".path config.sops.secrets."pki/ybk".path ];
+        };
+        children.iphone.local_ts = [ "0.0.0.0/0" "::/0" ];
+        version = 2;
+        pools = [ "iphone_vip" "iphone_vip6" ];
+      };
+      pools.iphone_vip = {
+        addrs = "10.6.6.254/32";
+        dns = [ "10.6.6.1" ];
+      };
+    };
+    strongswan.extraConfig = ''
+      charon {
+        install_routes = no
+      }
+    '';
+  };
+  system.activationScripts.strongswan-swanctl-private = lib.stringAfter [ "etc" ] ''
+    mkdir -p /etc/swanctl/private
+    ln -sf ${config.sops.secrets."pki/t430-pkcs8-key".path} /etc/swanctl/private/t430.key
   '';
   services.swanctlDynamicIPv6 = {
     enable = true;
