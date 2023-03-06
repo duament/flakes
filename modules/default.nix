@@ -13,7 +13,6 @@
     ./nogui.nix
     ./refind
     ./router.nix
-    ./shadowsocks
     ./smartdns.nix
     ./ssh-agent.nix
     ./swanctl-dynamic-ipv6.nix

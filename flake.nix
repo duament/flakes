@@ -17,12 +17,6 @@
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
-    nixos-cn = {
-      url = "github:nixos-cn/flakes";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
-
     chn-cidr-list = {
       url = "github:fernvenue/chn-cidr-list";
       flake = false;
