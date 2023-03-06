@@ -5,7 +5,7 @@ let
 in
 {
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" "cgroups" ];
     substituters = [
       "https://nix-community.cachix.org"
       "https://rvfg.cachix.org"
@@ -18,6 +18,8 @@ in
     ];
     trusted-users = [ "deploy" ];
     flake-registry = "/etc/nix/registry.json";
+    auto-allocate-uids = mkDefault true;
+    use-cgroups = mkDefault true;
   };
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 

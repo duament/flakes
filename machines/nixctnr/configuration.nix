@@ -6,6 +6,8 @@ in
   presets.nogui.enable = true;
   presets.nogui.enableNetwork = false;
 
+  nix.settings.auto-allocate-uids = false;
+
   boot.isContainer = true;
   boot.loader.initScript.enable = true;
   boot.initrd.systemd.enable = false;
