@@ -57,7 +57,7 @@ in
     enable = true;
     settings = {
       default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${pkgs.writeShellScript "sway" ''
-        systemctl --user import-environment
+        systemctl --user import-environment PATH SSH_AUTH_SOCK XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID
         exec systemctl --wait --user start sway.service
       ''}";
     };
