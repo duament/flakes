@@ -24,8 +24,6 @@ in
   networking.hostName = host;
   networking.firewall = {
     allowedTCPPorts = [
-      80
-      443
       config.services.shadowsocks.port
     ];
     allowedUDPPorts = [
@@ -148,41 +146,11 @@ in
     LoadCredential = "shadowsocks:${config.sops.secrets.shadowsocks.path}";
   };
 
-  security.acme.acceptTerms = true;
-  security.acme.defaults.email = "le@rvf6.com";
-  services.nginx =
-    let
-      hstsConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
-    in
-    {
-      enable = true;
-      package = pkgs.nginxMainline;
-      recommendedGzipSettings = true;
-      recommendedOptimisation = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts = {
-        "${host}.rvf6.com" = {
-          forceSSL = true;
-          enableACME = true;
-          default = true;
-        };
-        "ete.rvf6.com" = {
-          forceSSL = true;
-          enableACME = true;
-          extraConfig = hstsConfig;
-          locations."/" = {
-            proxyPass = "http://unix:/run/etebase-server/etebase-server:/";
-          };
-        };
-        "rss.rvf6.com" = {
-          forceSSL = true;
-          enableACME = true;
-          extraConfig = hstsConfig;
-          locations."/" = {
-            proxyPass = "http://unix:/run/miniflux/miniflux:/";
-          };
-        };
-      };
+  presets.nginx = {
+    enable = true;
+    virtualHosts = {
+      "ete.rvf6.com".locations."/".proxyPass = "http://unix:/run/etebase-server/etebase-server:/";
+      "rss.rvf6.com".locations."/".proxyPass = "http://unix:/run/miniflux/miniflux:/";
     };
+  };
 }

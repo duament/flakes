@@ -40,10 +40,6 @@ in
   networking.hostName = host;
   networking.firewall = {
     checkReversePath = "loose";
-    allowedTCPPorts = [
-      80
-      443
-    ];
     allowedUDPPorts = [
       500 # IPsec
       4500 # IPsec
@@ -266,76 +262,50 @@ in
     };
   };
 
-  services.nginx =
-    let
-      hstsConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
-    in
-    {
-      enable = true;
-      package = pkgs.nginxMainline;
-      recommendedGzipSettings = true;
-      recommendedOptimisation = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts = {
-        "${host}.rvf6.com" = {
-          forceSSL = true;
-          useACMEHost = "rvf6.com";
-          extraConfig = hstsConfig;
-          default = true;
-        };
-        "fava.rvf6.com" = {
-          forceSSL = true;
-          useACMEHost = "rvf6.com";
-          extraConfig = hstsConfig;
+  presets.nginx = {
+    enable = true;
+    useACMEHost = "rvf6.com";
+    virtualHosts = {
+      "fava.rvf6.com".locations."/" = {
+        proxyPass = "http://[::1]:5000";
+        extraConfig = "auth_request /vouch/validate;";
+      };
+      "luci.rvf6.com" =
+        let
+          cert = pkgs.writeText "luci-cert" ''
+            -----BEGIN CERTIFICATE-----
+            MIIB+zCCAaGgAwIBAgIQcFw40pwuLjL+pf2hj/pUeTAKBggqhkjOPQQDAjBfMQsw
+            CQYDVQQGEwJaWjESMBAGA1UECAwJU29tZXdoZXJlMRAwDgYDVQQHDAdVbmtub3du
+            MRgwFgYDVQQKDA9PcGVuV3J0NDQwNDVhZDAxEDAOBgNVBAMMB09wZW5XcnQwIhgP
+            MjAyMjA3MzAxNTEyNTFaGA8yMDI0MDczMDE1MTI1MVowXzELMAkGA1UEBhMCWlox
+            EjAQBgNVBAgMCVNvbWV3aGVyZTEQMA4GA1UEBwwHVW5rbm93bjEYMBYGA1UECgwP
+            T3BlbldydDQ0MDQ1YWQwMRAwDgYDVQQDDAdPcGVuV3J0MFkwEwYHKoZIzj0CAQYI
+            KoZIzj0DAQcDQgAE3JY0GGHiGELBwwauOio7cBa8k6jv6OhUzpFRS09jgSsMZlfs
+            KFe/ZRKwgCtWJLBCGjAXJsvNpUDO6Qs3V1z5qaM7MDkwEgYDVR0RBAswCYIHT3Bl
+            bldydDAOBgNVHQ8BAf8EBAMCBeAwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCgYIKoZI
+            zj0EAwIDSAAwRQIgfkMwUiWA6lvh7sJhTcSqlOPLv9AVpwZ5kmWjcYS0+0ACIQD7
+            obh8c9tPl7tIo56av7HYI/PCTK6JIeCvgN7QXmAtJw==
+            -----END CERTIFICATE-----
+          '';
+        in
+        {
+          extraConfig = "proxy_ssl_trusted_certificate ${cert};";
           locations = {
+            "= /cgi-bin/luci/" = {
+              proxyPass = "https://192.168.2.1";
+              extraConfig = ''
+                auth_request /vouch/validate;
+                include ${config.sops.secrets.luci-nginx-add-auth.path};
+              '';
+            };
             "/" = {
-              proxyPass = "http://[::1]:5000";
+              proxyPass = "https://192.168.2.1";
               extraConfig = "auth_request /vouch/validate;";
             };
           };
         };
-        "luci.rvf6.com" =
-          let
-            cert = pkgs.writeText "luci-cert" ''
-              -----BEGIN CERTIFICATE-----
-              MIIB+zCCAaGgAwIBAgIQcFw40pwuLjL+pf2hj/pUeTAKBggqhkjOPQQDAjBfMQsw
-              CQYDVQQGEwJaWjESMBAGA1UECAwJU29tZXdoZXJlMRAwDgYDVQQHDAdVbmtub3du
-              MRgwFgYDVQQKDA9PcGVuV3J0NDQwNDVhZDAxEDAOBgNVBAMMB09wZW5XcnQwIhgP
-              MjAyMjA3MzAxNTEyNTFaGA8yMDI0MDczMDE1MTI1MVowXzELMAkGA1UEBhMCWlox
-              EjAQBgNVBAgMCVNvbWV3aGVyZTEQMA4GA1UEBwwHVW5rbm93bjEYMBYGA1UECgwP
-              T3BlbldydDQ0MDQ1YWQwMRAwDgYDVQQDDAdPcGVuV3J0MFkwEwYHKoZIzj0CAQYI
-              KoZIzj0DAQcDQgAE3JY0GGHiGELBwwauOio7cBa8k6jv6OhUzpFRS09jgSsMZlfs
-              KFe/ZRKwgCtWJLBCGjAXJsvNpUDO6Qs3V1z5qaM7MDkwEgYDVR0RBAswCYIHT3Bl
-              bldydDAOBgNVHQ8BAf8EBAMCBeAwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCgYIKoZI
-              zj0EAwIDSAAwRQIgfkMwUiWA6lvh7sJhTcSqlOPLv9AVpwZ5kmWjcYS0+0ACIQD7
-              obh8c9tPl7tIo56av7HYI/PCTK6JIeCvgN7QXmAtJw==
-              -----END CERTIFICATE-----
-            '';
-          in
-          {
-            forceSSL = true;
-            useACMEHost = "rvf6.com";
-            extraConfig = ''
-              ${hstsConfig}
-              proxy_ssl_trusted_certificate ${cert};
-            '';
-            locations = {
-              "= /cgi-bin/luci/" = {
-                proxyPass = "https://192.168.2.1";
-                extraConfig = ''
-                  auth_request /vouch/validate;
-                  include ${config.sops.secrets.luci-nginx-add-auth.path};
-                '';
-              };
-              "/" = {
-                proxyPass = "https://192.168.2.1";
-                extraConfig = "auth_request /vouch/validate;";
-              };
-            };
-          };
-      };
     };
+  };
 
   presets.gammu-smsd = {
     enable = true;

@@ -29,8 +29,6 @@ in
   networking.firewall = {
     allowedTCPPorts = [
       25 # SMTP
-      80 # HTTP
-      443 # HTTPS
       465 # SMTPS
       993 # IMAPS
       config.services.shadowsocks.port
@@ -130,82 +128,58 @@ in
     clientSecretFile = config.sops.secrets."vouch-bt/client".path;
   };
 
-  security.acme.acceptTerms = true;
-  security.acme.defaults.email = "le@rvf6.com";
-  services.nginx =
-    let
-      hstsConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
-    in
-    {
-      enable = true;
-      package = pkgs.nginxMainline;
-      additionalModules = with pkgs.nginxModules; [ fancyindex ];
-      commonHttpConfig = "dav_ext_lock_zone zone=default:10m;";
-      recommendedGzipSettings = true;
-      recommendedOptimisation = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts = {
-        "${host}.rvf6.com" = {
-          forceSSL = true;
-          enableACME = true;
-          extraConfig = hstsConfig;
-          default = true;
+  presets.nginx = {
+    enable = true;
+    virtualHosts = {
+      "d.rvf6.com" = {
+        root = config.services.transmission.settings.download-dir;
+        basicAuthFile = config.sops.secrets."basic_auth".path;
+        locations."/".extraConfig = ''
+          dav_ext_methods PROPFIND OPTIONS;
+          fancyindex on;
+          fancyindex_localtime on;
+          fancyindex_exact_size off;
+          fancyindex_header "/Nginx-Fancyindex-Theme/header.html";
+          fancyindex_footer "/Nginx-Fancyindex-Theme/footer.html";
+        '';
+        locations."/Nginx-Fancyindex-Theme/".alias = "${mypkgs.Nginx-Fancyindex-Theme}/share/Nginx-Fancyindex/";
+      };
+      "transmission.rvf6.com" = {
+        basicAuthFile = config.sops.secrets.transmission.path;
+        locations = {
+          "/".proxyPass = "http://[::1]:9091/";
         };
-        "d.rvf6.com" = {
-          forceSSL = true;
-          enableACME = true;
-          extraConfig = hstsConfig;
-          root = config.services.transmission.settings.download-dir;
-          basicAuthFile = config.sops.secrets."basic_auth".path;
-          locations."/".extraConfig = ''
-            dav_ext_methods PROPFIND OPTIONS;
-            fancyindex on;
-            fancyindex_localtime on;
-            fancyindex_exact_size off;
-            fancyindex_header "/Nginx-Fancyindex-Theme/header.html";
-            fancyindex_footer "/Nginx-Fancyindex-Theme/footer.html";
-          '';
-          locations."/Nginx-Fancyindex-Theme/".alias = "${mypkgs.Nginx-Fancyindex-Theme}/share/Nginx-Fancyindex/";
-        };
-        "transmission.rvf6.com" = {
-          forceSSL = true;
-          enableACME = true;
-          extraConfig = hstsConfig;
-          basicAuthFile = config.sops.secrets.transmission.path;
-          locations = {
-            "/".proxyPass = "http://[::1]:9091/";
+      };
+      "bt.rvf6.com" = {
+        locations = {
+          "= /".return = "301 /flood/";
+          "/flood/" = {
+            alias = "${mypkgs.flood-for-transmission}/share/flood-for-transmission/";
+            extraConfig = "auth_request /vouch/validate;";
           };
-        };
-        "bt.rvf6.com" = {
-          forceSSL = true;
-          enableACME = true;
-          extraConfig = hstsConfig;
-          locations = {
-            "= /".return = "301 /flood/";
-            "/flood/" = {
-              alias = "${mypkgs.flood-for-transmission}/share/flood-for-transmission/";
-              extraConfig = "auth_request /vouch/validate;";
-            };
-            "/twc/" = {
-              alias = "${mypkgs.transmission-web-control}/share/transmission-web-control/";
-              extraConfig = "auth_request /vouch/validate;";
-            };
-            "/tc/" = {
-              alias = "${mypkgs.transmission-client}/share/transmission-client/";
-              extraConfig = "auth_request /vouch/validate;";
-            };
-            "/og/" = {
-              proxyPass = "http://[::1]:9091/transmission/web/";
-              extraConfig = "auth_request /vouch/validate;";
-            };
-            "/rpc" = {
-              proxyPass = "http://[::1]:9091/transmission/rpc";
-              extraConfig = "auth_request /vouch/validate;";
-            };
+          "/twc/" = {
+            alias = "${mypkgs.transmission-web-control}/share/transmission-web-control/";
+            extraConfig = "auth_request /vouch/validate;";
+          };
+          "/tc/" = {
+            alias = "${mypkgs.transmission-client}/share/transmission-client/";
+            extraConfig = "auth_request /vouch/validate;";
+          };
+          "/og/" = {
+            proxyPass = "http://[::1]:9091/transmission/web/";
+            extraConfig = "auth_request /vouch/validate;";
+          };
+          "/rpc" = {
+            proxyPass = "http://[::1]:9091/transmission/rpc";
+            extraConfig = "auth_request /vouch/validate;";
           };
         };
       };
     };
+  };
+  services.nginx = {
+    additionalModules = with pkgs.nginxModules; [ fancyindex ];
+    commonHttpConfig = "dav_ext_lock_zone zone=default:10m;";
+  };
   systemd.services.nginx.serviceConfig.SupplementaryGroups = [ config.services.transmission.group ];
 }

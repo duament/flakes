@@ -17,10 +17,6 @@ in
 
   networking.hostName = host;
   networking.firewall = {
-    allowedTCPPorts = [
-      80
-      443
-    ];
     allowedUDPPorts = [
       wg0.peers.${host}.endpointPort
     ];
@@ -52,26 +48,5 @@ in
 
   home-manager.users.rvfg = import ./home.nix;
 
-  security.acme.acceptTerms = true;
-  security.acme.defaults.email = "le@rvf6.com";
-  services.nginx =
-    let
-      hstsConfig = "add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" always;";
-    in
-    {
-      enable = true;
-      package = pkgs.nginxMainline;
-      recommendedGzipSettings = true;
-      recommendedOptimisation = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts = {
-        "${host}.rvf6.com" = {
-          forceSSL = true;
-          enableACME = true;
-          extraConfig = hstsConfig;
-          default = true;
-        };
-      };
-    };
+  presets.nginx.enable = true;
 }

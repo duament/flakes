@@ -9,6 +9,7 @@
     ./gammu-smsd.nix
     ./git.nix
     ./nftables
+    ./nginx.nix
     ./nogui.nix
     ./refind
     ./router.nix

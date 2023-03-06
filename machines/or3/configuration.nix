@@ -21,10 +21,6 @@ in
 
   networking.hostName = host;
   networking.firewall = {
-    allowedTCPPorts = [
-      80
-      443
-    ];
     allowedUDPPorts = [
       wg0.peers.${host}.endpointPort
     ];
@@ -127,57 +123,13 @@ in
   };
   systemd.services.keycloak.environment.JAVA_OPTS_APPEND = "-Djava.net.preferIPv4Stack=false -Djava.net.preferIPv6Addresses=true";
 
-  services.traefik = {
+  presets.nginx = {
     enable = true;
-    dynamicConfigOptions.http = {
-      routers = {
-        navidrome = {
-          rule = "Host(`music.rvf6.com`)";
-          service = "navidrome";
-        };
-        hydra = {
-          rule = "Host(`hydra.rvf6.com`)";
-          service = "hydra";
-        };
-        cache = {
-          rule = "Host(`cache.rvf6.com`)";
-          service = "cache";
-        };
-        keycloak = {
-          rule = "Host(`id.rvf6.com`)";
-          service = "keycloak";
-        };
-      };
-      services = {
-        navidrome.loadBalancer =
-          let
-            cfg = config.services.navidrome.settings;
-          in
-          {
-            servers = [{ url = "http://${cfg.Address}:${builtins.toString cfg.Port}"; }];
-          };
-        hydra.loadBalancer =
-          let
-            cfg = config.services.hydra;
-          in
-          {
-            servers = [{ url = "http://${cfg.listenHost}:${builtins.toString cfg.port}"; }];
-          };
-        cache.loadBalancer =
-          let
-            cfg = config.services.nix-serve;
-          in
-          {
-            servers = [{ url = "http://${cfg.bindAddress}:${builtins.toString cfg.port}"; }];
-          };
-        keycloak.loadBalancer =
-          let
-            cfg = config.services.keycloak.settings;
-          in
-          {
-            servers = [{ url = "http://${cfg.http-host}:${builtins.toString cfg.http-port}"; }];
-          };
-      };
+    virtualHosts = {
+      "music.rvf6.com".locations."/".proxyPass = with config.services.navidrome.settings; "http://${Address}:${toString Port}/";
+      "hydra.rvf6.com".locations."/".proxyPass = with config.services.hydra; "http://${listenHost}:${toString port}/";
+      "cache.rvf6.com".locations."/".proxyPass = with config.services.nix-serve; "http://${bindAddress}:${toString port}/";
+      "id.rvf6.com".locations."/".proxyPass = with config.services.keycloak.settings; "http://${http-host}:${toString http-port}/";
     };
   };
 }
