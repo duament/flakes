@@ -6,6 +6,7 @@ let
 in
 {
   presets.nogui.enable = true;
+  presets.metrics.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
@@ -14,12 +15,15 @@ in
     "cache" = { group = "hydra"; mode = "0440"; };
     "wireguard_key".owner = "systemd-network";
     "keycloak/database" = { };
+    "vouch-prom/jwt" = { };
+    "vouch-prom/client" = { };
   };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = host;
+  networking.hosts = { "fd64::1" = [ "t430.rvf6.com" ]; };
 
   presets.wireguard.wg0 = {
     enable = true;
@@ -93,6 +97,25 @@ in
   };
   systemd.services.keycloak.environment.JAVA_OPTS_APPEND = "-Djava.net.preferIPv4Stack=false -Djava.net.preferIPv6Addresses=true";
 
+  services.prometheus = {
+    enable = true;
+    listenAddress = "[::1]";
+    port = 9090;
+    scrapeConfigs = [
+      {
+        job_name = "metrics";
+        scheme = "https";
+        static_configs = [{ targets = [ "t430.rvf6.com" "nl.rvf6.com" "az.rvf6.com" "or2.rvf6.com" "or3.rvf6.com" ]; }];
+      }
+    ];
+  };
+
+  presets.vouch.prom = {
+    settings.vouch.port = 2001;
+    jwtSecretFile = config.sops.secrets."vouch-prom/jwt".path;
+    clientSecretFile = config.sops.secrets."vouch-prom/client".path;
+  };
+
   presets.nginx = {
     enable = true;
     virtualHosts = {
@@ -100,6 +123,10 @@ in
       "hydra.rvf6.com".locations."/".proxyPass = with config.services.hydra; "http://${listenHost}:${toString port}/";
       "cache.rvf6.com".locations."/".proxyPass = with config.services.nix-serve; "http://${bindAddress}:${toString port}/";
       "id.rvf6.com".locations."/".proxyPass = with config.services.keycloak.settings; "http://${http-host}:${toString http-port}/";
+      "prom.rvf6.com".locations."/" = {
+        proxyPass = with config.services.prometheus; "http://${listenAddress}:${toString port}/";
+        extraConfig = "auth_request /vouch/validate;";
+      };
     };
   };
 }

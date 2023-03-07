@@ -9,6 +9,7 @@
     ./common.nix
     ./gammu-smsd.nix
     ./git.nix
+    ./metrics.nix
     ./nftables
     ./nginx.nix
     ./nogui.nix

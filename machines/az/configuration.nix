@@ -6,6 +6,7 @@ let
 in
 {
   presets.nogui.enable = true;
+  presets.metrics.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
