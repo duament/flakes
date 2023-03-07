@@ -22,7 +22,7 @@ in
 
     networking.warp.endpoint = mkOption {
       type = types.str;
-      default = "${cfg.endpointAddr}:${builtins.toString cfg.endpointPort}";
+      default = "${cfg.endpointAddr}:${toString cfg.endpointPort}";
     };
 
     networking.warp.mtu = mkOption {
@@ -89,12 +89,12 @@ in
       content = ''
         chain out {
           type filter hook output priority mangle;
-          ip daddr ${cfg.endpointAddr} udp dport ${builtins.toString cfg.endpointPort} @th,72,24 set ${cfg.routingId}
+          ip daddr ${cfg.endpointAddr} udp dport ${toString cfg.endpointPort} @th,72,24 set ${cfg.routingId}
         }
 
         chain in {
           type filter hook input priority mangle;
-          ip saddr ${cfg.endpointAddr} udp sport ${builtins.toString cfg.endpointPort} @th,72,24 set 0x0
+          ip saddr ${cfg.endpointAddr} udp sport ${toString cfg.endpointPort} @th,72,24 set 0x0
         }
 
         chain masq {

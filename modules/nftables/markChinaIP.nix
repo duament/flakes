@@ -40,7 +40,7 @@ in
             ip daddr @special-ipv4 accept
             ip daddr @china-ipv4 accept
             ${cfg.extraIPv4Rules}
-            mark 0 mark set ${builtins.toString cfg.mark}
+            mark 0 mark set ${toString cfg.mark}
           }
 
           chain pre {
@@ -66,7 +66,7 @@ in
             ip6 daddr @special-ipv6 accept
             ip6 daddr @china-ipv6 accept
             ${cfg.extraIPv6Rules}
-            mark 0 mark set ${builtins.toString cfg.mark}
+            mark 0 mark set ${toString cfg.mark}
           }
 
           chain pre {
