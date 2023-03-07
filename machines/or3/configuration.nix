@@ -17,6 +17,8 @@ in
     "keycloak/database" = { };
     "vouch-prom/jwt" = { };
     "vouch-prom/client" = { };
+    "grafana/oidc" = { };
+    "grafana/secret_key" = { };
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -110,6 +112,53 @@ in
     ];
   };
 
+  services.grafana = {
+    enable = true;
+    provision = {
+      enable = true;
+      dashboards.settings.providers = [
+      ];
+      datasources.settings.datasources = [
+        {
+          name = "Prometheus";
+          type = "prometheus";
+          url = with config.services.prometheus; "http://${listenAddress}:${toString port}";
+        }
+      ];
+    };
+    settings = {
+      security = {
+        admin_email = "i@rvf6.com";
+        secret_key = "$__file{/run/credentials/grafana.service/secret_key}";
+      };
+      server = {
+        protocol = "socket";
+        socket = "/run/grafana/grafana.sock";
+        root_url = "https://graf.rvf6.com";
+      };
+      "auth.generic_oauth" = {
+        name = "Keycloak";
+        enabled = true;
+        allow_sign_up = false;
+        auto_login = true;
+        client_id = "graf";
+        client_secret = "$__file{/run/credentials/grafana.service/oidc}";
+        scopes = "openid profile email";
+        auth_url = "https://id.rvf6.com/realms/rvfg/protocol/openid-connect/auth";
+        token_url = "https://id.rvf6.com/realms/rvfg/protocol/openid-connect/token";
+        api_url = "https://id.rvf6.com/realms/rvfg/protocol/openid-connect/userinfo";
+        signout_redirect_url = "https://id.rvf6.com/realms/rvfg/protocol/openid-connect/logout";
+        tls_skip_verify_insecure = false;
+        tls_client_ca = "/etc/ssl/certs/ca-bundle.crt";
+        use_pkce = true;
+      };
+    };
+  };
+  systemd.services.grafana.serviceConfig.LoadCredential = [
+    "oidc:${config.sops.secrets."grafana/oidc".path}"
+    "secret_key:${config.sops.secrets."grafana/secret_key".path}"
+  ];
+
   presets.vouch.prom = {
     settings.vouch.port = 2001;
     jwtSecretFile = config.sops.secrets."vouch-prom/jwt".path;
@@ -127,6 +176,8 @@ in
         proxyPass = with config.services.prometheus; "http://${listenAddress}:${toString port}/";
         extraConfig = "auth_request /vouch/validate;";
       };
+      "graf.rvf6.com".locations."/".proxyPass = "http://unix:${config.services.grafana.settings.server.socket}:/";
     };
   };
+  systemd.services.nginx.serviceConfig.SupplementaryGroups = [ "grafana" ];
 }
