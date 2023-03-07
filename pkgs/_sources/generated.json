@@ -50,7 +50,7 @@
     },
     "transmission-client": {
         "cargoLocks": null,
-        "date": "2023-01-18",
+        "date": "2023-02-15",
         "extract": null,
         "name": "transmission-client",
         "passthru": null,
@@ -62,11 +62,11 @@
             "name": null,
             "owner": "zj9495",
             "repo": "transmission-client",
-            "rev": "f4fdb1a8cdbc56684cf1d8b19c3d252d53c12e2d",
-            "sha256": "sha256-FE5d5/H82wSgllmK7/3/qKmdAJn2kYHnSq/E7z4r7fc=",
+            "rev": "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a",
+            "sha256": "sha256-paqfvc4NaT5fX7/P/HxA92C46WLqTaAegX9GiqaJK0s=",
             "type": "github"
         },
-        "version": "f4fdb1a8cdbc56684cf1d8b19c3d252d53c12e2d"
+        "version": "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a"
     },
     "transmission-web-control": {
         "cargoLocks": null,

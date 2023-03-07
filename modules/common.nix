@@ -49,6 +49,7 @@ with lib;
     nftables = {
       enable = mkDefault true;
       flushRuleset = false;
+      preCheckRuleset = "sed '/^include/d' -i ruleset.conf";
     };
   };
 

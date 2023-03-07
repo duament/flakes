@@ -31,15 +31,15 @@
   };
   transmission-client = {
     pname = "transmission-client";
-    version = "f4fdb1a8cdbc56684cf1d8b19c3d252d53c12e2d";
+    version = "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a";
     src = fetchFromGitHub ({
       owner = "zj9495";
       repo = "transmission-client";
-      rev = "f4fdb1a8cdbc56684cf1d8b19c3d252d53c12e2d";
+      rev = "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a";
       fetchSubmodules = false;
-      sha256 = "sha256-FE5d5/H82wSgllmK7/3/qKmdAJn2kYHnSq/E7z4r7fc=";
+      sha256 = "sha256-paqfvc4NaT5fX7/P/HxA92C46WLqTaAegX9GiqaJK0s=";
     });
-    date = "2023-01-18";
+    date = "2023-02-15";
   };
   transmission-web-control = {
     pname = "transmission-web-control";
