@@ -77,6 +77,7 @@ rec {
         PublicKey = peer.pubkey;
       } // (if (peer ? endpointAddr) then {
         Endpoint = "${peer.endpointAddr}:${toString peer.endpointPort}";
+        PersistentKeepalive = 25;
       } else { });
     })
     (attrValues peers);
