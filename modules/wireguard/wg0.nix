@@ -74,14 +74,16 @@ in
       dns = [ wg0.gateway6 ];
       domains = [ "~." ];
       networkConfig = { DNSDefaultRoute = "yes"; };
-      routingPolicyRules = map (ip:
-        {
-          routingPolicyRuleConfig = {
-            To = ip;
-            Priority = 9;
-          };
-        }
-      ) cfg.routeBypass ++ (if cfg.route == "all" then [
+      routingPolicyRules = map
+        (ip:
+          {
+            routingPolicyRuleConfig = {
+              To = ip;
+              Priority = 9;
+            };
+          }
+        )
+        cfg.routeBypass ++ (if cfg.route == "all" then [
         {
           routingPolicyRuleConfig = {
             Family = "both";
