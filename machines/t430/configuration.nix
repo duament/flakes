@@ -61,6 +61,7 @@ in
     '';
   };
   networking.nftables.mssClamping = true;
+  networking.nftables.checkRuleset = false;
 
   home-manager.users.rvfg = import ./home.nix;
 
