@@ -114,6 +114,8 @@ in
       interfaces = [ "wg0" ];
     };
 
-    presets.bpf-mark.wg0-re-resolve = wgMark;
+    presets.bpf-mark = lib.mkIf (cfg.route != null) {
+      wg0-re-resolve = wgMark;
+    };
   };
 }

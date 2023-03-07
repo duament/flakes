@@ -1,10 +1,5 @@
 { config, lib, mypkgs, pkgs, self, ... }:
 with lib;
-let
-  mark = 2;
-  host = config.networking.hostName;
-  wg0 = self.data.wg0;
-in
 {
   options = {
     presets.workstation.enable = mkOption {
@@ -50,63 +45,11 @@ in
       '';
     };
 
-    networking.firewall.checkReversePath = "loose";
-    networking.nftables.masquerade = [ "oifname \"wg0\"" ];
-    networking.nftables.markChinaIP = {
+    presets.wireguard.wg0 = {
       enable = true;
-      mark = mark;
+      route = "cn";
     };
-    systemd.network =
-      let
-        wgTable = 10;
-        wgMark = 1;
-      in
-      {
-        enable = true;
-        netdevs."25-wg0" = {
-          netdevConfig = {
-            Name = "wg0";
-            Kind = "wireguard";
-          };
-          wireguardConfig = {
-            PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-            FirewallMark = wgMark;
-            RouteTable = wgTable;
-          };
-          wireguardPeers = [
-            {
-              wireguardPeerConfig = {
-                AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-                Endpoint = wg0.endpoint;
-                PublicKey = wg0.pubkey;
-              };
-            }
-          ];
-        };
-        networks."25-wg0" = {
-          name = "wg0";
-          address = [ "${wg0.peers.${host}.ipv4}/24" "${wg0.peers.${host}.ipv6}/120" ];
-          dns = [ wg0.gateway6 ];
-          domains = [ "~." ];
-          routingPolicyRules = [
-            {
-              routingPolicyRuleConfig = {
-                Family = "both";
-                FirewallMark = wgMark;
-                Priority = 9;
-              };
-            }
-            {
-              routingPolicyRuleConfig = {
-                Family = "both";
-                FirewallMark = mark;
-                Table = wgTable;
-                Priority = 10;
-              };
-            }
-          ];
-        };
-      };
+    networking.firewall.checkReversePath = "loose";
 
     presets.ssh-agent.enable = true;
     presets.chromium.enable = true;

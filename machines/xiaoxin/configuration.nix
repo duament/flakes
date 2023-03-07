@@ -48,6 +48,7 @@ in
   systemd.network.networks."10-wifi" = {
     matchConfig = { PermanentMACAddress = "a8:7e:ea:ed:dd:a2"; };
     DHCP = "yes";
+    domains = [ "~h.rvf6.com" ];
   };
 
   security.pam.services.swaylock = { };
