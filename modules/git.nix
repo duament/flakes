@@ -1,9 +1,5 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 with lib;
-let
-  sshPub = import ../lib/ssh-pubkeys.nix;
-  authorizedKeys = with sshPub; [ ybk canokey a4b ed25519 ];
-in
 {
   options = {
     presets.git.enable = mkEnableOption "Git server";
@@ -15,7 +11,7 @@ in
       isSystemUser = true;
       group = "git";
       useDefaultShell = true;
-      openssh.authorizedKeys.keys = authorizedKeys;
+      openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys;
       createHome = true;
       home = "/var/lib/git";
       homeMode = "750";

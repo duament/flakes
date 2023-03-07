@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, self, ... }:
 let
   host = "work";
-  wg0 = import ../../lib/wg0.nix;
+  wg0 = self.data.wg0;
   wgMark = 8;
   wgTable = 1000;
 in

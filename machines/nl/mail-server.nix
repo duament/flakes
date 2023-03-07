@@ -1,10 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 let
   domain = "rvf6.com";
   hostname = "${config.networking.hostName}.${domain}";
   certificatePath = "${config.security.acme.certs.${hostname}.directory}/fullchain.pem";
   keyPath = "${config.security.acme.certs.${hostname}.directory}/key.pem";
   opendmarcSocket = "/run/opendmarc/opendmarc";
+  systemdHarden = self.data.systemdHarden;
 in
 {
   sops.secrets = {
@@ -118,7 +119,7 @@ in
     {
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
-      serviceConfig = import ../../lib/systemd-harden.nix // {
+      serviceConfig = systemdHarden // {
         ExecStart = "${pkgs.opendmarc}/bin/opendmarc -f -c ${opendmarcConfig}";
         Group = config.services.postfix.group;
         RuntimeDirectory = "opendmarc";

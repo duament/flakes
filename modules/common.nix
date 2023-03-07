@@ -1,8 +1,5 @@
 { inputs, lib, pkgs, self, ... }:
 with lib;
-let
-  sshPub = import ../lib/ssh-pubkeys.nix;
-in
 {
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" "cgroups" ];
@@ -91,7 +88,7 @@ in
         name = host;
         value = {
           hostNames = [ "${host}.rvf6.com" ];
-          publicKey = sshPub."${host}";
+          publicKey = self.data.sshPub."${host}";
         };
       }) [ "nl" "az" "or1" "or2" "or3" "owrt" "rpi3" "t430" "k2" "k1" "work" ]);
   };

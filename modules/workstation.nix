@@ -1,8 +1,9 @@
-{ config, lib, mypkgs, pkgs, ... }:
+{ config, lib, mypkgs, pkgs, self, ... }:
 with lib;
 let
   mark = 2;
   host = config.networking.hostName;
+  wg0 = self.data.wg0;
 in
 {
   options = {
@@ -57,7 +58,6 @@ in
     };
     systemd.network =
       let
-        wg0 = import ../lib/wg0.nix;
         wgTable = 10;
         wgMark = 1;
       in

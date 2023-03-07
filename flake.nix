@@ -41,6 +41,8 @@
         }
       )
     // {
+      data = import ./data { inherit inputs; inherit (nixpkgs) lib; };
+
       nixosModules.myModules = import ./modules;
       nixosModules.myHomeModules = import ./home-modules;
 

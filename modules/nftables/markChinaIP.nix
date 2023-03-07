@@ -1,8 +1,8 @@
-{ config, inputs, lib, ... }:
+{ config, inputs, lib, self, ... }:
 with lib;
 let
   cfg = config.networking.nftables.markChinaIP;
-  nftChinaIP = import ../../lib/nft-china-ip.nix { inherit lib inputs; };
+  nftChinaIP = self.data.nftChinaIP;
 in
 {
   options = {

@@ -1,8 +1,5 @@
-{ config, lib, ... }:
+{ config, lib, self, ... }:
 with lib;
-let
-  sshPub = import ../lib/ssh-pubkeys.nix;
-in
 {
   options = {
     presets.git.enable = mkOption {
@@ -12,7 +9,7 @@ in
   };
 
   config = mkIf config.presets.git.enable {
-    home.file.".ssh/allowed_signers".text = concatMapStrings (x: "i@rvf6.com ${x}\n") (with sshPub; [ ybk canokey ]);
+    home.file.".ssh/allowed_signers".text = concatMapStrings (x: "i@rvf6.com ${x}\n") (with self.data.sshPub; [ ybk canokey ]);
 
     programs.git = {
       enable = true;

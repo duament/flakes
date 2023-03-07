@@ -1,8 +1,9 @@
-{ config, lib, ... }:
+{ config, lib, self, ... }:
 let
   host = "or3";
   musicDir = "/var/lib/music";
-  wg0 = import ../../lib/wg0.nix;
+  wg0 = self.data.wg0;
+  syncthing = self.data.syncthing;
 in
 {
   presets.nogui.enable = true;
@@ -59,25 +60,21 @@ in
   systemd.services.syncthing.serviceConfig.SupplementaryGroups = [ "music" ];
   systemd.services.navidrome.serviceConfig.SupplementaryGroups = [ "music" ];
 
-  services.syncthing =
-    let
-      st = import ../../lib/syncthing.nix;
-    in
-    {
-      enable = true;
-      openDefaultPorts = true;
-      cert = config.sops.secrets."syncthing/cert".path;
-      key = config.sops.secrets."syncthing/key".path;
-      devices = st.devices;
-      folders = {
-        music = {
-          id = "hngav-zprin";
-          label = "Music";
-          path = musicDir;
-          devices = [ "desktop" "xiaoxin" ];
-        };
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    cert = config.sops.secrets."syncthing/cert".path;
+    key = config.sops.secrets."syncthing/key".path;
+    devices = syncthing.devices;
+    folders = {
+      music = {
+        id = "hngav-zprin";
+        label = "Music";
+        path = musicDir;
+        devices = [ "desktop" "xiaoxin" ];
       };
     };
+  };
 
   services.navidrome = {
     enable = true;

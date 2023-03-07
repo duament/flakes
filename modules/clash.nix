@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 with lib;
 let
   cfg = config.services.clash;
@@ -20,7 +20,7 @@ in
     systemd.services.clash = {
       after = [ "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
-      serviceConfig = import ../lib/systemd-harden.nix // {
+      serviceConfig = self.data.systemdHarden // {
         StateDirectory = "%N";
         LoadCredential = "clash.conf:${cfg.configFile}";
         ExecStart = "${pkgs.clash}/bin/clash -d %S/%N -f \${CREDENTIALS_DIRECTORY}/clash.conf";

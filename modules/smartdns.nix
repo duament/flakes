@@ -1,4 +1,4 @@
-{ lib, config, inputs, pkgs, ... }:
+{ lib, config, inputs, pkgs, self, ... }:
 with lib;
 let
   cfg = config.services.smartdns;
@@ -33,7 +33,7 @@ in
       };
     };
 
-    systemd.services.smartdns.serviceConfig = import ../lib/systemd-harden.nix // {
+    systemd.services.smartdns.serviceConfig = self.data.systemdHarden // {
       Type = "simple";
       PIDFile = "";
       ExecStart = [ "" "${pkgs.smartdns}/bin/smartdns -f -x -p - $SMART_DNS_OPTS" ];

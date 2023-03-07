@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 with lib;
 let
   cfg = config.presets.vouch;
@@ -106,7 +106,7 @@ in
             jq -s '.[0] * .[1] * .[2]' ${configFile} jwt.json client.json > config.json
             rm -f jwt.json client.json
           '';
-          serviceConfig = import ../lib/systemd-harden.nix // {
+          serviceConfig = self.data.systemdHarden // {
             ExecStart = "${pkgs.vouch-proxy}/bin/vouch-proxy";
             LoadCredential = [
               "jwt:${values.jwtSecretFile}"

@@ -1,7 +1,9 @@
-{ config, lib, mypkgs, pkgs, ... }:
+{ config, lib, mypkgs, pkgs, self, ... }:
 let
   host = "nl";
-  wg0 = import ../../lib/wg0.nix;
+  wg0 = self.data.wg0;
+  syncthing = self.data.syncthing;
+  systemdHarden = self.data.systemdHarden;
 in
 {
   presets.nogui.enable = true;
@@ -71,30 +73,26 @@ in
 
   home-manager.users.rvfg = import ./home.nix;
 
-  services.syncthing =
-    let
-      st = import ../../lib/syncthing.nix;
-    in
-    {
-      enable = true;
-      openDefaultPorts = true;
-      cert = config.sops.secrets."syncthing/cert".path;
-      key = config.sops.secrets."syncthing/key".path;
-      devices = st.devices;
-      folders = {
-        keepass = {
-          id = "xudus-kdccy";
-          label = "KeePass";
-          path = "${config.services.syncthing.dataDir}/KeePass";
-          devices = [ "desktop" "xiaoxin" "iphone" "t430" "az" ];
-          versioning = {
-            type = "staggered";
-            params.cleanInterval = "3600";
-            params.maxAge = "15552000";
-          };
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    cert = config.sops.secrets."syncthing/cert".path;
+    key = config.sops.secrets."syncthing/key".path;
+    devices = syncthing.devices;
+    folders = {
+      keepass = {
+        id = "xudus-kdccy";
+        label = "KeePass";
+        path = "${config.services.syncthing.dataDir}/KeePass";
+        devices = [ "desktop" "xiaoxin" "iphone" "t430" "az" ];
+        versioning = {
+          type = "staggered";
+          params.cleanInterval = "3600";
+          params.maxAge = "15552000";
         };
       };
     };
+  };
 
   services.shadowsocks = {
     enable = true;
@@ -103,7 +101,7 @@ in
     port = 13926;
     extraConfig.user = null;
   };
-  systemd.services.shadowsocks-libev.serviceConfig = import ../../lib/systemd-harden.nix // {
+  systemd.services.shadowsocks-libev.serviceConfig = systemdHarden // {
     PrivateNetwork = false;
     LoadCredential = "shadowsocks:${config.sops.secrets.shadowsocks.path}";
   };

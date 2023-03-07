@@ -1,7 +1,7 @@
-{ config, lib, ... }:
+{ config, lib, self, ... }:
 with lib;
 let
-  sshPub = import ../lib/ssh-pubkeys.nix;
+  sshPub = self.data.sshPub;
   keys = [ "ybk" "canokey" "a4b" "ed25519" ];
   sshIdentities = map (key: "~/.ssh/id_${key}.pub") keys;
 in

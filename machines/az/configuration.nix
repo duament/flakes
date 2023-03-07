@@ -1,7 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 let
   host = "az";
-  wg0 = import ../../lib/wg0.nix;
+  wg0 = self.data.wg0;
+  syncthing = self.data.syncthing;
+  systemdHarden = self.data.systemdHarden;
 in
 {
   presets.nogui.enable = true;
@@ -58,30 +60,26 @@ in
 
   home-manager.users.rvfg = import ./home.nix;
 
-  services.syncthing =
-    let
-      st = import ../../lib/syncthing.nix;
-    in
-    {
-      enable = true;
-      openDefaultPorts = true;
-      cert = config.sops.secrets."syncthing/cert".path;
-      key = config.sops.secrets."syncthing/key".path;
-      devices = st.devices;
-      folders = {
-        keepass = {
-          id = "xudus-kdccy";
-          label = "KeePass";
-          path = "${config.services.syncthing.dataDir}/KeePass";
-          devices = [ "desktop" "xiaoxin" "iphone" "t430" "nl" ];
-          versioning = {
-            type = "staggered";
-            params.cleanInterval = "3600";
-            params.maxAge = "15552000";
-          };
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    cert = config.sops.secrets."syncthing/cert".path;
+    key = config.sops.secrets."syncthing/key".path;
+    devices = syncthing.devices;
+    folders = {
+      keepass = {
+        id = "xudus-kdccy";
+        label = "KeePass";
+        path = "${config.services.syncthing.dataDir}/KeePass";
+        devices = [ "desktop" "xiaoxin" "iphone" "t430" "nl" ];
+        versioning = {
+          type = "staggered";
+          params.cleanInterval = "3600";
+          params.maxAge = "15552000";
         };
       };
     };
+  };
 
   services.etebase-server = {
     enable = true;
@@ -103,7 +101,7 @@ in
       };
     };
   };
-  systemd.services.etebase-server.serviceConfig = import ../../lib/systemd-harden.nix // {
+  systemd.services.etebase-server.serviceConfig = systemdHarden // {
     DynamicUser = false;
     PrivateNetwork = false;
     RuntimeDirectory = "%p";
@@ -125,7 +123,7 @@ in
       OAUTH2_REDIRECT_URL = "https://rss.rvf6.com/oauth2/oidc/callback";
       OAUTH2_OIDC_DISCOVERY_ENDPOINT = "https://id.rvf6.com/realms/rvfg";
     };
-    serviceConfig = import ../../lib/systemd-harden.nix // {
+    serviceConfig = systemdHarden // {
       PrivateNetwork = false;
       Type = "notify";
       RuntimeDirectory = "%p";
@@ -141,7 +139,7 @@ in
     port = 13926;
     extraConfig.user = null;
   };
-  systemd.services.shadowsocks-libev.serviceConfig = import ../../lib/systemd-harden.nix // {
+  systemd.services.shadowsocks-libev.serviceConfig = systemdHarden // {
     PrivateNetwork = false;
     LoadCredential = "shadowsocks:${config.sops.secrets.shadowsocks.path}";
   };

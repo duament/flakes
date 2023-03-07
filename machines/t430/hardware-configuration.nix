@@ -1,7 +1,4 @@
-{ config, lib, pkgs, ... }:
-let
-  sshPub = import ../../lib/ssh-pubkeys.nix;
-in
+{ config, lib, pkgs, self, ... }:
 {
   boot.initrd = {
     availableKernelModules = [ "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci" "r8169" ];
@@ -16,7 +13,7 @@ in
       ssh = {
         enable = true;
         port = 22;
-        authorizedKeys = with sshPub; [ ybk canokey a4b ed25519 ];
+        inherit (self.data.sshPub) authorizedKeys;
         hostKeys = [ config.sops.secrets.initrd_ssh_host_ed25519_key.path ];
       };
     };

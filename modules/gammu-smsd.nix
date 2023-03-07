@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 let
   cfg = config.presets.gammu-smsd;
   cfgSrv = cfg.settings.smsd.Service;
@@ -195,7 +195,7 @@ in
         ${pkgs.replace-secret}/bin/replace-secret "@PIN@" $CREDENTIALS_DIRECTORY/pin ${configFileRun}
       '';
 
-      serviceConfig = import ../lib/systemd-harden.nix // {
+      serviceConfig = self.data.systemdHarden // {
         PrivateNetwork = false;
         PrivateDevices = false;
         DeviceAllow = [ "${cfg.settings.gammu.Device} rwm" ];

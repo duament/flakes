@@ -1,7 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 let
   host = "or2";
-  wg0 = import ../../lib/wg0.nix;
+  wg0 = self.data.wg0;
 in
 {
   presets.nogui.enable = true;

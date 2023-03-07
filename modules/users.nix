@@ -1,9 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 let
   cfg = config.presets.users;
-
-  sshPub = import ../lib/ssh-pubkeys.nix;
-  authorizedKeys = with sshPub; [ ybk canokey a4b ed25519 ];
 in
 {
   options = {
@@ -25,7 +22,7 @@ in
       isNormalUser = true;
       passwordFile = config.sops.secrets.passwd.path;
       extraGroups = [ "systemd-journal" ];
-      openssh.authorizedKeys.keys = authorizedKeys;
+      openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys;
     };
 
     users.groups.deploy = { };
@@ -33,7 +30,7 @@ in
       isSystemUser = true;
       group = "deploy";
       useDefaultShell = true;
-      openssh.authorizedKeys.keys = authorizedKeys;
+      openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys;
     };
 
     security.sudo.extraRules = [

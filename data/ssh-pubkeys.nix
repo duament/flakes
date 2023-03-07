@@ -1,4 +1,4 @@
-{
+rec {
   ed25519 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINdmqOuypyBe2tF0fQ3R5vp9YkUg1e0lREno2ezJJE86";
   canokey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIL6r8qfrXMqjnUBhxuBSMt0cfjHo+Vhvqtod8vvwoQk4AAAABHNzaDo=";
   a4b = "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBN/ZYR5bXgmEYjhHWjtCZvocjMg0C921Gl61aib+IxlGIvtgGqJQUJsDu6xVsHQq7G7h0kBvUKJlaVNWitT2HCIAAAAEc3NoOg==";
@@ -20,4 +20,6 @@
   or1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGhnuNC6/h7v0amQUrWQHk/TL1jyrUSFu6iJCUDWTo9W";
   or2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJQLQnscdJ8dgVxROJmaT63TVkRyUnyhGAs+yUTajBh3";
   or3 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOiFV9RY+V9Yc+qtF+Mt7xZIBcYewmgn6dGkORXW5VrE";
+
+  authorizedKeys = [ ybk canokey a4b ed25519 ];
 }

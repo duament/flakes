@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 with lib;
 let
   cfg = config.services.swanctlDynamicIPv6;
@@ -68,7 +68,7 @@ in
           rm -f "$TEMP"
         fi
       '';
-      serviceConfig = import ../lib/systemd-harden.nix // {
+      serviceConfig = self.data.systemdHarden // {
         Type = "oneshot";
         RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
         PrivateNetwork = false;

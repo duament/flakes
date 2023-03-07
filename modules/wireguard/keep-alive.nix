@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 with lib;
 let
   cfg = config.presets.wireguard.keepAlive;
@@ -75,7 +75,7 @@ in
             }
             wg_keep_alive ${interface}
           '';
-          serviceConfig = import ../../lib/systemd-harden.nix // {
+          serviceConfig = self.data.systemdHarden // {
             AmbientCapabilities = [ "CAP_NET_ADMIN" ];
             CapabilityBoundingSet = [ "CAP_NET_ADMIN" ];
             RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];

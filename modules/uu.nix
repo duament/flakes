@@ -1,4 +1,4 @@
-{ config, inputs, lib, mypkgs, pkgs, ... }:
+{ config, inputs, lib, mypkgs, pkgs, self, ... }:
 with lib;
 let
   cfg = config.services.uu;
@@ -79,7 +79,7 @@ in
       interfaces = [ vlan ];
       extraFlags = [ "--load-credential=uuplugin-uuid:uuplugin-uuid" ];
       config = { config, ... }: {
-        _module.args.inputs = inputs;
+        _module.args = { inherit inputs self; };
         imports = [
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
@@ -143,7 +143,7 @@ in
           after = [ "network-online.target" ];
           wantedBy = [ "multi-user.target" ];
           path = with pkgs; [ iproute2 nettools iptables ]; # ip ifconfig iptables
-          serviceConfig = import ../lib/systemd-harden.nix // {
+          serviceConfig = self.data.systemdHarden // {
             AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
             CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
             RestrictAddressFamilies = "";
