@@ -107,7 +107,7 @@ in
       }
     ];
   };
-  services.wireguardReResolve.interfaces = [ "wg0" ];
+  presets.wireguard.reResolve.interfaces = [ "wg0" ];
 
   users.users.rvfg.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ enflame"

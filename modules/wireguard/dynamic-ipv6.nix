@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.services.wireguardDynamicIPv6;
+  cfg = config.presets.wireguard.dynamicIPv6;
 in
 {
   options = {
-    services.wireguardDynamicIPv6.interfaces = mkOption {
+    presets.wireguard.dynamicIPv6.interfaces = mkOption {
       type = types.listOf types.str;
       default = [ ];
     };
@@ -47,7 +47,7 @@ in
               fi
             done
           '';
-          serviceConfig = import ../lib/systemd-harden.nix // {
+          serviceConfig = import ../../lib/systemd-harden.nix // {
             Type = "oneshot";
             AmbientCapabilities = [ "CAP_NET_ADMIN" ];
             CapabilityBoundingSet = [ "CAP_NET_ADMIN" ];

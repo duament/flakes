@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.services.wireguardReResolve;
+  cfg = config.presets.wireguard.reResolve;
 in
 {
   options = {
-    services.wireguardReResolve.interfaces = mkOption {
+    presets.wireguard.reResolve.interfaces = mkOption {
       type = types.listOf types.str;
       default = [ ];
     };
@@ -15,7 +15,7 @@ in
     systemd.services = builtins.listToAttrs (map
       (interface:
         let
-          wg = import ../lib/${interface}.nix;
+          wg = import ../../lib/${interface}.nix;
         in
         {
           name = "${interface}-re-resolve";
@@ -32,7 +32,7 @@ in
                 wg set ${interface} peer ${wg.pubkey} endpoint "$IP_RESOLVED:$PORT"
               fi
             '';
-            serviceConfig = import ../lib/systemd-harden.nix // {
+            serviceConfig = import ../../lib/systemd-harden.nix // {
               Type = "oneshot";
               AmbientCapabilities = [ "CAP_NET_ADMIN" ];
               CapabilityBoundingSet = [ "CAP_NET_ADMIN" ];

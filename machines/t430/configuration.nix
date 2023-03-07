@@ -82,7 +82,7 @@ in
     dhcpPrefixDelegationConfig = { Token = "::1"; };
     linkConfig = { RequiredForOnline = false; };
   };
-  services.wireguardDynamicIPv6.interfaces = [ "wg0" ];
+  presets.wireguard.dynamicIPv6.interfaces = [ "wg0" ];
 
   networking.warp = {
     enable = true;
@@ -95,7 +95,7 @@ in
     table = 20;
     extraIPv4MarkRules = "ip saddr 10.6.7.0/24 accept";
   };
-  services.wireguardKeepAlive.interfaces = [ "warp" ];
+  presets.wireguard.keepAlive.interfaces = [ "warp" ];
 
   services.smartdns.chinaDns = [ "192.168.2.1" ];
   services.smartdns.settings.bind = [ "[::]:53" ];
