@@ -136,6 +136,10 @@ in
         socket = "/run/grafana/grafana.sock";
         root_url = "https://graf.rvf6.com";
       };
+      auth = {
+        login_maximum_inactive_lifetime_duration = "1h";
+        disable_login_form = true;
+      };
       "auth.generic_oauth" = {
         name = "Keycloak";
         enabled = true;
@@ -152,6 +156,7 @@ in
         tls_client_ca = "/etc/ssl/certs/ca-bundle.crt";
         use_pkce = true;
       };
+      users.default_theme = "system";
     };
   };
   systemd.services.grafana.serviceConfig.LoadCredential = [
