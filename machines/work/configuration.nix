@@ -1,9 +1,6 @@
 { config, pkgs, self, ... }:
 let
   host = "work";
-  wg0 = self.data.wg0;
-  wgMark = 8;
-  wgTable = 1000;
 in
 {
   #nixpkgs.overlays = [
@@ -40,74 +37,15 @@ in
     dns = [ "10.9.231.5" ];
     domains = [ "~enflame.cn" "~h.rvf6.com" ];
   };
-  systemd.network.netdevs."25-wg0" = {
+  presets.wireguard.wg0 = {
     enable = true;
-    netdevConfig = { Name = "wg0"; Kind = "wireguard"; };
-    wireguardConfig = {
-      PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-      FirewallMark = wgMark;
-    };
-    wireguardPeers = [{
-      wireguardPeerConfig = {
-        AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-        Endpoint = wg0.endpoint;
-        PersistentKeepalive = 25;
-        PublicKey = wg0.pubkey;
-      };
-    }];
-  };
-  systemd.network.networks."25-wg0" = {
-    enable = true;
-    name = "wg0";
-    address = [ "${wg0.peers.${host}.ipv4}/24" "${wg0.peers.${host}.ipv6}/120" ];
-    dns = [ wg0.gateway6 ];
-    domains = [ "~." ];
-    networkConfig = { DNSDefaultRoute = "yes"; };
-    routingPolicyRules = [
-      {
-        routingPolicyRuleConfig = {
-          Family = "both";
-          FirewallMark = wgMark;
-          InvertRule = "yes";
-          Table = wgTable;
-          Priority = 10;
-        };
-      }
-      {
-        routingPolicyRuleConfig = {
-          To = "172.16.0.0/12";
-          Priority = 9;
-        };
-      }
-      {
-        routingPolicyRuleConfig = {
-          To = "10.9.0.0/16";
-          Priority = 9;
-        };
-      }
-      {
-        routingPolicyRuleConfig = {
-          To = "fc00::/64";
-          Priority = 9;
-        };
-      }
-    ];
-    routes = [
-      {
-        routeConfig = {
-          Destination = "0.0.0.0/0";
-          Table = wgTable;
-        };
-      }
-      {
-        routeConfig = {
-          Destination = "::/0";
-          Table = wgTable;
-        };
-      }
+    route = "all";
+    routeBypass = [
+      "172.16.0.0/12"
+      "10.9.0.0/16"
+      "fc00::/64"
     ];
   };
-  presets.wireguard.reResolve.interfaces = [ "wg0" ];
 
   users.users.rvfg.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ enflame"

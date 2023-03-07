@@ -1,7 +1,6 @@
 { config, lib, mypkgs, pkgs, self, ... }:
 let
   host = "nl";
-  wg0 = self.data.wg0;
   syncthing = self.data.syncthing;
   systemdHarden = self.data.systemdHarden;
 in
@@ -36,7 +35,6 @@ in
       config.services.shadowsocks.port
     ];
     allowedUDPPorts = [
-      wg0.peers.${host}.endpointPort
       config.services.shadowsocks.port
     ];
   };
@@ -49,26 +47,9 @@ in
     networkConfig.IPv6AcceptRA = false;
   };
 
-  systemd.network.netdevs."25-wg0" = {
-    netdevConfig = {
-      Name = "wg0";
-      Kind = "wireguard";
-      MTUBytes = "1320";
-    };
-    wireguardConfig = {
-      PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-      ListenPort = wg0.peers.${host}.endpointPort;
-    };
-    wireguardPeers = [{
-      wireguardPeerConfig = {
-        AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-        PublicKey = wg0.pubkey;
-      };
-    }];
-  };
-  systemd.network.networks."25-wg0" = {
-    name = "wg0";
-    address = [ "${wg0.peers.${host}.ipv4}/24" "${wg0.peers.${host}.ipv6}/120" ];
+  presets.wireguard.wg0 = {
+    enable = true;
+    mtu = 1320;
   };
 
   home-manager.users.rvfg = import ./home.nix;
