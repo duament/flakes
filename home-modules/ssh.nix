@@ -23,8 +23,14 @@ in
         keys) // builtins.listToAttrs (map
       (host: {
         name = ".ssh/known_hosts_${host}_init";
-        value.text = "${host}.rvf6.com ${sshPub."${host}-init"}";
-      }) [ "rpi3" "t430" ]);
+        value.text = ''
+          ${host}.rvf6.com ${sshPub."${host}-init"}
+        '';
+      }) [ "rpi3" ]) // {
+      ".ssh/known_hosts_t430_init".text = ''
+        192.168.2.8 ${sshPub."t430-init"}
+      '';
+    };
 
     programs.ssh = {
       enable = true;
@@ -73,7 +79,15 @@ in
             identitiesOnly = true;
             extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_${host}_init";
           };
-        }) [ "rpi3" "t430" ]) // {
+        }) [ "rpi3" ]) // {
+        "t430-init" = {
+          user = "root";
+          hostname = "192.168.2.8";
+          identityFile = sshIdentities;
+          identitiesOnly = true;
+          extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_t430_init";
+        };
+      } // {
         "github.com" = {
           identityFile = sshIdentities;
           identitiesOnly = true;
