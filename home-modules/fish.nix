@@ -13,6 +13,7 @@
       s = "systemctl";
       se = "sudoedit";
       sls = "systemctl list-units --type=service";
+      slt = "systemctl list-timers";
       suls = "systemctl --user list-units --type=service";
       sus = "sudo systemctl";
       v = "nvim";
@@ -26,14 +27,16 @@
     interactiveShellInit = ''
       set fish_greeting
 
-      set fish_color_command green
-      set fish_color_comment brblack
-      set fish_color_end yellow
-      set fish_color_escape magenta
-      set fish_color_keyword cyan
-      set fish_color_operator bryellow
-      set fish_color_param black
-      set fish_color_quote brblue
+      if test $TERM != linux
+        set fish_color_command green
+        set fish_color_comment brblack
+        set fish_color_end yellow
+        set fish_color_escape magenta
+        set fish_color_keyword cyan
+        set fish_color_operator bryellow
+        set fish_color_param black
+        set fish_color_quote brblue
+      end
 
       set -U fish_features qmark-noglob
     '';
