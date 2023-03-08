@@ -32,8 +32,29 @@ with lib;
 
     programs.mpv = {
       enable = true;
-      config = {
+      config = rec {
         fullscreen = true;
+        ao = "pipewire";
+        vo = "gpu-next";
+        hwdec = "vaapi";
+        gpu-api = "vulkan";
+        gpu-context = "waylandvk";
+        profile = "gpu-hq";
+        slang-append = [ "zh-Hans" "zh-CN" "zh" "chi" "zh-Hant" "zh-TW" "zh-HK" "en-US" "en-GB" "en" ];
+        audio-file-auto = "fuzzy";
+        sub-auto = "fuzzy";
+        sub-font-size = 36;
+        sub-border-size = 0;
+        sub-shadow-color = "#000000";
+        sub-shadow-offset = 1;
+        video-align-y = -1;
+        sub-ass-force-margins = true;
+        audio-display = false;
+        ytdl-raw-options-append = [
+          "format=bestvideo[height<=1440][fps>=60]+bestaudio/bestvideo[height<=1440]+bestaudio/best[height<=1440]/best"
+          "write-sub="
+          "sub-lang=${builtins.concatStringsSep "," slang-append}"
+        ];
       };
     };
   };
