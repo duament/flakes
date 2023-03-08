@@ -9,6 +9,7 @@
     brightnessctl
     openssl
     papirus-icon-theme
+    vulkan-validation-layers
   ];
 
   home.pointerCursor = {
@@ -20,6 +21,7 @@
 
   systemd.user.sessionVariables = {
     QT_STYLE_OVERRIDE = "Breeze";
+    WLR_RENDERER = "vulkan";
   };
 
   gtk = {
