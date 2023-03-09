@@ -18,8 +18,13 @@ in
 
     users.users.root.passwordFile = config.sops.secrets.passwd.path;
 
+    users.groups.rvfg = {
+      gid = 1000;
+    };
     users.users.rvfg = {
       isNormalUser = true;
+      uid = 1000;
+      group = "rvfg";
       passwordFile = config.sops.secrets.passwd.path;
       extraGroups = [ "systemd-journal" ];
       openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys;
