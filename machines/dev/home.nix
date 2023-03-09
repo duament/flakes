@@ -35,6 +35,7 @@
     home-manager
     iproute2
     less
+    openssh
     openssl
     procps
     strace
@@ -52,8 +53,16 @@
     enable = true;
     userEmail = "int.ruifeng.ma@enflame-tech.com";
     userName = "ruifeng.ma";
+    signing = {
+      signByDefault = true;
+      key = "~/.ssh/id_ed25519";
+    };
     extraConfig = {
       init.defaultBranch = "main";
+      gpg.format = "ssh";
+      gpg.ssh.allowedSignersFile = toString (pkgs.writeText "allowed_signers" ''
+        int.ruifeng.ma@enflame-tech.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ
+      '');
     };
   };
 
