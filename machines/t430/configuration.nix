@@ -259,6 +259,7 @@ in
       settings.vouch.port = 2002;
       jwtSecretFile = config.sops.secrets."vouch-luci/jwt".path;
       clientSecretFile = config.sops.secrets."vouch-luci/client".path;
+      authLocations = [ "/" "= /cgi-bin/luci/" ];
     };
   };
 
@@ -266,10 +267,7 @@ in
     enable = true;
     useACMEHost = "rvf6.com";
     virtualHosts = {
-      "fava.rvf6.com".locations."/" = {
-        proxyPass = "http://[::1]:5000";
-        extraConfig = "auth_request /vouch/validate;";
-      };
+      "fava.rvf6.com".locations."/".proxyPass = "http://[::1]:5000";
       "luci.rvf6.com" =
         let
           cert = pkgs.writeText "luci-cert" ''
@@ -293,15 +291,9 @@ in
           locations = {
             "= /cgi-bin/luci/" = {
               proxyPass = "https://192.168.2.1";
-              extraConfig = ''
-                auth_request /vouch/validate;
-                include ${config.sops.secrets.luci-nginx-add-auth.path};
-              '';
+              extraConfig = "include ${config.sops.secrets.luci-nginx-add-auth.path};";
             };
-            "/" = {
-              proxyPass = "https://192.168.2.1";
-              extraConfig = "auth_request /vouch/validate;";
-            };
+            "/".proxyPass = "https://192.168.2.1";
           };
         };
     };

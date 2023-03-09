@@ -106,6 +106,7 @@ in
     settings.vouch.port = 2001;
     jwtSecretFile = config.sops.secrets."vouch-bt/jwt".path;
     clientSecretFile = config.sops.secrets."vouch-bt/client".path;
+    authLocations = [ "/flood/" "/twc/" "/tc/" "/og/" "/rpc" ];
   };
 
   presets.nginx = {
@@ -133,26 +134,11 @@ in
       "bt.rvf6.com" = {
         locations = {
           "= /".return = "301 /flood/";
-          "/flood/" = {
-            alias = "${mypkgs.flood-for-transmission}/share/flood-for-transmission/";
-            extraConfig = "auth_request /vouch/validate;";
-          };
-          "/twc/" = {
-            alias = "${mypkgs.transmission-web-control}/share/transmission-web-control/";
-            extraConfig = "auth_request /vouch/validate;";
-          };
-          "/tc/" = {
-            alias = "${mypkgs.transmission-client}/share/transmission-client/";
-            extraConfig = "auth_request /vouch/validate;";
-          };
-          "/og/" = {
-            proxyPass = "http://[::1]:9091/transmission/web/";
-            extraConfig = "auth_request /vouch/validate;";
-          };
-          "/rpc" = {
-            proxyPass = "http://[::1]:9091/transmission/rpc";
-            extraConfig = "auth_request /vouch/validate;";
-          };
+          "/flood/".alias = "${mypkgs.flood-for-transmission}/share/flood-for-transmission/";
+          "/twc/".alias = "${mypkgs.transmission-web-control}/share/transmission-web-control/";
+          "/tc/".alias = "${mypkgs.transmission-client}/share/transmission-client/";
+          "/og/".proxyPass = "http://[::1]:9091/transmission/web/";
+          "/rpc".proxyPass = "http://[::1]:9091/transmission/rpc";
         };
       };
     };

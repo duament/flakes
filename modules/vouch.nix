@@ -66,6 +66,11 @@ let
         type = types.nullOr types.path;
         default = null;
       };
+
+      authLocations = mkOption {
+        type = types.listOf types.str;
+        default = [ "/" ];
+      };
     };
   };
 in
@@ -136,7 +141,12 @@ in
               '';
             };
             "@error401".return = "302 /vouch/login?url=$scheme://$http_host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
-          };
+          } // (builtins.listToAttrs (map
+            (loc: {
+              name = loc;
+              value.extraConfig = "auth_request /vouch/validate;";
+            })
+            values.authLocations));
         }
       )
       cfg;
