@@ -37,7 +37,17 @@
         in
         {
           formatter = pkgs.nixpkgs-fmt;
+
           packages = import ./pkgs pkgs;
+
+          apps.update = {
+            type = "app";
+            program = (pkgs.writeShellScript "update-flakes" ''
+              ${pkgs.nix}/bin/nix flake update
+              cd pkgs
+              ${pkgs.nvfetcher}/bin/nvfetcher
+            '').outPath;
+          };
         }
       )
     // {
