@@ -303,7 +303,7 @@ in
     enable = true;
     pinFile = config.sops.secrets.sim-pin.path;
     settings = {
-      gammu.Device = "/dev/ttyUSB2";
+      gammu.Device = "/dev/serial/by-id/usb-Android_Android-if02-port0";
       smsd.Service = "files";
     };
   };
