@@ -309,7 +309,7 @@ in
   };
 
   systemd.services.gammu-smsd.serviceConfig.LoadCredential = [ "tg-bot-token:${config.sops.secrets.tg-bot-token.path}" ];
-  presets.gammu-smsd.settings.smsd.RunOnReceive = toString (pkgs.writers.writePython3 "gammu-smsd-on-receive"
+  presets.gammu-smsd.settings.smsd.RunOnReceive = (pkgs.writers.writePython3 "gammu-smsd-on-receive"
     {
       libraries = [ pkgs.python3Packages.requests ];
     } ''
@@ -333,5 +333,5 @@ in
         'text': text,
     }
     requests.post(url, json=data)
-  '');
+  '').outPath;
 }
