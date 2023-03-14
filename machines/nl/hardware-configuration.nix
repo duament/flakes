@@ -9,26 +9,17 @@
   boot.kernelParams = [
   ];
 
-  fileSystems."/" =
-    {
+  presets.fs = {
+    enable = true;
+    efiDevice = null;
+    swap = "@swap";
+  };
+
+  fileSystems = {
+    "/boot" = {
       device = "/dev/disk/by-label/system";
       fsType = "btrfs";
-      options = [ "subvol=NixOS" "compress=zstd" "discard=async" ];
+      options = [ "subvol=NixOS/persist/boot" "compress=zstd" "discard=async" ];
     };
-
-  fileSystems."/nix" =
-    {
-      device = "/dev/disk/by-label/system";
-      fsType = "btrfs";
-      options = [ "subvol=NixOS/nix" "compress=zstd" "noatime" "discard=async" ];
-    };
-
-  fileSystems."/swap" =
-    {
-      device = "/dev/disk/by-label/system";
-      fsType = "btrfs";
-      options = [ "subvol=@swap" "compress=zstd" "noatime" "discard=async" ];
-    };
-
-  swapDevices = [{ device = "/swap/swapfile"; }];
+  };
 }

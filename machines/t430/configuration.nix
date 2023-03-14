@@ -33,7 +33,6 @@ in
 
   boot.loader.generationsDir.copyKernels = true;
   boot.loader.systemd-boot.enable = true;
-  boot.tmpOnTmpfs = false;
 
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = true;
@@ -64,6 +63,12 @@ in
   networking.nftables.checkRuleset = false;
 
   home-manager.users.rvfg = import ./home.nix;
+
+  environment.persistence."/persist".users.rvfg = {
+    directories = [
+      "git"
+    ];
+  };
 
   systemd.network.networks."10-enp1s0" = {
     matchConfig = { PermanentMACAddress = "04:0e:3c:2f:c9:9a"; };

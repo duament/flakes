@@ -9,25 +9,7 @@
     "earlyprintk=ttyS0,115200"
   ];
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-label/system";
-      fsType = "btrfs";
-      options = [ "subvol=NixOS" "compress=zstd" "discard=async" ];
-    };
-
-  fileSystems."/nix" =
-    {
-      device = "/dev/disk/by-label/system";
-      fsType = "btrfs";
-      options = [ "subvol=NixOS/nix" "compress=zstd" "noatime" "discard=async" ];
-    };
-
-  fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-label/boot";
-      fsType = "vfat";
-    };
+  presets.fs.enable = true;
 
   fileSystems."/mnt/resource" =
     {

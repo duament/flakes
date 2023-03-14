@@ -28,8 +28,11 @@ with lib;
   ];
 
   boot = {
-    loader.systemd-boot.editor = mkDefault false;
-    loader.timeout = mkDefault 2;
+    loader = {
+      systemd-boot.editor = mkDefault false;
+      timeout = mkDefault 2;
+      efi.efiSysMountPoint = mkDefault "/efi";
+    };
     kernelPackages = pkgs.linuxPackages_latest;
     kernel.sysctl = {
       "net.core.default_qdisc" = "fq";
@@ -97,7 +100,7 @@ with lib;
   systemd.services.systemd-importd.environment.SYSTEMD_IMPORT_BTRFS_QUOTA = "0";
 
   sops = {
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    age.sshKeyPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
     gnupg.sshKeyPaths = [ ];
   };
 

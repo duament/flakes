@@ -20,8 +20,6 @@ in
 
   boot.loader.systemd-boot.enable = true;
 
-  boot.tmpOnTmpfs = false;
-
   networking.hostName = host;
   networking.firewall = {
     checkReversePath = "loose";
@@ -52,6 +50,12 @@ in
   ];
 
   home-manager.users.rvfg = import ./home.nix;
+
+  environment.persistence."/persist".users.rvfg = {
+    directories = [
+      "Downloads"
+    ];
+  };
 
   services.squid = {
     enable = true;

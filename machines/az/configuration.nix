@@ -21,7 +21,6 @@ in
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.tmpOnTmpfs = false;
 
   networking.hostName = host;
   networking.firewall = {

@@ -19,8 +19,6 @@ in
     "eap/xiaoxin-key" = { };
   };
 
-  boot.loader.efi.efiSysMountPoint = "/efi";
-
   presets.refind = {
     signKey = config.sops.secrets."sbsign-key".path;
     signCert = config.sops.secrets."sbsign-cert".path;
@@ -66,6 +64,13 @@ in
   systemd.services.greetd.serviceConfig.ExecStartPre = "/run/current-system/systemd/bin/systemctl restart systemd-vconsole-setup";
 
   home-manager.users.rvfg = import ./home.nix;
+
+  environment.persistence."/persist".users.rvfg = {
+    directories = [
+      ".gnupg"
+      ".mozilla"
+    ];
+  };
 
   services.clash.enable = true;
   services.clash.configFile = config.sops.secrets.clash.path;

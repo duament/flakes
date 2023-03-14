@@ -25,7 +25,6 @@ in
     device = "/dev/vda";
     fsIdentifier = "label";
   };
-  boot.tmpOnTmpfs = false;
 
   networking.hostName = host;
   networking.firewall = {
@@ -54,6 +53,12 @@ in
   };
 
   home-manager.users.rvfg = import ./home.nix;
+
+  environment.persistence."/persist".users.rvfg = {
+    directories = [
+      "git"
+    ];
+  };
 
   services.syncthing = {
     enable = true;

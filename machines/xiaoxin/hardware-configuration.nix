@@ -13,28 +13,10 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-label/system";
-      fsType = "btrfs";
-      options = [ "subvol=NixOS" "compress=zstd" "discard=async" ];
-    };
-
-  fileSystems."/nix" =
-    {
-      device = "/dev/disk/by-label/system";
-      fsType = "btrfs";
-      options = [ "subvol=NixOS/nix" "compress=zstd" "noatime" "discard=async" ];
-    };
-
-  fileSystems."/swap" =
-    {
-      device = "/dev/disk/by-label/system";
-      fsType = "btrfs";
-      options = [ "subvol=@/swap" "compress=zstd" "discard=async" "noatime" ];
-    };
-
-  swapDevices = [{ device = "/swap/swapfile"; }];
+  presets.fs = {
+    enable = true;
+    swap = "@/swap";
+  };
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
   hardware.video.hidpi.enable = lib.mkDefault true;

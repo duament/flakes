@@ -30,34 +30,11 @@
     "ip=dhcp"
   ];
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-label/system";
-      fsType = "btrfs";
-      options = [ "subvol=NixOS" "compress=zstd" "discard=async" ];
-    };
-
-  fileSystems."/nix" =
-    {
-      device = "/dev/disk/by-label/system";
-      fsType = "btrfs";
-      options = [ "subvol=NixOS/nix" "compress=zstd" "discard=async" "noatime" ];
-    };
-
-  fileSystems."/swap" =
-    {
-      device = "/dev/disk/by-label/system";
-      fsType = "btrfs";
-      options = [ "subvol=swap" "compress=zstd" "discard=async" "noatime" ];
-    };
-
-  fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-label/boot";
-      fsType = "vfat";
-    };
-
-  swapDevices = [{ device = "/swap/swapfile"; }];
+  presets.fs = {
+    enable = true;
+    efiDevice = "/dev/disk/by-label/boot";
+    swap = "swap";
+  };
 
   hardware.enableRedistributableFirmware = true;
 

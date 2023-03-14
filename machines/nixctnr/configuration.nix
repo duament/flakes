@@ -5,6 +5,7 @@ in
 {
   presets.nogui.enable = true;
   presets.nogui.enableNetwork = false;
+  presets.impermanence.enable = false;
 
   nix.settings.auto-allocate-uids = false;
 

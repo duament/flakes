@@ -10,8 +10,6 @@
   boot.loader.generationsDir.copyKernels = true;
   boot.loader.systemd-boot.enable = true;
 
-  boot.tmpOnTmpfs = false;
-
   networking.hostName = "rpi3";
 
   home-manager.users.rvfg = import ./home.nix;
