@@ -41,6 +41,19 @@
 
           packages = import ./pkgs pkgs;
 
+          apps.default = {
+            type = "app";
+            program = (pkgs.writeShellScript "flakes-nixos-rebuild" ''
+              if [ $# -eq 0 ]; then
+                sudo nixos-rebuild switch
+              elif [ $# -eq 1 ] ; then
+                nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo switch
+              else
+                nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo "$2"
+              fi
+            '').outPath;
+          };
+
           apps.update = {
             type = "app";
             program = (pkgs.writeShellScript "update-flakes" ''
