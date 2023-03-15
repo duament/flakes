@@ -45,7 +45,7 @@
             type = "app";
             program = (pkgs.writeShellScript "flakes-nixos-rebuild" ''
               if [ $# -eq 0 ]; then
-                sudo nixos-rebuild switch
+                sudo nixos-rebuild --flake . switch
               elif [ $# -eq 1 ] ; then
                 nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo switch
               else
