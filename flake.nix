@@ -62,6 +62,13 @@
               ${pkgs.nvfetcher}/bin/nvfetcher
             '').outPath;
           };
+
+          apps.build = {
+            type = "app";
+            program = (pkgs.writeShellScript "flakes-build-nixos" ''
+              nix build .#nixosConfigurations."$1".config.system.build.toplevel
+            '').outPath;
+          };
         }
       )
     // {
