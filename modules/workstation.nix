@@ -24,7 +24,6 @@ with lib;
         font hack-48.18.png
         showtools firmware, shell, gdisk, memtest
         scanfor external,optical,manual
-        use_graphics_for osx,linux,windows
 
         menuentry "Arch Linux" {
             loader /EFI/Arch/linux-signed.efi
@@ -37,10 +36,12 @@ with lib;
             submenuentry "Boot archiso" {
                 loader /EFI/Arch/archiso-signed.efi
             }
+            graphics on
         }
 
         menuentry "Windows" {
             loader /EFI/Microsoft/Boot/bootmgfw.efi
+            graphics on
         }
       '';
     };

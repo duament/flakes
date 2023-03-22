@@ -194,6 +194,7 @@ MENU_ENTRY = """
 menuentry "NixOS" {{
     loader {loader}
     {submenuentries}
+    graphics on
 }}
 """
 
