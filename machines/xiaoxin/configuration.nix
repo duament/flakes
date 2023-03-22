@@ -54,12 +54,22 @@ in
   xdg.portal.wlr.enable = true;
   services.greetd = {
     enable = true;
-    settings = {
-      default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${pkgs.writeShellScript "sway" ''
-        systemctl --user import-environment PATH SSH_AUTH_SOCK XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID
-        exec systemctl --wait --user start sway.service
-      ''}";
-    };
+    settings =
+      let
+        sway-script = pkgs.writeShellScript "sway" ''
+          systemctl --user import-environment PATH SSH_AUTH_SOCK XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID
+          exec systemctl --wait --user start sway.service
+        '';
+      in
+      {
+        initial_session = {
+          user = "rvfg";
+          command = sway-script;
+        };
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${sway-script}";
+        };
+      };
   };
   systemd.services.greetd.serviceConfig.ExecStartPre = "/run/current-system/systemd/bin/systemctl restart systemd-vconsole-setup";
 
