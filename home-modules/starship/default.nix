@@ -188,7 +188,7 @@
     };
   };
 
-  programs.fish.interactiveShellInit = ''
+  programs.fish.interactiveShellInit = lib.mkOrder 1600 ''
     ${builtins.readFile ./starship_async_transient_prompt.fish}
   '';
 }

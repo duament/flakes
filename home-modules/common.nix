@@ -23,6 +23,11 @@
 
   programs.jq.enable = true;
 
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
