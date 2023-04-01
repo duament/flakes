@@ -17,6 +17,7 @@ with lib;
     flake-registry = "/etc/nix/registry.json";
     auto-allocate-uids = mkDefault true;
     use-cgroups = mkDefault true;
+    nix-path = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 

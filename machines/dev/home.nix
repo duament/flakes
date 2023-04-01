@@ -15,6 +15,7 @@
       "https://cache.nixos.org/"
     ];
     flake-registry = "${config.home.homeDirectory}/.config/nix/registry.json";
+    nix-path = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
