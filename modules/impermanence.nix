@@ -1,4 +1,4 @@
-{ config, lib, pkgs, self, ... }:
+{ config, lib, ... }:
 let
   cfg = config.presets.impermanence;
 in
@@ -32,9 +32,6 @@ in
           "files"
           ".cache"
           ".local"
-        ];
-        files = [
-          ".ssh/known_hosts"
         ];
       };
     };

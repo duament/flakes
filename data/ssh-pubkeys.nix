@@ -21,5 +21,7 @@ rec {
   or2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJQLQnscdJ8dgVxROJmaT63TVkRyUnyhGAs+yUTajBh3";
   or3 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOiFV9RY+V9Yc+qtF+Mt7xZIBcYewmgn6dGkORXW5VrE";
 
+  github = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
+
   authorizedKeys = [ ybk canokey a4b ed25519 ];
 }
