@@ -71,8 +71,6 @@ in
         };
       };
   };
-  systemd.services.greetd.serviceConfig.ExecStartPre = "/run/current-system/systemd/bin/systemctl restart systemd-vconsole-setup";
-
   home-manager.users.rvfg = import ./home.nix;
 
   environment.persistence."/persist".users.rvfg = {

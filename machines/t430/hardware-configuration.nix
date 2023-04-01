@@ -1,4 +1,4 @@
-{ config, lib, pkgs, self, ... }:
+{ config, pkgs, self, ... }:
 {
   boot.initrd = {
     availableKernelModules = [ "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci" "r8169" ];
@@ -29,8 +29,6 @@
     efiDevice = "/dev/disk/by-label/boot";
     swap = "swap";
   };
-
-  hardware.video.hidpi.enable = lib.mkDefault true;
 
   hardware.wirelessRegulatoryDatabase = true;
   hardware.firmware = [
