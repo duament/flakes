@@ -1,4 +1,4 @@
-{ config, pkgs, self, ... }:
+{ ... }:
 let
   host = "work";
 in
@@ -24,7 +24,7 @@ in
   networking.firewall = {
     checkReversePath = "loose";
     allowedTCPPorts = [
-      config.services.squid.proxyPort
+      1080
     ];
   };
   systemd.network.networks."80-ethernet" = {
@@ -57,10 +57,16 @@ in
     ];
   };
 
-  services.squid = {
+  services._3proxy = {
     enable = true;
-    proxyAddress = "[::]";
-    extraConfig = ''
-    '';
+    denyPrivate = false;
+    services = [
+      {
+        type = "socks";
+        bindAddress = "::";
+        extraArguments = "-64";
+        auth = [ "none" ];
+      }
+    ];
   };
 }
