@@ -17,6 +17,7 @@ in
     "vouch-prom/client" = { };
     "grafana/oidc" = { };
     "grafana/secret_key" = { };
+    mastodon.owner = "mastodon";
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -156,6 +157,29 @@ in
     "oidc:${config.sops.secrets."grafana/oidc".path}"
     "secret_key:${config.sops.secrets."grafana/secret_key".path}"
   ];
+
+  services.mastodon = {
+    enable = true;
+    configureNginx = true;
+    localDomain = "m.rvf6.com";
+    smtp = {
+      createLocally = false;
+      fromAddress = "mastodon@rvf6.com";
+    };
+    extraConfig = {
+      OIDC_ENABLED = "true";
+      OIDC_DISPLAY_NAME = "Keycloak";
+      OIDC_DISCOVERY = "true";
+      OIDC_ISSUER = "https://id.rvf6.com/realms/rvfg";
+      OIDC_AUTH_ENDPOINT = "https://id.rvf6.com/realms/rvfg/.well-known/openid-configuration";
+      OIDC_SCOPE = "openid,profile,email";
+      OIDC_UID_FIELD = "preferred_username";
+      OIDC_CLIENT_ID = "mastodon";
+      OIDC_REDIRECT_URI = "https://m.rvf6.com/auth/auth/openid_connect/callback";
+      OIDC_SECURITY_ASSUME_EMAIL_IS_VERIFIED = "true";
+    };
+    extraEnvFiles = [ config.sops.secrets.mastodon.path ];
+  };
 
   presets.vouch.prom = {
     settings.vouch.port = 2001;
