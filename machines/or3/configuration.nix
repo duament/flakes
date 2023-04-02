@@ -1,4 +1,4 @@
-{ config, lib, self, ... }:
+{ config, self, ... }:
 let
   host = "or3";
   musicDir = "/var/lib/music";
@@ -12,7 +12,7 @@ in
   sops.secrets = {
     "syncthing/cert".owner = config.services.syncthing.user;
     "syncthing/key".owner = config.services.syncthing.user;
-    "cache" = { group = "hydra"; mode = "0440"; };
+    "cache" = { };
     "wireguard_key".owner = "systemd-network";
     "keycloak/database" = { };
     "vouch-prom/jwt" = { };
@@ -65,7 +65,7 @@ in
   };
 
   services.hydra = {
-    enable = true;
+    enable = false;
     listenHost = "localhost";
     hydraURL = "https://hydra.rvf6.com";
     useSubstitutes = true;
