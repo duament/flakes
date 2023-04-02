@@ -1,7 +1,4 @@
-{ config, lib, pkgs, self, ... }:
-let
-  host = "or2";
-in
+{ ... }:
 {
   presets.nogui.enable = true;
   presets.metrics.enable = true;
@@ -14,7 +11,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = host;
+  networking.hostName = "or2";
 
   presets.wireguard.wg0 = {
     enable = true;

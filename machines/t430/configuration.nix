@@ -1,8 +1,6 @@
 { config, lib, pkgs, self, ... }:
 let
-  host = "t430";
   wg0 = self.data.wg0;
-  syncthing = self.data.syncthing;
   systemdHarden = self.data.systemdHarden;
 in
 {
@@ -39,7 +37,7 @@ in
     "net.ipv6.conf.all.forwarding" = true;
   };
 
-  networking.hostName = host;
+  networking.hostName = "t430";
   networking.firewall = {
     checkReversePath = "loose";
     allowedUDPPorts = [
@@ -183,32 +181,8 @@ in
     openDefaultPorts = true;
     cert = config.sops.secrets."syncthing/cert".path;
     key = config.sops.secrets."syncthing/key".path;
-    devices = syncthing.devices;
-    folders = {
-      keepass = {
-        id = "xudus-kdccy";
-        label = "KeePass";
-        path = "${config.services.syncthing.dataDir}/KeePass";
-        devices = [ "desktop" "xiaoxin" "iphone" "az" "nl" ];
-        versioning = {
-          type = "staggered";
-          params.cleanInterval = "3600";
-          params.maxAge = "15552000";
-        };
-      };
-      notes = {
-        id = "m4f2r-yzqvs";
-        label = "notes";
-        path = "${config.services.syncthing.dataDir}/notes";
-        devices = [ "desktop" "xiaoxin" ];
-      };
-      session = {
-        id = "upou4-bdgln";
-        label = "session";
-        path = "${config.services.syncthing.dataDir}/session";
-        devices = [ "desktop" "xiaoxin" ];
-      };
-    };
+    devices = self.data.syncthing.devices;
+    folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
   };
 
   presets.git.enable = true;

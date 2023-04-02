@@ -1,7 +1,4 @@
-{ config, pkgs, ... }:
-let
-  host = "xiaoxin";
-in
+{ config, lib, pkgs, self, ... }:
 {
   presets.workstation.enable = true;
 
@@ -17,6 +14,8 @@ in
     "eap/ca" = { };
     "eap/xiaoxin-bundle" = { };
     "eap/xiaoxin-key" = { };
+    "syncthing/cert".owner = config.services.syncthing.user;
+    "syncthing/key".owner = config.services.syncthing.user;
   };
 
   presets.refind = {
@@ -26,7 +25,7 @@ in
   };
 
   networking = {
-    hostName = host;
+    hostName = "xiaoxin";
     useDHCP = false;
     useNetworkd = true;
     wireless = {
@@ -82,4 +81,15 @@ in
 
   services.clash.enable = true;
   services.clash.configFile = config.sops.secrets.clash.path;
+
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    cert = config.sops.secrets."syncthing/cert".path;
+    key = config.sops.secrets."syncthing/key".path;
+    devices = self.data.syncthing.devices;
+    folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
+  };
+  systemd.tmpfiles.rules = [ "d ${config.services.syncthing.dataDir} 2770 syncthing syncthing" "a ${config.services.syncthing.dataDir} - - - - d:g::rwx" ];
+  users.users.rvfg.extraGroups = [ "syncthing" ];
 }

@@ -1,8 +1,6 @@
-{ config, self, ... }:
+{ config, lib, self, ... }:
 let
-  host = "or3";
   musicDir = "/var/lib/music";
-  syncthing = self.data.syncthing;
 in
 {
   presets.nogui.enable = true;
@@ -24,7 +22,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = host;
+  networking.hostName = "or3";
   networking.hosts = { "fd64::1" = [ "t430.rvf6.com" ]; };
 
   presets.wireguard.wg0 = {
@@ -44,14 +42,9 @@ in
     openDefaultPorts = true;
     cert = config.sops.secrets."syncthing/cert".path;
     key = config.sops.secrets."syncthing/key".path;
-    devices = syncthing.devices;
-    folders = {
-      music = {
-        id = "hngav-zprin";
-        label = "Music";
-        path = musicDir;
-        devices = [ "desktop" "xiaoxin" ];
-      };
+    devices = self.data.syncthing.devices;
+    folders = lib.recursiveUpdate (lib.getAttrs [ "music" ] self.data.syncthing.folders) {
+      music.path = musicDir;
     };
   };
 

@@ -1,7 +1,4 @@
 { ... }:
-let
-  host = "work";
-in
 {
   #nixpkgs.overlays = [
   #  (self: super: {
@@ -20,7 +17,7 @@ in
 
   boot.loader.systemd-boot.enable = true;
 
-  networking.hostName = host;
+  networking.hostName = "work";
   networking.firewall = {
     checkReversePath = "loose";
     allowedTCPPorts = [

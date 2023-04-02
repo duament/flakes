@@ -1,7 +1,5 @@
 { config, lib, mypkgs, pkgs, self, ... }:
 let
-  host = "nl";
-  syncthing = self.data.syncthing;
   systemdHarden = self.data.systemdHarden;
 in
 {
@@ -26,7 +24,7 @@ in
     fsIdentifier = "label";
   };
 
-  networking.hostName = host;
+  networking.hostName = "nl";
   networking.firewall = {
     allowedTCPPorts = [
       25 # SMTP
@@ -65,20 +63,8 @@ in
     openDefaultPorts = true;
     cert = config.sops.secrets."syncthing/cert".path;
     key = config.sops.secrets."syncthing/key".path;
-    devices = syncthing.devices;
-    folders = {
-      keepass = {
-        id = "xudus-kdccy";
-        label = "KeePass";
-        path = "${config.services.syncthing.dataDir}/KeePass";
-        devices = [ "desktop" "xiaoxin" "iphone" "t430" "az" ];
-        versioning = {
-          type = "staggered";
-          params.cleanInterval = "3600";
-          params.maxAge = "15552000";
-        };
-      };
-    };
+    devices = self.data.syncthing.devices;
+    folders = lib.getAttrs [ "keepass" ] self.data.syncthing.folders;
   };
 
   services.shadowsocks = {
