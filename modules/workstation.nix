@@ -1,4 +1,4 @@
-{ config, lib, mypkgs, pkgs, self, ... }:
+{ config, lib, mypkgs, pkgs, ... }:
 with lib;
 {
   options = {
@@ -94,7 +94,9 @@ with lib;
           sansSerif = [ "Inter" "Noto Sans CJK SC" ];
           serif = [ "Source Serif" "Noto Serif CJK SC" ];
         };
+        hinting.enable = false;
         subpixel.lcdfilter = "none";
+        subpixel.rgba = "none";
         localConf = ''
           <?xml version="1.0"?>
           <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
