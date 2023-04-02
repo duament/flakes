@@ -19,7 +19,7 @@
     "/boot" = {
       device = "/dev/disk/by-label/system";
       fsType = "btrfs";
-      options = [ "subvol=NixOS/persist/boot" "compress=zstd" "discard=async" ];
+      options = [ "subvol=NixOS/boot" "compress=zstd" "discard=async" ];
     };
   };
 }
