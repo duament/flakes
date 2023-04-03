@@ -163,6 +163,9 @@ require('lspconfig')['beancount'].setup{
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "@beancount_language_server@", "--stdio" },
+  init_options = {
+    journal_file = vim.fn.getcwd() .. "/main.beancount",
+  };
 }
 require('lspconfig')['tsserver'].setup{
   on_attach = on_attach,
