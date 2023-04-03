@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, self, ... }:
+{ inputs, lib, mypkgs, pkgs, self, ... }:
 with lib;
 {
   nix.settings = {
@@ -65,7 +65,7 @@ with lib;
   users.defaultUserShell = pkgs.fish;
 
   home-manager = {
-    extraSpecialArgs = { inherit self; };
+    extraSpecialArgs = { inherit mypkgs self; };
     useGlobalPkgs = true;
     useUserPackages = true;
   };

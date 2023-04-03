@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, mypkgs, pkgs, ... }:
 with lib;
 {
   options = {
@@ -17,10 +17,19 @@ with lib;
       keepassxc
       sops
       tdesktop
+      thunderbird
       unar
       usbutils
       wireguard-tools
     ];
+
+    i18n.inputMethod = {
+      enabled = "fcitx5";
+      fcitx5.addons = with pkgs; with mypkgs; [
+        fcitx5-chinese-addons
+        fcitx5-pinyin-zhwiki
+      ];
+    };
 
     presets.git.enable = true;
     programs.git.extraConfig.gcrypt = {
@@ -57,5 +66,7 @@ with lib;
         ];
       };
     };
+
+    programs.zathura.enable = true;
   };
 }
