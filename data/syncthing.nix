@@ -23,7 +23,7 @@ rec {
       id = "xudus-kdccy";
       label = "KeePass";
       path = "~/KeePass";
-      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" "iphone" "az" "nl" ];
+      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" "iphone" "t430" "nl" "az" ];
       versioning = {
         type = "staggered";
         params.cleanInterval = "3600";
@@ -34,13 +34,13 @@ rec {
       id = "m4f2r-yzqvs";
       label = "notes";
       path = "~/notes";
-      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" ];
+      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" "t430" ];
     };
     session = {
       id = "upou4-bdgln";
       label = "session";
       path = "~/session";
-      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" ];
+      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" "t430" ];
     };
     music = {
       id = "hngav-zprin";
