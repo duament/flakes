@@ -31,6 +31,40 @@ with lib;
       ];
     };
     home.sessionVariables.QT_PLUGIN_PATH = "$QT_PLUGIN_PATH\${QT_PLUGIN_PATH:+:}${config.i18n.inputMethod.package}/${pkgs.qt6.qtbase.qtPluginPrefix}";
+    xdg.configFile."fcitx5/config".text = lib.generators.toINI {} {
+      Hotkey = {
+        EnumerateWithTriggerKeys = "True";
+      };
+      "Hotkey/TriggerKeys"."0" = "Super+space";
+      "Behavior/DisabledAddons"."0" = "cloudpinyin";
+    };
+    xdg.configFile."fcitx5/profile".text = lib.generators.toINI {} {
+      "Groups/0" = {
+        Name = "Default";
+        "Default Layout" = "us";
+        DefaultIM = "shuangpin";
+      };
+      "Groups/0/Items/0".Name = "keyboard-us";
+      "Groups/0/Items/1".Name = "shuangpin";
+      GroupOrder."0" = "Default";
+    };
+    xdg.configFile."fcitx5/conf/classicui.conf".text = lib.generators.toKeyValue {} {
+      PerScreenDPI = "True";
+      WheelForPaging = "True";
+      Font = "Sans Serif 12";
+      MenuFont = "Sans 12";
+      TrayFont = "Sans Bold 12";
+      TrayOutlineColor = "#000000";
+      TrayTextColor = "#ffffff";
+      PreferTextIcon = "False";
+      ShowLayoutNameInIcon = "True";
+      UseInputMethodLangaugeToDisplayText = "True";
+      Theme = "default";
+    };
+    xdg.configFile."fcitx5/conf/clipboard.conf".text = lib.generators.toINIWithGlobalSection {} {
+      globalSection."Number of entries" = 10;
+      sections.TriggerKey."0" = "Super+V";
+    };
 
     presets.git.enable = true;
     programs.git.extraConfig.gcrypt = {

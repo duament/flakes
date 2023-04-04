@@ -1,4 +1,4 @@
-{ config, pkgs, self, ... }: {
+{ config, lib, pkgs, self, ... }: {
   imports = [
     self.nixosModules.myHomeModules
   ];
@@ -36,10 +36,14 @@
     enable = true;
     wrapperFeatures.gtk = true;
     systemdIntegration = true;
-    config = {
+    config = rec {
       modifier = "Mod4";
       terminal = "systemd-run --user -G -u foot-$RANDOM foot";
       bars = [ ];
+      keybindings = lib.mkOptionDefault {
+        "${modifier}+space" = null;
+        "${modifier}+v" = null;
+      };
       input = {
         "1267:12600:MSFT0001:00_04F3:3138_Touchpad" = {
           natural_scroll = "enabled";
