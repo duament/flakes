@@ -19,7 +19,7 @@
     size = 48;
   };
 
-  systemd.user.sessionVariables = {
+  systemd.user.sessionVariables = config.home.sessionVariables // {
     QT_STYLE_OVERRIDE = "Breeze";
     WLR_RENDERER = "vulkan";
   };

@@ -30,6 +30,7 @@ with lib;
         fcitx5-pinyin-zhwiki
       ];
     };
+    home.sessionVariables.QT_PLUGIN_PATH = "$QT_PLUGIN_PATH\${QT_PLUGIN_PATH:+:}${config.i18n.inputMethod.package}/${pkgs.qt6.qtbase.qtPluginPrefix}";
 
     presets.git.enable = true;
     programs.git.extraConfig.gcrypt = {

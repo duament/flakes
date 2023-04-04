@@ -1,4 +1,4 @@
-{ config, lib, mypkgs, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 with lib;
 {
   options = {
@@ -112,14 +112,6 @@ with lib;
           </fontconfig>
         '';
       };
-    };
-
-    i18n.inputMethod = {
-      enabled = "fcitx5";
-      fcitx5.addons = with pkgs; with mypkgs; [
-        fcitx5-chinese-addons
-        fcitx5-pinyin-zhwiki
-      ];
     };
   };
 }

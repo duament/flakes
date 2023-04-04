@@ -56,7 +56,7 @@
     settings =
       let
         sway-script = pkgs.writeShellScript "sway" ''
-          systemctl --user import-environment PATH SSH_AUTH_SOCK XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID
+          systemctl --user import-environment PATH SSH_AUTH_SOCK NIX_USER_PROFILE_DIR NIX_PROFILES XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID
           exec systemctl --wait --user start sway.service
         '';
       in
