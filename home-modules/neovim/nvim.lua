@@ -172,3 +172,7 @@ require('lspconfig')['tsserver'].setup{
   flags = lsp_flags,
   cmd = { "@typescript_language_server@", "--stdio" },
 }
+require('lspconfig')['svelte'].setup{
+  on_attach = on_attach,
+  flags = lsp_flags,
+}

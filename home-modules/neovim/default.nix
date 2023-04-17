@@ -37,18 +37,25 @@ in
           cmake
           comment
           cpp
+          css
           dockerfile
           fish
           go
           gomod
+          javascript
           json
           latex
           lua
           markdown
           nix
+          python
           rust
           rst
+          scss
+          svelte
           toml
+          tsx
+          typescript
           yaml
         ]
       ))
