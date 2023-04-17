@@ -8,7 +8,7 @@
       j = "journalctl";
       jb = "journalctl -b 0";
       jp = "journalctl -b 0 -p 4";
-      nftadd = "sudo nft add inet firewall input_accept tcp dport";
+      nftadd = "sudo nft add inet nixos-fw input-allow tcp dport";
       nftls = "sudo nft -a list ruleset | less";
       s = "systemctl";
       se = "sudoedit";
