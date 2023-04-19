@@ -21,13 +21,16 @@ in
       cmp-buffer
       cmp-path
       editorconfig-nvim
+      git-blame-nvim
       indent-blankline-nvim
       lualine-lsp-progress
       lualine-nvim
       luasnip
       nvim-cmp
       nvim-lspconfig
+      nvim-tree-lua
       onenord-nvim
+      vim-lastplace
       which-key-nvim
       (nvim-treesitter.withPlugins (
         plugins: with plugins; [

@@ -8,6 +8,11 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.smarttab = true
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+vim.g.gitblame_enabled = 0
+
 require('onenord').setup({
   disable = {
     background = true,
@@ -41,6 +46,9 @@ require('which-key').setup {
 require("indent_blankline").setup {
   show_current_context = true,
 }
+
+require("nvim-tree").setup()
+vim.api.nvim_set_keymap('n', '<space>t', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
