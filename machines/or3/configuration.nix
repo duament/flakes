@@ -187,7 +187,6 @@ in
     exclude = [
       "/persist/var/lib/mastodon/public-system/cache"
       "/persist/var/lib/music"
-      "/persist/var/lib/postgresql"
       "/persist/var/lib/prometheus2"
     ];
   };
