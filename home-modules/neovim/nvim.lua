@@ -96,7 +96,8 @@ cmp.setup({
   }, {
     { name = 'buffer' },
     { name = 'path' },
-  })
+  }),
+  preselect = cmp.PreselectMode.None
 })
 
 local opts = { noremap=true, silent=true }
