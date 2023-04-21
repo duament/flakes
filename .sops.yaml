@@ -51,6 +51,19 @@ creation_rules:
       - *admin_age
       - *desktop
       - *xiaoxin
+  - path_regex: secrets/restic.yaml
+    key_groups:
+    - pgp:
+      - *admin_pgp
+      age:
+      - *admin_age
+      - *desktop
+      - *xiaoxin
+      - *t430
+      - *nl
+      - *or2
+      - *or3
+      - *az
   - path_regex: machines/rpi3/.*
     key_groups:
     - pgp:

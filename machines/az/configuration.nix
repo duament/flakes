@@ -15,6 +15,7 @@ in
     "etebase/postgresql".owner = config.services.etebase-server.user;
     "shadowsocks" = { };
     "miniflux" = { };
+    "postgresql" = { };
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -107,6 +108,12 @@ in
   systemd.services.shadowsocks-libev.serviceConfig = systemdHarden // {
     PrivateNetwork = false;
     LoadCredential = "shadowsocks:${config.sops.secrets.shadowsocks.path}";
+  };
+
+  presets.restic = {
+    enable = true;
+    enablePg = true;
+    pgDumpCommand = "PGPASSFILE=${config.sops.secrets.postgresql.path} ${pkgs.postgresql}/bin/pg_dumpall -h rvfg.postgres.database.azure.com -U rvfg --no-role-passwords --exclude-database=azure\* --exclude-database=postgres";
   };
 
   presets.nginx = {

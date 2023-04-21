@@ -93,6 +93,13 @@ in
     };
   };
 
+  presets.restic = {
+    enable = true;
+    exclude = [
+      "/persist/var/lib/transmission"
+    ];
+  };
+
   presets.vouch.bt = {
     settings.vouch.port = 2001;
     jwtSecretFile = config.sops.secrets."vouch-bt/jwt".path;

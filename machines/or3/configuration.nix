@@ -181,6 +181,17 @@ in
     extraEnvFiles = [ config.sops.secrets.mastodon.path ];
   };
 
+  presets.restic = {
+    enable = true;
+    enablePg = true;
+    exclude = [
+      "/persist/var/lib/mastodon/public-system/cache"
+      "/persist/var/lib/music"
+      "/persist/var/lib/postgresql"
+      "/persist/var/lib/prometheus2"
+    ];
+  };
+
   presets.vouch.prom = {
     settings.vouch.port = 2001;
     jwtSecretFile = config.sops.secrets."vouch-prom/jwt".path;

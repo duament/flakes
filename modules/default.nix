@@ -17,6 +17,7 @@
     ./nginx.nix
     ./nogui.nix
     ./refind
+    ./restic.nix
     ./router.nix
     ./smartdns.nix
     ./ssh-agent.nix
