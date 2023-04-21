@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.presets.restic;
 in
@@ -15,7 +15,7 @@ in
 
     presets.restic.pgDumpCommand = lib.mkOption {
       type = lib.types.str;
-      default = "sudo -u postgres pg_dumpall";
+      default = "${pkgs.sudo}/bin/sudo -u postgres ${config.services.postgresql.package}/bin/pg_dumpall";
     };
   };
 
