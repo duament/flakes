@@ -130,35 +130,6 @@ in
     uuidFile = config.sops.secrets.uuplugin-uuid.path;
   };
 
-  services.strongswan-swanctl = {
-    enable = true;
-    swanctl = {
-      connections.iphone = {
-        local.t430 = {
-          auth = "pubkey";
-          id = "t430.rvf6.com";
-          certs = [ config.sops.secrets."pki/t430-bundle".path ];
-        };
-        remote.iphone = {
-          auth = "pubkey";
-          id = "iphone.rvf6.com";
-          cacerts = [ config.sops.secrets."pki/ca".path config.sops.secrets."pki/ybk".path ];
-        };
-        children.iphone.local_ts = [ "0.0.0.0/0" "::/0" ];
-        version = 2;
-        pools = [ "iphone_vip" "iphone_vip6" ];
-      };
-      pools.iphone_vip = {
-        addrs = "10.6.6.254/32";
-        dns = [ "10.6.6.1" ];
-      };
-    };
-    strongswan.extraConfig = ''
-      charon {
-        install_routes = no
-      }
-    '';
-  };
   system.activationScripts.strongswan-swanctl-private = lib.stringAfter [ "etc" ] ''
     mkdir -p /etc/swanctl/private
     ln -sf ${config.sops.secrets."pki/t430-pkcs8-key".path} /etc/swanctl/private/t430.key
@@ -166,14 +137,15 @@ in
   services.swanctlDynamicIPv6 = {
     enable = true;
     prefixInterface = "wg0";
-    suffix = ":1::2";
-    poolName = "iphone_vip6";
-    extraPools = ''
-      iphone_vip {
-        addrs = ${wg0.ipv4Pre}254/32
-        dns = ${wg0.gateway4}
-      }
-    '';
+    IPv6Middle = ":1";
+    IPv4Prefix = wg0.ipv4Pre;
+    local.t430 = {
+      auth = "pubkey";
+      id = "t430.rvf6.com";
+      certs = [ config.sops.secrets."pki/t430-bundle".path ];
+    };
+    cacerts = [ config.sops.secrets."pki/ca".path config.sops.secrets."pki/ybk".path ];
+    devices = [ "iphone" "pixel7" ];
   };
 
   services.syncthing = {

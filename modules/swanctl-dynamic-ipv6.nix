@@ -15,23 +15,65 @@ in
       default = "eth0";
     };
 
-    services.swanctlDynamicIPv6.suffix = mkOption {
+    services.swanctlDynamicIPv6.IPv6Middle = mkOption {
       type = types.str;
-      default = "::1";
+      default = ":1";
     };
 
-    services.swanctlDynamicIPv6.poolName = mkOption {
+    services.swanctlDynamicIPv6.IPv4Prefix = mkOption {
       type = types.str;
-      default = "";
+      default = "10.6.6.";
     };
 
-    services.swanctlDynamicIPv6.extraPools = mkOption {
-      type = types.lines;
-      default = "";
+    services.swanctlDynamicIPv6.local = mkOption {
+      type = types.attrs;
+      default = { };
+    };
+
+    services.swanctlDynamicIPv6.cacerts = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+    };
+
+    services.swanctlDynamicIPv6.devices = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
     };
   };
 
-  config = mkIf cfg.enable {
+  config = mkIf (builtins.length cfg.devices > 0) {
+    services.strongswan-swanctl = {
+      enable = true;
+      swanctl = {
+        connections = builtins.listToAttrs (lib.imap0 (id: name: {
+          inherit name;
+          value = {
+            local = cfg.local;
+            remote.${name} = {
+              auth = "pubkey";
+              id = "${name}.rvf6.com";
+              cacerts = cfg.cacerts;
+            };
+            children.${name}.local_ts = [ "0.0.0.0/0" "::/0" ];
+            version = 2;
+            pools = [ "${name}_vip" "${name}_vip6" ];
+          };
+        }) cfg.devices);
+        pools = builtins.listToAttrs (lib.imap0 (id: name: {
+          name = "${name}_vip";
+          value = {
+            addrs = "${cfg.IPv4Prefix}${toString (128 + id)}/32";
+            dns = [ "${cfg.IPv4Prefix}1" ];
+          };
+        }) cfg.devices);
+      };
+      strongswan.extraConfig = ''
+        charon {
+          install_routes = no
+        }
+      '';
+    };
+
     systemd.services."swanctl-dynamic-ipv6" = {
       after = [ "network-online.target" ];
       path = with pkgs; [ iproute2 jq sipcalc gawk strongswan ];
@@ -50,18 +92,23 @@ in
         IPV6_PREFIX=$(get_prefix "$IPV6")
         if [[ -z "$IPV6_PREFIX" ]]; then exit; fi
 
-        POOL_IPV6=$(swanctl --list-pools -n ${cfg.poolName} | awk '{print $2}')
+        POOL_IPV6=$(swanctl --list-pools -n ${builtins.head cfg.devices}_vip6 | awk '{print $2}')
         POOL_IPV6_PREFIX=$(get_prefix "$POOL_IPV6")
 
         if [[ "$IPV6_PREFIX" != "$POOL_IPV6_PREFIX" ]]; then
           TEMP=$(mktemp)
           cat > "$TEMP" << EOF
           pools {
-            ${cfg.extraPools}
-            ${cfg.poolName} {
-               addrs = $IPV6_PREFIX${cfg.suffix}/128
-               dns = $IPV6_PREFIX::1
-            }
+            ${builtins.concatStringsSep "" (lib.imap0 (id: name: ''
+              ${name}_vip {
+                addrs = ${cfg.IPv4Prefix}${toString (128 + id)}/32
+                dns = ${cfg.IPv4Prefix}1
+              }
+              ${name}_vip6 {
+                addrs = $IPV6_PREFIX${cfg.IPv6Middle}::${lib.toHexString (id + 2)}/128
+                dns = $IPV6_PREFIX::1
+              }
+            '') cfg.devices)}
           }
         EOF
           swanctl --load-pools -f "$TEMP"
