@@ -4,6 +4,7 @@ rec {
     xiaoxin = "6APS5KO-H5NO53G-RAPYQWZ-BWVKINP-222XPB7-OGZN7FS-M5DPR27-YQB4IQU";
     xiaoxin-arch = "VJHRT62-5S6EHHC-QLBUXIN-HLBUOKH-2UISZOV-FHSRZR3-WMX2IZN-WH5VTQD";
     iphone = "KIAT2SK-EYWGKKF-FYOMKME-VZCQ5ZS-U3DDFCU-MERAT6L-A2LMW4G-SPFPWQJ";
+    pixel7 = "L6Y4I5R-FDGXMJC-QJ4ASKA-RIZ5FLM-M35IRXL-236VYT7-N23BSWX-B46UWAP";
     t430 = "5K2B7C2-DSMED3B-PHMUFKB-ORLOWUC-C2ZYK5S-DDMWXE6-ML6RC2T-Z6ALCAT";
     nl = "IHKBJRX-3LF4I3I-56D3VWT-33PELUZ-7AG4E44-7Z477TH-WBD63DQ-HTOJSAM";
     or1 = "CWGVZVP-2PXRUWK-3Z4OFMZ-2DOTS62-ZQVE45B-BFJJFTS-NA3CIG6-2BQZWAF";
@@ -23,7 +24,7 @@ rec {
       id = "xudus-kdccy";
       label = "KeePass";
       path = "~/KeePass";
-      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" "iphone" "t430" "nl" "az" ];
+      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" "iphone" "pixel7" "t430" "nl" "az" ];
       versioning = {
         type = "staggered";
         params.cleanInterval = "3600";
