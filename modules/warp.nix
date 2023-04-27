@@ -1,4 +1,4 @@
-{ lib, config, inputs, pkgs, ... }:
+{ lib, config, ... }:
 with lib;
 let
   cfg = config.networking.warp;
@@ -103,7 +103,7 @@ in
         }
 
         chain mss-clamping {
-          type filter hook output priority mangle;
+          type filter hook postrouting priority mangle;
           oifname warp tcp flags syn tcp option maxseg size set rt mtu
         }
       '';
