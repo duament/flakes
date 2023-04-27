@@ -72,7 +72,10 @@ with lib;
       publish-participants = true;
     };
 
-    programs.gpg.enable = true;
+    programs.gpg = {
+      enable = true;
+      scdaemonSettings.disable-ccid = true;
+    };
 
     programs.mpv = {
       enable = true;
