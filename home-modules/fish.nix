@@ -39,6 +39,9 @@
       end
 
       set -U fish_features qmark-noglob
+
+      abbr --add --global nixrp --set-cursor nix run nixpkgs#% --
+      abbr --add --global nixsp --set-cursor nix shell nixpkgs#% -c
     '';
   };
 }
