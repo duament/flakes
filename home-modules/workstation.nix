@@ -38,16 +38,23 @@ with lib;
       "Hotkey/TriggerKeys"."0" = "Super+space";
       "Behavior/DisabledAddons"."0" = "cloudpinyin";
     };
-    xdg.configFile."fcitx5/profile".text = lib.generators.toINI {} {
-      "Groups/0" = {
-        Name = "Default";
-        "Default Layout" = "us";
-        DefaultIM = "shuangpin";
-      };
-      "Groups/0/Items/0".Name = "keyboard-us";
-      "Groups/0/Items/1".Name = "shuangpin";
-      GroupOrder."0" = "Default";
-    };
+    home.activation.copyFcitx5Profile =
+      let
+        fcitx5Profile = lib.generators.toINI {} {
+          "Groups/0" = {
+            Name = "Default";
+            "Default Layout" = "us";
+            DefaultIM = "shuangpin";
+          };
+          "Groups/0/Items/0".Name = "keyboard-us";
+          "Groups/0/Items/1".Name = "shuangpin";
+          GroupOrder."0" = "Default";
+        };
+        fcitx5ProfileFile = pkgs.writeText "fcitx5-profile" fcitx5Profile;
+      in
+        lib.hm.dag.entryAfter ["writeBoundary"] ''
+          $DRY_RUN_CMD install -Dm644 ${fcitx5ProfileFile} ${config.xdg.configHome}/fcitx5/profile
+        '';
     xdg.configFile."fcitx5/conf/classicui.conf".text = lib.generators.toKeyValue {} {
       PerScreenDPI = "True";
       WheelForPaging = "True";
