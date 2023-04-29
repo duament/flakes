@@ -1,4 +1,10 @@
-{ ... }:
+{ config, lib, pkgs, ... }:
+let
+  fishVariablesFile = pkgs.writeText "fish_variables" ''
+    # VERSION: 3.0
+    SETUVAR fish_features:qmark\x2dnoglob
+  '';
+in
 {
   programs.fish = {
     enable = true;
@@ -44,4 +50,10 @@
       abbr --add --global nixsp --set-cursor nix shell nixpkgs#% -c
     '';
   };
+
+  home.activation.fishFeatureQmark = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [ ! -f ${config.xdg.configHome}/fish/fish_variables ]; then
+      install -Dm644 ${fishVariablesFile} ${config.xdg.configHome}/fish/fish_variables
+    fi
+  '';
 }
