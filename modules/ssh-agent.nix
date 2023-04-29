@@ -31,6 +31,7 @@ in
       after = [ "ssh-agent.service" ];
       serviceConfig = {
         Type = "oneshot";
+        ExecStartPre = "${pkgs.coreutils-full}/bin/sleep 1";
         ExecStart = map (key: "${pkgs.openssh}/bin/ssh-add ${config.sops.secrets."ssh-key/id_${key}".path}") keys;
         Restart = "on-failure";
         RestartSec = 1;
