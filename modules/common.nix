@@ -1,4 +1,4 @@
-{ inputs, lib, mypkgs, pkgs, self, ... }:
+{ config, inputs, lib, mypkgs, pkgs, self, ... }:
 with lib;
 {
   nix.settings = {
@@ -40,7 +40,7 @@ with lib;
       "net.ipv4.tcp_congestion_control" = "bbr";
     };
     initrd.systemd.enable = mkDefault true;
-    tmpOnTmpfs = mkDefault true;
+    tmp.useTmpfs = mkDefault true;
   };
 
   networking = {
@@ -65,7 +65,10 @@ with lib;
   users.defaultUserShell = pkgs.fish;
 
   home-manager = {
-    extraSpecialArgs = { inherit mypkgs self; };
+    extraSpecialArgs = {
+      inherit mypkgs self;
+      sysConfig = config;
+    };
     useGlobalPkgs = true;
     useUserPackages = true;
   };

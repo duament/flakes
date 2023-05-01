@@ -48,9 +48,10 @@
     domains = [ "~h.rvf6.com" ];
   };
 
+  programs.hyprland.enable = true;
   security.pam.services.swaylock = { };
   hardware.opengl.enable = true;
-  xdg.portal.wlr.enable = true;
+  #xdg.portal.wlr.enable = true;
   services.greetd = {
     enable = true;
     settings =
@@ -59,11 +60,15 @@
           systemctl --user import-environment PATH SSH_AUTH_SOCK NIX_USER_PROFILE_DIR NIX_PROFILES XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID
           exec systemctl --wait --user start sway.service
         '';
+        hyprland-script = pkgs.writeShellScript "sway" ''
+          systemctl --user import-environment PATH SSH_AUTH_SOCK NIX_USER_PROFILE_DIR NIX_PROFILES XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID
+          exec systemctl --wait --user start hyprland.service
+        '';
       in
       {
         initial_session = {
           user = "rvfg";
-          command = sway-script;
+          command = hyprland-script;
         };
         default_session = {
           command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${sway-script}";
@@ -76,6 +81,7 @@
     directories = [
       ".gnupg"
       ".mozilla"
+      ".thunderbird"
     ];
   };
 

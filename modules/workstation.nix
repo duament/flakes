@@ -87,6 +87,7 @@ with lib;
         noto-fonts-cjk-serif
         noto-fonts-emoji
         (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+        (pkgs.mkNoto { pname = "noto-fonts-symbols"; variants = [ "Noto Music" "Noto Sans Symbols" "Noto Sans Symbols 2" ]; })
       ];
       fontconfig = {
         defaultFonts = {

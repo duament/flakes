@@ -31,7 +31,7 @@ with lib;
       ];
     };
     home.sessionVariables.QT_PLUGIN_PATH = "$QT_PLUGIN_PATH\${QT_PLUGIN_PATH:+:}${config.i18n.inputMethod.package}/${pkgs.qt6.qtbase.qtPluginPrefix}";
-    xdg.configFile."fcitx5/config".text = lib.generators.toINI {} {
+    xdg.configFile."fcitx5/config".text = lib.generators.toINI { } {
       Hotkey = {
         EnumerateWithTriggerKeys = "True";
       };
@@ -40,7 +40,7 @@ with lib;
     };
     home.activation.copyFcitx5Profile =
       let
-        fcitx5Profile = lib.generators.toINI {} {
+        fcitx5Profile = lib.generators.toINI { } {
           "Groups/0" = {
             Name = "Default";
             "Default Layout" = "us";
@@ -52,10 +52,10 @@ with lib;
         };
         fcitx5ProfileFile = pkgs.writeText "fcitx5-profile" fcitx5Profile;
       in
-        lib.hm.dag.entryAfter ["writeBoundary"] ''
-          $DRY_RUN_CMD install -Dm644 ${fcitx5ProfileFile} ${config.xdg.configHome}/fcitx5/profile
-        '';
-    xdg.configFile."fcitx5/conf/classicui.conf".text = lib.generators.toKeyValue {} {
+      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        $DRY_RUN_CMD install -Dm644 ${fcitx5ProfileFile} ${config.xdg.configHome}/fcitx5/profile
+      '';
+    xdg.configFile."fcitx5/conf/classicui.conf".text = lib.generators.toKeyValue { } {
       PerScreenDPI = "True";
       WheelForPaging = "True";
       Font = "Sans Serif 12";
@@ -68,7 +68,7 @@ with lib;
       UseInputMethodLangaugeToDisplayText = "True";
       Theme = "default";
     };
-    xdg.configFile."fcitx5/conf/clipboard.conf".text = lib.generators.toINIWithGlobalSection {} {
+    xdg.configFile."fcitx5/conf/clipboard.conf".text = lib.generators.toINIWithGlobalSection { } {
       globalSection."Number of entries" = 10;
       sections.TriggerKey."0" = "Super+V";
     };

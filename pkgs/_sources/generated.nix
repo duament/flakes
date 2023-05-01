@@ -23,10 +23,10 @@
   };
   flood-for-transmission = {
     pname = "flood-for-transmission";
-    version = "2023-02-03T16-14-28";
+    version = "2023-04-18T18-03-53";
     src = fetchTarball {
-      url = "https://github.com/johman10/flood-for-transmission/releases/download/2023-02-03T16-14-28/flood-for-transmission.tar.gz";
-      sha256 = "0w8h7f2jyqgd8m3mpjprh8kiinz14wnywgbny9pabl07vvs335zm";
+      url = "https://github.com/johman10/flood-for-transmission/releases/download/2023-04-18T18-03-53/flood-for-transmission.tar.gz";
+      sha256 = "1r0djf0yvaqdy8xjnh8qb92xapfmnsqbqis3i5xl243w64whfnva";
     };
   };
   transmission-client = {
@@ -55,10 +55,10 @@
   };
   uuplugin = {
     pname = "uuplugin";
-    version = "3.9.2";
+    version = "3.12.4";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.9.2/uu.tar.gz";
-      sha256 = "sha256-XXzy+JKw8IcreUUFyJhuhFHe3m1HQHcRThxRHgRnCLU=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.12.4/uu.tar.gz";
+      sha256 = "sha256-m4ESf5DOyrWJVHIcro8LyNiRmEdcnzgIdUU2eG466Oc=";
     };
   };
 }

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, self, ... }:
+{ config, lib, self, ... }:
 let
   cfg = config.presets.users;
 in
@@ -26,7 +26,7 @@ in
       uid = 1000;
       group = "rvfg";
       passwordFile = config.sops.secrets.passwd.path;
-      extraGroups = [ "systemd-journal" ];
+      extraGroups = [ "systemd-journal" "input" ];
       openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys;
     };
 
