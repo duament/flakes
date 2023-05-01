@@ -102,7 +102,8 @@
   xdg.configFile."hypr/hyprland.conf" = {
     text = ''
       ${builtins.readFile ./hyprland.conf}
-      bind=SUPER,L,exec,${pkgs.swaylock}/bin/swaylock
+      bind = $mainMod, L, exec, ${pkgs.swaylock}/bin/swaylock
+      bind = $mainMod, S, exec, ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)"
       exec-once = systemctl --user import-environment DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP && systemd-notify --ready
       # exec-once = ~/files/dreamy/scripts/tools/dynamic
       exec-once = systemd-run --user -G -u wezterm wezterm
