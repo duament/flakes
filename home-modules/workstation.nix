@@ -14,6 +14,7 @@ with lib;
     presets.python.enable = true;
 
     home.packages = with pkgs; [
+      imv
       keepassxc
       sops
       tdesktop

@@ -7,6 +7,7 @@
 
   home.packages = with pkgs; [
     brightnessctl
+    grim
     openssl
     papirus-icon-theme
     swww
@@ -108,6 +109,7 @@
       exec-once = ~/files/kp
       exec-once = systemd-run --user -G -u firefox firefox
       exec-once = ~/files/tg
+      exec-once = systemd-run --user -G -u thunderbird thunderbird
     '';
     onChange = ''
       (  # execute in subshell so that `shopt` won't affect other scripts
@@ -262,6 +264,34 @@
 
       config.enable_scroll_bar = true
       config.scrollback_lines = 10000
+      config.alternate_buffer_wheel_scroll_speed = 1
+
+      config.mouse_bindings = {
+        {
+          event = { Down = { streak = 1, button = { WheelUp = 1 } } },
+          mods = 'NONE',
+          action = wezterm.action_callback(function(window, pane)
+            local delta = window:current_event().Down.button.WheelUp
+            local total = (wezterm.GLOBAL.scroll_up or 0) + delta
+            local step = total // 10
+            wezterm.GLOBAL.scroll_down = 0
+            wezterm.GLOBAL.scroll_up = total - step * 10
+            window:perform_action(wezterm.action.ScrollByLine(-step), pane)
+          end),
+        },
+        {
+          event = { Down = { streak = 1, button = { WheelDown = 1 } } },
+          mods = 'NONE',
+          action = wezterm.action_callback(function(window, pane)
+            local delta = window:current_event().Down.button.WheelDown
+            local total = (wezterm.GLOBAL.scroll_down or 0) + delta
+            local step = total // 10
+            wezterm.GLOBAL.scroll_up = 0
+            wezterm.GLOBAL.scroll_down = total - step * 10
+            window:perform_action(wezterm.action.ScrollByLine(step), pane)
+          end),
+        },
+      }
 
       return config
     '';

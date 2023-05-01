@@ -25,7 +25,8 @@ window#waybar {
   font-weight: bolder;
   color: 	#cba6f7 ;
   border: none;
-  transition: padding-left .1s ease-out, padding-right .1s ease-out;
+  outline: none;
+  transition: padding-left .2s ease-out, padding-right .2s ease-out;
 }
 
 #workspaces button:hover {
