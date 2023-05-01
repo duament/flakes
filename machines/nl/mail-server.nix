@@ -19,6 +19,10 @@ in
     enableSubmissions = true;
     hostname = hostname;
     networksStyle = "host";
+    mapFiles.smtpd_sender_login_maps = pkgs.writeText "postfix-smtpd_sender_login_maps" ''
+      i@${domain} i@${domain}
+      admin@${domain} i@${domain}
+    '';
     config = {
       mydestination = "";
 
@@ -31,6 +35,7 @@ in
       smtpd_sasl_local_domain = "$mydomain";
       smtpd_relay_restrictions = [ "permit_sasl_authenticated" "reject_unauth_destination" ];
       smtpd_sender_restrictions = "reject_sender_login_mismatch";
+      smtpd_sender_login_maps = "hash:/etc/postfix/smtpd_sender_login_maps";
       smtpd_tls_auth_only = true;
       smtpd_tls_security_level = "may";
       smtpd_tls_received_header = true;
