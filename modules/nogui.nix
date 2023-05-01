@@ -27,6 +27,7 @@ in
         enable = true;
         matchConfig = { Type = "ether"; };
         DHCP = mkDefault "yes";
+        dhcpV6Config.UseDelegatedPrefix = mkDefault false;
       };
     };
 
