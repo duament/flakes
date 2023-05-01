@@ -9,8 +9,13 @@ with lib;
   };
 
   config = mkIf config.presets.workstation.enable {
-    boot.loader.grub.enable = false;
-    boot.kernel.sysctl."kernel.sysrq" = 1;
+    boot = {
+      loader.grub.enable = false;
+      kernel.sysctl."kernel.sysrq" = 1;
+      extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+      kernelModules = [ "v4l2loopback" ];
+    };
+
     presets.refind = {
       enable = true;
       defaultSelection = "Arch Linux";
