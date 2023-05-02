@@ -176,6 +176,164 @@
     style = builtins.readFile ./waybar.css;
   };
 
+  programs.wofi = {
+    enable = true;
+    settings = {
+      width = 400;
+      height = 250;
+      location = "center";
+      show = "drun";
+      prompt = "Search...";
+      filter_rate = 100;
+      allow_markup = true;
+      no_actions = true;
+      halign = "fill";
+      orientation = "vertical";
+      content_halign = "fill";
+      insensitive = true;
+      allow_images = true;
+      image_size = 40;
+      gtk_dark = true;
+    };
+    style = ''
+      window {
+        margin: 0px;
+        border: 5px solid #f5c2e7;
+        background-color: #f5c2e7;
+        border-radius: 15px;
+      }
+
+      #input {
+        padding: 4px;
+        margin: 4px;
+        padding-left: 20px;
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        background-color: #fff;
+        background: linear-gradient(90deg, rgba(203,166,247,1) 0%, rgba(245,194,231,1) 100%);
+        outline: none;
+        border-radius: 15px;
+        margin: 10px;
+        margin-bottom: 2px;
+      }
+      #input:focus {
+        border: 0px solid #fff;
+        margin-bottom: 0px;
+      }
+
+      #inner-box {
+        margin: 4px;
+        border: 10px solid #fff;
+        color: #cba6f7;
+        font-weight: bold;
+        background-color: #fff;
+        border-radius: 15px;
+      }
+
+      #outer-box {
+        margin: 0px;
+        border: none;
+        border-radius: 15px;
+        background-color: #fff;
+      }
+
+      #scroll {
+        margin-top: 5px;
+        border: none;
+        border-radius: 15px;
+        margin-bottom: 5px;
+        /* background: rgb(255,255,255); */
+      }
+
+      #text:selected {
+        color: #fff;
+        margin: 0px 0px;
+        border: none;
+        border-radius: 15px;
+      }
+
+      #entry {
+        margin: 0px 0px;
+        border: none;
+        border-radius: 15px;
+        background-color: transparent;
+      }
+
+      #entry:selected {
+        margin: 0px 0px;
+        border: none;
+        border-radius: 15px;
+        background: linear-gradient(45deg, rgba(203,166,247,1) 30%, rgba(245,194,231,1) 100%);
+      }
+    '';
+  };
+
+  services.dunst = {
+    enable = true;
+    iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus";
+    };
+    settings = {
+      global = {
+        monitor = 0;
+        follow = "none";
+        width = 600;
+        height = 200;
+        origin = "top-right";
+        offset = "20x20";
+        scale = 0;
+        notification_limit = 0;
+        progress_bar = true;
+        progress_bar_height = 10;
+        progress_bar_frame_width = 1;
+        progress_bar_min_width = 150;
+        progress_bar_max_width = 300;
+        indicate_hidden = "yes";
+        transparency = 0;
+        separator_height = 2;
+        padding = 8;
+        horizontal_padding = 8;
+        text_icon_padding = 0;
+        frame_width = 3;
+        frame_color = "#c0caf5";
+        gap_size = 5;
+        separator_color = "frame";
+        sort = "yes";
+        font = "sans-serif 16";
+        line_height = 0;
+        markup = "full";
+        format = "<b>%s</b>\\n%b";
+        alignment = "left";
+        vertical_alignment = "center";
+        show_age_threshold = 60;
+        ellipsize = "end";
+        ignore_newline = "no";
+        stack_duplicates = true;
+        hide_duplicate_count = false;
+        show_indicators = "yes";
+        icon_position = "left";
+        min_icon_size = 32;
+        max_icon_size = 64;
+        icon_theme = "Papirus";
+        enable_recursive_icon_lookup = true;
+        sticky_history = "yes";
+        history_length = 20;
+        #dmenu = /usr/bin/dmenu -p dunst:;
+        #browser = /usr/bin/xdg-open;
+        title = "Dunst";
+        class = "Dunst";
+        corner_radius = 15;
+        ignore_dbusclose = false;
+        mouse_left_click = "close_current";
+        mouse_middle_click = "context";
+        mouse_right_click = "do_action";
+      };
+    };
+  };
+  systemd.user.services.dunst.Service.UnsetEnvironment = [ "XCURSOR_SIZE" ];
+
   programs.foot = {
     enable = true;
     server.enable = true;
