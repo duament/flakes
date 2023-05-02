@@ -294,6 +294,7 @@ in
         RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
         DeviceAllow = "/dev/dri";
         DevicePolicy = "closed";
+        SystemCallFilter = "";
       };
     };
 
