@@ -6,6 +6,9 @@ config.color_scheme = 'OneHalfLight'
 config.font = wezterm.font_with_fallback {
   'Hack',
   'Noto Sans CJK SC',
+  'Noto Music',
+  'Noto Sans Symbols',
+  'Noto Sans Symbols 2',
   'Noto Color Emoji',
   'Symbols Nerd Font Mono',
 }
