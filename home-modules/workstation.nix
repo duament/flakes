@@ -26,6 +26,10 @@ with lib;
       wireguard-tools
     ];
 
+    systemd.user.tmpfiles.rules = [
+      "L %h/syncthing - - - - /var/lib/syncthing"
+    ];
+
     i18n.inputMethod = {
       enabled = "fcitx5";
       fcitx5.addons = with pkgs; with mypkgs; [

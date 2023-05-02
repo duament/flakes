@@ -252,6 +252,7 @@ in
     systemd.user.tmpfiles.rules = [
       "d %h/.cache/keepassxc - - - -"
       "d %h/.local/share/keepassxc - - - -"
+      "d %h/.mozilla/native-messaging-hosts - - - -"
       "d %h/.local/share/TelegramDesktop - - - -"
       "d %h/Downloads/Telegram\\ Desktop - - - -"
     ];
