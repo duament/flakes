@@ -1,7 +1,4 @@
-{ config, pkgs, ... }:
-let
-  host = "desktop";
-in
+{ config, ... }:
 {
   presets.workstation.enable = true;
 
@@ -22,20 +19,29 @@ in
     configurationLimit = 10;
   };
 
-  networking.hostName = host;
-  networking.useDHCP = false;
-  networking.networkmanager = {
-    enable = true;
-    unmanaged = [ "wg0" ];
-    dns = "systemd-resolved";
+  networking = {
+    hostName = "desktop";
+    useDHCP = false;
+    useNetworkd = true;
   };
+
+  systemd.network.networks."80-ethernet" = {
+    enable = true;
+    matchConfig = { Type = "ether"; };
+    DHCP = "yes";
+    dhcpV6Config.UseDelegatedPrefix = false;
+    domains = [ "~h.rvf6.com" ];
+  };
+
   home-manager.users.rvfg = import ./home.nix;
 
-  systemd.tmpfiles.rules = [ "L+ /run/gdm/.config/monitors.xml - - - - ${./monitors.xml}" ];
-
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  environment.persistence."/persist".users.rvfg = {
+    directories = [
+      ".gnupg"
+      ".mozilla"
+      ".thunderbird"
+    ];
+  };
 
   services.clash.enable = true;
   services.clash.configFile = config.sops.secrets.clash.path;

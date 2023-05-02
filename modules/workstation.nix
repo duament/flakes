@@ -9,6 +9,7 @@ with lib;
   };
 
   config = mkIf config.presets.workstation.enable {
+
     boot = {
       loader.grub.enable = false;
       kernel.sysctl."kernel.sysrq" = 1;
@@ -119,5 +120,30 @@ with lib;
         '';
       };
     };
+
+    programs.hyprland.enable = true;
+    hardware.opengl.enable = true;
+    security.pam.services.swaylock = { };
+    xdg.portal.wlr.enable = true;
+    services.greetd = {
+      enable = true;
+      settings =
+        let
+          hyprland-script = pkgs.writeShellScript "start-hyprland" ''
+            systemctl --user import-environment PATH SSH_AUTH_SOCK NIX_USER_PROFILE_DIR NIX_PROFILES XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID
+            exec systemctl --wait --user start hyprland.service
+          '';
+        in
+        {
+          initial_session = {
+            user = "rvfg";
+            command = hyprland-script;
+          };
+          default_session = {
+            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${hyprland-script}";
+          };
+        };
+    };
+
   };
 }

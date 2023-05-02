@@ -4,9 +4,10 @@
   ];
 
   presets.workstation.enable = true;
+  xdg.configFile."hypr/hyprland.conf".text = ''
+    monitor = DP-1, preferred, auto, 2
+  '';
 
   home.packages = with pkgs; [
-    gnome.gnome-tweaks
-    gnomeExtensions.appindicator
   ];
 }

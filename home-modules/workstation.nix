@@ -12,10 +12,12 @@ with lib;
     presets.ssh.enable = true;
     presets.browser.enable = true;
     presets.python.enable = true;
+    presets.hyprland.enable = true;
 
     home.packages = with pkgs; [
       imv
       keepassxc
+      openssl
       sops
       tdesktop
       thunderbird

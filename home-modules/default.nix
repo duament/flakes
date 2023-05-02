@@ -6,6 +6,7 @@
     ./fish.nix
     ./fzf
     ./git.nix
+    ./hyprland
     ./neovim
     ./python.nix
     ./ssh.nix

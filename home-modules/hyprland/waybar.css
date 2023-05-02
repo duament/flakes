@@ -1,0 +1,218 @@
+* {
+  font-family: sans-serif;
+  font-size: 13px;
+}
+
+window#waybar {
+  background-color: transparent;
+}
+
+#workspaces {
+  background-color: transparent;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+#workspaces button {
+  box-shadow: rgba(0, 0, 0, 0.116) 2px 2px 5px 2px;
+  background-color: #fff ;
+  border-radius: 15px;
+  margin-right: 10px;
+  padding-top: 4px;
+  padding-bottom: 2px;
+  padding-right: 10px;
+  font-weight: bolder;
+  color: 	#cba6f7 ;
+  border: none;
+  outline: none;
+  transition: padding-left .2s ease-out, padding-right .2s ease-out;
+}
+
+#workspaces button:hover {
+  background-color: #F6D6EC;
+}
+
+#workspaces button.active {
+  padding-right: 20px;
+  box-shadow: rgba(0, 0, 0, 0.288) 2px 2px 5px 2px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
+  padding-left: 20px;
+  /*padding-bottom: 3px;*/
+  background: linear-gradient(45deg, rgba(202,158,230,1) 0%, rgba(245,194,231,1) 43%, rgba(180,190,254,1) 80%, rgba(137,180,250,1) 100%);
+  background-size: 300% 300%;
+  color: #fff;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#tray,
+#mode,
+#idle_inhibitor,
+#window,
+#keyboard-state {
+  padding: 0 10px;
+  border-radius: 15px;
+  background-color: #cdd6f4;
+  color: #516079;
+  box-shadow: rgba(0, 0, 0, 0.116) 2px 2px 5px 2px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  transition: padding-left .1s ease-out, padding-right .1s ease-out;
+}
+
+#clock {
+  background: rgb(245,194,231);
+  background: linear-gradient(45deg, rgba(245,194,231,1) 0%, rgba(203,166,247,1) 64%, rgba(202,158,230,1) 100%);
+  margin-right: 5px;
+  color: #fff ;
+  background-size: 300% 300%;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
+  font-size: 15px;
+  font-weight: bolder;
+}
+
+#battery.charging, #battery.plugged {
+  background-color: #fff ;
+}
+
+#battery {
+  background-color: #fff;
+  color:#a6e3a1;
+  font-weight: bolder;
+  font-size: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#battery.critical:not(.charging) {
+  background-color:  #f38ba8;
+  color:#bf5673;
+}
+
+label:focus {
+}
+
+#cpu {
+  background: rgb(180,190,254);
+  background: linear-gradient(52deg, rgba(180,190,254,1) 0%, rgba(137,220,235,1) 32%, rgba(137,180,250,1) 72%, rgba(166,227,161,1) 100%);
+  background-size: 300% 300%;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
+  color: 	#fff;
+}
+
+#memory {
+  background-color: #cba6f7;
+  color: 	#9a75c7;
+  font-weight: bolder;
+}
+
+#disk {
+  color: #964B00;
+}
+
+#backlight {
+  color: #90b1b1;
+}
+
+#network{
+  color: #fff;
+  font-size: 15px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
+}
+
+#network.disabled{
+  background-color: #45475a;
+}
+
+#network.disconnected{
+  background: rgb(243,139,168);
+  background: linear-gradient(45deg, rgba(243,139,168,1) 0%, rgba(250,179,135,1) 100%);
+  font-weight: bolder;
+  padding-top: 3px;
+  padding-right: 11px;
+}
+
+#network.linked, #network.wifi{
+  background-color: #a6e3a1 ;
+}
+
+#network.ethernet{
+  background-color:#f9e2af ;
+}
+
+#pulseaudio {
+  background-color:  	#fab387;
+  color:#fff;
+  font-size: 15px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
+}
+
+#pulseaudio.muted {
+  background-color: #90b1b1;
+}
+
+#temperature {
+  background-color: #f9e2af;
+  color:#96804e;
+}
+
+#temperature.critical {
+  background-color: #f38ba8 ;
+  color:#bf5673;
+}
+
+#tray {
+  background-color: #2980b9;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: #eb4d4b;
+}
+
+#idle_inhibitor {
+  background-color: #2d3436;
+}
+
+#idle_inhibitor.activated {
+  background-color: #ecf0f1;
+  color: #2d3436;
+}
+
+#keyboard-state {
+  background-color: transparent;
+  padding: 0 0px;
+  border-radius: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  box-shadow: none;
+}
+
+#keyboard-state > label {
+}
+
+#keyboard-state > label.locked {
+  padding: 0 10px;
+  border-radius: 15px;
+  background-color: #cdd6f4;
+  color: #516079;
+  box-shadow: rgba(0, 0, 0, 0.116) 2px 2px 5px 2px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  transition: min-width .1s ease-out;
+}
