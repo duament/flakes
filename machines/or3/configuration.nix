@@ -34,7 +34,7 @@ in
   home-manager.users.rvfg = import ./home.nix;
 
   users.groups."music" = { };
-  systemd.tmpfiles.rules = [ "d ${musicDir} 2770 root music" "a ${musicDir} - - - - d:g::rwx" ];
+  systemd.tmpfiles.rules = [ "d ${musicDir} 2770 root music -" "a ${musicDir} - - - - d:g::rwx" ];
   systemd.services.syncthing.serviceConfig.SupplementaryGroups = [ "music" ];
   systemd.services.navidrome.serviceConfig.SupplementaryGroups = [ "music" ];
 

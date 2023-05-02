@@ -1,6 +1,7 @@
 rec {
   dev = {
-    desktop = "SO6SZBC-7SCWFFY-K3MJDYU-ZBFPVC7-XEGQQA4-DXYF73B-NNYZ6Z2-TLSY5AZ";
+    desktop = "U5O7TKM-EBE4QLY-AQOJVMF-27BVZPA-ZDM27MP-IBR6UUL-DBL36UD-RQEN4AO";
+    desktop-arch = "SO6SZBC-7SCWFFY-K3MJDYU-ZBFPVC7-XEGQQA4-DXYF73B-NNYZ6Z2-TLSY5AZ";
     xiaoxin = "6APS5KO-H5NO53G-RAPYQWZ-BWVKINP-222XPB7-OGZN7FS-M5DPR27-YQB4IQU";
     xiaoxin-arch = "VJHRT62-5S6EHHC-QLBUXIN-HLBUOKH-2UISZOV-FHSRZR3-WMX2IZN-WH5VTQD";
     iphone = "KIAT2SK-EYWGKKF-FYOMKME-VZCQ5ZS-U3DDFCU-MERAT6L-A2LMW4G-SPFPWQJ";
@@ -24,7 +25,7 @@ rec {
       id = "xudus-kdccy";
       label = "KeePass";
       path = "~/KeePass";
-      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" "iphone" "pixel7" "t430" "nl" "az" ];
+      devices = [ "desktop" "desktop-arch" "xiaoxin" "xiaoxin-arch" "iphone" "pixel7" "t430" "nl" "az" ];
       versioning = {
         type = "staggered";
         params.cleanInterval = "3600";
@@ -35,19 +36,19 @@ rec {
       id = "m4f2r-yzqvs";
       label = "notes";
       path = "~/notes";
-      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" "t430" ];
+      devices = [ "desktop" "desktop-arch" "xiaoxin" "xiaoxin-arch" "t430" ];
     };
     session = {
       id = "upou4-bdgln";
       label = "session";
       path = "~/session";
-      devices = [ "desktop" "xiaoxin" "xiaoxin-arch" "t430" ];
+      devices = [ "desktop" "desktop-arch" "xiaoxin" "xiaoxin-arch" "t430" ];
     };
     music = {
       id = "hngav-zprin";
       label = "Music";
       path = "~/Music";
-      devices = [ "desktop" "xiaoxin" "or3" ];
+      devices = [ "desktop" "desktop-arch" "xiaoxin" "xiaoxin-arch" "or3" ];
     };
   };
 }

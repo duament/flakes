@@ -62,6 +62,6 @@
     devices = self.data.syncthing.devices;
     folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
   };
-  systemd.tmpfiles.rules = [ "d ${config.services.syncthing.dataDir} 2770 syncthing syncthing" "a ${config.services.syncthing.dataDir} - - - - d:g::rwx" ];
+  systemd.tmpfiles.rules = [ "d ${config.services.syncthing.dataDir} 2770 syncthing syncthing -" "a ${config.services.syncthing.dataDir} - - - - d:g::rwx" ];
   users.users.rvfg.extraGroups = [ "syncthing" ];
 }
