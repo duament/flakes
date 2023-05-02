@@ -1,4 +1,4 @@
-{ config, lib, pkgs, self, ... }:
+{ config, lib, self, ... }:
 {
   presets.workstation.enable = true;
 
@@ -50,14 +50,6 @@
   };
 
   home-manager.users.rvfg = import ./home.nix;
-
-  environment.persistence."/persist".users.rvfg = {
-    directories = [
-      ".gnupg"
-      ".mozilla"
-      ".thunderbird"
-    ];
-  };
 
   services.clash.enable = true;
   services.clash.configFile = config.sops.secrets.clash.path;

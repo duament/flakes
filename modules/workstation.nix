@@ -58,6 +58,15 @@ with lib;
     };
     networking.firewall.checkReversePath = "loose";
 
+    environment.persistence."/persist".users.rvfg = {
+      directories = [
+        ".gnupg"
+        ".mozilla"
+        ".thunderbird"
+        "Downloads"
+      ];
+    };
+
     presets.ssh-agent.enable = true;
     presets.chromium.enable = true;
 

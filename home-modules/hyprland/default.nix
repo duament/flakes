@@ -1,4 +1,4 @@
-{ config, lib, pkgs, sysConfig, ... }:
+{ config, lib, pkgs, self, sysConfig, ... }:
 let
   cfg = config.presets.hyprland;
 
@@ -49,6 +49,7 @@ in
 
     services.swayidle = {
       enable = true;
+      systemdTarget = "graphical-session.target";
       timeouts = [
         { timeout = 600; command = "${pkgs.swaylock}/bin/swaylock"; }
         { timeout = 630; command = "${sysConfig.programs.hyprland.package}/bin/hyprctl dispatch dpms off"; resumeCommand = "${sysConfig.programs.hyprland.package}/bin/hyprctl dispatch dpms on"; }
@@ -57,6 +58,7 @@ in
         { event = "lock"; command = "${pkgs.swaylock}/bin/swaylock"; }
       ];
     };
+    systemd.user.services.swayidle.Unit.After = [ "graphical-session.target" ];
 
     xdg.configFile."hypr/hyprland.conf" = {
       text = ''
@@ -65,9 +67,7 @@ in
         bind = $mainMod, S, exec, ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)"
         exec-once = systemctl --user import-environment DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP && systemd-notify --ready
         exec-once = systemd-run --user -G -u wezterm ${config.programs.wezterm.package}/bin/wezterm
-        exec-once = ~/files/kp
         exec-once = systemd-run --user -G -u firefox ${config.programs.firefox.package}/bin/firefox
-        exec-once = ~/files/tg
         exec-once = systemd-run --user -G -u thunderbird thunderbird
       '';
       onChange = ''
@@ -247,6 +247,54 @@ in
     programs.wezterm = {
       enable = true;
       extraConfig = builtins.readFile ./wezterm.lua;
+    };
+
+    systemd.user.tmpfiles.rules = [
+      "d %h/.cache/keepassxc - - - -"
+      "d %h/.local/share/keepassxc - - - -"
+      "d %h/.local/share/TelegramDesktop - - - -"
+      "d %h/Downloads/Telegram\\ Desktop - - - -"
+    ];
+
+    systemd.user.services.keepassxc = {
+      Unit.After = [ "graphical-session.target" ];
+      Install.WantedBy = [ "graphical-session.target" ];
+      Service = self.data.systemdHarden // {
+        UnsetEnvironment = [ "XCURSOR_SIZE" ];
+        Environment = [ "QT_QPA_PLATFORM=wayland" ];
+        BindPaths = [ "%t" "%h/.local/share/keepassxc:%h/.config/keepassxc" "%h/.cache/keepassxc" "-/var/lib/syncthing" "-%h/.mozilla/native-messaging-hosts" "-%h/.config/chromium/NativeMessagingHosts" ];
+        BindReadOnlyPaths = [ "/nix" "/run/opengl-driver" "/run/current-system" "-%h/.config/fontconfig" ];
+        ExecStart = "${pkgs.keepassxc}/bin/keepassxc";
+        ProtectHome = "tmpfs";
+        DynamicUser = false;
+        PrivateDevices = false;
+        PrivateNetwork = false;
+        PrivateIPC = false;
+        RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+        DeviceAllow = "/dev/dri";
+        DevicePolicy = "closed";
+      };
+    };
+
+    systemd.user.services.telegram = {
+      Unit.After = [ "graphical-session.target" ];
+      Install.WantedBy = [ "graphical-session.target" ];
+      Service = self.data.systemdHarden // {
+        UnsetEnvironment = [ "XCURSOR_SIZE" ];
+        Environment = [ "QT_QPA_PLATFORM=wayland" ];
+        MemoryHigh = "2G";
+        BindPaths = [ "%t" "%h/.local/share/TelegramDesktop" "%h/Downloads/Telegram\\ Desktop" ];
+        BindReadOnlyPaths = [ "/nix" "/run/opengl-driver" "/run/current-system" "-%h/.config/fontconfig" ];
+        ExecStart = "${pkgs.telegram-desktop}/bin/telegram-desktop";
+        ProtectHome = "tmpfs";
+        DynamicUser = false;
+        PrivateDevices = false;
+        PrivateNetwork = false;
+        PrivateIPC = false;
+        RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+        DeviceAllow = "/dev/dri";
+        DevicePolicy = "closed";
+      };
     };
 
   };
