@@ -26,11 +26,12 @@ window#waybar {
   color: 	#cba6f7 ;
   border: none;
   outline: none;
-  transition: padding-left .2s ease-out, padding-right .2s ease-out;
+  transition: all .3s ease-out;
 }
 
 #workspaces button:hover {
-  background-color: #F6D6EC;
+  background-color: #ECECEC;
+  background-image: none;
 }
 
 #workspaces button.active {
@@ -38,8 +39,7 @@ window#waybar {
   box-shadow: rgba(0, 0, 0, 0.288) 2px 2px 5px 2px;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
   padding-left: 20px;
-  /*padding-bottom: 3px;*/
-  background: linear-gradient(45deg, rgba(202,158,230,1) 0%, rgba(245,194,231,1) 43%, rgba(180,190,254,1) 80%, rgba(137,180,250,1) 100%);
+  background: rgb(245,194,231);
   background-size: 300% 300%;
   color: #fff;
 }
@@ -66,7 +66,13 @@ window#waybar {
   margin-top: 10px;
   margin-bottom: 10px;
   margin-right: 10px;
-  transition: padding-left .1s ease-out, padding-right .1s ease-out;
+}
+
+#window {
+  background: rgb(180,190,254);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
+  color: #fff;
+  font-weight: 500;
 }
 
 #clock {
@@ -214,5 +220,4 @@ label:focus {
   margin-top: 10px;
   margin-bottom: 10px;
   margin-right: 10px;
-  transition: min-width .1s ease-out;
 }
