@@ -58,7 +58,6 @@ config.hide_tab_bar_if_only_one_tab = true
 config.enable_scroll_bar = true
 config.scrollback_lines = 10000
 config.alternate_buffer_wheel_scroll_speed = 1
-config.front_end = "WebGpu"
 
 config.mouse_bindings = {
   {
