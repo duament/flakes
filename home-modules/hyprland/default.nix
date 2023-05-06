@@ -47,15 +47,43 @@ in
       inherit iconTheme;
     };
 
+    programs.swaylock = {
+      enable = true;
+      settings = {
+        image = wallpaper-cloud.outPath;
+        indicator-caps-lock = true;
+        inside-color = "00000000";
+        inside-clear-color = "00000000";
+        inside-caps-lock-color = "00000000";
+        inside-ver-color = "00000000";
+        inside-wrong-color = "00000000";
+        line-color = "00000000";
+        line-clear-color = "00000000";
+        line-caps-lock-color = "00000000";
+        line-ver-color = "00000000";
+        line-wrong-color = "00000000";
+        separator-color = "00000000";
+        ring-color = "F5C2E7";
+        ring-clear-color = "FAB387";
+        ring-caps-lock-color = "617A55";
+        ring-ver-color = "93BFCF";
+        ring-wrong-color = "E96479";
+        key-hl-color = "9DC08B";
+        caps-lock-key-hl-color = "9DC08B";
+        bs-hl-color = "E96479";
+        caps-lock-bs-hl-color = "E96479";
+        text-caps-lock-color = "617A55";
+      };
+    };
     services.swayidle = {
       enable = true;
       systemdTarget = "graphical-session.target";
       timeouts = [
-        { timeout = 600; command = "${pkgs.swaylock}/bin/swaylock"; }
+        { timeout = 600; command = "${config.programs.swaylock.package}/bin/swaylock"; }
         { timeout = 630; command = "${sysConfig.programs.hyprland.package}/bin/hyprctl dispatch dpms off"; resumeCommand = "${sysConfig.programs.hyprland.package}/bin/hyprctl dispatch dpms on"; }
       ];
       events = [
-        { event = "lock"; command = "${pkgs.swaylock}/bin/swaylock"; }
+        { event = "lock"; command = "${config.programs.swaylock.package}/bin/swaylock"; }
       ];
     };
     systemd.user.services.swayidle.Unit.After = [ "graphical-session.target" ];
@@ -63,7 +91,7 @@ in
     xdg.configFile."hypr/hyprland.conf" = {
       text = ''
         ${builtins.readFile ./hyprland.conf}
-        bind = $mainMod, L, exec, ${pkgs.swaylock}/bin/swaylock
+        bind = $mainMod, L, exec, ${config.programs.swaylock.package}/bin/swaylock
         bind = $mainMod, S, exec, ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)"
         exec-once = systemctl --user import-environment DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP && systemd-notify --ready
         exec-once = systemd-run --user -G -u wezterm ${config.programs.wezterm.package}/bin/wezterm
