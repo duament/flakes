@@ -79,11 +79,12 @@ in
       enable = true;
       systemdTarget = "graphical-session.target";
       timeouts = [
-        { timeout = 600; command = "${config.programs.swaylock.package}/bin/swaylock"; }
-        { timeout = 630; command = "${sysConfig.programs.hyprland.package}/bin/hyprctl dispatch dpms off"; resumeCommand = "${sysConfig.programs.hyprland.package}/bin/hyprctl dispatch dpms on"; }
+        { timeout = 600; command = "${config.programs.swaylock.package}/bin/swaylock &"; }
+        { timeout = 610; command = "${sysConfig.programs.hyprland.package}/bin/hyprctl dispatch dpms off"; resumeCommand = "${sysConfig.programs.hyprland.package}/bin/hyprctl dispatch dpms on"; }
       ];
       events = [
-        { event = "lock"; command = "${config.programs.swaylock.package}/bin/swaylock"; }
+        { event = "lock"; command = "${config.programs.swaylock.package}/bin/swaylock &"; }
+        { event = "before-sleep"; command = "${config.programs.swaylock.package}/bin/swaylock &"; }
       ];
     };
     systemd.user.services.swayidle.Unit.After = [ "graphical-session.target" ];
