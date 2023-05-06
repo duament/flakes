@@ -30,6 +30,10 @@
     useNetworkd = true;
     wireless = {
       enable = true;
+      userControlled = {
+        enable = true;
+        group = "rvfg";
+      };
       networks.rvfg-wpa2 = {
         authProtocols = [ "WPA-EAP" ];
         auth = ''
