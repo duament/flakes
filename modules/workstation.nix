@@ -56,7 +56,12 @@ with lib;
       enable = true;
       route = "cn";
     };
-    networking.firewall.checkReversePath = "loose";
+
+    networking.firewall = {
+      checkReversePath = "loose";
+      allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];  # KDE Connect
+      allowedUDPPortRanges = [ { from = 1714; to = 1764; } ];  # KDE Connect
+    };
 
     environment.persistence."/persist".users.rvfg = {
       directories = [

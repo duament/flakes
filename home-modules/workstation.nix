@@ -125,5 +125,11 @@ with lib;
       enable = true;
       serverUrl = "https://ete.rvf6.com/";
     };
+
+    services.kdeconnect = {
+      enable = true;
+      indicator = true;
+    };
+    systemd.user.services.kdeconnect-indicator.Service.UnsetEnvironment = [ "XCURSOR_SIZE" ];
   };
 }
