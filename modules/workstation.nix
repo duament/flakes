@@ -65,6 +65,7 @@ with lib;
 
     environment.persistence."/persist".users.rvfg = {
       directories = [
+        ".config/kdeconnect"
         ".gnupg"
         ".mozilla"
         ".thunderbird"
