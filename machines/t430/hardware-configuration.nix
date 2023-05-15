@@ -17,12 +17,16 @@
         hostKeys = [ config.sops.secrets.initrd_ssh_host_ed25519_key.path ];
       };
     };
-    postMountCommands = "rm -rf /run/secrets";
-    systemd.enable = false;
+    systemd.network.networks."80-ethernet" = {
+      matchConfig = { Type = "ether"; };
+      DHCP = "yes";
+      dhcpV6Config.UseDelegatedPrefix = false;
+    };
+    systemd.services.initrd-nixos-activation.serviceConfig.ExecStartPre = "-/bin/rm -rf /run/secrets";
   };
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [ "ip=dhcp" ];
+  boot.kernelParams = [ ];
 
   presets.fs = {
     enable = true;
