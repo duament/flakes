@@ -17,9 +17,13 @@
         hostKeys = [ config.sops.secrets.initrd_ssh_host_ed25519_key.path ];
       };
     };
-    preLVMCommands = lib.mkOrder 400 "sleep 3";
     postMountCommands = "rm -rf /run/secrets";
-    systemd.enable = false;
+    systemd.network.networks."80-ethernet" = {
+      enable = true;
+      matchConfig = { Type = "ether"; };
+      DHCP = "yes";
+      dhcpV6Config.UseDelegatedPrefix = false;
+    };
   };
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
@@ -27,7 +31,6 @@
     "console=ttyS0,115200n8"
     "console=ttyAMA0,115200n8"
     "console=tty0"
-    "ip=dhcp"
   ];
 
   presets.fs = {
