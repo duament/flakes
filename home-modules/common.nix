@@ -6,6 +6,7 @@
     file
     mtr
     ncdu
+    ripgrep
     tmux
   ];
 
