@@ -34,15 +34,10 @@
         system:
         let
           pkgs = import nixpkgs { inherit system; };
-        in
-        {
-          formatter = pkgs.nixpkgs-fmt;
 
-          packages = import ./pkgs pkgs;
-
-          apps.default = {
-            type = "app";
-            program = (pkgs.writeShellScript "flakes-nixos-rebuild" ''
+          deploy-script = pkgs.writeShellApplication {
+            name = "deploy";
+            text = ''
               if [ $# -eq 0 ]; then
                 sudo nixos-rebuild --flake . switch
               elif [ $# -eq 1 ] ; then
@@ -50,23 +45,36 @@
               else
                 nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo "$2"
               fi
-            '').outPath;
+            '';
           };
 
-          apps.update = {
-            type = "app";
-            program = (pkgs.writeShellScript "update-flakes" ''
-              ${pkgs.nix}/bin/nix flake update
+          update-script = pkgs.writeShellApplication {
+            name = "update";
+            text = ''
+              nix flake update
               cd pkgs
               ${pkgs.nvfetcher}/bin/nvfetcher
-            '').outPath;
+            '';
           };
 
-          apps.build = {
-            type = "app";
-            program = (pkgs.writeShellScript "flakes-build-nixos" ''
+          build-script = pkgs.writeShellApplication {
+            name = "build";
+            text = ''
               nix build .#nixosConfigurations."$1".config.system.build.toplevel
-            '').outPath;
+            '';
+          };
+        in
+        {
+          formatter = pkgs.nixpkgs-fmt;
+
+          packages = import ./pkgs pkgs;
+
+          devShells.default = pkgs.mkShell {
+            packages = [
+              deploy-script
+              update-script
+              build-script
+            ];
           };
         }
       )
