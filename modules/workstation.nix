@@ -160,5 +160,8 @@ with lib;
         };
     };
 
+    programs.adb.enable = true;
+    users.users.rvfg.extraGroups = [ "adbusers" ];
+
   };
 }
