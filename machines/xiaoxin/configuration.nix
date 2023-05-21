@@ -1,4 +1,4 @@
-{ config, lib, self, ... }:
+{ config, ... }:
 {
   presets.workstation.enable = true;
 
@@ -57,15 +57,4 @@
 
   services.clash.enable = true;
   services.clash.configFile = config.sops.secrets.clash.path;
-
-  services.syncthing = {
-    enable = true;
-    openDefaultPorts = true;
-    cert = config.sops.secrets."syncthing/cert".path;
-    key = config.sops.secrets."syncthing/key".path;
-    devices = self.data.syncthing.devices;
-    folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
-  };
-  systemd.tmpfiles.rules = [ "d ${config.services.syncthing.dataDir} 2770 syncthing syncthing -" "a ${config.services.syncthing.dataDir} - - - - d:g::rwx" ];
-  users.users.rvfg.extraGroups = [ "syncthing" ];
 }
