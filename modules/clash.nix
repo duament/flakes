@@ -27,5 +27,7 @@ in
         PrivateNetwork = false;
       };
     };
+
+    presets.bpf-mark.clash = 1;
   };
 }
