@@ -1,0 +1,29 @@
+diff --git a/window/src/os/wayland/window.rs b/window/src/os/wayland/window.rs
+index 4e57ccc0..83423fab 100644
+--- a/window/src/os/wayland/window.rs
++++ b/window/src/os/wayland/window.rs
+@@ -557,13 +557,13 @@ impl WaylandWindowInner {
+         }
+ 
+         if let Some((value_x, value_y)) = PendingMouse::scroll(&pending_mouse) {
+-            let factor = self.get_dpi_factor() as f64;
++            const LINES_PER_TICK: f64 = 3.0;
+ 
+             if value_x.signum() != self.hscroll_remainder.signum() {
+                 // reset accumulator when changing scroll direction
+                 self.hscroll_remainder = 0.0;
+             }
+-            let scaled_x = (value_x * factor) + self.hscroll_remainder;
++            let scaled_x = (value_x * LINES_PER_TICK / 15.0) + self.hscroll_remainder;
+             let discrete_x = scaled_x.trunc();
+             self.hscroll_remainder = scaled_x - discrete_x;
+             if discrete_x != 0. {
+@@ -583,7 +583,7 @@ impl WaylandWindowInner {
+             if value_y.signum() != self.vscroll_remainder.signum() {
+                 self.vscroll_remainder = 0.0;
+             }
+-            let scaled_y = (value_y * factor) + self.vscroll_remainder;
++            let scaled_y = (value_y * LINES_PER_TICK / 15.0) + self.vscroll_remainder;
+             let discrete_y = scaled_y.trunc();
+             self.vscroll_remainder = scaled_y - discrete_y;
+             if discrete_y != 0. {

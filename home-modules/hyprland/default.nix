@@ -275,6 +275,11 @@ in
 
     programs.wezterm = {
       enable = true;
+      package = pkgs.wezterm.overrideAttrs (old: {
+        patches = (old.patches or []) ++ [
+          ./wezterm-scroll.patch
+        ];
+      });
       extraConfig = builtins.readFile ./wezterm.lua;
     };
 
