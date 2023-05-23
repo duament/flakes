@@ -71,7 +71,7 @@
     format = "{icon}";
     format-charging = "{icon}";
     format-plugged = "";
-    format-icons = [ "" "" "" "" "" ];
+    format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
   };
   network = {
     format-wifi = "󰤨 {signalStrength}";
@@ -84,13 +84,13 @@
   pulseaudio = {
     # scroll-step = 1;  # %, can be a float
     format = "{icon} {volume}";
-    format-bluetooth = "{icon} {volume}";
+    format-bluetooth = "{icon}  {volume}";
     format-bluetooth-muted = "󰝟  {volume}";
     format-muted = "󰝟 {volume}";
     format-icons = {
-      headphone = "";
-      hands-free = "";
-      headset = "";
+      headphone = "󰋋";
+      hands-free = "󰋋";
+      headset = "󰋋";
       phone = "";
       portable = "";
       car = "";
