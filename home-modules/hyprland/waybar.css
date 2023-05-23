@@ -91,12 +91,12 @@ window#waybar {
 }
 
 #battery {
-  background-color: #fff;
-  color:#a6e3a1;
-  font-weight: bolder;
+  background-color: #a6e3a1;
+  color:#fff;
   font-size: 15px;
   padding-left: 15px;
   padding-right: 15px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
 }
 
 #battery.critical:not(.charging) {
@@ -126,7 +126,10 @@ label:focus {
 }
 
 #backlight {
-  color: #90b1b1;
+  background-color: #8ed4ee;
+  color: #fff;
+  font-size: 15px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
 }
 
 #network{

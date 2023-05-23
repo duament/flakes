@@ -6,7 +6,7 @@
   spacing = 5; # Gaps between modules (4px)
   margin-bottom = -11;
   modules-left = [ "wlr/workspaces" ];
-  modules-right = [ "tray" "pulseaudio" "network" "battery" "clock" "keyboard-state" ];
+  modules-right = [ "tray" "pulseaudio" "network" "battery" "backlight" "clock" "keyboard-state" ];
   modules-center = [ "hyprland/window" ];
 
   keyboard-state = {
@@ -58,8 +58,9 @@
     format = "";
   };
   backlight = {
-    format = "{percent}% {icon}";
+    format = "{icon}";
     format-icons = [ "" "" "" "" "" "" "" "" "" ];
+    tooltip-format = "{percent}%";
   };
   battery = {
     bat = "BAT0";
@@ -72,11 +73,13 @@
     format-charging = "{icon}";
     format-plugged = "";
     format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+    tooltip-format = "{timeTo} ({capacity}%)";
   };
   network = {
-    format-wifi = "󰤨 {signalStrength}";
+    format-icons = [ "󰤟" "󰤢" "󰤥" "󰤨" ];
+    format-wifi = "{icon}";
     format-ethernet = "󰈀";
-    tooltip-format = "{essid} via {ifname}";
+    tooltip-format = "{essid} ({signalStrength}%) via {ifname}";
     format-linked = "";
     format-disconnected = "󰤭";
     format-alt = "   ";
