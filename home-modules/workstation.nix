@@ -134,6 +134,5 @@ with lib;
       enable = true;
       indicator = true;
     };
-    systemd.user.services.kdeconnect-indicator.Service.UnsetEnvironment = [ "XCURSOR_SIZE" ];
   };
 }

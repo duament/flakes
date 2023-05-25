@@ -36,8 +36,8 @@ in
       package = pkgs.breeze-qt5;
       gtk.enable = true;
       name = "breeze_cursors";
-      size = 48;
     };
+    home.sessionVariables.XCURSOR_SIZE = "";
 
     systemd.user.sessionVariables = config.home.sessionVariables // {
       QT_STYLE_OVERRIDE = "Breeze";
@@ -257,7 +257,6 @@ in
         };
       };
     };
-    systemd.user.services.dunst.Service.UnsetEnvironment = [ "XCURSOR_SIZE" ];
 
     programs.foot = {
       enable = true;
