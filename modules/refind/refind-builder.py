@@ -10,8 +10,8 @@ import tempfile
 import datetime
 import shutil
 import ctypes
-import re
-import glob
+import pefile
+import hashlib
 from typing import NamedTuple, List, Optional
 libc = ctypes.CDLL("libc.so.6")
 
@@ -20,6 +20,11 @@ class SystemIdentifier(NamedTuple):
     profile: Optional[str]
     generation: int
     specialisation: Optional[str]
+
+
+def copy_if_not_exists(source: str, dest: str) -> None:
+    if not os.path.exists(dest):
+        shutil.copyfile(source, dest)
 
 
 def generation_dir(profile: Optional[str], generation: int) -> str:
@@ -37,7 +42,22 @@ def system_dir(profile: Optional[str], generation: int, specialisation: Optional
         return d
 
 
-def generation_filename(profile: Optional[str], generation: int, specialisation: Optional[str]) -> str:
+MENU_ENTRY = """
+menuentry "@distroName@" {{
+    loader {loader}
+    {submenuentries}
+    graphics on
+}}
+"""
+
+SUBMENUENTRY = """
+    submenuentry "{profile}{specialisation}Generation {generation} {description}" {{
+        loader {loader}
+    }}
+"""
+
+
+def generation_conf_filename(profile: Optional[str], generation: int, specialisation: Optional[str]) -> str:
     pieces = [
         "nixos",
         profile or None,
@@ -52,21 +72,31 @@ def profile_path(profile: Optional[str], generation: int, specialisation: Option
     return os.path.realpath("%s/%s" % (system_dir(profile, generation, specialisation), name))
 
 
-def describe_generation(generation_dir: str) -> str:
+def copy_from_profile(profile: Optional[str], generation: int, specialisation: Optional[str], name: str, dry_run: bool = False) -> str:
+    store_file_path = profile_path(profile, generation, specialisation, name)
+    suffix = os.path.basename(store_file_path)
+    store_dir = os.path.basename(os.path.dirname(store_file_path))
+    efi_file_path = "/efi/nixos/%s-%s.efi" % (store_dir, suffix)
+    if not dry_run:
+        copy_if_not_exists(store_file_path, "@efiSysMountPoint@%s" % (efi_file_path))
+    return efi_file_path
+
+
+def describe_generation(profile: Optional[str], generation: int, specialisation: Optional[str]) -> str:
     try:
-        with open("%s/nixos-version" % generation_dir) as f:
+        with open(profile_path(profile, generation, specialisation, "nixos-version")) as f:
             nixos_version = f.read()
     except IOError:
         nixos_version = "Unknown"
 
-    kernel_dir = os.path.dirname(os.path.realpath("%s/kernel" % generation_dir))
+    kernel_dir = os.path.dirname(profile_path(profile, generation, specialisation, "kernel"))
     module_dir = glob.glob("%s/lib/modules/*" % kernel_dir)[0]
     kernel_version = os.path.basename(module_dir)
 
-    build_time = int(os.path.getctime(generation_dir))
+    build_time = int(os.path.getctime(system_dir(profile, generation, specialisation)))
     build_date = datetime.datetime.fromtimestamp(build_time).strftime('%F')
 
-    description = "NixOS {}, Linux Kernel {}, Built on {}".format(
+    description = "@distroName@ {}, Linux Kernel {}, Built on {}".format(
         nixos_version, kernel_version, build_date
     )
 
@@ -92,7 +122,7 @@ def get_generations(profile: Optional[str] = None) -> List[SystemIdentifier]:
     gen_lines = gen_list.split('\n')
     gen_lines.pop()
 
-    configurationLimit = @configurationLimit@
+    configurationLimit = int('@configurationLimit@')
     configurations = [
         SystemIdentifier(
             profile=profile,
@@ -113,18 +143,14 @@ def get_specialisations(profile: Optional[str], generation: int, _: Optional[str
 
 
 def remove_old_entries(gens: List[SystemIdentifier]) -> None:
-    rex_profile = re.compile(r"^@efiSysMountPoint@/efi/nixos/nixos-(.*)-generation-.*\.efi$")
-    rex_generation = re.compile(r"^@efiSysMountPoint@/efi/nixos/nixos.*-generation-([0-9]+)(-specialisation-.*)?\.efi$")
-    for path in glob.iglob("@efiSysMountPoint@/efi/nixos/nixos*-generation-*.efi"):
-        if rex_profile.match(path):
-            prof = rex_profile.sub(r"\1", path)
-        else:
-            prof = None
-        try:
-            gen_number = int(rex_generation.sub(r"\1", path))
-        except ValueError:
-            continue
-        if not (prof, gen_number, None) in gens:
+    known_paths = []
+    for gen in gens:
+        known_paths.append(copy_from_profile(*gen, "kernel", True).lower())
+        known_paths.append(copy_from_profile(*gen, "initrd", True).lower())
+        known_paths.append(f'/efi/nixos/{generation_conf_filename(*gen)}.efi')
+    for path in glob.iglob("@efiSysMountPoint@/efi/nixos/*"):
+        efi_path = path.removeprefix('@efiSysMountPoint@').lower()
+        if efi_path not in known_paths and not os.path.isdir(path):
             os.unlink(path)
 
 
@@ -138,39 +164,61 @@ def get_profiles() -> List[str]:
 
 
 def generate_efi(profile: Optional[str], generation: int, specialisation: Optional[str], kernel_params: str) -> str:
-    osrel = profile_path(profile, generation, specialisation, "etc/os-release")
-    kernel = profile_path(profile, generation, specialisation, "kernel")
-    initrd_store = profile_path(profile, generation, specialisation, "initrd")
-    efi_file_path = f"/efi/nixos/{generation_filename(profile, generation, specialisation)}.efi"
-    efi_file_full_path = "@efiSysMountPoint@" + efi_file_path
+    osrel = profile_path(profile, generation, specialisation, 'etc/os-release')
+    kernel_path = copy_from_profile(profile, generation, specialisation, 'kernel')
+    kernel_full_path = f'@efiSysMountPoint@{kernel_path}'
+    initrd_path = copy_from_profile(profile, generation, specialisation, 'initrd')
+    initrd_full_path = f'@efiSysMountPoint@{initrd_path}'
+    efi_file_path = f'/efi/nixos/{generation_conf_filename(profile, generation, specialisation)}.efi'
+    efi_file_full_path = '@efiSysMountPoint@' + efi_file_path
     if os.path.exists(efi_file_full_path):
         return efi_file_path
     with tempfile.TemporaryDirectory() as tmpdir:
-        initrd = os.path.join(tmpdir, 'initrd')
-        shutil.copyfile(initrd_store, initrd)
         try:
-            append_initrd_secrets = profile_path(profile, generation, specialisation, "append-initrd-secrets")
-            subprocess.check_call([append_initrd_secrets, "@efiSysMountPoint@%s" % (initrd)])
+            append_initrd_secrets = profile_path(profile, generation, specialisation, 'append-initrd-secrets')
+            subprocess.check_call([append_initrd_secrets, initrd_full_path])
         except FileNotFoundError:
             pass
         unsigned_efi_path = os.path.join(tmpdir, 'efi')
-        if "@sign@" == "1":
+        if '@sign@' == '1':
             objcopy_output = unsigned_efi_path
         else:
             objcopy_output = efi_file_full_path
-        with tempfile.NamedTemporaryFile('w') as cmdline:
+        with (tempfile.NamedTemporaryFile('w') as cmdline,
+              tempfile.NamedTemporaryFile('w') as kernel,
+              tempfile.NamedTemporaryFile('w') as initrd,
+              tempfile.NamedTemporaryFile('wb') as kernel_hash,
+              tempfile.NamedTemporaryFile('wb') as initrd_hash):
             cmdline.write(kernel_params)
             cmdline.flush()
+            kernel.write(kernel_path.replace('/', '\\'))
+            kernel.flush()
+            initrd.write(initrd_path.replace('/', '\\'))
+            initrd.flush()
+            with open(kernel_full_path, 'rb') as f:
+                kernel_hash.write(hashlib.file_digest(f, 'sha256').digest())
+                kernel_hash.flush()
+            with open(initrd_full_path, 'rb') as f:
+                initrd_hash.write(hashlib.file_digest(f, 'sha256').digest())
+                initrd_hash.flush()
+            stub = pefile.PE('@efiStubPath@')
+            osrel_offset = stub.OPTIONAL_HEADER.ImageBase + stub.sections[-1].VirtualAddress + stub.sections[-1].Misc_VirtualSize
+            cmdline_offset = osrel_offset + os.path.getsize(osrel)
+            kernelp_offset = cmdline_offset + len(kernel_params)
+            initrdp_offset = kernelp_offset + len(kernel_path)
+            kernelh_offset = initrdp_offset + len(initrd_path)
+            initrdh_offset = kernelh_offset + os.path.getsize(kernel_hash.name)
             subprocess.check_call([
-                "@objcopy@",
-                "--add-section", f".osrel={osrel}", "--change-section-vma", ".osrel=0x20000",
-                "--add-section", f".cmdline={cmdline.name}", "--change-section-vma", ".cmdline=0x30000",
-                "--add-section", ".splash=/dev/null", "--change-section-vma", ".splash=0x40000",
-                "--add-section", f".linux={kernel}", "--change-section-vma", ".linux=0x2000000",
-                "--add-section", f".initrd={initrd}", "--change-section-vma", ".initrd=0x3000000",
-                "@efiStubPath@", objcopy_output])
-        if "@sign@" == "1":
-            subprocess.check_call(["@sbsign@", "--key", "@signKey@", "--cert", "@signCert@", "--output", efi_file_full_path, unsigned_efi_path])
+                '@objcopy@',
+                '--add-section', f'.osrel={osrel}', '--change-section-vma', f'.osrel={osrel_offset:#x}',
+                '--add-section', f'.cmdline={cmdline.name}', '--change-section-vma', f'.cmdline={cmdline_offset:#x}',
+                '--add-section', f'.kernelp={kernel.name}', '--change-section-vma', f'.kernelp={kernelp_offset:#x}',
+                '--add-section', f'.initrdp={initrd.name}', '--change-section-vma', f'.initrdp={initrdp_offset:#x}',
+                '--add-section', f'.kernelh={kernel_hash.name}', '--change-section-vma', f'.kernelh={kernelh_offset:#x}',
+                '--add-section', f'.initrdh={initrd_hash.name}', '--change-section-vma', f'.initrdh={initrdh_offset:#x}',
+                '@efiStubPath@', objcopy_output])
+        if '@sign@' == '1':
+            subprocess.check_call(['@sbsign@', '--key', '@signKey@', '--cert', '@signCert@', '--output', efi_file_full_path, unsigned_efi_path])
     return efi_file_path
 
 
@@ -180,7 +228,7 @@ def generation_details(profile: Optional[str], generation: int, specialisation: 
     with open("%s/kernel-params" % (generation_dir)) as params_file:
         kernel_params = kernel_params + params_file.read()
     efi_file_path = generate_efi(profile, generation, specialisation, kernel_params)
-    description = describe_generation(generation_dir)
+    description = describe_generation(profile, generation, specialisation)
     return {
         "profile": f"[{profile}] " if profile else "",
         "specialisation": f"({specialisation}) " if specialisation else "",
@@ -188,21 +236,6 @@ def generation_details(profile: Optional[str], generation: int, specialisation: 
         "loader": efi_file_path,
         "description": description
     }
-
-
-MENU_ENTRY = """
-menuentry "NixOS" {{
-    loader {loader}
-    {submenuentries}
-    graphics on
-}}
-"""
-
-SUBMENUENTRY = """
-    submenuentry "{profile}{specialisation}Generation {generation} {description}" {{
-        loader {loader}
-    }}
-"""
 
 
 def write_refind_config(path: str, default_generation: SystemIdentifier, generations: List[SystemIdentifier]) -> None:
@@ -220,8 +253,6 @@ def write_refind_config(path: str, default_generation: SystemIdentifier, generat
         f.write("dont_scan_dirs ESP:/EFI/nixos\n")
         f.write("default_selection \"@defaultSelection@\"\n")
 
-        f.write('''@extraConfig@''')
-
         rev_generations = sorted(generations, key=lambda x: x[1], reverse=True)
         submenuentries = []
         for generation in rev_generations:
@@ -238,10 +269,12 @@ def write_refind_config(path: str, default_generation: SystemIdentifier, generat
             submenuentries="\n".join(submenuentries)
         ))
 
+        f.write('''@extraConfig@''')
+
 
 def main():
-    parser = argparse.ArgumentParser(description='Update NixOS-related refind files')
-    parser.add_argument('default_config', metavar='DEFAULT-CONFIG', help='The default NixOS config to boot')
+    parser = argparse.ArgumentParser(description='Update @distroName@-related refind files')
+    parser.add_argument('default_config', metavar='DEFAULT-CONFIG', help='The default @distroName@ config to boot')
     args = parser.parse_args()
 
     if "@installAsRemovable@":

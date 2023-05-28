@@ -19,7 +19,6 @@ with lib;
 
     presets.refind = {
       enable = true;
-      defaultSelection = "Arch Linux";
       sign = true;
       extraConfig = ''
         banner icons/bg_black.png
@@ -27,7 +26,7 @@ with lib;
         big_icon_size 384
         selection_big   icons/selection_black-big.png
         selection_small icons/selection_black-small.png
-        font hack-48.18.png
+        font hack-28.24.png
         showtools firmware, shell, gdisk, memtest
         scanfor external,optical,manual
 

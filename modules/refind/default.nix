@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, inputs, lib, pkgs, ... }:
 
 with lib;
 
@@ -11,7 +11,9 @@ let
 
     isExecutable = true;
 
-    inherit (pkgs) python3;
+    python3 = pkgs.python311.withPackages (p: with p; [
+      pefile
+    ]);
 
     nix = config.nix.package.out;
 
@@ -19,7 +21,7 @@ let
 
     objcopy = "${pkgs.binutils}/bin/objcopy";
 
-    efiStubPath = "${config.systemd.package}/lib/systemd/boot/efi/linuxx64.efi.stub";
+    efiStubPath = "${inputs.lanzaboote.packages.${pkgs.system}.stub}/bin/lanzaboote_stub.efi";
 
     sbsign = "${pkgs.sbsigntool}/bin/sbsign";
 
@@ -30,6 +32,8 @@ let
     inherit (pkgs) refind efibootmgr coreutils gnugrep gnused gawk util-linux;
 
     inherit (config.boot.loader.efi) efiSysMountPoint canTouchEfiVariables;
+
+    inherit (config.system.nixos) distroName;
   };
 
 in

@@ -17,6 +17,12 @@
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
     chn-cidr-list = {
       url = "github:fernvenue/chn-cidr-list";
       flake = false;

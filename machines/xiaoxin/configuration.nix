@@ -21,7 +21,6 @@
   presets.refind = {
     signKey = config.sops.secrets."sbsign-key".path;
     signCert = config.sops.secrets."sbsign-cert".path;
-    configurationLimit = 3;
   };
 
   networking = {
