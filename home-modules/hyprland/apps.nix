@@ -55,16 +55,18 @@ in
       };
     };
 
-    xdg.desktopEntries = builtins.listToAttrs (
-      map (x: {
-        name = x;
-        value = {
-          name = x;
-          exec = "";
-          noDisplay = true;
-        };
-      }) [ "fish" "htop" "org.codeberg.dnkl.foot-server" "org.codeberg.dnkl.footclient" "umpv" ]
-    ) // {
+    xdg.desktopEntries = builtins.listToAttrs
+      (
+        map
+          (x: {
+            name = x;
+            value = {
+              name = x;
+              exec = "";
+              noDisplay = true;
+            };
+          }) [ "fish" "htop" "org.codeberg.dnkl.foot-server" "org.codeberg.dnkl.footclient" "umpv" ]
+      ) // {
       chromium-browser = {
         name = "Chromium";
         exec = "systemd-run --user -G chromium --ozone-platform=wayland --gtk-version=4 %U";
@@ -119,7 +121,7 @@ in
         name = "Thunderbird";
         exec = "systemd-run --user -G thunderbird %U";
         icon = "thunderbird";
-        mimeType = [ "message/rfc822" "x-scheme-handler/mailto" "text/calendar" "text/x-vcard"];
+        mimeType = [ "message/rfc822" "x-scheme-handler/mailto" "text/calendar" "text/x-vcard" ];
       };
     };
 

@@ -51,7 +51,7 @@ in
     '';
   };
 
-  home.activation.fishFeatureQmark = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.fishFeatureQmark = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     if [ ! -f ${config.xdg.configHome}/fish/fish_variables ]; then
       install -Dm644 ${fishVariablesFile} ${config.xdg.configHome}/fish/fish_variables
     fi

@@ -91,19 +91,20 @@ with lib;
       Ciphers = [ "chacha20-poly1305@openssh.com" "aes256-gcm@openssh.com" ];
       Macs = [ "hmac-sha2-512-etm@openssh.com" "umac-128-etm@openssh.com" ];
     };
-    knownHosts = builtins.listToAttrs (map
-      (host: {
-        name = host;
-        value = {
-          hostNames = [ "${host}.rvf6.com" ];
-          publicKey = self.data.sshPub."${host}";
-        };
-      }) [ "nl" "az" "or1" "or2" "or3" "owrt" "rpi3" "t430" "k2" "k1" "work" ]) // {
-        "github" = {
-          hostNames = [ "github.com" ];
-          publicKey = self.data.sshPub.github;
-        };
+    knownHosts = builtins.listToAttrs
+      (map
+        (host: {
+          name = host;
+          value = {
+            hostNames = [ "${host}.rvf6.com" ];
+            publicKey = self.data.sshPub."${host}";
+          };
+        }) [ "nl" "az" "or1" "or2" "or3" "owrt" "rpi3" "t430" "k2" "k1" "work" ]) // {
+      "github" = {
+        hostNames = [ "github.com" ];
+        publicKey = self.data.sshPub.github;
       };
+    };
   };
 
   systemd.services.systemd-importd.environment.SYSTEMD_IMPORT_BTRFS_QUOTA = "0";

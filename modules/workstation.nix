@@ -59,8 +59,8 @@ with lib;
 
     networking.firewall = {
       checkReversePath = "loose";
-      allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];  # KDE Connect
-      allowedUDPPortRanges = [ { from = 1714; to = 1764; } ];  # KDE Connect
+      allowedTCPPortRanges = [{ from = 1714; to = 1764; }]; # KDE Connect
+      allowedUDPPortRanges = [{ from = 1714; to = 1764; }]; # KDE Connect
     };
 
     environment.persistence."/persist".users.rvfg = {

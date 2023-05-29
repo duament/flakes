@@ -45,27 +45,31 @@ in
     services.strongswan-swanctl = {
       enable = true;
       swanctl = {
-        connections = builtins.listToAttrs (lib.imap0 (id: name: {
-          inherit name;
-          value = {
-            local = cfg.local;
-            remote.${name} = {
-              auth = "pubkey";
-              id = "${name}.rvf6.com";
-              cacerts = cfg.cacerts;
+        connections = builtins.listToAttrs (lib.imap0
+          (id: name: {
+            inherit name;
+            value = {
+              local = cfg.local;
+              remote.${name} = {
+                auth = "pubkey";
+                id = "${name}.rvf6.com";
+                cacerts = cfg.cacerts;
+              };
+              children.${name}.local_ts = [ "0.0.0.0/0" "::/0" ];
+              version = 2;
+              pools = [ "${name}_vip" "${name}_vip6" ];
             };
-            children.${name}.local_ts = [ "0.0.0.0/0" "::/0" ];
-            version = 2;
-            pools = [ "${name}_vip" "${name}_vip6" ];
-          };
-        }) cfg.devices);
-        pools = builtins.listToAttrs (lib.imap0 (id: name: {
-          name = "${name}_vip";
-          value = {
-            addrs = "${cfg.IPv4Prefix}${toString (128 + id)}/32";
-            dns = [ "${cfg.IPv4Prefix}1" ];
-          };
-        }) cfg.devices);
+          })
+          cfg.devices);
+        pools = builtins.listToAttrs (lib.imap0
+          (id: name: {
+            name = "${name}_vip";
+            value = {
+              addrs = "${cfg.IPv4Prefix}${toString (128 + id)}/32";
+              dns = [ "${cfg.IPv4Prefix}1" ];
+            };
+          })
+          cfg.devices);
       };
       strongswan.extraConfig = ''
         charon {
