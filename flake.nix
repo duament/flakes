@@ -63,6 +63,14 @@
               nix build .#nixosConfigurations."$1".config.system.build.toplevel
             '';
           };
+
+          sops-config = pkgs.writeText "sops-config" (import ./data/sops-config.nix);
+          sops = pkgs.writeShellApplication {
+            name = "sops";
+            text = ''
+              exec ${pkgs.sops}/bin/sops --config ${sops-config} "$@"
+            '';
+          };
         in
         {
           formatter = pkgs.nixpkgs-fmt;
@@ -74,6 +82,7 @@
               deploy-script
               update-script
               build-script
+              sops
             ];
           };
         }

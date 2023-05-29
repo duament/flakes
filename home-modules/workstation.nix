@@ -18,7 +18,6 @@ with lib;
       imv
       keepassxc
       openssl
-      sops
       tdesktop
       thunderbird
       unar

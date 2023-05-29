@@ -8,7 +8,6 @@
   presets.git.enable = true;
 
   home.packages = with pkgs; [
-    sops
     unar
   ];
 
