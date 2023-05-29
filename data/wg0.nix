@@ -38,6 +38,11 @@
       pubkey = "Pt/nY6/QPGfVSGRfYCDHRYZ4B+N7BZWKLxEJtEWAYxk=";
       port = 11111;
     };
+    or1 = {
+      id = 21;
+      pubkey = "WN7044QvfI3G+LXPwLPmnzzWkpxgOBS6QJz41q+taGQ=";
+      port = 11111;
+    };
     or2 = {
       id = 22;
       pubkey = "y30Ml/mpgpeGz1vPmzn6V6CFshQnvuzub4TLOmhzYXI=";
@@ -66,7 +71,7 @@
       ipv6Pre = "fd64::";
       ipv6Mask = 120;
       # Initiate connection to those peers
-      outPeers = [ "nl" "or2" "or3" "az" "ak" ];
+      outPeers = [ "nl" "or1" "or2" "or3" "az" "ak" ];
     };
     or2 = {
       ipv4Pre = "10.6.10.";
