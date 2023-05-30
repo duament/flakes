@@ -1,6 +1,15 @@
 { config, lib, pkgs, self, ... }:
 let
   cfg = config.presets.hyprland;
+  publicBinds = [
+    "/nix"
+    "/run/opengl-driver"
+    "/run/current-system"
+    "-%h/.config/fontconfig"
+    "-%h/.config/qt5ct"
+    "-%h/.config/Kvantum"
+    "-%h/.local/share/Kvantum"
+  ];
 in
 {
   config = lib.mkIf cfg.enable {
@@ -20,7 +29,7 @@ in
         Type = "dbus";
         BusName = "org.keepassxc.KeePassXC.MainWindow";
         BindPaths = [ "%t" "%h/.local/share/keepassxc:%h/.config/keepassxc" "%h/.cache/keepassxc" "-/var/lib/syncthing" "-%h/.mozilla/native-messaging-hosts" "-%h/.config/chromium/NativeMessagingHosts" ];
-        BindReadOnlyPaths = [ "/nix" "/run/opengl-driver" "/run/current-system" "-%h/.config/fontconfig" ];
+        BindReadOnlyPaths = publicBinds;
         ExecStart = "${pkgs.keepassxc}/bin/keepassxc";
         ProtectHome = "tmpfs";
         DynamicUser = false;
@@ -41,7 +50,7 @@ in
         BusName = "org.telegram.desktop";
         MemoryHigh = "2G";
         BindPaths = [ "%t" "%h/.local/share/TelegramDesktop" "%h/Downloads/Telegram\\ Desktop" ];
-        BindReadOnlyPaths = [ "/nix" "/run/opengl-driver" "/run/current-system" "-%h/.config/fontconfig" ];
+        BindReadOnlyPaths = publicBinds;
         ExecStart = "${pkgs.telegram-desktop}/bin/telegram-desktop";
         ProtectHome = "tmpfs";
         DynamicUser = false;

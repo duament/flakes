@@ -40,7 +40,6 @@ with lib;
       Type = "dbus";
       BusName = "org.fcitx.Fcitx-0";
     };
-    home.sessionVariables.QT_PLUGIN_PATH = "$QT_PLUGIN_PATH\${QT_PLUGIN_PATH:+:}${config.i18n.inputMethod.package}/${pkgs.qt6.qtbase.qtPluginPrefix}";
     xdg.configFile."fcitx5/config".text = lib.generators.toINI { } {
       Hotkey = {
         EnumerateWithTriggerKeys = "True";

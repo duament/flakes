@@ -1,4 +1,24 @@
 {
+    "Fluent-round-solid-pink": {
+        "cargoLocks": null,
+        "date": "2023-05-27",
+        "extract": null,
+        "name": "Fluent-round-solid-pink",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "vinceliuice",
+            "repo": "Fluent-kde",
+            "rev": "83d5cc2013751aa9eeb944dafa3a3460652690ce",
+            "sha256": "sha256-jm8ztgoWV8sewCYbFxReiVPjuHY97NslKM1AIoooSiY=",
+            "type": "github"
+        },
+        "version": "83d5cc2013751aa9eeb944dafa3a3460652690ce"
+    },
     "Nginx-Fancyindex-Theme": {
         "cargoLocks": null,
         "date": "2022-09-16",
@@ -70,7 +90,7 @@
     },
     "transmission-web-control": {
         "cargoLocks": null,
-        "date": "2022-02-23",
+        "date": "2023-05-21",
         "extract": null,
         "name": "transmission-web-control",
         "passthru": null,
@@ -82,11 +102,11 @@
             "name": null,
             "owner": "ronggang",
             "repo": "transmission-web-control",
-            "rev": "0bbe64d28667a72130aded6e6d6826efa68566ad",
-            "sha256": "sha256-JMgrbnf6fe3rRO8oWQabchYrUPobwqGJPnbutUtOewU=",
+            "rev": "5aeb20c141f6c1ca30c0aaae6b861471a48210d8",
+            "sha256": "sha256-LbhAxInDEcf5Y9KPBbBVlqNC4qbVV9/KMK1PxcdFezY=",
             "type": "github"
         },
-        "version": "0bbe64d28667a72130aded6e6d6826efa68566ad"
+        "version": "5aeb20c141f6c1ca30c0aaae6b861471a48210d8"
     },
     "uuplugin": {
         "cargoLocks": null,

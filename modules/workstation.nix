@@ -159,6 +159,11 @@ with lib;
         };
     };
 
+    qt = {
+      enable = true;
+      platformTheme = "qt5ct";
+    };
+
     services.syncthing = {
       enable = true;
       openDefaultPorts = true;
