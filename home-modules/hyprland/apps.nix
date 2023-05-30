@@ -132,6 +132,12 @@ in
         icon = "thunderbird";
         mimeType = [ "message/rfc822" "x-scheme-handler/mailto" "text/calendar" "text/x-vcard" ];
       };
+      dolphin = {
+        name = "Dolphin";
+        exec = "systemd-run --user -G dolphin %u";
+        icon = "system-file-manager";
+        mimeType = [ "inode/directory" ];
+      };
     };
 
   };
