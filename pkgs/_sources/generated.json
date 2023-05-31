@@ -1,9 +1,9 @@
 {
-    "Fluent-round-solid-pink": {
+    "Fluent-solid-pink": {
         "cargoLocks": null,
         "date": "2023-05-27",
         "extract": null,
-        "name": "Fluent-round-solid-pink",
+        "name": "Fluent-solid-pink",
         "passthru": null,
         "pinned": false,
         "src": {

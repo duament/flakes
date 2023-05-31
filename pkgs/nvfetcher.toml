@@ -25,6 +25,6 @@ fetch.github = "ronggang/transmission-web-control"
 src.git = "https://github.com/zj9495/transmission-client"
 fetch.github = "zj9495/transmission-client"
 
-[Fluent-round-solid-pink]
+[Fluent-solid-pink]
 src.git = "https://github.com/vinceliuice/Fluent-kde"
 fetch.github = "vinceliuice/Fluent-kde"

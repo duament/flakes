@@ -52,10 +52,10 @@ in
       ln -sf ${config.xdg.dataHome}/qt5ct ${config.xdg.configHome}/
     '';
 
-    xdg.configFile."Kvantum/Fluent-round-solid-pink".source = "${mypkgs.Fluent-round-solid-pink}/share/Kvantum/Fluent-round-solid-pink";
+    xdg.configFile."Kvantum/Fluent-solid-pink".source = "${mypkgs.Fluent-solid-pink}/share/Kvantum/Fluent-solid-pink";
     xdg.configFile."Kvantum/kvantum.kvconfig".text = ''
       [General]
-      theme=Fluent-round-solid-pink
+      theme=Fluent-solid-pink
     '';
 
     gtk = {
