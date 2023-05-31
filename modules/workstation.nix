@@ -164,6 +164,8 @@ with lib;
       platformTheme = "qt5ct";
     };
 
+    services.udisks2.enable = true;
+
     services.syncthing = {
       enable = true;
       openDefaultPorts = true;
