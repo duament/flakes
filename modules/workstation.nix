@@ -171,10 +171,8 @@ with lib;
       openDefaultPorts = true;
       cert = config.sops.secrets."syncthing/cert".path;
       key = config.sops.secrets."syncthing/key".path;
-      settings = {
-        devices = self.data.syncthing.devices;
-        folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
-      };
+      devices = self.data.syncthing.devices;
+      folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
     };
     systemd.tmpfiles.rules = [ "d ${config.services.syncthing.dataDir} 2770 syncthing syncthing -" "a ${config.services.syncthing.dataDir} - - - - d:g::rwx" ];
 

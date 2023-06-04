@@ -43,11 +43,9 @@ in
     openDefaultPorts = true;
     cert = config.sops.secrets."syncthing/cert".path;
     key = config.sops.secrets."syncthing/key".path;
-    settings = {
-      devices = self.data.syncthing.devices;
-      folders = lib.recursiveUpdate (lib.getAttrs [ "music" ] self.data.syncthing.folders) {
-        music.path = musicDir;
-      };
+    devices = self.data.syncthing.devices;
+    folders = lib.recursiveUpdate (lib.getAttrs [ "music" ] self.data.syncthing.folders) {
+      music.path = musicDir;
     };
   };
 

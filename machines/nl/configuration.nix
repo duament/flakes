@@ -63,10 +63,8 @@ in
     openDefaultPorts = true;
     cert = config.sops.secrets."syncthing/cert".path;
     key = config.sops.secrets."syncthing/key".path;
-    settings = {
-      devices = self.data.syncthing.devices;
-      folders = lib.getAttrs [ "keepass" ] self.data.syncthing.folders;
-    };
+    devices = self.data.syncthing.devices;
+    folders = lib.getAttrs [ "keepass" ] self.data.syncthing.folders;
   };
 
   services.shadowsocks = {
