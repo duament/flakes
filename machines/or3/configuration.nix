@@ -205,7 +205,11 @@ in
       "cache.rvf6.com".locations."/".proxyPass = with config.services.nix-serve; "http://${bindAddress}:${toString port}/";
       "id.rvf6.com".locations."/" = {
         proxyPass = with config.services.keycloak.settings; "http://${http-host}:${toString http-port}/";
-        extraConfig = "proxy_buffer_size 128k";
+        extraConfig = ''
+          proxy_buffers 4 256k;
+          proxy_buffer_size 128k;
+          proxy_busy_buffers_size 256k;
+        '';
       };
       "prom.rvf6.com".locations."/".proxyPass = with config.services.prometheus; "http://${listenAddress}:${toString port}/";
       "graf.rvf6.com".locations."/".proxyPass = "http://unix:${config.services.grafana.settings.server.socket}:/";
