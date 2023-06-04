@@ -205,7 +205,10 @@ in
       "music.rvf6.com".locations."/".proxyPass = with config.services.navidrome.settings; "http://${Address}:${toString Port}/";
       "hydra.rvf6.com".locations."/".proxyPass = with config.services.hydra; "http://${listenHost}:${toString port}/";
       "cache.rvf6.com".locations."/".proxyPass = with config.services.nix-serve; "http://${bindAddress}:${toString port}/";
-      "id.rvf6.com".locations."/".proxyPass = with config.services.keycloak.settings; "http://${http-host}:${toString http-port}/";
+      "id.rvf6.com".locations."/" = {
+        proxyPass = with config.services.keycloak.settings; "http://${http-host}:${toString http-port}/";
+        extraConfig = "proxy_buffer_size 128k";
+      };
       "prom.rvf6.com".locations."/".proxyPass = with config.services.prometheus; "http://${listenAddress}:${toString port}/";
       "graf.rvf6.com".locations."/".proxyPass = "http://unix:${config.services.grafana.settings.server.socket}:/";
     };
