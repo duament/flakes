@@ -16,6 +16,7 @@ with lib;
 
     home.packages = with pkgs; [
       imv
+      inetutils
       keepassxc
       openssl
       tdesktop
