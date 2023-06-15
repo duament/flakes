@@ -12,6 +12,14 @@ let
     name = "cloud.png";
     hash = "sha256-N3+6n+/zOq/A4B9hdTD8pQClNNp9Gqa+koubWrf7J6k=";
   };
+
+  dolphin_packages = with pkgs; [
+    dolphin
+    libsForQt5.ffmpegthumbs
+    libsForQt5.kdegraphics-thumbnailers
+    libsForQt5.kimageformats
+    libsForQt5.qt5.qtimageformats
+  ];
 in
 {
   options = {
@@ -25,14 +33,13 @@ in
   config = lib.mkIf cfg.enable {
 
     home.packages = with pkgs; [
-      dolphin
       grim
       libsForQt5.qtstyleplugin-kvantum
       papirus-icon-theme
       thunderbird
       vulkan-validation-layers
       wl-clipboard
-    ];
+    ] ++ dolphin_packages;
 
     home.pointerCursor = {
       package = pkgs.breeze-qt5;
@@ -50,6 +57,15 @@ in
 
     home.activation.qt5ct = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       ln -sf ${config.xdg.dataHome}/qt5ct ${config.xdg.configHome}/
+    '';
+
+    home.activation.dolphinrc = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      cat <<EOT > ~/.config/dolphinrc
+      [General]
+      RememberOpenedTabs=false
+      [IconsMode]
+      TextWidthIndex=0
+      EOT
     '';
 
     xdg.configFile."Kvantum/Fluent-solid-pink".source = "${mypkgs.Fluent-solid-pink}/share/Kvantum/Fluent-solid-pink";
