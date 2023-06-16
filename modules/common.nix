@@ -44,6 +44,7 @@ with lib;
   };
 
   networking = {
+    useNetworkd = true;
     firewall = {
       allowedTCPPorts = [ 22 ];
       filterForward = true;
@@ -55,6 +56,10 @@ with lib;
       flushRuleset = false;
       preCheckRuleset = "sed '/^include/d' -i ruleset.conf";
     };
+  };
+  systemd.network.networks = lib.mkIf config.networking.useDHCP {
+    "99-ethernet-default-dhcp".dhcpV6Config.UseDelegatedPrefix = false;
+    "99-wireless-client-dhcp".dhcpV6Config.UseDelegatedPrefix = false;
   };
 
   time.timeZone = "Asia/Hong_Kong";

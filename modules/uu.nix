@@ -91,16 +91,20 @@ in
         users.allowNoPasswordLogin = true;
         services.openssh.enable = false;
         boot.initrd.systemd.enable = false;
-        networking.hostName = "uu";
-        networking.useHostResolvConf = false;
-        networking.firewall.extraInputRules = ''
-          iifname ${config.presets.router.lan.bridge.name} meta l4proto { tcp, udp } th dport 10000-65535 accept comment "uu"
-          iifname "tun*" accept comment "uu"
-        '';
-        networking.firewall.extraForwardRules = ''
-          iifname "tun*" oifname ${config.presets.router.lan.bridge.name} accept
-          iifname ${config.presets.router.lan.bridge.name} oifname "tun*" accept
-        '';
+        networking = {
+          hostName = "uu";
+          useHostResolvConf = false;
+          firewall = {
+            extraInputRules = ''
+              iifname ${config.presets.router.lan.bridge.name} meta l4proto { tcp, udp } th dport 10000-65535 accept comment "uu"
+              iifname "tun*" accept comment "uu"
+            '';
+            extraForwardRules = ''
+              iifname "tun*" oifname ${config.presets.router.lan.bridge.name} accept
+              iifname ${config.presets.router.lan.bridge.name} oifname "tun*" accept
+            '';
+          };
+        };
         presets.nogui.enable = true;
         presets.router = {
           enable = true;

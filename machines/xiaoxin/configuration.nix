@@ -25,8 +25,6 @@
 
   networking = {
     hostName = "xiaoxin";
-    useDHCP = false;
-    useNetworkd = true;
     wireless = {
       enable = true;
       userControlled = {
@@ -45,12 +43,7 @@
       };
     };
   };
-  systemd.network.networks."10-wifi" = {
-    matchConfig = { PermanentMACAddress = "a8:7e:ea:ed:dd:a2"; };
-    DHCP = "yes";
-    dhcpV6Config.UseDelegatedPrefix = false;
-    domains = [ "~h.rvf6.com" ];
-  };
+  systemd.network.networks."99-wireless-client-dhcp".domains = [ "~h.rvf6.com" ];
 
   home-manager.users.rvfg = import ./home.nix;
 

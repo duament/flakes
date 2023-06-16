@@ -20,19 +20,8 @@
     signCert = config.sops.secrets."sbsign-cert".path;
   };
 
-  networking = {
-    hostName = "desktop";
-    useDHCP = false;
-    useNetworkd = true;
-  };
-
-  systemd.network.networks."80-ethernet" = {
-    enable = true;
-    matchConfig = { Type = "ether"; };
-    DHCP = "yes";
-    dhcpV6Config.UseDelegatedPrefix = false;
-    domains = [ "~h.rvf6.com" ];
-  };
+  networking.hostName = "desktop";
+  systemd.network.networks."99-ethernet-default-dhcp".domains = [ "~h.rvf6.com" ];
 
   home-manager.users.rvfg = import ./home.nix;
 
