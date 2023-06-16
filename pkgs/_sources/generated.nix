@@ -4,33 +4,33 @@
   Fluent-solid-pink = {
     pname = "Fluent-solid-pink";
     version = "83d5cc2013751aa9eeb944dafa3a3460652690ce";
-    src = fetchFromGitHub ({
+    src = fetchFromGitHub {
       owner = "vinceliuice";
       repo = "Fluent-kde";
       rev = "83d5cc2013751aa9eeb944dafa3a3460652690ce";
       fetchSubmodules = false;
       sha256 = "sha256-jm8ztgoWV8sewCYbFxReiVPjuHY97NslKM1AIoooSiY=";
-    });
+    };
     date = "2023-05-27";
   };
   Nginx-Fancyindex-Theme = {
     pname = "Nginx-Fancyindex-Theme";
     version = "32d124a0885a7a4409c2dc557c9b1d4bcf836dd5";
-    src = fetchFromGitHub ({
+    src = fetchFromGitHub {
       owner = "Naereen";
       repo = "Nginx-Fancyindex-Theme";
       rev = "32d124a0885a7a4409c2dc557c9b1d4bcf836dd5";
       fetchSubmodules = false;
       sha256 = "sha256-BFXmTwKcgX94+0wH5x77c9sEP6h9JR73WGY5gp5cyGQ=";
-    });
+    };
     date = "2022-09-16";
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20230507";
+    version = "20230605";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230507.dict";
-      sha256 = "sha256-p4JdQMIBfg9QuRu6vT+eCLqXGyTvAUz2V5wJOSAbv7c=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230605.dict";
+      sha256 = "sha256-G44bgOWpnQEbP78idcOobEUm2m+7cYM+UCqyJu+D+9E=";
     };
   };
   flood-for-transmission = {
@@ -44,25 +44,25 @@
   transmission-client = {
     pname = "transmission-client";
     version = "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a";
-    src = fetchFromGitHub ({
+    src = fetchFromGitHub {
       owner = "zj9495";
       repo = "transmission-client";
       rev = "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a";
       fetchSubmodules = false;
       sha256 = "sha256-paqfvc4NaT5fX7/P/HxA92C46WLqTaAegX9GiqaJK0s=";
-    });
+    };
     date = "2023-02-15";
   };
   transmission-web-control = {
     pname = "transmission-web-control";
     version = "5aeb20c141f6c1ca30c0aaae6b861471a48210d8";
-    src = fetchFromGitHub ({
+    src = fetchFromGitHub {
       owner = "ronggang";
       repo = "transmission-web-control";
       rev = "5aeb20c141f6c1ca30c0aaae6b861471a48210d8";
       fetchSubmodules = false;
       sha256 = "sha256-LbhAxInDEcf5Y9KPBbBVlqNC4qbVV9/KMK1PxcdFezY=";
-    });
+    };
     date = "2023-05-21";
   };
   uuplugin = {
