@@ -15,6 +15,7 @@ let
 
   dolphin_packages = with pkgs; [
     dolphin
+    libsForQt5.kio-extras
     libsForQt5.ffmpegthumbs
     libsForQt5.kdegraphics-thumbnailers
     libsForQt5.kimageformats
