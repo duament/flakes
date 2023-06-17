@@ -24,6 +24,7 @@ with lib;
       unar
       usbutils
       wireguard-tools
+      yubikey-manager
     ];
 
     systemd.user.tmpfiles.rules = [
