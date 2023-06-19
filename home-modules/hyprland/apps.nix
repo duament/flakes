@@ -7,8 +7,8 @@ let
     "/run/current-system"
     "-%h/.config/fontconfig"
     "-%h/.config/qt5ct"
+    "-%h/.config/qt6ct"
     "-%h/.config/Kvantum"
-    "-%h/.local/share/Kvantum"
   ];
 in
 {

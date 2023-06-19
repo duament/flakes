@@ -1,4 +1,4 @@
-{ config, lib, mypkgs, pkgs, sysConfig, ... }:
+{ config, lib, pkgs, sysConfig, ... }:
 let
   cfg = config.presets.hyprland;
 
@@ -29,13 +29,13 @@ in
 
   imports = [
     ./apps.nix
+    ./qt.nix
   ];
 
   config = lib.mkIf cfg.enable {
 
     home.packages = with pkgs; [
       grim
-      libsForQt5.qtstyleplugin-kvantum
       papirus-icon-theme
       thunderbird
       vulkan-validation-layers
@@ -50,15 +50,8 @@ in
     home.sessionVariables.XCURSOR_SIZE = "";
 
     systemd.user.sessionVariables = config.home.sessionVariables // {
-      QT_QPA_PLATFORM = "wayland";
-      QT_QPA_PLATFORMTHEME = "qt5ct";
-      QT_STYLE_OVERRIDE = "Kvantum";
       WLR_RENDERER = "vulkan";
     };
-
-    home.activation.qt5ct = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ln -sf ${config.xdg.dataHome}/qt5ct ${config.xdg.configHome}/
-    '';
 
     home.activation.dolphinrc = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       cat <<EOT > ~/.config/dolphinrc
@@ -67,12 +60,6 @@ in
       [IconsMode]
       TextWidthIndex=0
       EOT
-    '';
-
-    xdg.configFile."Kvantum/Fluent-solid-pink".source = "${mypkgs.Fluent-solid-pink}/share/Kvantum/Fluent-solid-pink";
-    xdg.configFile."Kvantum/kvantum.kvconfig".text = ''
-      [General]
-      theme=Fluent-solid-pink
     '';
 
     gtk = {
