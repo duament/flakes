@@ -25,6 +25,7 @@
     ];
   };
   systemd.network.networks."80-ethernet" = {
+    matchConfig = { Type = "ether"; };
     DHCP = "no";
     # dhcpV4Config = { SendOption = "50:ipv4address:172.26.0.2"; };
     address = [ "172.26.0.2/24" "fc00::2/64" ];
