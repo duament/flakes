@@ -317,6 +317,7 @@ in
 
     systemd.user.services.kdeconnect.Unit.After = [ "graphical-session.target" ];
     systemd.user.services.kdeconnect-indicator.Unit.After = [ "graphical-session.target" ];
+    systemd.user.services.fusuma.Unit.After = [ "graphical-session.target" ];
 
   };
 }
