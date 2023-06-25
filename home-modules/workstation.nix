@@ -1,14 +1,13 @@
 { config, lib, mypkgs, pkgs, ... }:
-with lib;
 {
   options = {
-    presets.workstation.enable = mkOption {
-      type = types.bool;
+    presets.workstation.enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
     };
   };
 
-  config = mkIf config.presets.workstation.enable {
+  config = lib.mkIf config.presets.workstation.enable {
     presets.ssh.enable = true;
     presets.browser.enable = true;
     presets.python.enable = true;
@@ -120,7 +119,11 @@ with lib;
           "write-sub="
           "sub-lang=${builtins.concatStringsSep "," slang-append}"
         ];
+        # uosc
+        osc = false;
+        osd-bar = false;
       };
+      scripts = with pkgs.mpvScripts; [ thumbfast uosc ];
     };
 
     programs.zathura.enable = true;
