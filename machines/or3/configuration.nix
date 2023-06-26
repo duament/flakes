@@ -62,7 +62,7 @@ in
   };
 
   services.hydra = {
-    enable = false;
+    enable = true;
     listenHost = "localhost";
     hydraURL = "https://hydra.rvf6.com";
     useSubstitutes = true;
