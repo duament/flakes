@@ -18,6 +18,8 @@ in
     "grafana/oidc" = { };
     "grafana/secret_key" = { };
     mastodon.owner = "mastodon";
+    "vouch-music/jwt" = { };
+    "vouch-music/client" = { };
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -55,6 +57,7 @@ in
       MusicFolder = musicDir;
       Address = "[::1]";
       Port = 4533;
+      ReverseProxyWhitelist = "::1/128";
     };
   };
 
@@ -191,16 +194,33 @@ in
     ];
   };
 
-  presets.vouch.prom = {
-    settings.vouch.port = 2001;
-    jwtSecretFile = config.sops.secrets."vouch-prom/jwt".path;
-    clientSecretFile = config.sops.secrets."vouch-prom/client".path;
+  presets.vouch = {
+    prom = {
+      settings.vouch.port = 2001;
+      jwtSecretFile = config.sops.secrets."vouch-prom/jwt".path;
+      clientSecretFile = config.sops.secrets."vouch-prom/client".path;
+    };
+    music = {
+      settings.vouch.port = 2002;
+      jwtSecretFile = config.sops.secrets."vouch-music/jwt".path;
+      clientSecretFile = config.sops.secrets."vouch-music/client".path;
+    };
   };
 
   presets.nginx = {
     enable = true;
     virtualHosts = {
-      "music.rvf6.com".locations."/".proxyPass = with config.services.navidrome.settings; "http://${Address}:${toString Port}/";
+      "music.rvf6.com".locations =
+        let
+          proxy_address = with config.services.navidrome.settings; "http://${Address}:${toString Port}";
+        in
+        {
+          "/" = {
+            proxyPass = proxy_address;
+            extraConfig = "proxy_set_header Remote-User $auth_resp_x_vouch_user;";
+          };
+          "~ ^/(rest|share)".proxyPass = proxy_address;
+        };
       "hydra.rvf6.com".locations."/".proxyPass = with config.services.hydra; "http://${listenHost}:${toString port}/";
       "cache.rvf6.com".locations."/".proxyPass = with config.services.nix-serve; "http://${bindAddress}:${toString port}/";
       "id.rvf6.com".locations."/" = {

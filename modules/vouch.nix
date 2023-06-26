@@ -144,7 +144,10 @@ in
           } // (builtins.listToAttrs (map
             (loc: {
               name = loc;
-              value.extraConfig = "auth_request /vouch/validate;";
+              value.extraConfig = ''
+                auth_request /vouch/validate;
+                auth_request_set $auth_resp_x_vouch_user $upstream_http_x_vouch_user;
+              '';
             })
             values.authLocations));
         }
