@@ -54,6 +54,10 @@ with lib;
               installation_mode = "force_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/clearurl/latest.xpi";
             };
+            "@testpilot-containers" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi";
+            };
           };
           "3rdparty".Extensions."uBlock0@raymondhill.net".adminSettings =
             let
@@ -70,17 +74,21 @@ with lib;
                 "ublock-badware"
                 "ublock-privacy"
                 "ublock-quick-fixes"
-                "ublock-abuse"
                 "ublock-unbreak"
                 "easylist"
                 "adguard-spyware"
                 "adguard-spyware-url"
                 "easyprivacy"
                 "urlhaus-1"
-                "adguard-annoyance"
-                "fanboy-annoyance"
-                "ublock-annoyances"
                 "plowe-0"
+                "adguard-cookies"
+                "adguard-mobile-app-banners"
+                "adguard-other-annoyances"
+                "adguard-popup-overlays"
+                "adguard-social"
+                "adguard-widgets"
+                "fanboy-thirdparty_social"
+                "ublock-annoyances"
                 "CHN-0"
                 "JPN-1"
                 LegitimateURLShortener
@@ -175,6 +183,7 @@ with lib;
           "browser.safebrowsing.phishing.enabled" = false;
           "browser.search.suggest.enabled" = false;
           "browser.shell.checkDefaultBrowser" = false;
+          "browser.urlbar.resultMenu.keyboardAccessible" = false;
           "browser.urlbar.suggest.searches" = false;
           "datareporting.healthreport.uploadEnabled" = false;
           "datareporting.policy.dataSubmissionEnabled" = false;
