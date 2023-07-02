@@ -117,10 +117,10 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-e1fLKdy2Ep3BzXTid8MEGMgTWougDsbdqfuNsXSvbnk=",
+            "sha256": "sha256-Rm+rE8dfaOxGU4mShgskYVBpU/X/uhbhRWAM/A19Zgg=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.13.4/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.14.4/uu.tar.gz"
         },
-        "version": "3.13.4"
+        "version": "3.14.4"
     }
 }

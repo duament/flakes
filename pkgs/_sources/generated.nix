@@ -67,10 +67,10 @@
   };
   uuplugin = {
     pname = "uuplugin";
-    version = "3.13.4";
+    version = "3.14.4";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.13.4/uu.tar.gz";
-      sha256 = "sha256-e1fLKdy2Ep3BzXTid8MEGMgTWougDsbdqfuNsXSvbnk=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.14.4/uu.tar.gz";
+      sha256 = "sha256-Rm+rE8dfaOxGU4mShgskYVBpU/X/uhbhRWAM/A19Zgg=";
     };
   };
 }
