@@ -39,6 +39,7 @@ in
       extraConfig = ''
         CheckHostIP no
       '';
+      includes = [ "config.d/*" ];
       matchBlocks = builtins.listToAttrs
         (map
           (host: {
