@@ -107,13 +107,13 @@ with lib;
         noto-fonts-cjk-serif
         noto-fonts-emoji
         (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
-        (pkgs.mkNoto { pname = "noto-fonts-symbols"; variants = [ "Noto Music" "Noto Sans Symbols" "Noto Sans Symbols 2" ]; })
+        (mkNoto { pname = "noto-fonts-symbols"; variants = [ "Noto Music" "Noto Sans Symbols" "Noto Sans Symbols 2" ]; })
       ];
       fontconfig = {
         defaultFonts = {
           monospace = [ "Hack" ];
           sansSerif = [ "Inter" "Noto Sans CJK SC" ];
-          serif = [ "Source Serif" "Noto Serif CJK SC" ];
+          serif = [ "Source Serif 4 Variable" "Noto Serif CJK SC" ];
         };
         hinting.enable = false;
         subpixel.lcdfilter = "none";
