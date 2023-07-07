@@ -3,11 +3,11 @@
     "chn-cidr-list": {
       "flake": false,
       "locked": {
-        "lastModified": 1688266896,
-        "narHash": "sha256-X2R5m/MdS/hOlFhKCdtsCiL7yObF2AcAdT2bO1yV1/8=",
+        "lastModified": 1688698910,
+        "narHash": "sha256-RY/IZ7eaRELMH4kX7DPO+DR8l7OUtiD/uA1macims24=",
         "owner": "fernvenue",
         "repo": "chn-cidr-list",
-        "rev": "9eb9a903d2d1a9f65641015c0bf8df209f4d3b4f",
+        "rev": "771c685b0ffd6a10aaaed9c03382329eca6a53fb",
         "type": "github"
       },
       "original": {
@@ -19,11 +19,11 @@
     "dnsmasq-china-list": {
       "flake": false,
       "locked": {
-        "lastModified": 1688240381,
-        "narHash": "sha256-QFYCtsJ9mnaYcpVJ+5/zs3R59am+Q/75JUJ5rez0pe8=",
+        "lastModified": 1688712568,
+        "narHash": "sha256-AOdSr725H7WIFBNHV7g3mwDds2YB8JkFIlCq3hnMLVk=",
         "owner": "felixonmars",
         "repo": "dnsmasq-china-list",
-        "rev": "db605adc5a677c0fcbe975dbc1e5794b2fae161e",
+        "rev": "895e9f2517d9849a6cfcfcb835347939ec78f3a1",
         "type": "github"
       },
       "original": {
@@ -116,11 +116,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1688220547,
-        "narHash": "sha256-cNKKLPaEOxd6t22Mt3tHGubyylbKGdoi2A3QkMTKes0=",
+        "lastModified": 1688731042,
+        "narHash": "sha256-D1p/LLP1SpDYjutt9W+O5Ek+XGdszsjYjvL30ad++OY=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "89d10f8adce369a80e046c2fd56d1e7b7507bb5b",
+        "rev": "34db2f05219bcb0e41cc85490e4c338e2405546c",
         "type": "github"
       },
       "original": {
@@ -172,11 +172,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1688285983,
-        "narHash": "sha256-coZqiHyg400YEJXZEGX3SFHOXBLxFtdGHo48DUTH56o=",
+        "lastModified": 1688732168,
+        "narHash": "sha256-ROe2C4gsqz1Q1x1g/RS7bfHOyimIB4SHR6kp9LJwwKc=",
         "owner": "duament",
         "repo": "nixpkgs",
-        "rev": "015c47cbe0d7551af546fc8882c2c26a0483c14d",
+        "rev": "f2c2e8dbd53f858be1ed6e2c2c0867070a7e0ca1",
         "type": "github"
       },
       "original": {
