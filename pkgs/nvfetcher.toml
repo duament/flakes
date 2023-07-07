@@ -28,3 +28,7 @@ fetch.github = "zj9495/transmission-client"
 [Fluent-solid-pink]
 src.git = "https://github.com/vinceliuice/Fluent-kde"
 fetch.github = "vinceliuice/Fluent-kde"
+
+[aleo]
+src.git = "https://github.com/AlessioLaiso/aleo"
+fetch.github = "AlessioLaiso/aleo"

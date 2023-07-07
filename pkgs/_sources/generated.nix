@@ -25,6 +25,18 @@
     };
     date = "2022-09-16";
   };
+  aleo = {
+    pname = "aleo";
+    version = "ce875e48d9983031648e87f38b7a269f4fbf5eb5";
+    src = fetchFromGitHub {
+      owner = "AlessioLaiso";
+      repo = "aleo";
+      rev = "ce875e48d9983031648e87f38b7a269f4fbf5eb5";
+      fetchSubmodules = false;
+      sha256 = "sha256-HSxP5/sLHQTujBVt1u93625EXEc42lxpt8W1//6ngWM=";
+    };
+    date = "2023-06-03";
+  };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
     version = "20230605";

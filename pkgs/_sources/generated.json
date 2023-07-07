@@ -39,6 +39,26 @@
         },
         "version": "32d124a0885a7a4409c2dc557c9b1d4bcf836dd5"
     },
+    "aleo": {
+        "cargoLocks": null,
+        "date": "2023-06-03",
+        "extract": null,
+        "name": "aleo",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "AlessioLaiso",
+            "repo": "aleo",
+            "rev": "ce875e48d9983031648e87f38b7a269f4fbf5eb5",
+            "sha256": "sha256-HSxP5/sLHQTujBVt1u93625EXEc42lxpt8W1//6ngWM=",
+            "type": "github"
+        },
+        "version": "ce875e48d9983031648e87f38b7a269f4fbf5eb5"
+    },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
         "date": null,

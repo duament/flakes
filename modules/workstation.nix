@@ -1,4 +1,4 @@
-{ config, lib, pkgs, self, ... }:
+{ config, lib, mypkgs, pkgs, self, ... }:
 with lib;
 {
   options = {
@@ -106,6 +106,7 @@ with lib;
         noto-fonts-cjk-sans
         noto-fonts-cjk-serif
         noto-fonts-emoji
+        mypkgs.aleo
         (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
         (mkNoto { pname = "noto-fonts-symbols"; variants = [ "Noto Music" "Noto Sans Symbols" "Noto Sans Symbols 2" ]; })
       ];
@@ -113,7 +114,7 @@ with lib;
         defaultFonts = {
           monospace = [ "Hack" ];
           sansSerif = [ "Inter" "Noto Sans CJK SC" ];
-          serif = [ "Source Serif 4 Variable" "Noto Serif CJK SC" ];
+          serif = [ "Aleo" "Noto Serif CJK SC" ];
         };
         hinting.enable = false;
         subpixel.lcdfilter = "none";
