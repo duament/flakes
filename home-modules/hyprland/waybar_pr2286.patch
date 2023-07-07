@@ -1,0 +1,25 @@
+From e2bfa5e019f62677aae786e5f202a87e06f7b3be Mon Sep 17 00:00:00 2001
+From: Calvin Chu <calvinchd@gmail.com>
+Date: Thu, 6 Jul 2023 11:01:24 +1000
+Subject: [PATCH] hyprland/window: fix no info with separate-outputs=true
+
+---
+ src/modules/hyprland/window.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/modules/hyprland/window.cpp b/src/modules/hyprland/window.cpp
+index f429b8db3..74a2a4321 100644
+--- a/src/modules/hyprland/window.cpp
++++ b/src/modules/hyprland/window.cpp
+@@ -103,9 +103,9 @@ auto Window::getActiveWorkspace(const std::string& monitorName) -> Workspace {
+ 
+   const auto workspaces = gIPC->getSocket1JsonReply("workspaces");
+   assert(workspaces.isArray());
+-  auto workspace = std::find_if(monitors.begin(), monitors.end(),
++  auto workspace = std::find_if(workspaces.begin(), workspaces.end(),
+                                 [&](Json::Value workspace) { return workspace["id"] == id; });
+-  if (workspace == std::end(monitors)) {
++  if (workspace == std::end(workspaces)) {
+     spdlog::warn("No workspace with id {}", id);
+     return Workspace{-1, 0, "", ""};
+   }
