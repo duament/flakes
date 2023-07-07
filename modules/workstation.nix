@@ -15,6 +15,12 @@ with lib;
       kernel.sysctl."kernel.sysrq" = 1;
       extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
       kernelModules = [ "v4l2loopback" ];
+      kernelPatches = [
+        {
+          name = "disable_per_vma_lock";
+          patch = ./mm-disable-CONFIG_PER_VMA_LOCK-by-default-until-its-fixed.patch;
+        }
+      ];
     };
 
     presets.refind = {
