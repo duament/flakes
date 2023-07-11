@@ -1,5 +1,16 @@
 { config, ... }:
 {
+  nixpkgs.overlays = [
+    (self: super: {
+      wpa_supplicant = super.wpa_supplicant.overrideAttrs (oldAttrs: {
+        extraConfig = oldAttrs.extraConfig + ''
+          CONFIG_SUITEB=y
+          CONFIG_SUITEB192=y
+        '';
+      });
+    })
+  ];
+
   presets.workstation.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
@@ -31,11 +42,13 @@
         enable = true;
         group = "rvfg";
       };
-      networks.rvfg-wpa2 = {
-        authProtocols = [ "WPA-EAP" ];
+      networks.rvfg = {
+        authProtocols = [ "WPA-EAP-SUITE-B-192" "FT-EAP" "FT-EAP-SHA384" ];
         auth = ''
           eap=TLS
-          identity="xiaoxin"
+          pairwise=GCMP-256
+          group=GCMP-256
+          identity="xiaoxin@rvf6.com"
           ca_cert="${config.sops.secrets."eap/ca".path}"
           client_cert="${config.sops.secrets."eap/xiaoxin-bundle".path}"
           private_key="${config.sops.secrets."eap/xiaoxin-key".path}"
