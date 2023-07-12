@@ -28,7 +28,7 @@ in
         '';
       }) [ "rpi3" ]) // {
       ".ssh/known_hosts_t430_init".text = ''
-        192.168.2.8 ${sshPub."t430-init"}
+        10.6.0.8 ${sshPub."t430-init"}
       '';
     };
 
@@ -83,7 +83,7 @@ in
         }) [ "rpi3" ]) // {
         "t430-init" = {
           user = "root";
-          hostname = "192.168.2.8";
+          hostname = "10.6.0.8";
           identityFile = sshIdentities;
           identitiesOnly = true;
           extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_t430_init";

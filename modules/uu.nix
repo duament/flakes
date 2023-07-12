@@ -113,7 +113,7 @@ in
             type = "static";
             address = "10.6.7.2/24";
             gateway = "10.6.7.1";
-            dns = "192.168.2.1";
+            dns = "10.6.0.1";
           };
           lan = {
             interfaces = [ vlan "simns" ];

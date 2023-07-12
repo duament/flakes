@@ -48,13 +48,16 @@ in
     extraInputRules = ''
       ip protocol { ah, esp } accept
       meta ipsec exists meta l4proto { tcp, udp } th dport 53 accept
-      iifname wg0 meta l4proto { tcp, udp } th dport 53 accept
+      iifname { wg0, internet } meta l4proto { tcp, udp } th dport 53 accept
+      iifname internet udp dport 67 accept
     '';
     extraForwardRules = ''
       meta ipsec exists accept
       rt ipsec exists accept
-      iifname wg0 accept
-      oifname wg0 accept
+      iifname { wg0, internet } accept
+      oifname { wg0, internet } accept
+      ip saddr { 100.122.255.34, 100.102.34.2 } accept
+      ip6 saddr { fd7a:115c:a1e0:ab12:4843:cd96:627a:ff22, fd7a:115c:a1e0:ab12:4843:cd96:6266:2202 } accept
     '';
   };
   networking.nftables.mssClamping = true;
@@ -71,7 +74,26 @@ in
   systemd.network.networks."10-enp1s0" = {
     matchConfig = { PermanentMACAddress = "04:0e:3c:2f:c9:9a"; };
     DHCP = "yes";
-    dhcpV6Config = { PrefixDelegationHint = "::/64"; };
+    dhcpV6Config = { PrefixDelegationHint = "::/63"; };
+    vlan = [ "internet" ];
+  };
+
+  systemd.network.netdevs."50-internet" = {
+    netdevConfig = { Name = "internet"; Kind = "vlan"; };
+    vlanConfig = { Id = 4; };
+  };
+  systemd.network.networks."50-internet" = {
+    name = "internet";
+    address = [ "fd66::1/64" "10.6.1.1/24" ];
+    ipv6Prefixes = [ { ipv6PrefixConfig.Prefix = "fd66::/64"; } ];
+    networkConfig = {
+      DHCPServer = true;
+      IPv6SendRA = true;
+      DHCPPrefixDelegation = true;
+      IPForward = true;
+    };
+    dhcpServerConfig = { DNS = "_server_address"; };
+    ipv6SendRAConfig = { DNS = "fd66::1"; };
   };
 
   systemd.network.netdevs."25-wg0" = {
@@ -104,7 +126,7 @@ in
   };
   presets.wireguard.keepAlive.interfaces = [ "warp" ];
 
-  services.smartdns.chinaDns = [ "192.168.2.1" ];
+  services.smartdns.chinaDns = [ "10.6.0.1" ];
   services.smartdns.settings.bind = [ "[::]:53" ];
   services.smartdns.settings.address = with builtins;
     concatLists
@@ -116,8 +138,8 @@ in
         wg0.peers)) ++ [
       "/t430.rvf6.com/${wg0.gateway4}"
       "/t430.rvf6.com/${wg0.gateway6}"
-      "/owrt.rvf6.com/192.168.2.1"
-      "/rpi3.rvf6.com/192.168.2.7"
+      "/ax6s.rvf6.com/10.6.0.1"
+      "/rpi3.rvf6.com/10.6.0.7"
       "/fava.rvf6.com/fd64::1"
       "/fava.rvf6.com/-4"
       "/luci.rvf6.com/fd64::1"
@@ -223,17 +245,17 @@ in
         let
           cert = pkgs.writeText "luci-cert" ''
             -----BEGIN CERTIFICATE-----
-            MIIB+zCCAaGgAwIBAgIQcFw40pwuLjL+pf2hj/pUeTAKBggqhkjOPQQDAjBfMQsw
+            MIIB/DCCAaGgAwIBAgIQH4+jZYxJ7lpaGsEr6XC9ADAKBggqhkjOPQQDAjBfMQsw
             CQYDVQQGEwJaWjESMBAGA1UECAwJU29tZXdoZXJlMRAwDgYDVQQHDAdVbmtub3du
-            MRgwFgYDVQQKDA9PcGVuV3J0NDQwNDVhZDAxEDAOBgNVBAMMB09wZW5XcnQwIhgP
-            MjAyMjA3MzAxNTEyNTFaGA8yMDI0MDczMDE1MTI1MVowXzELMAkGA1UEBhMCWlox
+            MRgwFgYDVQQKDA9PcGVuV3J0NzA5Nzg1NzUxEDAOBgNVBAMMB09wZW5XcnQwIhgP
+            MjAyMzA0MjYyMDI4MTZaGA8yMDI1MDQyNjIwMjgxNlowXzELMAkGA1UEBhMCWlox
             EjAQBgNVBAgMCVNvbWV3aGVyZTEQMA4GA1UEBwwHVW5rbm93bjEYMBYGA1UECgwP
-            T3BlbldydDQ0MDQ1YWQwMRAwDgYDVQQDDAdPcGVuV3J0MFkwEwYHKoZIzj0CAQYI
-            KoZIzj0DAQcDQgAE3JY0GGHiGELBwwauOio7cBa8k6jv6OhUzpFRS09jgSsMZlfs
-            KFe/ZRKwgCtWJLBCGjAXJsvNpUDO6Qs3V1z5qaM7MDkwEgYDVR0RBAswCYIHT3Bl
+            T3BlbldydDcwOTc4NTc1MRAwDgYDVQQDDAdPcGVuV3J0MFkwEwYHKoZIzj0CAQYI
+            KoZIzj0DAQcDQgAE5VL2ordJudf99KmQKYpEHBXUDwQuAsByT8ewBnN5ESlmnABI
+            abNb0Z1clNty0CM6GjLD9eGmdIMxA70Ct2f9xKM7MDkwEgYDVR0RBAswCYIHT3Bl
             bldydDAOBgNVHQ8BAf8EBAMCBeAwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCgYIKoZI
-            zj0EAwIDSAAwRQIgfkMwUiWA6lvh7sJhTcSqlOPLv9AVpwZ5kmWjcYS0+0ACIQD7
-            obh8c9tPl7tIo56av7HYI/PCTK6JIeCvgN7QXmAtJw==
+            zj0EAwIDSQAwRgIhAKq6so7IrZSLu237t0vuB3xEDWpMxSPRnWvIFWgB+sbRAiEA
+            4VO+gwl3UrNuUpXAd0Wj8j5H+emsEqL8Glu7M9fxpow=
             -----END CERTIFICATE-----
           '';
         in
@@ -241,10 +263,10 @@ in
           extraConfig = "proxy_ssl_trusted_certificate ${cert};";
           locations = {
             "= /cgi-bin/luci/" = {
-              proxyPass = "https://192.168.2.1";
+              proxyPass = "https://10.6.0.1";
               extraConfig = "include ${config.sops.secrets.luci-nginx-add-auth.path};";
             };
-            "/".proxyPass = "https://192.168.2.1";
+            "/".proxyPass = "https://10.6.0.1";
           };
         };
     };
