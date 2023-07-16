@@ -114,7 +114,7 @@ with lib;
         noto-fonts-emoji
         mypkgs.aleo
         (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
-        (mkNoto { pname = "noto-fonts-symbols"; variants = [ "Noto Music" "Noto Sans Symbols" "Noto Sans Symbols 2" ]; })
+        (mkNoto { pname = "noto-fonts-symbols"; variants = [ "Noto Music" "Noto Sans Symbols" "Noto Sans Symbols 2" "Noto Sans Math" ]; })
       ];
       fontconfig = {
         defaultFonts = {
