@@ -103,7 +103,7 @@
         hwdec = "vaapi";
         gpu-api = "vulkan";
         gpu-context = "waylandvk";
-        profile = "gpu-hq";
+        # profile = "gpu-hq";
         slang-append = [ "zh-Hans" "zh-CN" "zh" "chi" "zh-Hant" "zh-TW" "zh-HK" "en-US" "en-GB" "en" ];
         audio-file-auto = "fuzzy";
         sub-auto = "fuzzy";
@@ -119,6 +119,15 @@
           "write-sub="
           "sub-lang=${builtins.concatStringsSep "," slang-append}"
         ];
+        # gpu-hq with workaround for cscale
+        scale = "spline36";
+        cscale = "bilinear";
+        dscale = "mitchell";
+        dither-depth = "auto";
+        correct-downscaling = true;
+        linear-downscaling = true;
+        sigmoid-upscaling = true;
+        deband = true;
         # uosc
         osc = false;
         osd-bar = false;
