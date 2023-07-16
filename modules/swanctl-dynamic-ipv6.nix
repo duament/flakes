@@ -25,6 +25,11 @@ in
       default = "10.6.6.";
     };
 
+    services.swanctlDynamicIPv6.ULAPrefix = mkOption {
+      type = types.str;
+      default = "fd64::";
+    };
+
     services.swanctlDynamicIPv6.local = mkOption {
       type = types.attrs;
       default = { };
@@ -52,24 +57,33 @@ in
               local = cfg.local;
               remote.${name} = {
                 auth = "pubkey";
-                id = "${name}.rvf6.com";
+                id = "${name}@rvf6.com";
                 cacerts = cfg.cacerts;
               };
               children.${name}.local_ts = [ "0.0.0.0/0" "::/0" ];
               version = 2;
-              pools = [ "${name}_vip" "${name}_vip6" ];
+              pools = [ "${name}_vip" "${name}_vip6" "${name}_vip_ula" ];
             };
           })
           cfg.devices);
-        pools = builtins.listToAttrs (lib.imap0
-          (id: name: {
-            name = "${name}_vip";
-            value = {
-              addrs = "${cfg.IPv4Prefix}${toString (128 + id)}/32";
-              dns = [ "${cfg.IPv4Prefix}1" ];
-            };
-          })
-          cfg.devices);
+        pools = builtins.listToAttrs (lib.flatten (lib.imap0
+          (id: name: [
+            {
+              name = "${name}_vip";
+              value = {
+                addrs = "${cfg.IPv4Prefix}${toString (128 + id)}/32";
+                dns = [ "${cfg.IPv4Prefix}1" ];
+              };
+            }
+            {
+              name = "${name}_vip_ula";
+              value = {
+                addrs = "${cfg.ULAPrefix}${lib.toHexString (128 + id)}/128";
+                dns = [ "${cfg.ULAPrefix}1" ];
+              };
+            }
+          ])
+          cfg.devices));
       };
       strongswan.extraConfig = ''
         charon {
@@ -111,6 +125,10 @@ in
               ${name}_vip6 {
                 addrs = $IPV6_PREFIX${cfg.IPv6Middle}::${lib.toHexString (id + 2)}/128
                 dns = $IPV6_PREFIX::1
+              }
+              ${name}_vip_ula {
+                addrs = ${cfg.ULAPrefix}${lib.toHexString (128 + id)}/128
+                dns = ${cfg.ULAPrefix}1
               }
             '') cfg.devices)}
           }

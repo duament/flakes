@@ -87,7 +87,7 @@ in
   systemd.network.networks."50-internet" = {
     name = "internet";
     address = [ "fd66::1/64" "10.6.1.1/24" ];
-    ipv6Prefixes = [ { ipv6PrefixConfig.Prefix = "fd66::/64"; } ];
+    ipv6Prefixes = [{ ipv6PrefixConfig.Prefix = "fd66::/64"; }];
     networkConfig = {
       DHCPServer = true;
       IPv6SendRA = true;
@@ -169,7 +169,7 @@ in
       certs = [ config.sops.secrets."pki/t430-bundle".path ];
     };
     cacerts = [ config.sops.secrets."pki/ca".path config.sops.secrets."pki/ybk".path ];
-    devices = [ "iphone" "pixel7" ];
+    devices = [ "ip13" "pixel7" "xiaoxin" ];
   };
 
   services.syncthing = {
