@@ -2,6 +2,8 @@
 let
   wg0 = self.data.wg0;
   systemdHarden = self.data.systemdHarden;
+  tailscale-ipv4 = "100.122.255.34, 100.102.34.2, 100.108.44.87";
+  tailscale-ipv6 = "fd7a:115c:a1e0:ab12:4843:cd96:627a:ff22, fd7a:115c:a1e0:ab12:4843:cd96:6266:2202, fd7a:115c:a1e0:ab12:4843:cd96:626c:2c57";
 in
 {
   presets.nogui.enable = true;
@@ -50,20 +52,20 @@ in
       meta ipsec exists meta l4proto { tcp, udp } th dport 53 accept
       iifname { wg0, internet } meta l4proto { tcp, udp } th dport 53 accept
       iifname internet udp dport 67 accept
-      ip saddr { 10.6.0.1, 100.122.255.34, 100.102.34.2 } udp dport 53 accept
+      ip saddr { 10.6.0.1, ${tailscale-ipv4} } udp dport 53 accept
     '';
     extraForwardRules = ''
       meta ipsec exists accept
       rt ipsec exists accept
       iifname { wg0, internet } accept
       oifname { wg0, internet } accept
-      ip saddr { 100.122.255.34, 100.102.34.2 } accept
-      ip6 saddr { fd7a:115c:a1e0:ab12:4843:cd96:627a:ff22, fd7a:115c:a1e0:ab12:4843:cd96:6266:2202 } accept
+      ip saddr { ${tailscale-ipv4} } accept
+      ip6 saddr { ${tailscale-ipv6} } accept
     '';
   };
   networking.nftables.checkRuleset = false;
   networking.nftables.mssClamping = true;
-  networking.nftables.masquerade = [ "ip saddr { 100.122.255.34, 100.102.34.2 }" "ip6 saddr { fd7a:115c:a1e0:ab12:4843:cd96:627a:ff22, fd7a:115c:a1e0:ab12:4843:cd96:6266:2202 }" ];
+  networking.nftables.masquerade = [ "ip saddr { ${tailscale-ipv4} }" "ip6 saddr { ${tailscale-ipv6} }" ];
 
   home-manager.users.rvfg = import ./home.nix;
 
