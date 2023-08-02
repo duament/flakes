@@ -87,7 +87,7 @@
       };
       remote_addrs = [ "h.rvf6.com" ];
       version = 2;
-      vips = [ "0.0.0.0" "::" "fd64::1" ];
+      vips = [ "0.0.0.0" "::" ];
       proposals = [ "aes256gcm16-prfsha384-curve25519" "aes256gcm16-prfsha384-ecp384" ];
     };
     strongswan.extraConfig = ''
