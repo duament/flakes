@@ -179,8 +179,10 @@ in
     openDefaultPorts = true;
     cert = config.sops.secrets."syncthing/cert".path;
     key = config.sops.secrets."syncthing/key".path;
-    devices = self.data.syncthing.devices;
-    folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
+    settings = {
+      devices = self.data.syncthing.devices;
+      folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
+    };
   };
 
   presets.git.enable = true;

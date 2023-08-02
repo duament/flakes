@@ -15,12 +15,6 @@ with lib;
       kernel.sysctl."kernel.sysrq" = 1;
       extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
       kernelModules = [ "v4l2loopback" ];
-      kernelPatches = [
-        {
-          name = "disable_per_vma_lock";
-          patch = ./mm-disable-CONFIG_PER_VMA_LOCK-by-default-until-its-fixed.patch;
-        }
-      ];
     };
 
     presets.refind = {
@@ -104,8 +98,8 @@ with lib;
     programs.gnupg.agent.enable = true;
 
     fonts = {
-      enableDefaultFonts = false;
-      fonts = with pkgs; mkForce [
+      enableDefaultPackages = false;
+      packages = with pkgs; mkForce [
         inter
         source-serif
         hack-font
@@ -181,8 +175,10 @@ with lib;
       openDefaultPorts = true;
       cert = config.sops.secrets."syncthing/cert".path;
       key = config.sops.secrets."syncthing/key".path;
-      devices = self.data.syncthing.devices;
-      folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
+      settings = {
+        devices = self.data.syncthing.devices;
+        folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
+      };
     };
     systemd.tmpfiles.rules = [ "d ${config.services.syncthing.dataDir} 2770 syncthing syncthing -" "a ${config.services.syncthing.dataDir} - - - - d:g::rwx" ];
 
