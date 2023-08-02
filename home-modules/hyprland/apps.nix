@@ -47,7 +47,7 @@ in
       Install.WantedBy = [ "graphical-session.target" ];
       Service = self.data.systemdHarden // {
         Type = "dbus";
-        BusName = "org.telegram.desktop";
+        BusName = "org.telegram";
         MemoryHigh = "2G";
         BindPaths = [ "%t" "%h/.local/share/TelegramDesktop" "%h/Downloads/Telegram\\ Desktop" ];
         BindReadOnlyPaths = publicBinds;
