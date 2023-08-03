@@ -15,7 +15,7 @@ in
       jb = "journalctl -b 0";
       jp = "journalctl -b 0 -p 4";
       nftadd = "sudo nft add inet nixos-fw input-allow tcp dport";
-      nftls = "sudo nft -a list ruleset | less";
+      nftls = "sudo nft -at list ruleset";
       s = "systemctl";
       se = "sudoedit";
       sls = "systemctl list-units --type=service";
