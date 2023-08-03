@@ -4,6 +4,7 @@
     binutils
     duf
     file
+    jo
     mtr
     ncdu
     ripgrep
