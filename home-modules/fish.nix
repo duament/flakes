@@ -75,6 +75,20 @@ in
 
       abbr --add --global nixrp --set-cursor nix run nixpkgs#% --
       abbr --add --global nixsp --set-cursor nix shell nixpkgs#% -c
+
+      function gitdel
+        set -l target
+        if set -q argv[1]
+          set target $argv[1]
+        else
+          set target develop
+        end
+        set -l branch (git rev-parse --abbrev-ref HEAD)
+        git checkout $target
+        git pull
+        git branch -d $branch
+        git push -d origin $branch
+      end
     '';
   };
 
