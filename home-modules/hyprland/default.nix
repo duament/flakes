@@ -115,7 +115,6 @@ in
         ${builtins.readFile ./hyprland.conf}
         bind = $mainMod, L, exec, ${config.programs.swaylock.package}/bin/swaylock
         bind = $mainMod, S, exec, ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)"
-        exec-once = ${pkgs.xorg.xprop}/bin/xprop -root -f _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 2
         exec-once = systemctl --user import-environment DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP && systemd-notify --ready
         exec-once = systemd-run --user -G -u wezterm ${config.programs.wezterm.package}/bin/wezterm
         exec-once = systemd-run --user -G -u firefox ${config.programs.firefox.package}/bin/firefox

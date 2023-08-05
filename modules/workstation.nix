@@ -136,10 +136,7 @@ with lib;
       };
     };
 
-    programs.hyprland = {
-      enable = true;
-      xwayland.hidpi = true;
-    };
+    programs.hyprland.enable = true;
     hardware.opengl.enable = true;
     security.pam.services.swaylock = { };
     xdg.portal.wlr.enable = true;
