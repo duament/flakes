@@ -162,8 +162,22 @@ in
         Wants = [ "hyprland-session.target" ];
         After = [ "hyprland-session.target" ];
       };
-      Service.ExecStart = "${pkgs.swww}/bin/swww-daemon";
-      Service.ExecStartPost = "/bin/sh -c \"sleep 1 && ${pkgs.swww}/bin/swww img ${wallpaper-cloud} --transition-type grow --transition-duration 3\"";
+      Service = {
+        Type = "notify";
+        Environment = [ "PATH=${with pkgs; lib.makeBinPath [ procps swww ]}" ];
+        ExecStart = "${pkgs.swww}/bin/swww-daemon";
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+    systemd.user.services.swww-img = {
+      Unit = {
+        Wants = [ "swww.service" ];
+        After = [ "swww.service" ];
+      };
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.swww}/bin/swww img ${wallpaper-cloud} --transition-type grow --transition-duration 3";
+      };
       Install.WantedBy = [ "graphical-session.target" ];
     };
 
