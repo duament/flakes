@@ -104,6 +104,11 @@
     '';
   };
   systemd.services.strongswan-swanctl.after = [ "systemd-networkd-wait-online.service" ];
+  systemd.network.config.networkConfig = {
+    ManageForeignRoutingPolicyRules = false;
+    ManageForeignRoutes = false;
+  };
+  systemd.network.networks."99-wireless-client-dhcp".networkConfig.KeepConfiguration = "static";
 
   home-manager.users.rvfg = import ./home.nix;
 
