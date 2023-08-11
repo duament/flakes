@@ -7,9 +7,12 @@
     jo
     mtr
     ncdu
+    nix-output-monitor
     ripgrep
     tmux
   ];
+
+  programs.nix-index.enable = true;
 
   programs.exa.enable = true;
 

@@ -41,15 +41,21 @@
         let
           pkgs = import nixpkgs { inherit system; };
 
+          nom-suffix = "--log-format internal-json -v |& ${pkgs.nix-output-monitor}/bin/nom --json";
+
           deploy-script = pkgs.writeShellApplication {
             name = "deploy";
             text = ''
-              if [ $# -eq 0 ]; then
-                sudo nixos-rebuild --flake . switch
-              elif [ $# -eq 1 ] ; then
-                nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo switch
+              if [ $# -ge 2 ]; then
+                ACTION="$2"
               else
-                nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo "$2"
+                ACTION=switch
+              fi
+
+              if [ $# -eq 0 ] || [ "$1" == "." ]; then
+                exec sudo bash -c "nixos-rebuild --flake . $ACTION ${nom-suffix}"
+              else
+                exec nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo "$ACTION" ${nom-suffix}
               fi
             '';
           };
@@ -66,7 +72,12 @@
           build-script = pkgs.writeShellApplication {
             name = "build";
             text = ''
-              nix build .#nixosConfigurations."$1".config.system.build.toplevel
+              if [ $# -eq 0 ]; then
+                HOST="$(${pkgs.inetutils}/bin/hostname)"
+              else
+                HOST="$1"
+              fi
+              exec ${pkgs.nix-output-monitor}/bin/nom build .#nixosConfigurations."$HOST".config.system.build.toplevel
             '';
           };
 
