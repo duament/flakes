@@ -32,9 +32,18 @@
     gateway = [ "172.26.0.1" "fc00::1" ];
     dns = [ "10.9.231.5" ];
     domains = [ "~enflame.cn" "~h.rvf6.com" ];
+    routingPolicyRules = map
+      (ip:
+        {
+          routingPolicyRuleConfig = {
+            To = ip;
+            Priority = 9;
+          };
+        }
+      ) [ "172.16.0.0/12" "10.9.0.0/16" "10.12.0.0/16" "fc00::/64" ];
   };
   presets.wireguard.wg0 = {
-    enable = true;
+    enable = false;
     route = "all";
     routeBypass = [
       "172.16.0.0/12"
@@ -43,6 +52,8 @@
       "fc00::/64"
     ];
   };
+
+  services.tailscale.enable = true;
 
   users.users.rvfg.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ enflame"
