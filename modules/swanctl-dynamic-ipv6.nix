@@ -76,7 +76,7 @@ in
               };
             }
             {
-              name = "${name}_vip_ula";
+              name = "${name}_vip6";
               value = {
                 addrs = "${cfg.ULAPrefix}${lib.toHexString (128 + id)}/128";
                 dns = [ "${cfg.ULAPrefix}1" ];
@@ -126,10 +126,10 @@ in
                 addrs = $IPV6_PREFIX${cfg.IPv6Middle}::${lib.toHexString (id + 2)}/128
                 dns = $IPV6_PREFIX::1
               }
-              ${name}_vip_ula {
-                addrs = ${cfg.ULAPrefix}${lib.toHexString (128 + id)}/128
-                dns = ${cfg.ULAPrefix}1
-              }
+              # ${name}_vip_ula {
+              #   addrs = ${cfg.ULAPrefix}${lib.toHexString (128 + id)}/128
+              #   dns = ${cfg.ULAPrefix}1
+              # }
             '') cfg.devices)}
           }
         EOF
