@@ -1,4 +1,7 @@
 { config, lib, ... }:
+let
+  directMark = 1;
+in
 {
   nixpkgs.overlays = [
     (self: super: {
@@ -58,7 +61,18 @@
       };
     };
   };
-  systemd.network.networks."99-wireless-client-dhcp".linkConfig.RequiredForOnline = true;
+  systemd.network.networks."99-wireless-client-dhcp" = {
+    linkConfig.RequiredForOnline = true;
+    routingPolicyRules = [
+      {
+        routingPolicyRuleConfig = {
+          Family = "both";
+          FirewallMark = directMark;
+          Priority = 9;
+        };
+      }
+    ];
+  };
 
   presets.wireguard.wg0.enable = lib.mkForce false;
   system.activationScripts.strongswan-swanctl-private = lib.stringAfter [ "etc" ] ''
@@ -83,6 +97,7 @@
         remote_ts = [ "0.0.0.0/0" "::/0" ];
         # start_action = "trap";
         start_action = "start";
+        close_action = "start";
         dpd_action = "restart";
       };
       remote_addrs = [ "h.rvf6.com" ];
@@ -109,6 +124,7 @@
     ManageForeignRoutes = false;
   };
   systemd.network.networks."99-wireless-client-dhcp".networkConfig.KeepConfiguration = "static";
+  presets.bpf-mark.strongswan-swanctl = directMark;
 
   home-manager.users.rvfg = import ./home.nix;
 
