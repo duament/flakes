@@ -64,9 +64,9 @@ in
       default = 1;
     };
 
-    networking.warp.extraIPv4MarkRules = mkOption {
-      type = types.lines;
-      default = "";
+    networking.warp.extraMarkSettings = mkOption {
+      type = types.attrs;
+      default = { };
     };
   };
 
@@ -76,13 +76,11 @@ in
       nameserver ::1
     '';
 
-    services.smartdns.enable = true;
-    services.smartdns.nonChinaDns = [ "2606:4700::1111" "2001:4860:4860::8888" ];
+    presets.smartdns.enable = true;
 
-    networking.nftables.markChinaIP = {
+    networking.nftables.markChinaIP = cfg.extraMarkSettings // {
       enable = true;
       mark = cfg.routeMark;
-      extraIPv4Rules = cfg.extraIPv4MarkRules;
     };
     networking.nftables.tables.warp = {
       family = "inet";
@@ -140,6 +138,19 @@ in
             Table = cfg.table;
             Priority = 10;
             Family = "both";
+          };
+        }
+        {
+          routingPolicyRuleConfig = {
+            To = "34.117.196.143"; # prod-ingress.nianticlabs.com
+            Priority = 9;
+          };
+        }
+        {
+          routingPolicyRuleConfig = {
+            To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
+            Table = cfg.table;
+            Priority = 9;
           };
         }
       ];

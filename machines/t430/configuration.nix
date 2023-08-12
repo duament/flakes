@@ -126,29 +126,22 @@ in
     keyFile = config.sops.secrets.warp_key.path;
     address = [ "172.16.0.2/32" "2606:4700:110:8445:a7a2:21a2:9279:bd82/128" ];
     table = 20;
-    extraIPv4MarkRules = "ip saddr 10.6.7.0/24 accept";
+    extraMarkSettings.extraIPv4Rules = "ip saddr 10.6.7.0/24 accept";
   };
   presets.wireguard.keepAlive.interfaces = [ "warp" ];
 
-  services.smartdns.chinaDns = [ "10.6.0.1" ];
-  services.smartdns.settings.bind = [ "[::]:53" ];
-  services.smartdns.settings.address = with builtins;
-    concatLists
-      (attrValues (mapAttrs
-        (name: value: [
-          "/${name}.rvf6.com/${value.ipv4}"
-          "/${name}.rvf6.com/${value.ipv6}"
-        ])
-        wg0.peers)) ++ [
-      "/t430.rvf6.com/${wg0.gateway4}"
-      "/t430.rvf6.com/${wg0.gateway6}"
-      "/ax6s.rvf6.com/10.6.0.1"
-      "/rpi3.rvf6.com/10.6.0.7"
-      "/fava.rvf6.com/fd64::1"
-      "/fava.rvf6.com/-4"
-      "/luci.rvf6.com/fd64::1"
-      "/luci.rvf6.com/-4"
-    ];
+  presets.smartdns.chinaDns = [ "[fd65::1]" ];
+  presets.smartdns.settings.address = [
+    "/t430.rvf6.com/${wg0.gateway4}"
+    "/t430.rvf6.com/${wg0.gateway6}"
+    "/ax6s.rvf6.com/fd65::1"
+    "/ax6s.rvf6.com/-4"
+    "/rpi3.rvf6.com/10.6.0.7"
+    "/fava.rvf6.com/fd64::1"
+    "/fava.rvf6.com/-4"
+    "/luci.rvf6.com/fd64::1"
+    "/luci.rvf6.com/-4"
+  ];
 
   services.uu = {
     enable = true;
