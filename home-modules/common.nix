@@ -5,6 +5,7 @@
     duf
     file
     jo
+    jq
     mtr
     ncdu
     nix-output-monitor
@@ -25,8 +26,6 @@
       detailed_cpu_time = 1;
     };
   };
-
-  programs.jq.enable = true;
 
   programs.direnv = {
     enable = true;
