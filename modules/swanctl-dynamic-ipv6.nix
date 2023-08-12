@@ -110,10 +110,16 @@ in
         IPV6_PREFIX=$(get_prefix "$IPV6")
         if [[ -z "$IPV6_PREFIX" ]]; then exit; fi
 
-        POOL_IPV6=$(swanctl --list-pools -n ${builtins.head cfg.devices}_vip6 | awk '{print $2}')
-        POOL_IPV6_PREFIX=$(get_prefix "$POOL_IPV6")
+        NEED_UPDATE=0
+        ${builtins.concatStringsSep "" (map (device: ''
+          POOL_IPV6=$(swanctl --list-pools -n ${device}_vip6 | awk '{print $2}')
+          POOL_IPV6_PREFIX=$(get_prefix "$POOL_IPV6")
+          if [[ "$IPV6_PREFIX" != "$POOL_IPV6_PREFIX" ]]; then
+            NEED_UPDATE=1
+          fi
+        '') cfg.devices)}
 
-        if [[ "$IPV6_PREFIX" != "$POOL_IPV6_PREFIX" ]]; then
+        if [[ $NEED_UPDATE -eq 1 ]]; then
           TEMP=$(mktemp)
           cat > "$TEMP" << EOF
           pools {
