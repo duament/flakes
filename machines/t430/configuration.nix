@@ -65,7 +65,7 @@ in
   };
   networking.nftables.checkRuleset = false;
   networking.nftables.mssClamping = true;
-  networking.nftables.masquerade = [ "ip saddr { ${tailscale-ipv4} }" "ip6 saddr { ${tailscale-ipv6} }" ];
+  networking.nftables.masquerade = [ "ip saddr { ${tailscale-ipv4} }" "ip6 saddr { ${tailscale-ipv6} }" "oifname wg-or2" ];
 
   home-manager.users.rvfg = import ./home.nix;
 
@@ -116,6 +116,37 @@ in
     linkConfig = { RequiredForOnline = false; };
   };
   presets.wireguard.dynamicIPv6.interfaces = [ "wg0" ];
+
+  systemd.network.netdevs."25-wg-or2" = {
+    netdevConfig = { Name = "wg-or2"; Kind = "wireguard"; };
+    wireguardConfig = {
+      PrivateKeyFile = config.sops.secrets.wireguard_key.path;
+      FirewallMark = 3;
+      RouteTable = 11;
+    };
+    wireguardPeers = [
+      {
+        wireguardPeerConfig = {
+          AllowedIPs = [ "0.0.0.0/0" "::/0" ];
+          PublicKey = self.data.wg0.peers.or2.pubkey;
+          Endpoint = "${self.data.wg0.peers.or2.endpointAddr}:11112";
+        };
+      }
+    ];
+  };
+  systemd.network.networks."25-wg-or2" = {
+    name = "wg-or2";
+    address = [ "10.6.9.1/24" "fd66::1/120" ];
+    routingPolicyRules = [
+      {
+        routingPolicyRuleConfig = {
+          To = "34.117.196.143"; # prod-ingress.nianticlabs.com
+          Table = 11;
+          Priority = 9;
+        };
+      }
+    ];
+  };
 
   networking.warp = {
     enable = true;

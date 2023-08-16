@@ -142,12 +142,6 @@ in
         }
         {
           routingPolicyRuleConfig = {
-            To = "34.117.196.143"; # prod-ingress.nianticlabs.com
-            Priority = 9;
-          };
-        }
-        {
-          routingPolicyRuleConfig = {
             To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
             Table = cfg.table;
             Priority = 9;
