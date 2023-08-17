@@ -1,4 +1,4 @@
-{ config, lib, pkgs, self, ... }:
+{ config, lib, mypkgs, pkgs, self, ... }:
 let
   wg0 = self.data.wg0;
   systemdHarden = self.data.systemdHarden;
@@ -29,6 +29,10 @@ in
     uuplugin-uuid = { };
     sim-pin = { };
     tg-bot-token = { };
+    "home-assistant-secrets.yaml" = {
+      owner = "hass";
+      path = "/var/lib/hass/secrets.yaml";
+    };
   };
 
   boot.loader.generationsDir.copyKernels = true;
@@ -172,6 +176,8 @@ in
     "/fava.rvf6.com/-4"
     "/luci.rvf6.com/fd64::1"
     "/luci.rvf6.com/-4"
+    "/ha.rvf6.com/fd64::1"
+    "/ha.rvf6.com/-4"
   ];
 
   services.uu = {
@@ -234,6 +240,45 @@ in
       PrivateNetwork = false;
     };
   };
+
+  services.home-assistant = {
+    enable = true;
+    config = {
+      default_config = { };
+      homeassistant = {
+        name = "Home";
+        latitude = "!secret latitude";
+        longitude = "!secret longitude";
+        elevation = "!secret elevation";
+        unit_system = "metric";
+        time_zone = config.time.timeZone;
+      };
+      http = {
+        server_host = "::1";
+        use_x_forwarded_for = true;
+        trusted_proxies = [ "::1/128" ];
+      };
+      xiaomi_miot = {
+        username = "!secret mi_username";
+        password = "!secret mi_password";
+      };
+    };
+    extraComponents = [
+      "default_config"
+      "esphome"
+      "ffmpeg"
+      "met"
+      "xiaomi_miio"
+    ];
+    extraPackages = python3Packages: with python3Packages; [
+      hap-python
+      pyqrcode
+    ];
+  };
+  systemd.services.home-assistant.preStart = ''
+    mkdir -p ${config.services.home-assistant.configDir}/custom_components
+    ln -sf ${mypkgs.hass-xiaomi-miot}/share/hass/custom_components/xiaomi_miot ${config.services.home-assistant.configDir}/custom_components/
+  '';
 
   security.acme = {
     acceptTerms = true;
@@ -299,6 +344,10 @@ in
             "/".proxyPass = "https://10.6.0.1";
           };
         };
+      "ha.rvf6.com".locations."/" = {
+        proxyPass = "http://[::1]:${toString config.services.home-assistant.config.http.server_port}";
+        proxyWebsockets = true;
+      };
     };
   };
 

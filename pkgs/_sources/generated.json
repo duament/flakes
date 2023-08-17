@@ -88,6 +88,26 @@
         },
         "version": "2023-04-18T18-03-53"
     },
+    "hass-xiaomi-miot": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "hass-xiaomi-miot",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "al-one",
+            "repo": "hass-xiaomi-miot",
+            "rev": "v0.7.11",
+            "sha256": "sha256-2ErBIbFM3x4hL/A46JWhPHxsPZpwYLofIM5qF1vHKfM=",
+            "type": "github"
+        },
+        "version": "v0.7.11"
+    },
     "transmission-client": {
         "cargoLocks": null,
         "date": "2023-02-15",

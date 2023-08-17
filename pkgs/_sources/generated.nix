@@ -53,6 +53,17 @@
       sha256 = "1r0djf0yvaqdy8xjnh8qb92xapfmnsqbqis3i5xl243w64whfnva";
     };
   };
+  hass-xiaomi-miot = {
+    pname = "hass-xiaomi-miot";
+    version = "v0.7.11";
+    src = fetchFromGitHub {
+      owner = "al-one";
+      repo = "hass-xiaomi-miot";
+      rev = "v0.7.11";
+      fetchSubmodules = false;
+      sha256 = "sha256-2ErBIbFM3x4hL/A46JWhPHxsPZpwYLofIM5qF1vHKfM=";
+    };
+  };
   transmission-client = {
     pname = "transmission-client";
     version = "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a";

@@ -32,3 +32,7 @@ fetch.github = "vinceliuice/Fluent-kde"
 [aleo]
 src.git = "https://github.com/AlessioLaiso/aleo"
 fetch.github = "AlessioLaiso/aleo"
+
+[hass-xiaomi-miot]
+src.github_tag = "al-one/hass-xiaomi-miot"
+fetch.github = "al-one/hass-xiaomi-miot"
