@@ -3,6 +3,8 @@ rec {
   canokey = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIL6r8qfrXMqjnUBhxuBSMt0cfjHo+Vhvqtod8vvwoQk4AAAABHNzaDo=";
   a4b = "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBN/ZYR5bXgmEYjhHWjtCZvocjMg0C921Gl61aib+IxlGIvtgGqJQUJsDu6xVsHQq7G7h0kBvUKJlaVNWitT2HCIAAAAEc3NoOg==";
   ybk = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHBxARed/4cfZg7KhBIyS4t8bip4bfo6U6mjOnyA1Ve9AAAABHNzaDo=";
+  ip13 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFst9g9tUKFCQgvpn1FKS5fwszAr3z9J5E6vlCXC/pZb root@ip13";
+  pixel7 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGJk6qHNPPjJdDUiC7XC2YF6eUg0zu/0uqRlQjN2yIxK pixel7";
 
   owrt = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIISozBuc4XJVzmEu2yuX+O3rdA9jhIJY5qiUN/sTD+do";
   rpi3 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAQPPwlnFpA0jWzZHSxjrPhWw0LiBY6qpU3DJR6rOf5r";
@@ -23,5 +25,5 @@ rec {
 
   github = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
 
-  authorizedKeys = [ ybk canokey a4b ed25519 ];
+  authorizedKeys = [ ybk canokey a4b ed25519 ip13 pixel7 ];
 }
