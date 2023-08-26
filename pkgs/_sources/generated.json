@@ -68,11 +68,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-m7bmyvdgUrBR+1uCRmWDc5LAiVbrnqc//Hl4iNbTkGk=",
+            "sha256": "sha256-aPJN8NWxTTVol85pAqx2O6JFwtJaOSiBZ8DRWsPzCm8=",
             "type": "url",
-            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230728.dict"
+            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230823.dict"
         },
-        "version": "20230728"
+        "version": "20230823"
     },
     "flood-for-transmission": {
         "cargoLocks": null,
@@ -102,11 +102,11 @@
             "name": null,
             "owner": "al-one",
             "repo": "hass-xiaomi-miot",
-            "rev": "v0.7.11",
-            "sha256": "sha256-2ErBIbFM3x4hL/A46JWhPHxsPZpwYLofIM5qF1vHKfM=",
+            "rev": "v0.7.12",
+            "sha256": "sha256-Oo0U8DM+uR08SXOe7EWLkyjxEjkybs1xkxRhas0JRwY=",
             "type": "github"
         },
-        "version": "v0.7.11"
+        "version": "v0.7.12"
     },
     "transmission-client": {
         "cargoLocks": null,
