@@ -2,6 +2,7 @@
 {
   imports = [
     ./browser.nix
+    ./cert.nix
     ./common.nix
     ./fish.nix
     ./fzf

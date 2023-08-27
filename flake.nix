@@ -65,8 +65,8 @@
             text = ''
               nix flake update
             '';
-              # cd pkgs
-              # ${pkgs.nvfetcher}/bin/nvfetcher
+            # cd pkgs
+            # ${pkgs.nvfetcher}/bin/nvfetcher
           };
 
           build-script = pkgs.writeShellApplication {

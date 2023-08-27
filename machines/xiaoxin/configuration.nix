@@ -25,7 +25,7 @@ in
       sopsFile = ../../secrets/clash;
     };
     wireguard_key.owner = "systemd-network";
-    "pki/ca" = { };
+    "pki/ca".mode = "0444";
     "pki/ybk" = { };
     "pki/xiaoxin-bundle" = { };
     "pki/xiaoxin-key" = { };

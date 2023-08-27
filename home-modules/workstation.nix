@@ -12,6 +12,7 @@
     presets.browser.enable = true;
     presets.python.enable = true;
     presets.hyprland.enable = true;
+    presets.cert.enable = true;
 
     home.packages = with pkgs; [
       imv
