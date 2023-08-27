@@ -53,7 +53,7 @@
               fi
 
               if [ $# -eq 0 ] || [ "$1" == "." ]; then
-                exec sudo bash -c "nixos-rebuild --flake . $ACTION ${nom-suffix}"
+                exec sudo bash -c "TMPDIR=/var/tmp nixos-rebuild --flake . $ACTION ${nom-suffix}"
               else
                 exec nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo "$ACTION" ${nom-suffix}
               fi

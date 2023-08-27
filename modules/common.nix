@@ -20,6 +20,7 @@ with lib;
     nix-path = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
 
   environment.systemPackages = with pkgs; [
     compsize
