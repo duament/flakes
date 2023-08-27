@@ -41,4 +41,30 @@
   hardware.enableRedistributableFirmware = true;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
+
+  hardware.deviceTree = {
+    enable = true;
+    filter = "*-rpi-3-b-plus.dtb";
+    overlays = [
+      {
+        name = "irled";
+        dtsText = ''
+          /dts-v1/;
+          /plugin/;
+          / {
+            compatible = "raspberrypi";
+            fragment@0 {
+              target-path = "/";
+              __overlay__ {
+                irled@0 {
+                  compatible = "gpio-ir-tx";
+                  gpios = <&gpio 24 0>;
+                };
+              };
+            };
+          };
+        '';
+      }
+    ];
+  };
 }
