@@ -23,6 +23,12 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
+    wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
     chn-cidr-list = {
       url = "github:fernvenue/chn-cidr-list";
       flake = false;
@@ -121,6 +127,7 @@
         az = import ./machines/az { inherit inputs nixpkgs self; };
         nl = import ./machines/nl { inherit inputs nixpkgs self; };
         nixctnr = import ./machines/nixctnr { inherit inputs nixpkgs self; };
+        wsl = import ./machines/wsl { inherit inputs nixpkgs self; };
       };
 
       homeConfigurations = {

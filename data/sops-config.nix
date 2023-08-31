@@ -14,6 +14,7 @@ let
     or3 = "age1t7fpg9m0n5cg5vz0fypltc6c7py548uhpyp8f37hmdnq2j73ky9s6cvhgr";
     az = "age1tpln8534w0ttdp7sd7tf3zeyr3m4w707dakt8kgm8j8c9r0vhyjqhae023";
     nixctnr = "age192t8u22pq3yhwr7u8zrg38kdxvsxk7n7h4wykjgnsz6u2zx3effqdsmdhc";
+    wsl = "age1wxpfun4cjpuxxzsukskuye4sgcq72tnzmvq8cnk0g3mk0g8rdfks0sazmq";
   };
 
   cfg = {
