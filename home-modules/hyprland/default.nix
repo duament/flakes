@@ -1,6 +1,7 @@
 { config, lib, pkgs, sysConfig, ... }:
 let
   cfg = config.presets.hyprland;
+  hyprland = sysConfig.programs.hyprland.finalPackage;
 
   iconTheme = {
     package = pkgs.papirus-icon-theme;
@@ -101,7 +102,7 @@ in
       systemdTarget = "graphical-session.target";
       timeouts = [
         { timeout = 600; command = "${config.programs.swaylock.package}/bin/swaylock &"; }
-        { timeout = 610; command = "${sysConfig.programs.hyprland.package}/bin/hyprctl dispatch dpms off"; resumeCommand = "${sysConfig.programs.hyprland.package}/bin/hyprctl dispatch dpms on"; }
+        { timeout = 610; command = "${hyprland}/bin/hyprctl dispatch dpms off"; resumeCommand = "${hyprland}/bin/hyprctl dispatch dpms on"; }
       ];
       events = [
         { event = "lock"; command = "${config.programs.swaylock.package}/bin/swaylock &"; }
@@ -124,7 +125,7 @@ in
         (  # execute in subshell so that `shopt` won't affect other scripts
           shopt -s nullglob  # so that nothing is done if /tmp/hypr/ does not exist or is empty
           for instance in /tmp/hypr/*; do
-            HYPRLAND_INSTANCE_SIGNATURE=''${instance##*/} ${sysConfig.programs.hyprland.package}/bin/hyprctl reload config-only \
+            HYPRLAND_INSTANCE_SIGNATURE=''${instance##*/} ${hyprland}/bin/hyprctl reload config-only \
               || true  # ignore dead instance(s)
           done
         )
@@ -140,7 +141,7 @@ in
       Service = {
         Type = "notify";
         NotifyAccess = "all";
-        ExecStart = "${sysConfig.programs.hyprland.package}/bin/Hyprland";
+        ExecStart = "${hyprland}/bin/Hyprland";
         ExecStopPost = "/run/current-system/sw/bin/systemctl --user unset-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_SESSION_DESKTOP";
         Restart = "on-failure";
         RestartSec = 1;
