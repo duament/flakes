@@ -52,10 +52,10 @@ in
       v = "nvim";
     };
     shellAliases = {
-      l = "exa -lag --time-style=long-iso";
-      ll = "exa -lg --time-style=long-iso";
-      lg = "exa -lag --git --time-style=long-iso";
-      sl = "sudo exa -lag --time-style=long-iso";
+      l = "eza -lag --time-style=long-iso";
+      ll = "eza -lg --time-style=long-iso";
+      lg = "eza -lag --git --time-style=long-iso";
+      sl = "sudo eza -lag --time-style=long-iso";
     };
     interactiveShellInit = ''
       set fish_greeting

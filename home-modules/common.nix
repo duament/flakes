@@ -15,7 +15,7 @@
 
   programs.nix-index.enable = true;
 
-  programs.exa.enable = true;
+  programs.eza.enable = true;
 
   programs.git.enable = true;
 
