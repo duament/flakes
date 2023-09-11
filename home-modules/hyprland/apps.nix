@@ -9,6 +9,8 @@ let
     "-%h/.config/qt5ct"
     "-%h/.config/qt6ct"
     "-%h/.config/Kvantum"
+    "-%h/.config/fcitx5"
+    "-%h/.local/share/fcitx5"
   ];
 in
 {
@@ -39,6 +41,7 @@ in
         RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
         DeviceAllow = "/dev/dri";
         DevicePolicy = "closed";
+        Environment = [ "QT_IM_MODULE=fcitx" ];
       };
     };
 

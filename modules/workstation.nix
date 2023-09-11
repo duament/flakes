@@ -65,12 +65,15 @@ with lib;
     environment.persistence."/persist".users.rvfg = {
       directories = [
         ".config/kdeconnect"
+        ".config/fcitx5"
         ".gnupg"
         ".mozilla"
         ".thunderbird"
         "Downloads"
       ];
     };
+
+    environment.pathsToLink = [ "/share/fcitx5/themes" ];
 
     presets.ssh-agent.enable = true;
     presets.chromium.enable = true;
