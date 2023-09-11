@@ -13,6 +13,8 @@
     tmux
   ];
 
+  presets.btop.enable = true;
+
   programs.nix-index.enable = true;
 
   programs.eza.enable = true;
