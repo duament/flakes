@@ -112,6 +112,7 @@
 
     services.fusuma = {
       enable = true;
+      extraPackages = with pkgs; [ coreutils gnugrep ];
       settings = {
         interval.swipe = 0.8;
         swipe."3" = {
