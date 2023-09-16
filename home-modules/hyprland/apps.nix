@@ -81,7 +81,7 @@ in
       ) // {
       chromium-browser = {
         name = "Chromium";
-        exec = "systemd-run --user -G chromium --ozone-platform=wayland --gtk-version=4 %U";
+        exec = "systemd-run --user -G chromium --ozone-platform=wayland --enable-wayland-ime %U";
         icon = "chromium";
       };
       firefox = {
