@@ -59,6 +59,35 @@
         },
         "version": "ce875e48d9983031648e87f38b7a269f4fbf5eb5"
     },
+    "avbroot": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./avbroot-v2.1.0/Cargo.lock",
+                {
+                    "bzip2-0.4.4": "sha256-6VOKPlgIIibpcvxSL9Y+wKre6h2J2s+dGOhCA9pAVwg=",
+                    "lzma-sys-0.1.20": "sha256-BEtDeRkuPokSemSJc+2g/6hbTwu1uR5Bm5R96MVTvoc=",
+                    "zip-0.6.6": "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0="
+                }
+            ]
+        },
+        "date": null,
+        "extract": null,
+        "name": "avbroot",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "chenxiaolong",
+            "repo": "avbroot",
+            "rev": "v2.1.0",
+            "sha256": "sha256-WZ0ZvC7p4HLjKgKBMME0t/3OF24P6npGGYd+LKXDCUA=",
+            "type": "github"
+        },
+        "version": "v2.1.0"
+    },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
         "date": null,
@@ -102,11 +131,11 @@
             "name": null,
             "owner": "al-one",
             "repo": "hass-xiaomi-miot",
-            "rev": "v0.7.12",
-            "sha256": "sha256-Oo0U8DM+uR08SXOe7EWLkyjxEjkybs1xkxRhas0JRwY=",
+            "rev": "v0.7.13",
+            "sha256": "sha256-d49KRDwEjdrjIRizUjV1T8SXwK+YInQA6ALzLf7R5K8=",
             "type": "github"
         },
-        "version": "v0.7.12"
+        "version": "v0.7.13"
     },
     "transmission-client": {
         "cargoLocks": null,
@@ -157,10 +186,10 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-Rm+rE8dfaOxGU4mShgskYVBpU/X/uhbhRWAM/A19Zgg=",
+            "sha256": "sha256-cTIyirw83juwIB/znLIJwSgYLOiye6L0wBNV0OZ7SRI=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.14.4/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.15.0/uu.tar.gz"
         },
-        "version": "3.14.4"
+        "version": "3.15.0"
     }
 }

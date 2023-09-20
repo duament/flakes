@@ -37,6 +37,25 @@
     };
     date = "2023-06-03";
   };
+  avbroot = {
+    pname = "avbroot";
+    version = "v2.1.0";
+    src = fetchFromGitHub {
+      owner = "chenxiaolong";
+      repo = "avbroot";
+      rev = "v2.1.0";
+      fetchSubmodules = false;
+      sha256 = "sha256-WZ0ZvC7p4HLjKgKBMME0t/3OF24P6npGGYd+LKXDCUA=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./avbroot-v2.1.0/Cargo.lock;
+      outputHashes = {
+        "lzma-sys-0.1.20" = "sha256-BEtDeRkuPokSemSJc+2g/6hbTwu1uR5Bm5R96MVTvoc=";
+        "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
+        "bzip2-0.4.4" = "sha256-6VOKPlgIIibpcvxSL9Y+wKre6h2J2s+dGOhCA9pAVwg=";
+      };
+    };
+  };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
     version = "20230823";
@@ -55,13 +74,13 @@
   };
   hass-xiaomi-miot = {
     pname = "hass-xiaomi-miot";
-    version = "v0.7.12";
+    version = "v0.7.13";
     src = fetchFromGitHub {
       owner = "al-one";
       repo = "hass-xiaomi-miot";
-      rev = "v0.7.12";
+      rev = "v0.7.13";
       fetchSubmodules = false;
-      sha256 = "sha256-Oo0U8DM+uR08SXOe7EWLkyjxEjkybs1xkxRhas0JRwY=";
+      sha256 = "sha256-d49KRDwEjdrjIRizUjV1T8SXwK+YInQA6ALzLf7R5K8=";
     };
   };
   transmission-client = {
@@ -90,10 +109,10 @@
   };
   uuplugin = {
     pname = "uuplugin";
-    version = "3.14.4";
+    version = "3.15.0";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.14.4/uu.tar.gz";
-      sha256 = "sha256-Rm+rE8dfaOxGU4mShgskYVBpU/X/uhbhRWAM/A19Zgg=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v3.15.0/uu.tar.gz";
+      sha256 = "sha256-cTIyirw83juwIB/znLIJwSgYLOiye6L0wBNV0OZ7SRI=";
     };
   };
 }
