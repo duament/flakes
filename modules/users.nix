@@ -16,7 +16,7 @@ in
       sopsFile = ../secrets/passwd.yaml;
     };
 
-    users.users.root.passwordFile = config.sops.secrets.passwd.path;
+    users.users.root.hashedPasswordFile = config.sops.secrets.passwd.path;
 
     users.groups.rvfg = {
       gid = 1000;
@@ -25,7 +25,7 @@ in
       isNormalUser = true;
       uid = 1000;
       group = "rvfg";
-      passwordFile = config.sops.secrets.passwd.path;
+      hashedPasswordFile = config.sops.secrets.passwd.path;
       extraGroups = [ "systemd-journal" "input" ];
       openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys;
     };

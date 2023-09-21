@@ -293,7 +293,7 @@ in
   };
   systemd.services."acme-rvf6.com" = {
     environment.CF_DNS_API_TOKEN_FILE = "%d/cloudflare";
-    serviceConfig.LoadCredential = "cloudflare:${config.sops.secrets.cloudflare.path}";
+    serviceConfig.LoadCredential = [ "cloudflare:${config.sops.secrets.cloudflare.path}" ];
   };
 
   presets.vouch = {
