@@ -1,25 +1,32 @@
 { config, inputs, lib, mypkgs, pkgs, self, ... }:
 with lib;
 {
-  nix.settings = {
-    experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" "cgroups" ];
-    substituters = [
-      "https://nix-community.cachix.org"
-      "https://rvfg.cachix.org"
-      "https://cache.rvf6.com"
-    ];
-    trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "rvfg.cachix.org-1:Y4KBTduWzzLGMyy/SQPkzXuHiYeeaIFszIQI0kA59lQ="
-      "cache.rvf6.com-1:puyypMB+P2nYa5Zg40uzzAh2ncg/cwSTR/OxqQ8yK7Q="
-    ];
-    trusted-users = [ "deploy" ];
-    flake-registry = "/etc/nix/registry.json";
-    auto-allocate-uids = mkDefault true;
-    use-cgroups = mkDefault true;
-    nix-path = [ "nixpkgs=${inputs.nixpkgs}" ];
+  nix = {
+    settings = {
+      experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" "cgroups" ];
+      substituters = [
+        "https://nix-community.cachix.org"
+        "https://rvfg.cachix.org"
+        "https://cache.rvf6.com"
+      ];
+      trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "rvfg.cachix.org-1:Y4KBTduWzzLGMyy/SQPkzXuHiYeeaIFszIQI0kA59lQ="
+        "cache.rvf6.com-1:puyypMB+P2nYa5Zg40uzzAh2ncg/cwSTR/OxqQ8yK7Q="
+      ];
+      trusted-users = [ "deploy" ];
+      flake-registry = "/etc/nix/registry.json";
+      auto-allocate-uids = mkDefault true;
+      use-cgroups = mkDefault true;
+      nix-path = [ "nixpkgs=${inputs.nixpkgs}" ];
+    };
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 21d";
+      dates = "weekly";
+    };
+    registry.nixpkgs.flake = inputs.nixpkgs;
   };
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
   systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
 
   environment.systemPackages = with pkgs; [
