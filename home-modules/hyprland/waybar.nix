@@ -5,7 +5,7 @@
   height = 50; # Waybar height (to be removed for auto height)
   spacing = 5; # Gaps between modules (4px)
   margin-bottom = -11;
-  modules-left = [ "wlr/workspaces" ];
+  modules-left = [ "hyprland/workspaces" ];
   modules-right = [ "tray" "pulseaudio" "network" "battery" "backlight" "clock" "keyboard-state" ];
   modules-center = [ "hyprland/window" ];
 
@@ -18,9 +18,7 @@
     };
     #device-path = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
   };
-  "wlr/workspaces" = {
-    format = "{icon}";
-    format-active = " {icon} ";
+  "hyprland/workspaces" = {
     on-click = "activate";
   };
   "hyprland/window" = {
