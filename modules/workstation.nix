@@ -184,7 +184,12 @@ with lib;
 
     programs.adb.enable = true;
 
-    users.users.rvfg.extraGroups = [ "syncthing" "adbusers" ];
+    programs.wireshark = {
+      enable = true;
+      package = pkgs.wireshark;
+    };
+
+    users.users.rvfg.extraGroups = [ "syncthing" "adbusers" "wireshark" ];
 
   };
 }

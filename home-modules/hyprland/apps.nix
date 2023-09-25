@@ -141,6 +141,12 @@ in
         icon = "system-file-manager";
         mimeType = [ "inode/directory" ];
       };
+      "org.wireshark.Wireshark" = {
+        name = "Wireshark";
+        exec = "systemd-run --user -G wireshark %u";
+        icon = "org.wireshark.Wireshark";
+        mimeType = [ "application/vnd.tcpdump.pcap" "application/x-pcapng" "application/x-snoop" "application/x-iptrace" "application/x-lanalyzer" "application/x-nettl" "application/x-radcom" "application/x-etherpeek" "application/x-visualnetworks" "application/x-netinstobserver" "application/x-5view" "application/x-tektronix-rf5" "application/x-micropross-mplog" "application/x-apple-packetlogger" "application/x-endace-erf" "application/ipfix" "application/x-ixia-vwr" ];
+      };
     };
 
   };
