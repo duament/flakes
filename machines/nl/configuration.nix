@@ -1,4 +1,4 @@
-{ config, lib, mypkgs, pkgs, self, ... }:
+{ config, lib, pkgs, self, ... }:
 let
   systemdHarden = self.data.systemdHarden;
 in
@@ -123,7 +123,7 @@ in
           fancyindex_header "/Nginx-Fancyindex-Theme/header.html";
           fancyindex_footer "/Nginx-Fancyindex-Theme/footer.html";
         '';
-        locations."/Nginx-Fancyindex-Theme/".alias = "${mypkgs.Nginx-Fancyindex-Theme}/share/Nginx-Fancyindex/";
+        locations."/Nginx-Fancyindex-Theme/".alias = "${pkgs.Nginx-Fancyindex-Theme}/share/Nginx-Fancyindex/";
       };
       "transmission.rvf6.com" = {
         basicAuthFile = config.sops.secrets.transmission.path;
@@ -134,9 +134,9 @@ in
       "bt.rvf6.com" = {
         locations = {
           "= /".return = "301 /flood/";
-          "/flood/".alias = "${mypkgs.flood-for-transmission}/share/flood-for-transmission/";
-          "/twc/".alias = "${mypkgs.transmission-web-control}/share/transmission-web-control/";
-          "/tc/".alias = "${mypkgs.transmission-client}/share/transmission-client/";
+          "/flood/".alias = "${pkgs.flood-for-transmission}/share/flood-for-transmission/";
+          "/twc/".alias = "${pkgs.transmission-web-control}/share/transmission-web-control/";
+          "/tc/".alias = "${pkgs.transmission-client}/share/transmission-client/";
           "/og/".proxyPass = "http://[::1]:9091/transmission/web/";
           "/rpc".proxyPass = "http://[::1]:9091/transmission/rpc";
         };

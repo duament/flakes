@@ -1,4 +1,4 @@
-{ config, lib, mypkgs, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   options = {
     presets.workstation.enable = lib.mkOption {
@@ -33,7 +33,7 @@
 
     i18n.inputMethod = {
       enabled = "fcitx5";
-      fcitx5.addons = with pkgs; with mypkgs; [
+      fcitx5.addons = with pkgs; [
         fcitx5-chinese-addons
         fcitx5-pinyin-zhwiki
         fcitx5-theme

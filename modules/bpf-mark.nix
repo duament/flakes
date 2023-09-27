@@ -1,4 +1,4 @@
-{ config, lib, mypkgs, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.presets.bpf-mark;
 
@@ -22,7 +22,7 @@ in
             wantedBy = [ "multi-user.target" ];
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = "${pkgs.bpftool}/bin/bpftool prog load ${mypkgs.bpf-mark.override { inherit markValue; }} /sys/fs/bpf/mark-${toString markValue} type cgroup/sock";
+              ExecStart = "${pkgs.bpftool}/bin/bpftool prog load ${pkgs.bpf-mark.override { inherit markValue; }} /sys/fs/bpf/mark-${toString markValue} type cgroup/sock";
               ExecStop = "${pkgs.coreutils}/bin/rm -f /sys/fs/bpf/mark-${toString markValue}";
               RemainAfterExit = true;
             };

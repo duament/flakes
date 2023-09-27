@@ -1,6 +1,8 @@
-{ config, inputs, lib, mypkgs, pkgs, self, ... }:
+{ config, inputs, lib, pkgs, self, ... }:
 with lib;
 {
+  nixpkgs.overlays = [ self.overlays.default ];
+
   nix = {
     settings = {
       experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" "cgroups" ];
@@ -79,7 +81,7 @@ with lib;
 
   home-manager = {
     extraSpecialArgs = {
-      inherit mypkgs self;
+      inherit self;
       sysConfig = config;
     };
     useGlobalPkgs = true;

@@ -1,4 +1,4 @@
-{ config, inputs, lib, mypkgs, pkgs, self, ... }:
+{ config, inputs, lib, pkgs, self, ... }:
 with lib;
 let
   cfg = config.services.uu;
@@ -164,7 +164,7 @@ in
               "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'"
               "${pkgs.coreutils}/bin/ln -s \${CREDENTIALS_DIRECTORY}/uuplugin-uuid %S/%N/.uuplugin_uuid"
             ];
-            ExecStart = with mypkgs; "${uuplugin}/bin/uuplugin ${uuplugin}/share/uuplugin/uu.conf";
+            ExecStart = "${pkgs.uuplugin}/bin/uuplugin ${pkgs.uuplugin}/share/uuplugin/uu.conf";
           };
         };
       };

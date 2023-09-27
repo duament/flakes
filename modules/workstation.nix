@@ -1,4 +1,4 @@
-{ config, lib, mypkgs, pkgs, self, ... }:
+{ config, lib, pkgs, self, ... }:
 with lib;
 {
   options = {
@@ -109,7 +109,7 @@ with lib;
         noto-fonts-cjk-sans
         noto-fonts-cjk-serif
         noto-fonts-emoji
-        mypkgs.aleo
+        aleo
         (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
         (mkNoto { pname = "noto-fonts-symbols"; variants = [ "Noto Music" "Noto Sans Symbols" "Noto Sans Symbols 2" "Noto Sans Math" ]; })
       ];

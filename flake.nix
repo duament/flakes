@@ -107,6 +107,8 @@
     // {
       data = import ./data { inherit inputs; inherit (nixpkgs) lib; };
 
+      overlays.default = final: _prev: import ./pkgs final;
+
       nixosModules.myModules = import ./modules;
       nixosModules.myHomeModules = import ./home-modules;
 

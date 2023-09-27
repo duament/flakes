@@ -9,6 +9,5 @@ inputs.home-manager.lib.homeManagerConfiguration {
   ];
   extraSpecialArgs = {
     inherit inputs self;
-    mypkgs = self.packages.${system};
   };
 }

@@ -1,4 +1,4 @@
-{ config, lib, mypkgs, pkgs, self, ... }:
+{ config, lib, pkgs, self, ... }:
 let
   wg0 = self.data.wg0;
   systemdHarden = self.data.systemdHarden;
@@ -277,7 +277,7 @@ in
   };
   systemd.services.home-assistant.preStart = ''
     mkdir -p ${config.services.home-assistant.configDir}/custom_components
-    ln -sf ${mypkgs.hass-xiaomi-miot}/share/hass/custom_components/xiaomi_miot ${config.services.home-assistant.configDir}/custom_components/
+    ln -sf ${pkgs.hass-xiaomi-miot}/share/hass/custom_components/xiaomi_miot ${config.services.home-assistant.configDir}/custom_components/
   '';
 
   security.acme = {
