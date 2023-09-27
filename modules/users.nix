@@ -35,7 +35,7 @@ in
       isSystemUser = true;
       group = "deploy";
       useDefaultShell = true;
-      openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys;
+      openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys ++ [ self.data.sshPub.github-action-deploy ];
     };
 
     security.sudo.extraRules = [
