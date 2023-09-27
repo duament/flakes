@@ -112,22 +112,13 @@
       nixosModules.myModules = import ./modules;
       nixosModules.myHomeModules = import ./home-modules;
 
-      nixosConfigurations = {
-        desktop = import ./machines/desktop { inherit inputs nixpkgs self; };
-        xiaoxin = import ./machines/xiaoxin { inherit inputs nixpkgs self; };
-        work = import ./machines/work { inherit inputs nixpkgs self; };
-        rpi3 = import ./machines/rpi3 { inherit inputs nixpkgs self; };
-        t430 = import ./machines/t430 { inherit inputs nixpkgs self; };
-        or2 = import ./machines/or2 { inherit inputs nixpkgs self; };
-        or3 = import ./machines/or3 { inherit inputs nixpkgs self; };
-        az = import ./machines/az { inherit inputs nixpkgs self; };
-        nl = import ./machines/nl { inherit inputs nixpkgs self; };
-        nixctnr = import ./machines/nixctnr { inherit inputs nixpkgs self; };
-      };
+      nixosConfigurations = builtins.mapAttrs (k: v:
+        import (./nixos + "/${k}") { inherit inputs nixpkgs self; }
+      ) (builtins.readDir ./nixos);
 
-      homeConfigurations = {
-        dev = import ./machines/dev { inherit inputs nixpkgs self; };
-      };
+      homeConfigurations = builtins.mapAttrs (k: v:
+        import (./home + "/${k}") { inherit inputs nixpkgs self; }
+      ) (builtins.readDir ./home);
 
       hydraJobs = {
         rpi3 = self.nixosConfigurations.rpi3.config.system.build.toplevel;
