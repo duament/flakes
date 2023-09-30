@@ -62,6 +62,12 @@ with lib;
       allowedUDPPortRanges = [{ from = 1714; to = 1764; }]; # KDE Connect
     };
 
+    environment.systemPackages = with pkgs; [
+      ifuse
+      libimobiledevice
+      libplist
+    ];
+
     environment.persistence."/persist".users.rvfg = {
       directories = [
         ".config/kdeconnect"
@@ -188,6 +194,8 @@ with lib;
       enable = true;
       package = pkgs.wireshark;
     };
+
+    services.usbmuxd.enable = true;
 
     users.users.rvfg.extraGroups = [ "syncthing" "adbusers" "wireshark" ];
 
