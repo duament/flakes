@@ -76,6 +76,7 @@
         sub-shadow-offset = 1;
         video-align-y = -1;
         sub-ass-force-margins = true;
+        stretch-image-subs-to-screen = true;
         audio-display = false;
         ytdl-raw-options-append = [
           "format=bestvideo[height<=1440][fps>=60]+bestaudio/bestvideo[height<=1440]+bestaudio/best[height<=1440]/best"
