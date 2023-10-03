@@ -63,6 +63,7 @@ in
               children.${name}.local_ts = [ "0.0.0.0/0" "::/0" ];
               version = 2;
               pools = [ "${name}_vip" "${name}_vip6" "${name}_vip_ula" ];
+              over_time = "5d";
             };
           })
           cfg.devices);

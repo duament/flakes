@@ -101,6 +101,8 @@ in
         dpd_action = "restart";
       };
       remote_addrs = [ "h.rvf6.com" ];
+      local_port = 4500;
+      remote_port = 4500;
       version = 2;
       vips = [ "0.0.0.0" "::" ];
       proposals = [ "aes256gcm16-prfsha384-curve25519" "aes256gcm16-prfsha384-ecp384" ];
