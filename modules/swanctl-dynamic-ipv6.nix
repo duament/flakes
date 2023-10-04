@@ -60,10 +60,14 @@ in
                 id = "${name}@rvf6.com";
                 cacerts = cfg.cacerts;
               };
-              children.${name}.local_ts = [ "0.0.0.0/0" "::/0" ];
+              children.${name} = {
+                local_ts = [ "0.0.0.0/0" "::/0" ];
+                life_time = "5d";
+                rand_time = "10m";
+              };
               version = 2;
               pools = [ "${name}_vip" "${name}_vip6" "${name}_vip_ula" ];
-              over_time = "5d";
+              rekey_time = "7d";
             };
           })
           cfg.devices);

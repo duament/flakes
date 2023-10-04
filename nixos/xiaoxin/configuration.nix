@@ -106,6 +106,7 @@ in
       version = 2;
       vips = [ "0.0.0.0" "::" ];
       proposals = [ "aes256gcm16-prfsha384-curve25519" "aes256gcm16-prfsha384-ecp384" ];
+      rekey_time = "7d";
     };
     strongswan.extraConfig = ''
       charon {
