@@ -24,7 +24,7 @@ with lib;
     };
     gc = {
       automatic = true;
-      options = "--delete-older-than 21d";
+      options = "--delete-older-than 14d";
       dates = "weekly";
     };
     registry.nixpkgs.flake = inputs.nixpkgs;
