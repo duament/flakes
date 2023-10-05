@@ -44,8 +44,13 @@ require('lualine').setup {
 require('which-key').setup {
 }
 
-require("indent_blankline").setup {
-  show_current_context = true,
+require("ibl").setup {
+  indent = {
+    char = '┆'
+  },
+  scope = {
+    char = '┃'
+  }
 }
 
 require("nvim-tree").setup()

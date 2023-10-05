@@ -21,7 +21,7 @@ in
       "d %h/.mozilla/native-messaging-hosts - - - -"
     ] ++ [
       "d %h/.local/share/TelegramDesktop - - - -"
-      "d %h/Downloads/Telegram\\ Desktop - - - -"
+      ''d "%h/Downloads/Telegram\x20Desktop" - - - -''
     ];
 
     systemd.user.services.keepassxc = {
