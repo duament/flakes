@@ -66,6 +66,7 @@ with lib;
       ifuse
       libimobiledevice
       libplist
+      strongswan
     ];
 
     environment.persistence."/persist".users.rvfg = {

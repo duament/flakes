@@ -32,7 +32,9 @@ with lib;
   systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
 
   environment.systemPackages = with pkgs; [
+    bandwhich
     compsize
+    conntrack-tools
     dig
     lsof
     tcpdump
