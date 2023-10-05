@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v2.1.0";
+    version = "v2.2.0";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v2.1.0";
+      rev = "v2.2.0";
       fetchSubmodules = false;
-      sha256 = "sha256-WZ0ZvC7p4HLjKgKBMME0t/3OF24P6npGGYd+LKXDCUA=";
+      sha256 = "sha256-NT22P6A1mg4ODPLFeeIGKJUIdydkBCowb5jc5N40nTA=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v2.1.0/Cargo.lock;
+      lockFile = ./avbroot-v2.2.0/Cargo.lock;
       outputHashes = {
         "lzma-sys-0.1.20" = "sha256-BEtDeRkuPokSemSJc+2g/6hbTwu1uR5Bm5R96MVTvoc=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
