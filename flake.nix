@@ -35,6 +35,9 @@
   };
 
   outputs = inputs@{ self, nixpkgs, ... }:
+    let
+      data = import ./data { inherit inputs; inherit (nixpkgs) lib; };
+    in
     inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
       (
         system:
@@ -65,8 +68,12 @@
             text = ''
               nix flake update
             '';
+            # TOKEN_FILE_PATH="/run/secrets-rendered/nvchecker-github-token.toml"
+            # if [[ -f "$TOKEN_FILE_PATH" ]]; then
+            #   args="-k $TOKEN_FILE_PATH"
+            # fi
             # cd pkgs
-            # ${pkgs.nvfetcher}/bin/nvfetcher
+            # exec ${pkgs.nvfetcher}/bin/nvfetcher $args
           };
 
           build-script = pkgs.writeShellApplication {
@@ -81,11 +88,10 @@
             '';
           };
 
-          sops-config = pkgs.writeText "sops-config" (import ./data/sops-config.nix);
           sops = pkgs.writeShellApplication {
             name = "sops";
             text = ''
-              exec ${pkgs.sops}/bin/sops --config ${sops-config} "$@"
+              exec ${pkgs.sops}/bin/sops --config ${pkgs.writeText "sops-config" data.sops.configText} "$@"
             '';
           };
         in
@@ -105,7 +111,7 @@
         }
       )
     // {
-      data = import ./data { inherit inputs; inherit (nixpkgs) lib; };
+      inherit data;
 
       overlays.default = final: _prev: import ./pkgs final;
 

@@ -11,6 +11,7 @@
     ./fs.nix
     ./gammu-smsd.nix
     ./git.nix
+    ./github-token.nix
     ./impermanence.nix
     ./metrics.nix
     ./nftables

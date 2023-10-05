@@ -16,31 +16,37 @@ let
     nixctnr = "age192t8u22pq3yhwr7u8zrg38kdxvsxk7n7h4wykjgnsz6u2zx3effqdsmdhc";
   };
 
-  cfg = {
+in
+
+rec {
+
+  secrets = {
     "secrets/clash" = [ "desktop" "xiaoxin" ];
     "secrets/passwd.yaml" = builtins.attrNames machines;
     "secrets/shadowsocks.yaml" = [ "rpi3" ];
     "secrets/ssh-keys.yaml" = [ "desktop" "xiaoxin" ];
     "secrets/restic.yaml" = [ "desktop" "xiaoxin" "t430" "nl" "or2" "or3" "az" ];
+    "secrets/github-token.yaml" = [ "work" "desktop" "xiaoxin" ];
   } // (builtins.listToAttrs (builtins.attrValues (builtins.mapAttrs
     (name: value:
       { name = "machines/${name}/.*"; value = [ name ]; }
     )
     machines)));
 
-in
-builtins.toJSON {
-  creation_rules = builtins.attrValues (builtins.mapAttrs
-    (name: value:
-      {
-        path_regex = name;
-        key_groups = [
-          {
-            pgp = [ admin_pgp ];
-            age = [ admin_age ] ++ (map (x: machines.${x}) value);
-          }
-        ];
-      }
-    )
-    cfg);
+  configText = builtins.toJSON {
+    creation_rules = builtins.attrValues (builtins.mapAttrs
+      (name: value:
+        {
+          path_regex = name;
+          key_groups = [
+            {
+              pgp = [ admin_pgp ];
+              age = [ admin_age ] ++ (map (x: machines.${x}) value);
+            }
+          ];
+        }
+      )
+      secrets);
+  };
 }
+
