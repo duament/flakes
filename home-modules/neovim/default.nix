@@ -29,7 +29,18 @@ in
       nvim-cmp
       nvim-lspconfig
       nvim-tree-lua
-      onenord-nvim
+      # onenord-nvim
+      (pkgs.vimUtils.buildVimPlugin {
+        pname = "onenord.nvim";
+        version = "2023-10-06";
+        src = pkgs.fetchFromGitHub {
+          owner = "duament";
+          repo = "onenord.nvim";
+          rev = "f9950f6a171067ac6e3544463a9cec472e91331f";
+          sha256 = "sha256-LZGjONVJ4UJ7ZVvenYOuvZFc1g7ejE80/VAIwWhtoHg=";
+        };
+        meta.homepage = "https://github.com/rmehri01/onenord.nvim/";
+      })
       vim-lastplace
       which-key-nvim
       (nvim-treesitter.withPlugins (
