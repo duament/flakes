@@ -4,6 +4,7 @@
     inputs.home-manager.nixosModules.home-manager
     inputs.impermanence.nixosModules.impermanence
     inputs.sops-nix.nixosModules.sops
+    ./avbroot.nix
     ./bpf-mark.nix
     ./chromium.nix
     ./clash.nix

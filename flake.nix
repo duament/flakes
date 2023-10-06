@@ -118,13 +118,17 @@
       nixosModules.myModules = import ./modules;
       nixosModules.myHomeModules = import ./home-modules;
 
-      nixosConfigurations = builtins.mapAttrs (k: v:
-        import (./nixos + "/${k}") { inherit inputs nixpkgs self; }
-      ) (builtins.readDir ./nixos);
+      nixosConfigurations = builtins.mapAttrs
+        (k: v:
+          import (./nixos + "/${k}") { inherit inputs nixpkgs self; }
+        )
+        (builtins.readDir ./nixos);
 
-      homeConfigurations = builtins.mapAttrs (k: v:
-        import (./home + "/${k}") { inherit inputs nixpkgs self; }
-      ) (builtins.readDir ./home);
+      homeConfigurations = builtins.mapAttrs
+        (k: v:
+          import (./home + "/${k}") { inherit inputs nixpkgs self; }
+        )
+        (builtins.readDir ./home);
 
       hydraJobs = {
         rpi3 = self.nixosConfigurations.rpi3.config.system.build.toplevel;
