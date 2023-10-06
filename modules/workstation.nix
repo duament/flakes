@@ -82,7 +82,6 @@ with lib;
 
     environment.pathsToLink = [ "/share/fcitx5/themes" ];
 
-    presets.ssh-agent.enable = true;
     presets.chromium.enable = true;
 
     hardware.enableRedistributableFirmware = true;

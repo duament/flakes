@@ -1,18 +1,13 @@
-{ config, lib, pkgs, ... }:
-with lib;
+{ config, lib, pkgs, self, ... }:
 let
+  enable = builtins.elem config.networking.hostName self.data.sops.secrets."secrets/ssh-keys.yaml";
+
   keys = [ "ybk" "canokey" "a4b" ];
   user = config.users.users.rvfg.name;
 in
 {
-  options = {
-    presets.ssh-agent.enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
+  config = lib.mkIf enable {
 
-  config = mkIf config.presets.ssh-agent.enable {
     sops.secrets = builtins.listToAttrs (map
       (key: {
         name = "ssh-key/id_${key}";
@@ -25,6 +20,7 @@ in
       keys);
 
     programs.ssh.startAgent = true;
+
     systemd.user.services.ssh-add-key = {
       wantedBy = [ "default.target" ];
       unitConfig.ConditionUser = user;
@@ -37,5 +33,6 @@ in
         RestartSec = 1;
       };
     };
+
   };
 }
