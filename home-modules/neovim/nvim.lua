@@ -46,7 +46,7 @@ require('which-key').setup {
 
 require("ibl").setup {
   indent = {
-    char = '┆'
+    char = '│'
   },
   scope = {
     char = '┃'
