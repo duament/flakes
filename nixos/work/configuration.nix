@@ -42,10 +42,6 @@
         }
       ) [ "172.16.0.0/12" "10.9.0.0/16" "10.12.0.0/16" "fc00::/64" ];
   };
-  systemd.network.networks."20-tailscale" = {
-    name = "tailscale*";
-    linkConfig.Unmanaged = true;
-  };
   presets.wireguard.wg0 = {
     enable = false;
     route = "all";
