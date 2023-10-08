@@ -48,6 +48,7 @@ in
       sls = "systemctl list-units --type=service";
       slt = "systemctl list-timers";
       suls = "systemctl --user list-units --type=service";
+      sult = "systemctl --user list-timers";
       sus = "sudo systemctl";
       v = "nvim";
     };
