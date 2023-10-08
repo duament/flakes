@@ -10,6 +10,7 @@
     ./git.nix
     ./hyprland
     ./neovim
+    ./nix-gc.nix
     ./python.nix
     ./ssh.nix
     ./starship

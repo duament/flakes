@@ -9,5 +9,6 @@ inputs.home-manager.lib.homeManagerConfiguration {
   ];
   extraSpecialArgs = {
     inherit inputs self;
+    sysConfig = null;
   };
 }
