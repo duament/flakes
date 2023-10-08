@@ -67,13 +67,15 @@
             name = "update";
             text = ''
               nix flake update
+
+              TOKEN_FILE_PATH="/run/secrets-rendered/nvchecker-github-token.toml"
+              args=()
+              if [[ -f "$TOKEN_FILE_PATH" ]]; then
+                args=("-k" "$TOKEN_FILE_PATH")
+              fi
+              cd pkgs
+              exec ${pkgs.nvfetcher}/bin/nvfetcher "''${args[@]}"
             '';
-            # TOKEN_FILE_PATH="/run/secrets-rendered/nvchecker-github-token.toml"
-            # if [[ -f "$TOKEN_FILE_PATH" ]]; then
-            #   args="-k $TOKEN_FILE_PATH"
-            # fi
-            # cd pkgs
-            # exec ${pkgs.nvfetcher}/bin/nvfetcher $args
           };
 
           build-script = pkgs.writeShellApplication {

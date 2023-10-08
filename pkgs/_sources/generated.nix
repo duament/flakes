@@ -50,9 +50,9 @@
     cargoLock."Cargo.lock" = {
       lockFile = ./avbroot-v2.2.0/Cargo.lock;
       outputHashes = {
+        "bzip2-0.4.4" = "sha256-6VOKPlgIIibpcvxSL9Y+wKre6h2J2s+dGOhCA9pAVwg=";
         "lzma-sys-0.1.20" = "sha256-BEtDeRkuPokSemSJc+2g/6hbTwu1uR5Bm5R96MVTvoc=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
-        "bzip2-0.4.4" = "sha256-6VOKPlgIIibpcvxSL9Y+wKre6h2J2s+dGOhCA9pAVwg=";
       };
     };
   };
@@ -69,7 +69,7 @@
     version = "2023-04-18T18-03-53";
     src = fetchTarball {
       url = "https://github.com/johman10/flood-for-transmission/releases/download/2023-04-18T18-03-53/flood-for-transmission.tar.gz";
-      sha256 = "1r0djf0yvaqdy8xjnh8qb92xapfmnsqbqis3i5xl243w64whfnva";
+      sha256 = "sha256-alsHOTF8EEF7iUNHvLC21V3VRVoYQSs78g2r7YGTDeQ=";
     };
   };
   hass-xiaomi-miot = {
