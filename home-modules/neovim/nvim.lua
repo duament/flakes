@@ -35,7 +35,7 @@ require('nvim-treesitter.configs').setup {
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'onelight',
+    theme = 'onenord',
     section_separators = '',
     component_separators = ''
   }
@@ -55,6 +55,15 @@ require("ibl").setup {
 
 require("nvim-tree").setup()
 vim.api.nvim_set_keymap('n', '<space>t', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
+
+require("bufferline").setup{
+  options = {
+    indicator = {
+      style = 'underline'
+    },
+    buffer_close_icon = '🗙'
+  }
+}
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
