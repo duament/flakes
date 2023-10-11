@@ -60,8 +60,7 @@ require("bufferline").setup{
   options = {
     indicator = {
       style = 'underline'
-    },
-    buffer_close_icon = '🗙'
+    }
   }
 }
 
