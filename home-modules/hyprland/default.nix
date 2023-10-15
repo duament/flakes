@@ -111,25 +111,10 @@ in
     };
     systemd.user.services.swayidle.Unit.After = [ "graphical-session.target" ];
 
-    xdg.configFile."hypr/hyprland.conf" = {
-      text = ''
-        ${builtins.readFile ./hyprland.conf}
-        bind = $mainMod, L, exec, ${config.programs.swaylock.package}/bin/swaylock
-        bind = $mainMod, S, exec, ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)"
-        exec-once = systemctl --user import-environment DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP && systemd-notify --ready
-        exec-once = systemd-run --user -G -u wezterm ${config.programs.wezterm.package}/bin/wezterm
-        exec-once = systemd-run --user -G -u firefox ${config.programs.firefox.package}/bin/firefox
-        exec-once = systemd-run --user -G -u thunderbird thunderbird
-      '';
-      onChange = ''
-        (  # execute in subshell so that `shopt` won't affect other scripts
-          shopt -s nullglob  # so that nothing is done if /tmp/hypr/ does not exist or is empty
-          for instance in /tmp/hypr/*; do
-            HYPRLAND_INSTANCE_SIGNATURE=''${instance##*/} ${hyprland}/bin/hyprctl reload config-only \
-              || true  # ignore dead instance(s)
-          done
-        )
-      '';
+    wayland.windowManager.hyprland = {
+      enable = true;
+      settings = import ./hyprland.nix { inherit config pkgs; };
+      systemd.enable = false;
     };
     systemd.user.services.hyprland = {
       Unit = {
@@ -140,7 +125,6 @@ in
       };
       Service = {
         Type = "notify";
-        NotifyAccess = "all";
         ExecStart = "${hyprland}/bin/Hyprland";
         ExecStopPost = "/run/current-system/sw/bin/systemctl --user unset-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_SESSION_DESKTOP";
         Restart = "on-failure";
