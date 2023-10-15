@@ -142,38 +142,21 @@ in
       After = [ "hyprland-session.target" ];
       Before = [ "graphical-session.target" ];
     };
-    systemd.user.services.swww = {
+
+    systemd.user.services.hyprpaper = {
       Unit = {
         Wants = [ "hyprland-session.target" ];
         After = [ "hyprland-session.target" ];
       };
-      Service = {
-        Type = "notify";
-        Environment = [ "PATH=${with pkgs; lib.makeBinPath [ procps swww ]}" ];
-        ExecStart = "${pkgs.swww}/bin/swww-daemon";
-      };
-      Install.WantedBy = [ "graphical-session.target" ];
-    };
-    systemd.user.services.swww-img = {
-      Unit = {
-        Wants = [ "swww.service" ];
-        After = [ "swww.service" ];
-      };
-      Service = {
-        Type = "oneshot";
-        ExecStart = "${pkgs.swww}/bin/swww img ${wallpaper-cloud} --transition-type grow --transition-duration 3";
-      };
+      Service.ExecStart = "${pkgs.hyprpaper}/bin/hyprpaper -c ${pkgs.writeText "hyprpaper-config" ''
+        preload = ${wallpaper-cloud}
+        wallpaper = ,${wallpaper-cloud}
+      ''}";
       Install.WantedBy = [ "graphical-session.target" ];
     };
 
     programs.waybar = {
       enable = true;
-      package = pkgs.waybar.overrideAttrs (oldAttrs: {
-        postPatch = ''
-          sed -i 's/zext_workspace_handle_v1_activate(workspace_handle_);/const std::string command = "hyprctl dispatch workspace " + name_;\n\tsystem(command.c_str());/g' src/modules/wlr/workspace_manager.cpp
-        '';
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      });
       systemd.enable = true;
       settings = [ (import ./waybar.nix { inherit pkgs; }) ];
       style = builtins.readFile ./waybar.css;
