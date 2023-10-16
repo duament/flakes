@@ -115,6 +115,7 @@ in
       enable = true;
       settings = import ./hyprland.nix { inherit config pkgs; };
       systemd.enable = false;
+      package = hyprland;
     };
     systemd.user.services.hyprland = {
       Unit = {

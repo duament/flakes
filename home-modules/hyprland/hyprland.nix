@@ -3,13 +3,13 @@
   input.touchpad.natural_scroll = true;
 
   general = {
-    sensitivity = 1.0;  # for mouse cursor
+    sensitivity = 1.0; # for mouse cursor
     gaps_in = 5;
     gaps_out = 10;
     border_size = 5;
     "col.active_border" = "0xfff5c2e7";
     "col.inactive_border" = "0xff45475a";
-    apply_sens_to_raw = 0;  # whether to apply the sensitivity to raw input (e.g. used by games where you aim using your mouse)
+    apply_sens_to_raw = 0; # whether to apply the sensitivity to raw input (e.g. used by games where you aim using your mouse)
     "col.group_border" = "0xff89dceb";
     "col.group_border_active" = "0xfff9e2af";
   };
@@ -39,7 +39,7 @@
   };
 
   dwindle = {
-    pseudotile = true;  # enable pseudotiling on dwindle
+    pseudotile = true; # enable pseudotiling on dwindle
     preserve_split = true;
   };
 
@@ -130,24 +130,18 @@
   ];
 
   windowrulev2 = [
-    "workspace 2, class:^(firefox)$, title:^(.*Mozilla Firefox)$"
-    "workspace 3, class:^(firefox)$, title:^(.*Mozilla Firefox Private Browsing)$"
-    "workspace 4, class:^(org.keepassxc.KeePassXC)$"
-    "workspace 5, class:^(org.telegram.desktop)$"
-    "workspace 6, class:^(thunderbird)$"
     "float, class:^(imv)$"
     "float, class:^(pavucontrol)$"
     "float, class:^(org.telegram.desktop)$, title:^(Media viewer)$"
-    "float, class:^(firefox)$, title:^(Firefox — Sharing Indicator)$"
     "float, class:^(firefox)$, title:^(Picture-in-Picture)$"
     "float, class:^(org.kde.kdeconnect-indicator)$"
     "float, class:^(org.kde.kdeconnect.handler)$"
     "float, class:^(org.kde.dolphin)$"
-  ];
+  ] ++ (builtins.genList (i: let n = toString (i + 1); in "workspace ${n}, cgroup2:^(.*)(-w${n}\.service)$") 9);
 
   exec-once = [
-    "systemd-run --user -G -u wezterm ${config.programs.wezterm.package}/bin/wezterm"
-    "systemd-run --user -G -u firefox ${config.programs.firefox.package}/bin/firefox"
-    "systemd-run --user -G -u thunderbird thunderbird"
+    "systemd-run --user -G -u wezterm-w1 ${config.programs.wezterm.package}/bin/wezterm"
+    "systemd-run --user -G -u firefox-w2 ${config.programs.firefox.package}/bin/firefox"
+    "systemd-run --user -G -u thunderbird-w6 thunderbird"
   ];
 }

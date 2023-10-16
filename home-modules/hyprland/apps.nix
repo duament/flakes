@@ -24,7 +24,7 @@ in
       ''d "%h/Downloads/Telegram\x20Desktop" - - - -''
     ];
 
-    systemd.user.services.keepassxc = {
+    systemd.user.services.keepassxc-w4 = {
       Unit.After = [ "graphical-session.target" ];
       Install.WantedBy = [ "graphical-session.target" ];
       Service = self.data.systemdHarden // {
@@ -45,7 +45,7 @@ in
       };
     };
 
-    systemd.user.services.telegram = {
+    systemd.user.services.telegram-w5 = {
       Unit.After = [ "graphical-session.target" ];
       Install.WantedBy = [ "graphical-session.target" ];
       Service = self.data.systemdHarden // {

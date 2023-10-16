@@ -145,7 +145,14 @@ with lib;
       };
     };
 
-    programs.hyprland.enable = true;
+    programs.hyprland = {
+      enable = true;
+      package = pkgs.hyprland.overrideAttrs (old: {
+        patches = old.patches ++ [
+          ./hyprland-cgroup2.patch
+        ];
+      });
+    };
     hardware.opengl.enable = true;
     security.pam.services.swaylock = { };
     xdg.portal.wlr.enable = true;
