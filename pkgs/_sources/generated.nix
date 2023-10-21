@@ -58,10 +58,10 @@
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20230823";
+    version = "20231016";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20230823.dict";
-      sha256 = "sha256-aPJN8NWxTTVol85pAqx2O6JFwtJaOSiBZ8DRWsPzCm8=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20231016.dict";
+      sha256 = "sha256-aQAAg+ArqwI5/fbhY80oAkvpRonU6FUsfYuWp3Z2WCM=";
     };
   };
   flood-for-transmission = {
@@ -69,7 +69,7 @@
     version = "2023-04-18T18-03-53";
     src = fetchTarball {
       url = "https://github.com/johman10/flood-for-transmission/releases/download/2023-04-18T18-03-53/flood-for-transmission.tar.gz";
-      sha256 = "sha256-alsHOTF8EEF7iUNHvLC21V3VRVoYQSs78g2r7YGTDeQ=";
+      sha256 = "1r0djf0yvaqdy8xjnh8qb92xapfmnsqbqis3i5xl243w64whfnva";
     };
   };
   hass-xiaomi-miot = {
