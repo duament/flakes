@@ -52,11 +52,11 @@
     "dnsmasq-china-list": {
       "flake": false,
       "locked": {
-        "lastModified": 1697819151,
-        "narHash": "sha256-6ynBvSnzWfJZSxHcS0h7Lgmv1Q1ruplceOOt7WWN310=",
+        "lastModified": 1697870762,
+        "narHash": "sha256-ugvptI3mEiTJUDqEmp8BiUY62V/4mkAyTgdptiINctc=",
         "owner": "felixonmars",
         "repo": "dnsmasq-china-list",
-        "rev": "a9db0a75a7db581c5328724608b23719e0a11aa7",
+        "rev": "22719f6a0d19703d99020621557d105f46268d3b",
         "type": "github"
       },
       "original": {
@@ -208,11 +208,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1697723726,
-        "narHash": "sha256-SaTWPkI8a5xSHX/rrKzUe+/uVNy6zCGMXgoeMb7T9rg=",
+        "lastModified": 1697907368,
+        "narHash": "sha256-yvhZCI2jAosys75ot2byGw8vkHxMDP2JBdHPrs/CE0g=",
         "owner": "duament",
         "repo": "nixpkgs",
-        "rev": "7c9cc5a6e5d38010801741ac830a3f8fd667a7a0",
+        "rev": "fcb40e70233926f970cb2a8d5e46c76bc8d02f92",
         "type": "github"
       },
       "original": {
