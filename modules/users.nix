@@ -54,6 +54,14 @@ in
             command = "/nix/store/*/bin/switch-to-configuration";
             options = [ "NOPASSWD" ];
           }
+          {
+            command = "/run/current-system/sw/bin/systemd-run -E LOCALE_ARCHIVE --collect --no-ask-password --pty --quiet --same-dir --service-type=exec --unit=nixos-rebuild-switch-to-configuration --wait true";
+            options = [ "NOPASSWD" ];
+          }
+          {
+            command = "/run/current-system/sw/bin/systemd-run -E LOCALE_ARCHIVE --collect --no-ask-password --pty --quiet --same-dir --service-type=exec --unit=nixos-rebuild-switch-to-configuration --wait /nix/store/*/bin/switch-to-configuration";
+            options = [ "NOPASSWD" ];
+          }
         ];
       }
     ];
