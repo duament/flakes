@@ -208,11 +208,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1698736762,
-        "narHash": "sha256-BA7mJmTCNNiJAkXaXgqeoacj3Kc1ezd9xM8tQIUMtrI=",
+        "lastModified": 1698763887,
+        "narHash": "sha256-wZX2tUb6hYT0Xd24RFQZw64EasY3uDhbihWlhaRZLRI=",
         "owner": "duament",
         "repo": "nixpkgs",
-        "rev": "bf29214139a2c65a70174c789eda8c0cb0b722c8",
+        "rev": "74587c8aa4ce715ec73b0f819e6142b16e5efbe5",
         "type": "github"
       },
       "original": {
