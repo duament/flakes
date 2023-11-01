@@ -10,8 +10,6 @@
     "col.active_border" = "0xfff5c2e7";
     "col.inactive_border" = "0xff45475a";
     apply_sens_to_raw = 0; # whether to apply the sensitivity to raw input (e.g. used by games where you aim using your mouse)
-    "col.group_border" = "0xff89dceb";
-    "col.group_border_active" = "0xfff9e2af";
   };
 
   decoration = {
@@ -47,6 +45,11 @@
     workspace_swipe = true;
     workspace_swipe_fingers = 4;
     workspace_swipe_distance = 200;
+  };
+
+  group = {
+    "col.border_inactive" = "0xff89dceb";
+    "col.border_active" = "0xfff9e2af";
   };
 
   misc = {
