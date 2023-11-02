@@ -154,12 +154,12 @@ in
 
   networking.warp = {
     enable = true;
-    endpointAddr = "162.159.193.1";
+    endpointAddr = "162.159.192.1";
     mtu = 1412;
     mark = 3;
-    routingId = "0x09c13f";
+    routingId = "0xb18031";
     keyFile = config.sops.secrets.warp_key.path;
-    address = [ "172.16.0.2/32" "2606:4700:110:84eb:bb94:4951:eb43:cae1/128" ];
+    address = [ "172.16.0.2/32" "2606:4700:110:89a4:12e0:be02:634:888f/128" ];
     table = 20;
     extraMarkSettings.extraIPv4Rules = "ip saddr 10.6.7.0/24 accept";
   };
