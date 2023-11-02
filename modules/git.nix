@@ -18,6 +18,6 @@ with lib;
       packages = [ pkgs.git ];
     };
 
-    services.openssh.extraConfig = "AllowUsers git";
+    services.openssh.settings.AllowUsers = [ "git" ];
   };
 }

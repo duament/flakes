@@ -103,7 +103,7 @@ with lib;
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
       AuthenticationMethods = "publickey";
-      AllowUsers = "rvfg deploy";
+      AllowUsers = [ "rvfg" "deploy" ];
       KexAlgorithms = [ "sntrup761x25519-sha512@openssh.com" "curve25519-sha256" "curve25519-sha256@libssh.org" ];
       Ciphers = [ "chacha20-poly1305@openssh.com" "aes256-gcm@openssh.com" ];
       Macs = [ "hmac-sha2-512-etm@openssh.com" "umac-128-etm@openssh.com" ];

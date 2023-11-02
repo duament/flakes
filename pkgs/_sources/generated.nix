@@ -69,7 +69,7 @@
     version = "2023-04-18T18-03-53";
     src = fetchTarball {
       url = "https://github.com/johman10/flood-for-transmission/releases/download/2023-04-18T18-03-53/flood-for-transmission.tar.gz";
-      sha256 = "sha256-alsHOTF8EEF7iUNHvLC21V3VRVoYQSs78g2r7YGTDeQ=";
+      sha256 = "1r0djf0yvaqdy8xjnh8qb92xapfmnsqbqis3i5xl243w64whfnva";
     };
   };
   hass-xiaomi-miot = {
