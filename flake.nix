@@ -110,6 +110,27 @@
               sops
             ];
           };
+
+          apps.ci-deploy = {
+            type = "app";
+            program =
+              let
+                hosts = [ "az" "nl" "or2" ];
+                known_hosts = pkgs.writeText "ssh_known_hosts" (builtins.concatStringsSep "" (map
+                  (host:
+                    "${host}.rvf6.com ${data.sshPub.${host}}\n"
+                  )
+                  hosts));
+              in
+              (pkgs.writeShellScript "ci-deploy" ''
+                export NIX_SSHOPTS="-o GlobalKnownHostsFile=${known_hosts}"
+                hosts=(${builtins.concatStringsSep " " hosts})
+                for host in ''${hosts[*]}; do
+                  echo "$host"
+                  ${pkgs.nixos-rebuild}/bin/nixos-rebuild --flake .#"$host" --target-host deploy@"$host".rvf6.com --use-remote-sudo switch
+                done
+              '').outPath;
+          };
         }
       )
     // {

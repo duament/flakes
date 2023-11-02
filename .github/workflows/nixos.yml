@@ -41,10 +41,4 @@ jobs:
         mkdir -p ~/.ssh
         printenv SSH_KEY > ~/.ssh/id_ed25519
         chmod 600 ~/.ssh/id_ed25519
-        cat ./result/etc/ssh/ssh_known_hosts >> ~/.ssh/known_hosts
-
-        hosts=(az nl or2)
-        for host in ${hosts[*]}; do
-          echo "$host"
-          nix run nixpkgs#nixos-rebuild -- --flake .#"$host" --target-host deploy@"$host".rvf6.com --use-remote-sudo switch
-        done
+        nix run .#ci-deploy
