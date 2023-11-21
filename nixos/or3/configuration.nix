@@ -184,6 +184,7 @@ in
       OIDC_SECURITY_ASSUME_EMAIL_IS_VERIFIED = "true";
     };
     extraEnvFiles = [ config.sops.secrets.mastodon.path ];
+    streamingProcesses = 3;
   };
 
   presets.restic = {
