@@ -25,6 +25,7 @@ in
         LoadCredential = "clash.conf:${cfg.configFile}";
         ExecStart = "${pkgs.clash-meta}/bin/clash-meta -d %S/%N -f \${CREDENTIALS_DIRECTORY}/clash.conf";
         PrivateNetwork = false;
+        SystemCallFilter = "";
       };
     };
 
