@@ -39,7 +39,6 @@ in
       grim
       papirus-icon-theme
       thunderbird
-      vulkan-validation-layers
       wl-clipboard
     ] ++ dolphin_packages;
 
