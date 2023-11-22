@@ -143,8 +143,5 @@
   ] ++ (builtins.genList (i: let n = toString (i + 1); in "workspace ${n}, cgroup2:^(.*)(-w${n}\.service)$") 9);
 
   exec-once = [
-    "systemd-run --user -G -u wezterm-w1 ${config.programs.wezterm.package}/bin/wezterm"
-    "systemd-run --user -G -u firefox-w2 ${config.programs.firefox.package}/bin/firefox"
-    "systemd-run --user -G -u thunderbird-w6 thunderbird"
   ];
 }

@@ -293,6 +293,20 @@ in
         patches = (old.patches or [ ]) ++ [
           ./wezterm-scroll.patch
         ];
+        src = pkgs.fetchFromGitHub {
+          owner = "wez";
+          repo = old.pname;
+          rev = "fde926722fb6ef05fb3be78624aff33095a283d1";
+          fetchSubmodules = true;
+          hash = "sha256-yrF2RLIjAPdGb4haEerrpBD1P0JLoPf7jz1Bp6U49Ao=";
+        };
+        cargoDeps = pkgs.rustPlatform.importCargoLock {
+          lockFile = ./wezterm-Cargo.lock;
+          outputHashes = {
+            "xcb-1.2.1" = "sha256-zkuW5ATix3WXBAj2hzum1MJ5JTX3+uVQ01R1vL6F1rY=";
+            "xcb-imdkit-0.2.0" = "sha256-L+NKD0rsCk9bFABQF4FZi9YoqBHr4VAZeKAWgsaAegw=";
+          };
+        };
       });
       extraConfig = builtins.readFile ./wezterm.lua;
     };

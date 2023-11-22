@@ -24,6 +24,18 @@ in
       ''d "%h/Downloads/Telegram\x20Desktop" - - - -''
     ];
 
+    systemd.user.services.wezterm-w1 = {
+      Unit.After = [ "graphical-session.target" ];
+      Install.WantedBy = [ "graphical-session.target" ];
+      Service.ExecStart = "${config.programs.wezterm.package}/bin/wezterm";
+    };
+
+    systemd.user.services.firefox-w2 = {
+      Unit.After = [ "graphical-session.target" ];
+      Install.WantedBy = [ "graphical-session.target" ];
+      Service.ExecStart = "${config.programs.firefox.package}/bin/firefox";
+    };
+
     systemd.user.services.keepassxc-w4 = {
       Unit.After = [ "graphical-session.target" ];
       Install.WantedBy = [ "graphical-session.target" ];
@@ -65,6 +77,12 @@ in
         DevicePolicy = "closed";
         SystemCallFilter = "";
       };
+    };
+
+    systemd.user.services.thunderbird-w6 = {
+      Unit.After = [ "graphical-session.target" ];
+      Install.WantedBy = [ "graphical-session.target" ];
+      Service.ExecStart = "${pkgs.thunderbird}/bin/thunderbird";
     };
 
     xdg.desktopEntries = builtins.listToAttrs
