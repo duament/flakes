@@ -2,6 +2,7 @@
 let
   cfg = config.presets.hyprland;
   hyprland = sysConfig.programs.hyprland.finalPackage;
+  xdg-desktop-portal-hyprland = sysConfig.programs.hyprland.portalPackage.override { inherit hyprland; };
 
   iconTheme = {
     package = pkgs.papirus-icon-theme;
@@ -131,6 +132,22 @@ in
         RestartSec = 1;
       };
     };
+    systemd.user.services.xdg-desktop-portal-hyprland = {
+      Unit = {
+        Description = "Portal service (Hyprland implementation)";
+        WantedBy = [ "hyprland-session.target" ];
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland.service" ];
+        ConditionEnvironment = "WAYLAND_DISPLAY";
+      };
+      Service = {
+        Type = "dbus";
+        BusName = "org.freedesktop.impl.portal.desktop.hyprland";
+        ExecStart = "${xdg-desktop-portal-hyprland}/libexec/xdg-desktop-portal-hyprland";
+        Restart = "on-failure";
+        Slice = "session.slice";
+      };
+    };
     systemd.user.targets.hyprland-session = {
       Unit = {
         BindsTo = [ "graphical-session-pre.target" ];
@@ -165,7 +182,6 @@ in
       Unit = {
         Wants = [ "hyprland-session.target" ];
         After = lib.mkForce [ "hyprland-session.target" ];
-        Before = [ "graphical-session.target" ];
         PartOf = lib.mkForce [ ];
       };
       Service = {

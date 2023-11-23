@@ -155,7 +155,6 @@ with lib;
     };
     hardware.opengl.enable = true;
     security.pam.services.swaylock = { };
-    xdg.portal.wlr.enable = true;
     services.greetd = {
       enable = true;
       settings =
