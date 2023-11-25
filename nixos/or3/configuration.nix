@@ -154,6 +154,7 @@ in
         tls_skip_verify_insecure = false;
         tls_client_ca = "/etc/ssl/certs/ca-bundle.crt";
         use_pkce = true;
+        skip_org_role_sync = true;
       };
       users.default_theme = "system";
     };
