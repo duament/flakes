@@ -1,4 +1,4 @@
-{ config, lib, pkgs, self, ... }:
+{ config, lib, ... }:
 let
   cfg = config.presets.fs;
 in
