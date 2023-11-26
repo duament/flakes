@@ -67,7 +67,7 @@
     ak = {
       id = 25;
       pubkey = "q4HlrIfkbw9oXa4Bn0mygaOTpsM3SiSIj3gBc+NWWgU=";
-      addr = "[2401:b60:5:4a91:bd28:4be0:ccd2:80da]"; # ak.rvf6.com
+      addr = "203.147.229.50"; # ak.rvf6.com
       port = 11111;
     };
   };
