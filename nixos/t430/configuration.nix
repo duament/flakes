@@ -49,7 +49,6 @@ in
     allowedUDPPorts = [
       500 # IPsec
       4500 # IPsec
-      wg0.port
     ];
     extraInputRules = ''
       ip protocol { ah, esp } accept
@@ -104,53 +103,17 @@ in
     ipv6SendRAConfig = { DNS = "fd66::1"; };
   };
 
-  systemd.network.netdevs."25-wg0" = {
-    netdevConfig = { Name = "wg0"; Kind = "wireguard"; };
-    wireguardConfig = {
-      PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-      ListenPort = wg0.port;
-    };
-    wireguardPeers = wg0.peerConfigs;
-  };
-  systemd.network.networks."25-wg0" = {
-    name = "wg0";
-    address = [ "${wg0.gateway4}/24" "${wg0.gateway6}/120" ];
-    networkConfig = { DHCPPrefixDelegation = true; };
-    dhcpPrefixDelegationConfig = { Token = "::1"; };
-    linkConfig = { RequiredForOnline = false; };
-  };
-  presets.wireguard.dynamicIPv6.interfaces = [ "wg0" ];
+  presets.wireguard.wg0.enable = true;
 
-  systemd.network.netdevs."25-wg-or2" = {
-    netdevConfig = { Name = "wg-or2"; Kind = "wireguard"; };
-    wireguardConfig = {
-      PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-      FirewallMark = 3;
-      RouteTable = 11;
-    };
-    wireguardPeers = [
-      {
-        wireguardPeerConfig = {
-          AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-          PublicKey = self.data.wg0.peers.or2.pubkey;
-          Endpoint = "${self.data.wg0.peers.or2.endpointAddr}:11112";
-        };
-      }
-    ];
-  };
-  systemd.network.networks."25-wg-or2" = {
-    name = "wg-or2";
-    address = [ "10.6.9.1/24" "fd66::1/120" ];
-    routingPolicyRules = [
-      {
-        routingPolicyRuleConfig = {
-          To = "34.117.196.143"; # prod-ingress.nianticlabs.com
-          Table = 11;
-          Priority = 9;
-        };
-      }
-    ];
-  };
+  systemd.network.networks."25-wg-or2".routingPolicyRules = [
+    {
+      routingPolicyRuleConfig = {
+        To = "34.117.196.143"; # prod-ingress.nianticlabs.com
+        Table = 100 + wg0.peers.or2.id;
+        Priority = 9;
+      };
+    }
+  ];
 
   networking.warp = {
     enable = true;
@@ -167,8 +130,8 @@ in
 
   presets.smartdns.chinaDns = [ "[fd65::1]" ];
   presets.smartdns.settings.address = [
-    "/t430.rvf6.com/${wg0.gateway4}"
-    "/t430.rvf6.com/${wg0.gateway6}"
+    "/t430.rvf6.com/10.6.6.1"
+    "/t430.rvf6.com/fd64::1"
     "/ax6s.rvf6.com/fd65::1"
     "/ax6s.rvf6.com/-4"
     "/rpi3.rvf6.com/10.6.0.7"
