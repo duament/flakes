@@ -16,6 +16,7 @@ in
       (interface:
         let
           wg = self.data.${interface};
+          control = wg.peers.${wg.control};
         in
         {
           name = "${interface}-re-resolve";
@@ -24,12 +25,12 @@ in
             path = [ pkgs.wireguard-tools pkgs.gawk ];
             script = ''
               set -o pipefail
-              ENDPOINT=$(wg show ${interface} endpoints | grep ${wg.pubkey} | awk '{print $2}')
+              ENDPOINT=$(wg show ${interface} endpoints | grep ${control.pubkey} | awk '{print $2}')
               IP_IN_USE=''${ENDPOINT%%:*}
               PORT=''${ENDPOINT##*:}
-              IP_RESOLVED=$(resolvectl query -4 --legend=no ${wg.host} | awk '{print $2}')
+              IP_RESOLVED=$(resolvectl query -4 --legend=no ${control.addr} | awk '{print $2}')
               if [[ "$IP_IN_USE" != "$IP_RESOLVED" ]]; then
-                wg set ${interface} peer ${wg.pubkey} endpoint "$IP_RESOLVED:$PORT"
+                wg set ${interface} peer ${control.pubkey} endpoint "$IP_RESOLVED:$PORT"
               fi
             '';
             serviceConfig = self.data.systemdHarden // {
