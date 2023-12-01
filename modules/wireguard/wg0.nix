@@ -163,8 +163,6 @@ in
         '';
       };
 
-      networking.nftables.masquerade = [ "iifname wg-${config.networking.hostName}" ];
-
       systemd.network.netdevs."25-wg-${config.networking.hostName}" = {
         netdevConfig = {
           Name = "wg-${config.networking.hostName}";
@@ -186,7 +184,7 @@ in
       systemd.network.networks."25-wg-${config.networking.hostName}" = {
         name = "wg-${config.networking.hostName}";
         address = [ "10.7.${toString peer.id}.2/24" "fd66:${toLowerHex peer.id}::2/120" ];
-        networkConfig.IPForward = true;
+        networkConfig.IPMasquerade = "both";
       };
 
     })
