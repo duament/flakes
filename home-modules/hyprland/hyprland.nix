@@ -14,10 +14,10 @@
 
   decoration = {
     drop_shadow = true;
-    shadow_range = 100;
+    shadow_range = 20;
     shadow_render_power = 5;
-    "col.shadow" = "0x33000000";
-    "col.shadow_inactive" = "0x22000000";
+    "col.shadow" = "0x30000000";
+    "col.shadow_inactive" = "0x20000000";
     rounding = 15;
     blur = {
       size = 2;
