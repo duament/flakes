@@ -68,7 +68,7 @@ in
   };
   networking.nftables.checkRuleset = false;
   networking.nftables.mssClamping = true;
-  networking.nftables.masquerade = [ "ip saddr { ${tailscale-ipv4} }" "ip6 saddr { ${tailscale-ipv6} }" "oifname wg-or2" ];
+  networking.nftables.masquerade = [ "ip saddr { ${tailscale-ipv4} }" "ip6 saddr { ${tailscale-ipv6} }" ];
 
   home-manager.users.rvfg = import ./home.nix;
 

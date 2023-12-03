@@ -5,6 +5,7 @@
   ipv6Mask = 120;
   control = "t430";
   p2p = [ "or2" "ak" ];
+  p2pPort = 50000;
   peers = {
     t430 = {
       id = 1;
@@ -68,7 +69,7 @@
       id = 25;
       pubkey = "q4HlrIfkbw9oXa4Bn0mygaOTpsM3SiSIj3gBc+NWWgU=";
       addr = "203.147.229.50"; # ak.rvf6.com
-      port = 11111;
+      port = 40000;
     };
   };
 }

@@ -157,7 +157,7 @@ in
     (lib.mkIf isP2p {
 
       networking.firewall = {
-        allowedUDPPorts = [ (11120 + peer.id) ];
+        allowedUDPPorts = [ wg0.p2pPort ];
         extraForwardRules = ''
           iifname wg-${config.networking.hostName} accept
         '';
@@ -171,7 +171,7 @@ in
         };
         wireguardConfig = {
           PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-          ListenPort = 11120 + peer.id;
+          ListenPort = wg0.p2pPort;
         };
         wireguardPeers = [{
           wireguardPeerConfig = {
@@ -191,6 +191,8 @@ in
 
     (lib.mkIf isControl {
 
+      networking.nftables.masquerade = [ "oifname { ${lib.concatMapStringsSep ", " (i: "wg-${i}") wg0.p2p} }" ];
+
       systemd.network = lib.mkMerge (map
         (host: {
           netdevs."25-wg-${host}" = {
@@ -208,7 +210,7 @@ in
                 wireguardPeerConfig = {
                   AllowedIPs = [ "0.0.0.0/0" "::/0" ];
                   PublicKey = wg0.peers.${host}.pubkey;
-                  Endpoint = "${wg0.peers.${host}.addr}:${toString (11120 + wg0.peers.${host}.id)}";
+                  Endpoint = "${wg0.peers.${host}.addr}:${toString wg0.p2pPort}";
                 };
               }
             ];
