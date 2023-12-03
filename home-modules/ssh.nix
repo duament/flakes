@@ -51,7 +51,7 @@ in
               identitiesOnly = true;
               forwardAgent = true;
             };
-          }) [ "nl" "or2" "or3" "az" "rpi3" "t430" "work" ]) // builtins.listToAttrs (map
+          }) [ "nl" "or2" "or3" "az" "ak" "rpi3" "t430" "work" ]) // builtins.listToAttrs (map
         (host: {
           name = host;
           value = {
