@@ -123,7 +123,7 @@ in
                 FirewallMark = wgMark;
                 InvertRule = "yes";
                 Table = wgTable;
-                Priority = 10;
+                Priority = 20;
               };
             }
           ] else [
@@ -139,7 +139,7 @@ in
               Family = "both";
               FirewallMark = routeMark;
               Table = wgTable;
-              Priority = 10;
+              Priority = 20;
             };
           }
         ]);

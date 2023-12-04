@@ -4,6 +4,7 @@ let
   systemdHarden = self.data.systemdHarden;
   tailscale-ipv4 = "100.122.255.34, 100.102.34.2, 100.108.44.87";
   tailscale-ipv6 = "fd7a:115c:a1e0:ab12:4843:cd96:627a:ff22, fd7a:115c:a1e0:ab12:4843:cd96:6266:2202, fd7a:115c:a1e0:ab12:4843:cd96:626c:2c57";
+  nonCNMark = 2;
 in
 {
   presets.nogui.enable = true;
@@ -105,15 +106,40 @@ in
 
   presets.wireguard.wg0.enable = true;
 
-  systemd.network.networks."25-wg-or2".routingPolicyRules = [
-    {
-      routingPolicyRuleConfig = {
-        To = "34.117.196.143"; # prod-ingress.nianticlabs.com
-        Table = 100 + wg0.peers.or2.id;
-        Priority = 9;
-      };
-    }
-  ];
+  systemd.network.networks."25-wg-ak".routingPolicyRules =
+    let
+      table = 100 + wg0.peers.ak.id;
+    in
+    [
+      {
+        routingPolicyRuleConfig = {
+          FirewallMark = nonCNMark;
+          Table = table;
+          Priority = 20;
+          Family = "both";
+        };
+      }
+      {
+        routingPolicyRuleConfig = {
+          To = "34.117.196.143"; # prod-ingress.nianticlabs.com
+          Table = table;
+          Priority = 9;
+        };
+      }
+      {
+        routingPolicyRuleConfig = {
+          To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
+          Table = table;
+          Priority = 9;
+        };
+      }
+    ];
+
+  networking.nftables.markChinaIP = {
+    enable = true;
+    mark = nonCNMark;
+    extraIPv4Rules = "ip saddr 10.6.7.0/24 accept";
+  };
 
   networking.warp = {
     enable = true;
@@ -124,24 +150,30 @@ in
     keyFile = config.sops.secrets.warp_key.path;
     address = [ "172.16.0.2/32" "2606:4700:110:89a4:12e0:be02:634:888f/128" ];
     table = 20;
-    extraMarkSettings.extraIPv4Rules = "ip saddr 10.6.7.0/24 accept";
   };
   presets.wireguard.keepAlive.interfaces = [ "warp" ];
 
-  presets.smartdns.chinaDns = [ "[fd65::1]" ];
-  presets.smartdns.settings.address = [
-    "/t430.rvf6.com/10.6.6.1"
-    "/t430.rvf6.com/fd64::1"
-    "/ax6s.rvf6.com/fd65::1"
-    "/ax6s.rvf6.com/-4"
-    "/rpi3.rvf6.com/10.6.0.7"
-    "/fava.rvf6.com/fd64::1"
-    "/fava.rvf6.com/-4"
-    "/luci.rvf6.com/fd64::1"
-    "/luci.rvf6.com/-4"
-    "/ha.rvf6.com/fd64::1"
-    "/ha.rvf6.com/-4"
-  ];
+  services.resolved.enable = false;
+  environment.etc."resolv.conf".text = ''
+    nameserver ::1
+  '';
+  presets.smartdns = {
+    enable = true;
+    chinaDns = [ "[fd65::1]" ];
+    settings.address = [
+      "/t430.rvf6.com/10.6.6.1"
+      "/t430.rvf6.com/fd64::1"
+      "/ax6s.rvf6.com/fd65::1"
+      "/ax6s.rvf6.com/-4"
+      "/rpi3.rvf6.com/10.6.0.7"
+      "/fava.rvf6.com/fd64::1"
+      "/fava.rvf6.com/-4"
+      "/luci.rvf6.com/fd64::1"
+      "/luci.rvf6.com/-4"
+      "/ha.rvf6.com/fd64::1"
+      "/ha.rvf6.com/-4"
+    ];
+  };
 
   services.uu = {
     enable = true;

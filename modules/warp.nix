@@ -5,6 +5,7 @@ let
 in
 {
   options = {
+
     networking.warp.enable = mkOption {
       type = types.bool;
       default = false;
@@ -35,10 +36,6 @@ in
       default = 1;
     };
 
-    networking.warp.routeMark = mkOption {
-      type = types.int;
-      default = 2;
-    };
     networking.warp.routingId = mkOption {
       type = types.str;
       default = "0x0";
@@ -64,24 +61,10 @@ in
       default = 1;
     };
 
-    networking.warp.extraMarkSettings = mkOption {
-      type = types.attrs;
-      default = { };
-    };
   };
 
   config = mkIf cfg.enable {
-    services.resolved.enable = false;
-    environment.etc."resolv.conf".text = ''
-      nameserver ::1
-    '';
 
-    presets.smartdns.enable = true;
-
-    networking.nftables.markChinaIP = cfg.extraMarkSettings // {
-      enable = true;
-      mark = cfg.routeMark;
-    };
     networking.nftables.tables.warp = {
       family = "inet";
       content = ''
@@ -131,23 +114,7 @@ in
     systemd.network.networks."25-warp" = {
       name = "warp";
       address = cfg.address;
-      routingPolicyRules = [
-        {
-          routingPolicyRuleConfig = {
-            FirewallMark = cfg.routeMark;
-            Table = cfg.table;
-            Priority = 10;
-            Family = "both";
-          };
-        }
-        {
-          routingPolicyRuleConfig = {
-            To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
-            Table = cfg.table;
-            Priority = 9;
-          };
-        }
-      ];
     };
+
   };
 }
