@@ -50,6 +50,10 @@
   group = {
     "col.border_inactive" = "0xff89dceb";
     "col.border_active" = "0xfff9e2af";
+    groupbar = {
+      gradients = false;
+      font_size = 24;
+    };
   };
 
   misc = {
@@ -115,8 +119,10 @@
     "$mainMod, tab, workspace, e+1"
     "$mainMod SHIFT, tab, workspace, e-1"
 
+    # Group
     "$mainMod, g, togglegroup"
-    "$mainMod SHIFT, g, changegroupactive"
+    "SHIFT, left, changegroupactive, b"
+    "SHIFT, right, changegroupactive, f"
   ];
 
   # Move/resize windows with mainMod + LMB/RMB and dragging
@@ -140,6 +146,7 @@
     "float, class:^(org.kde.kdeconnect-indicator)$"
     "float, class:^(org.kde.kdeconnect.handler)$"
     "float, class:^(org.kde.dolphin)$"
+    "group set, workspace:1"
   ] ++ (builtins.genList (i: let n = toString (i + 1); in "workspace ${n}, cgroup2:^(.*)(-w${n}\.service)$") 9);
 
   exec-once = [

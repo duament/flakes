@@ -135,7 +135,6 @@ in
     systemd.user.services.xdg-desktop-portal-hyprland = {
       Unit = {
         Description = "Portal service (Hyprland implementation)";
-        WantedBy = [ "hyprland-session.target" ];
         PartOf = [ "hyprland-session.target" ];
         After = [ "hyprland.service" ];
         ConditionEnvironment = "WAYLAND_DISPLAY";
