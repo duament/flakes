@@ -127,7 +127,7 @@
                 hosts=(${builtins.concatStringsSep " " hosts})
                 for host in ''${hosts[*]}; do
                   echo "$host"
-                  ${pkgs.nixos-rebuild}/bin/nixos-rebuild --flake .#"$host" --target-host deploy@"$host".rvf6.com --use-remote-sudo switch
+                  ${pkgs.nixos-rebuild}/bin/nixos-rebuild --flake .#"$host" --target-host deploy@"$host".rvf6.com --use-remote-sudo --use-substitutes switch
                 done
               '').outPath;
           };
