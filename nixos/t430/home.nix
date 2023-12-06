@@ -7,7 +7,6 @@
     iperf
     pciutils
     usbutils
-    wireguard-tools
   ];
 
   presets.git.enable = true;

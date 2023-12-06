@@ -46,7 +46,6 @@
     gcc
     gdb
     unar
-    wireguard-tools
   ];
 
   programs.gpg.enable = true;

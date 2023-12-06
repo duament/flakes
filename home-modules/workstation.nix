@@ -24,7 +24,6 @@
       thunderbird
       unar
       usbutils
-      wireguard-tools
       yubikey-manager
     ];
 

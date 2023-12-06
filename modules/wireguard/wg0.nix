@@ -1,4 +1,4 @@
-{ config, lib, self, ... }:
+{ config, lib, pkgs, self, ... }:
 let
   cfg = config.presets.wireguard.wg0;
   wg0 = self.data.wg0;
@@ -44,6 +44,11 @@ in
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
     {
+
+      environment.systemPackages = with pkgs; [
+        wireguard-tools
+      ];
+
       networking.firewall.allowedUDPPorts = lib.optional (peer ? port) peer.port;
 
       networking.nftables = lib.mkIf (cfg.route == "cn") {
@@ -92,6 +97,7 @@ in
               });
             }
           ];
+
       };
 
       systemd.network.networks."25-wg0" = {
