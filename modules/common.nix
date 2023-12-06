@@ -116,7 +116,7 @@ with lib;
             hostNames = [ "${host}.rvf6.com" ];
             publicKey = self.data.sshPub."${host}";
           };
-        }) [ "nl" "az" "or1" "or2" "or3" "owrt" "rpi3" "t430" "k2" "k1" "work" ]) // {
+        }) [ "nl" "az" "or1" "or2" "or3" "ak" "owrt" "rpi3" "t430" "k2" "k1" "work" ]) // {
       "github" = {
         hostNames = [ "github.com" ];
         publicKey = self.data.sshPub.github;
