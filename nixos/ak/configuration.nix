@@ -42,7 +42,7 @@
     mtu = 1400;
   };
 
-  # home-manager.users.rvfg = import ./home.nix;
+  home-manager.users.rvfg = import ./home.nix;
 
   presets.nginx.enable = true;
 }

@@ -1,5 +1,7 @@
 { self, ... }: {
   imports = [
-    # self.nixosModules.myHomeModules
+    self.nixosModules.myHomeModules
   ];
+
+  presets.neovim.enableLsp = false;
 }
