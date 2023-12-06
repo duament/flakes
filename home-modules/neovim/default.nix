@@ -1,72 +1,91 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
+  cfg = config.presets.neovim;
+
+  makeLsp = package: binary: if cfg.enableLsp then "${package}/bin/${binary}" else binary;
+
   luaConfig = pkgs.substituteAll {
     src = ./nvim.lua;
-    gopls = "${pkgs.gopls}/bin/gopls";
-    rust_analyzer = "${pkgs.rust-analyzer}/bin/rust-analyzer";
-    nil = "${pkgs.nil}/bin/nil";
-    beancount_language_server = "${pkgs.beancount-language-server}/bin/beancount-language-server";
-    typescript_language_server = "${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server";
+    gopls = makeLsp pkgs.gopls "gopls";
+    rust_analyzer = makeLsp pkgs.rust-analyzer "rust-analyzer";
+    nil = makeLsp pkgs.nil "nil";
+    beancount_language_server = makeLsp pkgs.beancount-language-server "beancount-language-server";
+    typescript_language_server = makeLsp pkgs.nodePackages.typescript-language-server "typescript-language-server";
   };
 in
 {
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-    plugins = with pkgs.vimPlugins; [
-      bufferline-nvim
-      cmp-nvim-lsp
-      cmp_luasnip
-      cmp-buffer
-      cmp-path
-      editorconfig-nvim
-      git-blame-nvim
-      indent-blankline-nvim
-      lualine-lsp-progress
-      lualine-nvim
-      luasnip
-      nvim-cmp
-      nvim-lspconfig
-      nvim-tree-lua
-      onenord-nvim
-      vim-lastplace
-      which-key-nvim
-      (nvim-treesitter.withPlugins (
-        plugins: with plugins; [
-          bash
-          beancount
-          c
-          cmake
-          comment
-          cpp
-          css
-          dockerfile
-          fish
-          go
-          gomod
-          javascript
-          json
-          latex
-          lua
-          markdown
-          nix
-          python
-          rust
-          rst
-          scss
-          svelte
-          toml
-          tsx
-          typescript
-          yaml
-        ]
-      ))
-    ];
+  options.presets.neovim = {
+
+    enable = lib.mkEnableOption "neovim" // {
+      default = true;
+    };
+
+    enableLsp = lib.mkEnableOption "neovim LSP" // {
+      default = true;
+    };
+
   };
 
-  xdg.configFile."nvim/init.lua".text = ''
-    dofile("${luaConfig}")
-  '';
+  config = lib.mkIf cfg.enable {
+
+    programs.neovim = {
+      enable = true;
+      defaultEditor = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      plugins = with pkgs.vimPlugins; [
+        bufferline-nvim
+        cmp-nvim-lsp
+        cmp_luasnip
+        cmp-buffer
+        cmp-path
+        editorconfig-nvim
+        git-blame-nvim
+        indent-blankline-nvim
+        lualine-lsp-progress
+        lualine-nvim
+        luasnip
+        nvim-cmp
+        nvim-lspconfig
+        nvim-tree-lua
+        onenord-nvim
+        vim-lastplace
+        which-key-nvim
+        (nvim-treesitter.withPlugins (
+          plugins: with plugins; [
+            bash
+            beancount
+            c
+            cmake
+            comment
+            cpp
+            css
+            dockerfile
+            fish
+            go
+            gomod
+            javascript
+            json
+            latex
+            lua
+            markdown
+            nix
+            python
+            rust
+            rst
+            scss
+            svelte
+            toml
+            tsx
+            typescript
+            yaml
+          ]
+        ))
+      ];
+      extraLuaConfig = ''
+        dofile("${luaConfig}")
+      '';
+    };
+
+  };
 }
