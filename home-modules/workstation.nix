@@ -19,6 +19,7 @@
       inetutils
       keepassxc
       openssl
+      pciutils
       tdesktop
       thunderbird
       unar

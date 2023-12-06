@@ -5,6 +5,7 @@
 
   home.packages = with pkgs; [
     iperf
+    pciutils
     usbutils
     wireguard-tools
   ];
