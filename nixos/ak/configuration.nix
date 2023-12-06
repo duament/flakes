@@ -18,19 +18,19 @@
 
   systemd.network.networks."10-ens18" = {
     name = "ens18";
-    address = [ "2401:b60:5:4a91:bd28:4be0:ccd2:80da/64" "172.40.2.14/23" ];
+    address = [ "2401:b60:5:4a91:bd28:4be0:ccd2:80da/64" "203.147.229.50/23" ];
     dns = [ "2606:4700:4700::1111" "1.1.1.1" "8.8.8.8" ];
     networkConfig.IPv6AcceptRA = false;
     routes = [
       {
         routeConfig = {
-          Gateway = "172.40.0.1";
+          Gateway = "203.147.228.1";
           GatewayOnLink = true;
         };
       }
       {
         routeConfig = {
-          Gateway = "2401:b60:5::fffe";
+          Gateway = "2401:b60:5::1";
           GatewayOnLink = true;
         };
       }
