@@ -236,7 +236,7 @@ in
           horizontal_padding = 8;
           text_icon_padding = 0;
           frame_width = 3;
-          frame_color = "#c0caf5";
+          frame_color = "#1E66F5";
           gap_size = 5;
           separator_color = "frame";
           sort = "yes";
@@ -269,6 +269,19 @@ in
           mouse_middle_click = "context";
           mouse_right_click = "do_action";
         };
+        urgency_low = {
+          background = "#EFF1F5";
+          foreground = "#4C4F69";
+        };
+        urgency_normal = {
+          background = "#EFF1F5";
+          foreground = "#4C4F69";
+        };
+        urgency_critical = {
+          background = "#EFF1F5";
+          foreground = "#4C4F69";
+          frame_color = "#FE640B";
+        };
       };
     };
 
@@ -276,28 +289,28 @@ in
       enable = true;
       settings = {
         main = {
-          font = "monospace:size=9";
+          font = "monospace:size=11";
           dpi-aware = "yes";
         };
         colors = {
-          foreground = "383A42";
-          background = "F7F8FA";
-          regular0 = "2E3440";
-          regular1 = "CB4F53";
-          regular2 = "48A53D";
-          regular3 = "EE5E25";
-          regular4 = "3879C5";
-          regular5 = "9F4ACA";
-          regular6 = "3EA1AD";
-          regular7 = "E5E9F0";
-          bright0 = "646A76";
-          bright1 = "D16366";
-          bright2 = "5F9E9D";
-          bright3 = "BA793E";
-          bright4 = "1B40A6";
-          bright5 = "9665AF";
-          bright6 = "8FBCBB";
-          bright7 = "ECEFF4";
+          foreground = "4c4f69";
+          background = "eff1f5";
+          regular0 = "5c5f77";
+          regular1 = "d20f39";
+          regular2 = "40a02b";
+          regular3 = "df8e1d";
+          regular4 = "1e66f5";
+          regular5 = "ea76cb";
+          regular6 = "179299";
+          regular7 = "acb0be";
+          bright0 = "6c6f85";
+          bright1 = "d20f39";
+          bright2 = "40a02b";
+          bright3 = "df8e1d";
+          bright4 = "1e66f5";
+          bright5 = "ea76cb";
+          bright6 = "179299";
+          bright7 = "bcc0cc";
         };
       };
     };

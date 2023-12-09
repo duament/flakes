@@ -3,11 +3,7 @@
   programs.fzf = {
     enable = true;
     enableBashIntegration = false;
-    enableFishIntegration = false;
+    enableFishIntegration = true;
     enableZshIntegration = false;
   };
-
-  programs.fish.interactiveShellInit = ''
-    ${builtins.readFile ./fzf.fish}
-  '';
 }

@@ -31,14 +31,8 @@ function __starship_async_cancel_commandline
     end
     commandline -f cancel-commandline
 end
-function __starship_async_edit_command_buffer
-    printf '\e[2F' # 2 lines up
-    edit_command_buffer
-end
 bind \r  __starship_async_maybe_execute       # ENTER
 bind \cc __starship_async_cancel_commandline  # CTRL+C
-bind \ee __starship_async_edit_command_buffer # ALT+E
-bind \ev __starship_async_edit_command_buffer # ALT+V
 
 # Prompt
 function fish_prompt

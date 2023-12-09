@@ -121,7 +121,7 @@ with lib;
       ];
       fontconfig = {
         defaultFonts = {
-          monospace = [ "Hack" ];
+          monospace = [ "Hack" "Symbols Nerd Font" ];
           sansSerif = [ "Inter" "Noto Sans CJK SC" ];
           serif = [ "Aleo" "Noto Serif CJK SC" ];
         };

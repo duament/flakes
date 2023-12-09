@@ -10,7 +10,6 @@
     ncdu
     nix-output-monitor
     ripgrep
-    tmux
   ];
 
   presets.btop.enable = true;
@@ -32,6 +31,19 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+  };
+
+  programs.tmux = {
+    enable = true;
+    plugins = with pkgs.tmuxPlugins; [
+      {
+        plugin = catppuccin;
+        extraConfig = ''
+          set -g @catppuccin_flavour 'latte'
+          set -g @catppuccin_status_left_separator '█'
+        '';
+      }
+    ];
   };
 
   home.sessionVariables = {

@@ -14,11 +14,10 @@ vim.g.loaded_netrwPlugin = 1
 
 vim.g.gitblame_enabled = 0
 
-require('onenord').setup({
-  disable = {
-    background = true,
-  },
+require("catppuccin").setup({
+  transparent_background = true,
 })
+vim.cmd.colorscheme 'catppuccin'
 
 require('nvim-treesitter.configs').setup {
   highlight = {
@@ -35,10 +34,10 @@ require('nvim-treesitter.configs').setup {
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'onenord',
+    theme = 'catppuccin',
     section_separators = '',
     component_separators = ''
-  }
+  },
 }
 
 require('which-key').setup {
@@ -61,7 +60,8 @@ require("bufferline").setup{
     indicator = {
       style = 'underline'
     }
-  }
+  },
+  highlights = require('catppuccin.groups.integrations.bufferline').get()
 }
 
 local has_words_before = function()

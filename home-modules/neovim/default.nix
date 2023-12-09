@@ -35,6 +35,7 @@ in
       vimdiffAlias = true;
       plugins = with pkgs.vimPlugins; [
         bufferline-nvim
+        catppuccin-nvim
         cmp-nvim-lsp
         cmp_luasnip
         cmp-buffer
@@ -48,7 +49,6 @@ in
         nvim-cmp
         nvim-lspconfig
         nvim-tree-lua
-        onenord-nvim
         vim-lastplace
         which-key-nvim
         (nvim-treesitter.withPlugins (
