@@ -16,6 +16,14 @@ vim.g.gitblame_enabled = 0
 
 require("catppuccin").setup({
   transparent_background = true,
+  custom_highlights = function(colors)
+    local ucolors = require('catppuccin.utils.colors')
+    return {
+      Pmenu = {
+        bg = ucolors.darken(colors.surface0, 0.25, colors.crust),
+      },
+    }
+  end,
 })
 vim.cmd.colorscheme 'catppuccin'
 
