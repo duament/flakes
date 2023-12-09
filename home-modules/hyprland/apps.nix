@@ -24,10 +24,10 @@ in
       ''d "%h/Downloads/Telegram\x20Desktop" - - - -''
     ];
 
-    systemd.user.services.wezterm-w1 = {
+    systemd.user.services.alacritty-w1 = {
       Unit.After = [ "graphical-session.target" ];
       Install.WantedBy = [ "graphical-session.target" ];
-      Service.ExecStart = "${config.programs.wezterm.package}/bin/wezterm";
+      Service.ExecStart = "${config.programs.alacritty.package}/bin/alacritty";
     };
 
     systemd.user.services.firefox-w2 = {
@@ -146,6 +146,11 @@ in
         name = "WezTerm";
         exec = "systemd-run --user -G wezterm";
         icon = "org.wezfurlong.wezterm";
+      };
+      Alacritty = {
+        name = "Alacritty";
+        exec = "systemd-run --user -G alacritty";
+        icon = "Alacritty";
       };
       thunderbird = {
         name = "Thunderbird";

@@ -66,7 +66,7 @@
   "$mainMod" = "SUPER";
 
   bind = [
-    "$mainMod, RETURN, exec, systemd-run --user -G -u wezterm-$RANDOM wezterm"
+    "$mainMod, RETURN, exec, systemd-run --user -G -u alacritty-$RANDOM alacritty"
     "$mainMod, C, killactive,"
     "$mainMod, M, exit,"
     "$mainMod, E, exec, systemd-run --user -G -u dolphin-$RANDOM -E QT_IM_MODULE=fcitx dolphin"
