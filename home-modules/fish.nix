@@ -41,8 +41,12 @@ in
       j = "journalctl";
       jb = "journalctl -b 0";
       jp = "journalctl -b 0 -p 4";
+      mpvb = "mpv --ytdl-raw-options-append=cookies-from-browser=firefox::bilibili";
       nftadd = "sudo nft add inet nixos-fw input-allow tcp dport";
       nftls = "sudo nft -at list ruleset";
+      nixrp = { expansion = "nix run nixpkgs#% --"; setCursor = true; position = "anywhere"; };
+      nixsp = { expansion = "nix shell nixpkgs#% -c"; setCursor = true; position = "anywhere"; };
+      r = "systemd-run --user -d -t --wait -G";
       s = "systemctl";
       se = "sudoedit";
       sls = "systemctl list-units --type=service";
@@ -51,7 +55,16 @@ in
       sult = "systemctl --user list-timers";
       sus = "sudo systemctl";
       v = "nvim";
-    };
+    } // (builtins.listToAttrs (builtins.genList
+      (i:
+        let
+          n = toString (i + 1);
+        in
+        {
+          name = "r${n}";
+          value = "systemd-run --user -d -t --wait -G -u run-w${n}";
+        }
+      ) 9));
     shellAliases = {
       l = "eza -lag --time-style=long-iso";
       ll = "eza -lg --time-style=long-iso";
@@ -73,9 +86,6 @@ in
       end
 
       set -U fish_features qmark-noglob
-
-      abbr --add --global nixrp --set-cursor nix run nixpkgs#% --
-      abbr --add --global nixsp --set-cursor nix shell nixpkgs#% -c
 
       function gitdel
         set -l target
