@@ -35,6 +35,11 @@
 
   programs.tmux = {
     enable = true;
+    clock24 = true;
+    historyLimit = 10000;
+    keyMode = "vi";
+    mouse = true;
+    terminal = "screen-256color";
     plugins = with pkgs.tmuxPlugins; [
       {
         plugin = catppuccin;
@@ -44,6 +49,9 @@
         '';
       }
     ];
+    extraConfig = ''
+      set -ag terminal-overrides ",xterm-256color:RGB"
+    '';
   };
 
   home.sessionVariables = {
