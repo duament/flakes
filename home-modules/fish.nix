@@ -75,14 +75,14 @@ in
       set fish_greeting
 
       if test $TERM != linux
-        set fish_color_command green
+        set fish_color_command brblue
         set fish_color_comment brblack
         set fish_color_end yellow
-        set fish_color_escape magenta
+        set fish_color_escape red
         set fish_color_keyword cyan
         set fish_color_operator bryellow
-        set fish_color_param black
-        set fish_color_quote brblue
+        set fish_color_param magenta
+        set fish_color_quote green
       end
 
       set -U fish_features qmark-noglob
