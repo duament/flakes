@@ -45,6 +45,7 @@
 
   presets.git.enable = true;
   presets.python.enable = true;
+  presets.helix.enable = true;
 
   home.packages = with pkgs; [
     checksec
