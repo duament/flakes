@@ -74,13 +74,13 @@
   };
   hass-xiaomi-miot = {
     pname = "hass-xiaomi-miot";
-    version = "v0.7.13";
+    version = "v0.7.14";
     src = fetchFromGitHub {
       owner = "al-one";
       repo = "hass-xiaomi-miot";
-      rev = "v0.7.13";
+      rev = "v0.7.14";
       fetchSubmodules = false;
-      sha256 = "sha256-d49KRDwEjdrjIRizUjV1T8SXwK+YInQA6ALzLf7R5K8=";
+      sha256 = "sha256-xXxxK4QSabG+Gs6Hi7rt4gLE8fJOHgwGzReMJKcbeAQ=";
     };
   };
   transmission-client = {
