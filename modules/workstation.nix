@@ -114,10 +114,10 @@ with lib;
         hack-font
         noto-fonts-cjk-sans
         noto-fonts-cjk-serif
-        noto-fonts-emoji
+        noto-fonts-color-emoji
         aleo
         (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
-        (mkNoto { pname = "noto-fonts-symbols"; variants = [ "Noto Music" "Noto Sans Symbols" "Noto Sans Symbols 2" "Noto Sans Math" ]; })
+        (noto-fonts.override { variants = [ "Noto Music" "Noto Sans Symbols" "Noto Sans Symbols 2" "Noto Sans Math" ]; })
       ];
       fontconfig = {
         defaultFonts = {
