@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, ... }:
 let
   directMark = 1;
 in
@@ -72,62 +72,8 @@ in
         };
       }
     ];
+    domains = [ "~h.rvf6.com" ];
   };
-
-  presets.wireguard.wg0.enable = lib.mkForce false;
-  system.activationScripts.strongswan-swanctl-private = lib.stringAfter [ "etc" ] ''
-    mkdir -p /etc/swanctl/private
-    ln -sf ${config.sops.secrets."pki/${config.networking.hostName}-pkcs8-key".path} /etc/swanctl/private/${config.networking.hostName}.key
-  '';
-  services.strongswan-swanctl = {
-    enable = true;
-    swanctl.connections.t430 = {
-      local.${config.networking.hostName} = {
-        auth = "pubkey";
-        id = "${config.networking.hostName}@rvf6.com";
-        certs = [ config.sops.secrets."pki/${config.networking.hostName}-bundle".path ];
-      };
-      remote.t430 = {
-        auth = "pubkey";
-        id = "t430.rvf6.com";
-        cacerts = [ config.sops.secrets."pki/ca".path config.sops.secrets."pki/ybk".path ];
-      };
-      children.t430 = {
-        local_ts = [ "0.0.0.0/0" "::/0" ];
-        remote_ts = [ "0.0.0.0/0" "::/0" ];
-        # start_action = "trap";
-        start_action = "start";
-        close_action = "start";
-        dpd_action = "restart";
-      };
-      remote_addrs = [ "h.rvf6.com" ];
-      local_port = 4500;
-      remote_port = 4500;
-      version = 2;
-      vips = [ "0.0.0.0" "::" ];
-      proposals = [ "aes256gcm16-prfsha384-curve25519" "aes256gcm16-prfsha384-ecp384" ];
-      rekey_time = "7d";
-    };
-    strongswan.extraConfig = ''
-      charon {
-        plugins {
-          resolve {
-            resolvconf {
-              iface = wlp1s0
-              path = ${config.networking.resolvconf.package}/bin/resolvconf
-            }
-          }
-        }
-      }
-    '';
-  };
-  systemd.services.strongswan-swanctl.after = [ "systemd-networkd-wait-online.service" ];
-  systemd.network.config.networkConfig = {
-    ManageForeignRoutingPolicyRules = false;
-    ManageForeignRoutes = false;
-  };
-  systemd.network.networks."99-wireless-client-dhcp".networkConfig.KeepConfiguration = "static";
-  presets.bpf-mark.strongswan-swanctl = directMark;
 
   home-manager.users.rvfg = import ./home.nix;
 
