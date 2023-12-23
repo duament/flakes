@@ -18,6 +18,7 @@
     home.packages = with pkgs; [
       imv
       inetutils
+      iputils
       keepassxc
       openssl
       pciutils
