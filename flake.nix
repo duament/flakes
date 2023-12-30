@@ -2,7 +2,7 @@
   description = "My NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:duament/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:duament/nixpkgs/pr-277642";
     flake-utils.url = "github:numtide/flake-utils";
     impermanence.url = "github:nix-community/impermanence";
 
@@ -115,7 +115,7 @@
             type = "app";
             program =
               let
-                hosts = [ "az" "nl" "or2" ];
+                hosts = [ "az" ];
                 known_hosts = pkgs.writeText "ssh_known_hosts" (builtins.concatStringsSep "" (map
                   (host:
                     "${host}.rvf6.com ${data.sshPub.${host}}\n"
