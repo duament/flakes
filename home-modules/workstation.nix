@@ -98,7 +98,18 @@
         osc = false;
         osd-bar = false;
       };
-      scripts = with pkgs.mpvScripts; [ thumbfast uosc ];
+      scripts = with pkgs.mpvScripts; [
+        thumbfast
+        (uosc.overrideAttrs (oldAttrs: {
+          patches = oldAttrs.patches ++ [
+            (pkgs.fetchpatch {
+              url = "https://github.com/tomasklaen/uosc/pull/794.patch";
+              hash = "sha256-rV/VRkx7KDi3Rdv3ekHH/ZhrHkPH0Yd3ry5mQa5brGY=";
+            })
+          ];
+        }))
+      ];
+      scriptOpts.uosc.languages = [ "en" ];
     };
 
     programs.zathura.enable = true;
