@@ -209,7 +209,7 @@ in
       enable = true;
       package = pkgs.hyprland.overrideAttrs (old: {
         patches = old.patches ++ [
-          ./hyprland-cgroup2.patch
+          ./0001-Add-cgroup2-in-windowrulev2.patch
         ];
       });
     };

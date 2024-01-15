@@ -1,55 +1,60 @@
-From 5e9987d1e1b74d194230b9440f056b569877163a Mon Sep 17 00:00:00 2001
+From 4a74472d71b5d96cc401b245279fe3f4cfd001fe Mon Sep 17 00:00:00 2001
 From: Rvfg <i@rvf6.com>
 Date: Wed, 11 Oct 2023 17:41:05 +0800
 Subject: [PATCH] Add cgroup2 in windowrulev2
 
 ---
  src/Window.hpp                |  1 +
- src/config/ConfigManager.cpp  | 19 ++++++++++++++++++-
- src/helpers/MiscFunctions.cpp | 35 +++++++++++++++++++++++++++++++++++
- src/helpers/MiscFunctions.hpp |  1 +
- 4 files changed, 55 insertions(+), 1 deletion(-)
+ src/config/ConfigManager.cpp  | 19 +++++++++++++++++-
+ src/helpers/MiscFunctions.cpp | 37 ++++++++++++++++++++++++++++++++++-
+ src/helpers/MiscFunctions.hpp |  3 ++-
+ 4 files changed, 57 insertions(+), 3 deletions(-)
 
 diff --git a/src/Window.hpp b/src/Window.hpp
-index 81b6156f47..8189805319 100644
+index 559e4c90..e537c714 100644
 --- a/src/Window.hpp
 +++ b/src/Window.hpp
-@@ -152,6 +152,7 @@ struct SWindowRule {
-     int         bFullscreen = -1;
-     int         bPinned     = -1;
-     std::string szWorkspace = ""; // empty means any
+@@ -160,6 +160,7 @@ struct SWindowRule {
+     int         bFocus       = -1;
+     int         iOnWorkspace = -1;
+     std::string szWorkspace  = ""; // empty means any
 +    std::string szCgroup2;
  };
  
  class CWindow {
 diff --git a/src/config/ConfigManager.cpp b/src/config/ConfigManager.cpp
-index 1e7d8177ec..8b333b5f3e 100644
+index ee198ded..3d2a6021 100644
 --- a/src/config/ConfigManager.cpp
 +++ b/src/config/ConfigManager.cpp
-@@ -992,9 +992,10 @@ void CConfigManager::handleWindowRuleV2(const std::string& command, const std::s
-     const auto FULLSCREENPOS = VALUE.find("fullscreen:");
-     const auto PINNEDPOS     = VALUE.find("pinned:");
-     const auto WORKSPACEPOS  = VALUE.find("workspace:");
-+    const auto CGROUP2POS    = VALUE.find("cgroup2:");
+@@ -1043,6 +1043,7 @@ void CConfigManager::handleWindowRuleV2(const std::string& command, const std::s
+     const auto PINNEDPOS       = VALUE.find("pinned:");
+     const auto FOCUSPOS        = VALUE.find("focus:");
+     const auto ONWORKSPACEPOS  = VALUE.find("onworkspace:");
++    const auto CGROUP2POS      = VALUE.find("cgroup2:");
  
-     if (TITLEPOS == std::string::npos && CLASSPOS == std::string::npos && X11POS == std::string::npos && FLOATPOS == std::string::npos && FULLSCREENPOS == std::string::npos &&
--        PINNEDPOS == std::string::npos && WORKSPACEPOS == std::string::npos) {
-+        PINNEDPOS == std::string::npos && WORKSPACEPOS == std::string::npos && CGROUP2POS == std::string::npos) {
+     // find workspacepos that isn't onworkspacepos
+     size_t WORKSPACEPOS = std::string::npos;
+@@ -1057,7 +1058,7 @@ void CConfigManager::handleWindowRuleV2(const std::string& command, const std::s
+ 
+     if (TITLEPOS == std::string::npos && CLASSPOS == std::string::npos && INITIALTITLEPOS == std::string::npos && INITIALCLASSPOS == std::string::npos &&
+         X11POS == std::string::npos && FLOATPOS == std::string::npos && FULLSCREENPOS == std::string::npos && PINNEDPOS == std::string::npos && WORKSPACEPOS == std::string::npos &&
+-        FOCUSPOS == std::string::npos && ONWORKSPACEPOS == std::string::npos) {
++        FOCUSPOS == std::string::npos && ONWORKSPACEPOS == std::string::npos && CGROUP2POS == std::string::npos) {
          Debug::log(ERR, "Invalid rulev2 syntax: {}", VALUE);
          parseError = "Invalid rulev2 syntax: " + VALUE;
          return;
-@@ -1019,6 +1020,8 @@ void CConfigManager::handleWindowRuleV2(const std::string& command, const std::s
-             min = PINNEDPOS;
-         if (WORKSPACEPOS > pos && WORKSPACEPOS < min)
-             min = PINNEDPOS;
+@@ -1090,6 +1091,8 @@ void CConfigManager::handleWindowRuleV2(const std::string& command, const std::s
+             min = WORKSPACEPOS;
+         if (FOCUSPOS > pos && FOCUSPOS < min)
+             min = FOCUSPOS;
 +        if (CGROUP2POS > pos && CGROUP2POS < min)
 +            min = CGROUP2POS;
  
          result = result.substr(0, min - pos);
  
-@@ -1051,6 +1054,9 @@ void CConfigManager::handleWindowRuleV2(const std::string& command, const std::s
-     if (WORKSPACEPOS != std::string::npos)
-         rule.szWorkspace = extract(WORKSPACEPOS + 10);
+@@ -1134,6 +1137,9 @@ void CConfigManager::handleWindowRuleV2(const std::string& command, const std::s
+     if (ONWORKSPACEPOS != std::string::npos)
+         rule.iOnWorkspace = configStringToInt(extract(ONWORKSPACEPOS + 12));
  
 +    if (CGROUP2POS != std::string::npos)
 +        rule.szCgroup2 = extract(CGROUP2POS + 8);
@@ -57,8 +62,8 @@ index 1e7d8177ec..8b333b5f3e 100644
      if (RULE == "unset") {
          std::erase_if(m_dWindowRules, [&](const SWindowRule& other) {
              if (!other.v2) {
-@@ -1077,6 +1083,9 @@ void CConfigManager::handleWindowRuleV2(const std::string& command, const std::s
-                 if (!rule.szWorkspace.empty() && rule.szWorkspace != other.szWorkspace)
+@@ -1172,6 +1178,9 @@ void CConfigManager::handleWindowRuleV2(const std::string& command, const std::s
+                 if (rule.iOnWorkspace != -1 && rule.iOnWorkspace != other.iOnWorkspace)
                      return false;
  
 +                if (!rule.szCgroup2.empty() && rule.szCgroup2 != other.szCgroup2)
@@ -67,7 +72,7 @@ index 1e7d8177ec..8b333b5f3e 100644
                  return true;
              }
          });
-@@ -1901,6 +1910,14 @@ std::vector<SWindowRule> CConfigManager::getMatchingRules(CWindow* pWindow) {
+@@ -2102,6 +2111,14 @@ std::vector<SWindowRule> CConfigManager::getMatchingRules(CWindow* pWindow) {
                              continue;
                      }
                  }
@@ -83,10 +88,10 @@ index 1e7d8177ec..8b333b5f3e 100644
                  Debug::log(ERR, "Regex error at {} ({})", rule.szValue, e.what());
                  continue;
 diff --git a/src/helpers/MiscFunctions.cpp b/src/helpers/MiscFunctions.cpp
-index e54e93ac5e..4997c6f2f7 100644
+index 5eb99bfd..3b625b41 100644
 --- a/src/helpers/MiscFunctions.cpp
 +++ b/src/helpers/MiscFunctions.cpp
-@@ -625,6 +625,41 @@ int64_t getPPIDof(int64_t pid) {
+@@ -675,6 +675,41 @@ int64_t getPPIDof(int64_t pid) {
  #endif
  }
  
@@ -126,17 +131,34 @@ index e54e93ac5e..4997c6f2f7 100644
 +}
 +
  int64_t configStringToInt(const std::string& VALUE) {
-     if (VALUE.find("0x") == 0) {
+     if (VALUE.starts_with("0x")) {
          // Values with 0x are hex
+@@ -798,4 +833,4 @@ bool envEnabled(const std::string& env) {
+     if (!ENV)
+         return false;
+     return std::string(ENV) == "1";
+-}
+\ No newline at end of file
++}
 diff --git a/src/helpers/MiscFunctions.hpp b/src/helpers/MiscFunctions.hpp
-index 429f381f39..6dac0d34da 100644
+index 1ccbdc0e..8725a16c 100644
 --- a/src/helpers/MiscFunctions.hpp
 +++ b/src/helpers/MiscFunctions.hpp
-@@ -24,6 +24,7 @@ float                            vecToRectDistanceSquared(const Vector2D& vec, c
+@@ -26,6 +26,7 @@ float                            vecToRectDistanceSquared(const Vector2D& vec, c
  void                             logSystemInfo();
  std::string                      execAndGet(const char*);
  int64_t                          getPPIDof(int64_t pid);
 +std::string                      getCgroup2of(int64_t pid);
  int64_t                          configStringToInt(const std::string&);
- float                            getPlusMinusKeywordResult(std::string in, float relative);
+ std::optional<float>             getPlusMinusKeywordResult(std::string in, float relative);
  void                             matrixProjection(float mat[9], int w, int h, wl_output_transform tr);
+@@ -43,4 +44,4 @@ template <typename... Args>
+     // because any suck format specifier will cause a compilation error
+     // this is actually what std::format in stdlib does
+     return std::vformat(fmt.get(), std::make_format_args(args...));
+-}
+\ No newline at end of file
++}
+-- 
+2.42.0
+
