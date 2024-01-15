@@ -52,7 +52,7 @@ with lib;
     };
 
     presets.wireguard.wg0 = {
-      enable = true;
+      enable = false;
       route = "cn";
     };
 

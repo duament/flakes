@@ -32,6 +32,7 @@ in
     "pki/xiaoxin-pkcs8-key" = { };
     "syncthing/cert".owner = config.services.syncthing.user;
     "syncthing/key".owner = config.services.syncthing.user;
+    "wireless" = { };
   };
 
   presets.refind = {
@@ -47,17 +48,29 @@ in
         enable = true;
         group = "rvfg";
       };
-      networks.rvfg = {
-        authProtocols = [ "WPA-EAP-SUITE-B-192" "FT-EAP" "FT-EAP-SHA384" ];
-        auth = ''
-          eap=TLS
-          pairwise=GCMP-256
-          group=GCMP-256
-          identity="xiaoxin@rvf6.com"
-          ca_cert="${config.sops.secrets."pki/ca".path}"
-          client_cert="${config.sops.secrets."pki/xiaoxin-bundle".path}"
-          private_key="${config.sops.secrets."pki/xiaoxin-key".path}"
-        '';
+      environmentFile = config.sops.secrets."wireless".path;
+      networks = {
+        rvfg = {
+          authProtocols = [ "WPA-EAP-SUITE-B-192" "FT-EAP" "FT-EAP-SHA384" ];
+          auth = ''
+            eap=TLS
+            pairwise=GCMP-256
+            group=GCMP-256
+            identity="xiaoxin@rvf6.com"
+            ca_cert="${config.sops.secrets."pki/ca".path}"
+            client_cert="${config.sops.secrets."pki/xiaoxin-bundle".path}"
+            private_key="${config.sops.secrets."pki/xiaoxin-key".path}"
+          '';
+        };
+        "Xiaomi_3304_5G".psk = "@PSK_3304@";
+        eduroam = {
+          authProtocols = [ "WPA-EAP" "WPA-EAP-SUITE-B-192" "FT-EAP" "FT-EAP-SHA384" ];
+          auth = ''
+            eap=PEAP
+            identity="@EDUROAM_ID@"
+            password="@EDUROAM_PWD@"
+          '';
+        };
       };
     };
   };
@@ -72,7 +85,7 @@ in
         };
       }
     ];
-    domains = [ "~h.rvf6.com" ];
+    # domains = [ "~h.rvf6.com" ];
   };
 
   home-manager.users.rvfg = import ./home.nix;
