@@ -1,5 +1,8 @@
 { config, lib, pkgs, self, ... }:
-with lib;
+let
+  inherit (lib) mkOption mkIf mkForce types;
+  directMark = 1;
+in
 {
   options = {
     presets.workstation.enable = mkOption {
@@ -9,6 +12,25 @@ with lib;
   };
 
   config = mkIf config.presets.workstation.enable {
+
+    nixpkgs.overlays = [
+      (self: super: {
+        wpa_supplicant = super.wpa_supplicant.overrideAttrs (oldAttrs: {
+          extraConfig = oldAttrs.extraConfig + ''
+            CONFIG_SUITEB=y
+            CONFIG_SUITEB192=y
+          '';
+        });
+      })
+    ];
+
+    sops.secrets = {
+      clash = {
+        format = "binary";
+        sopsFile = ../secrets/clash;
+      };
+      wireless.sopsFile = ../secrets/wireless.yaml;
+    };
 
     boot = {
       loader.grub.enable = false;
@@ -54,6 +76,44 @@ with lib;
     presets.wireguard.wg0 = {
       enable = false;
       route = "cn";
+    };
+
+    services.clash = {
+      enable = true;
+      configFile = config.sops.secrets.clash.path;
+    };
+
+    networking.wireless = {
+      enable = true;
+      userControlled = {
+        enable = true;
+        group = "rvfg";
+      };
+      environmentFile = config.sops.secrets."wireless".path;
+      networks = {
+        "Xiaomi_3304_5G".psk = "@PSK_3304@";
+        eduroam = {
+          authProtocols = [ "WPA-EAP" "WPA-EAP-SUITE-B-192" "FT-EAP" "FT-EAP-SHA384" ];
+          auth = ''
+            eap=PEAP
+            identity="@EDUROAM_ID@"
+            password="@EDUROAM_PWD@"
+          '';
+        };
+      };
+    };
+    systemd.network.networks."99-wireless-client-dhcp" = {
+      linkConfig.RequiredForOnline = true;
+      routingPolicyRules = [
+        {
+          routingPolicyRuleConfig = {
+            Family = "both";
+            FirewallMark = directMark;
+            Priority = 9;
+          };
+        }
+      ];
+      # domains = [ "~h.rvf6.com" ];
     };
 
     networking.firewall = {

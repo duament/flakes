@@ -29,6 +29,7 @@ rec {
     "secrets/restic.yaml" = [ "desktop" "xiaoxin" "t430" "nl" "or2" "or3" "az" ];
     "secrets/github-token.yaml" = [ "work" "desktop" "xiaoxin" ];
     "secrets/avbroot.yaml" = [ "desktop" "xiaoxin" ];
+    "secrets/wireless.yaml" = [ "desktop" "xiaoxin" ];
   } // (builtins.listToAttrs (builtins.attrValues (builtins.mapAttrs
     (name: value:
       { name = "nixos/${name}/.*"; value = [ name ]; }
