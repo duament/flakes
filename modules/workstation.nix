@@ -126,6 +126,7 @@ in
       ifuse
       libimobiledevice
       libplist
+      pcscliteWithPolkit.out # Workaround #280826
       strongswan
     ];
 
