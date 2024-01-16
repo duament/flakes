@@ -7,6 +7,7 @@
     "sbsign-key" = { };
     "sbsign-cert" = { };
     wireguard_key.owner = "systemd-network";
+    warp_key.owner = "systemd-network";
     "pki/ca".mode = "0444";
     "pki/ybk" = { };
     "pki/xiaoxin-bundle" = { };
@@ -36,6 +37,37 @@
       '';
     };
   };
+
+  services.uu = {
+    enable = true;
+    useFakeIptables = true;
+  };
+  networking.warp = {
+    enable = true;
+    endpointAddr = "162.159.192.1";
+    mtu = 1380;
+    mark = 3;
+    routingId = "0x699b5e";
+    keyFile = config.sops.secrets.warp_key.path;
+    address = [ "172.16.0.2/32" "2606:4700:110:8174:c34d:c0f9:7367:dd59/128" ];
+    table = 20;
+  };
+  presets.wireguard.keepAlive.interfaces = [ "warp" ];
+  networking.nftables.markChinaIP = {
+    enable = true;
+    mark = 2;
+  };
+  systemd.network.networks."25-warp".routingPolicyRules = [
+    {
+      routingPolicyRuleConfig = {
+        FirewallMark = 2;
+        Table = 20;
+        Priority = 20;
+        Family = "both";
+      };
+    }
+  ];
+  presets.smartdns.enable = true;
 
   home-manager.users.rvfg = import ./home.nix;
 }

@@ -27,7 +27,6 @@ in
     "vouch-luci/jwt" = { };
     "vouch-luci/client" = { };
     luci-nginx-add-auth.owner = config.services.nginx.user;
-    uuplugin-uuid = { };
     sim-pin = { };
     tg-bot-token = { };
     "home-assistant-secrets.yaml" = {
@@ -138,7 +137,6 @@ in
   networking.nftables.markChinaIP = {
     enable = true;
     mark = nonCNMark;
-    extraIPv4Rules = "ip saddr 10.6.7.0/24 accept";
   };
 
   networking.warp = {
@@ -153,10 +151,6 @@ in
   };
   presets.wireguard.keepAlive.interfaces = [ "warp" ];
 
-  services.resolved.enable = false;
-  environment.etc."resolv.conf".text = ''
-    nameserver ::1
-  '';
   presets.smartdns = {
     enable = true;
     chinaDns = [ "[fd65::1]" ];
@@ -177,8 +171,10 @@ in
 
   services.uu = {
     enable = true;
-    wanName = "10-enp1s0";
-    uuidFile = config.sops.secrets.uuplugin-uuid.path;
+    vlan = {
+      enable = true;
+      parentName = "10-enp1s0";
+    };
   };
 
   system.activationScripts.strongswan-swanctl-private = lib.stringAfter [ "etc" ] ''

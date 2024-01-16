@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 with lib;
 let
   cfg = config.networking.warp;
@@ -64,6 +64,10 @@ in
   };
 
   config = mkIf cfg.enable {
+
+    environment.systemPackages = with pkgs; [
+      wireguard-tools
+    ];
 
     networking.nftables.tables.warp = {
       family = "inet";

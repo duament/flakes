@@ -48,6 +48,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+
+    services.resolved.enable = false;
+
+    environment.etc."resolv.conf".text = ''
+      nameserver ::1
+    '';
+
     presets.smartdns.settings = {
       bind = [ "[::]:${toString cfg.bindPort}" ];
       response-mode = "fastest-response";
@@ -72,5 +79,6 @@ in
         SocketBindAllow = cfg.bindPort;
       };
     };
+
   };
 }

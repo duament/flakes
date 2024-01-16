@@ -1,82 +1,110 @@
 { config, inputs, lib, pkgs, self, ... }:
-with lib;
 let
+  inherit (lib) mkOption mkEnableOption mkIf mkMerge types optional;
   cfg = config.services.uu;
 
-  vlan = "gaming";
-  veth = "ve-uu";
+  fakeIptables = pkgs.writeShellScriptBin "iptables" ''
+    echo "$@" | ${config.systemd.package}/bin/systemd-cat
+  '';
+
+  iptablesPackage = if cfg.useFakeIptables then fakeIptables else pkgs.iptables;
 in
 {
-  options = {
-    services.uu.enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
+  options.services.uu = {
+    enable = mkEnableOption "uu";
 
-    services.uu.wanName = mkOption {
+    useFakeIptables = mkEnableOption "Whether to use a fake iptables binary";
+
+    vethName = mkOption {
       type = types.str;
-      default = "80-ethernet";
+      default = "ve-uu";
     };
 
-    services.uu.uuidFile = mkOption {
-      type = types.nullOr types.path;
-      default = null;
+    vlan = {
+      enable = mkEnableOption "Whether to create a vlan and add it to the LAN bridge";
+
+      id = mkOption {
+        type = types.int;
+        default = 2;
+      };
+
+      name = mkOption {
+        type = types.str;
+        default = "gaming";
+      };
+
+      parentName = mkOption {
+        type = types.str;
+        default = "80-ethernet";
+        description = "systemd.network name of the parent interface";
+      };
     };
   };
 
   config = mkIf cfg.enable {
-    systemd.network.networks.${cfg.wanName}.vlan = [ vlan ];
-    systemd.network.netdevs."50-${vlan}" = {
-      netdevConfig = { Name = vlan; Kind = "vlan"; };
-      vlanConfig = { Id = 2; };
-    };
-    systemd.network.networks."50-${veth}" = {
-      name = veth;
-      address = [ "10.6.7.1/24" ];
-    };
-    systemd.network.networks."50-simns" = {
-      name = "simns";
-      linkConfig = { MACAddress = "CC:5B:31:2F:BE:AE"; };
-      networkConfig = { IPv6AcceptRA = false; };
-      DHCP = "ipv4";
-      dhcpV4Config = {
-        SendHostname = false;
-        ClientIdentifier = "mac";
-        UseDNS = false;
-        UseNTP = false;
-        UseSIP = false;
-        UseDomains = false;
-        RouteTable = 10;
-      };
-      routingPolicyRules = [
-        {
-          routingPolicyRuleConfig = {
-            FirewallMark = 3;
-            Table = 10;
+    sops.secrets.uuplugin-uuid.sopsFile = ../secrets/uu.yaml;
+
+    systemd.network = mkMerge [
+      (
+        mkIf cfg.vlan.enable {
+          networks.${cfg.vlan.parentName}.vlan = [ cfg.vlan.name ];
+          netdevs."50-${cfg.vlan.name}" = {
+            netdevConfig = { Name = cfg.vlan.name; Kind = "vlan"; };
+            vlanConfig.Id = cfg.vlan.id;
           };
         }
-        {
-          routingPolicyRuleConfig = {
-            To = "10.6.8.0/24";
-            Table = 10;
+      )
+      {
+        networks."50-${cfg.vethName}" = {
+          name = cfg.vethName;
+          address = [ "10.6.7.1/24" ];
+          networkConfig.IPMasquerade = "both";
+        };
+        networks."50-simns" = {
+          name = "simns";
+          linkConfig = { MACAddress = "CC:5B:31:2F:BE:AE"; };
+          networkConfig = { IPv6AcceptRA = false; };
+          DHCP = "ipv4";
+          dhcpV4Config = {
+            SendHostname = false;
+            ClientIdentifier = "mac";
+            UseDNS = false;
+            UseNTP = false;
+            UseSIP = false;
+            UseDomains = false;
+            RouteTable = 10;
           };
-        }
-      ];
-    };
+          routingPolicyRules = [
+            {
+              routingPolicyRuleConfig = {
+                FirewallMark = 3;
+                Table = 10;
+              };
+            }
+            {
+              routingPolicyRuleConfig = {
+                To = "10.6.8.0/24";
+                Table = 10;
+              };
+            }
+          ];
+        };
+      }
+    ];
 
     networking.firewall.extraForwardRules = ''
-      iifname ${veth} accept
+      iifname ${cfg.vethName} accept
     '';
-    networking.nftables.masquerade = [ "iifname ${veth}" ];
+    networking.nftables.markChinaIP.extraIPv4Rules = "ip saddr 10.6.7.0/24 accept";
 
     containers.uu = {
       autoStart = true;
       enableTun = true;
       ephemeral = true;
       privateNetwork = true;
-      extraVeths.${veth} = { };
+      extraVeths.${cfg.vethName} = { };
       extraVeths.simns = { };
-      interfaces = [ vlan ];
+      interfaces = optional cfg.vlan.enable cfg.vlan.name;
       extraFlags = [ "--load-credential=uuplugin-uuid:uuplugin-uuid" ];
       config = { config, ... }: {
         _module.args = { inherit inputs self; };
@@ -104,19 +132,29 @@ in
               iifname ${config.presets.router.lan.bridge.name} oifname "tun*" accept
             '';
           };
+          nftables.tables.uumark = {
+            enable = cfg.useFakeIptables;
+            family = "inet";
+            content = ''
+              chain pre {
+                type filter hook prerouting priority mangle;
+                iifname ${config.presets.router.lan.bridge.name} mark 0 mark set 0x163
+              }
+            '';
+          };
         };
         presets.nogui.enable = true;
         presets.router = {
           enable = true;
           wan = {
-            interface = veth;
+            interface = cfg.vethName;
             type = "static";
             address = "10.6.7.2/24";
             gateway = "10.6.7.1";
             dns = "10.6.0.1";
           };
           lan = {
-            interfaces = [ vlan "simns" ];
+            interfaces = [ "simns" ] ++ optional cfg.vlan.enable cfg.vlan.name;
             address = "10.6.8.1/24";
             staticLeases = [
               {
@@ -146,7 +184,7 @@ in
         systemd.services.uuplugin = {
           after = [ "network-online.target" ];
           wantedBy = [ "multi-user.target" ];
-          path = with pkgs; [ iproute2 nettools iptables ]; # ip ifconfig iptables
+          path = with pkgs; [ iproute2 nettools iptablesPackage ]; # ip ifconfig iptables
           serviceConfig = self.data.systemdHarden // {
             AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
             CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
@@ -162,13 +200,13 @@ in
             PIDFile = "/run/uuplugin.pid";
             ExecStartPre = [
               "+/bin/sh -c 'touch /run/uuplugin.pid && chmod 777 /run/uuplugin.pid'"
-              "${pkgs.coreutils}/bin/ln -s \${CREDENTIALS_DIRECTORY}/uuplugin-uuid %S/%N/.uuplugin_uuid"
+              "${pkgs.coreutils}/bin/ln -nsf \${CREDENTIALS_DIRECTORY}/uuplugin-uuid %S/%N/.uuplugin_uuid"
             ];
             ExecStart = "${pkgs.uuplugin}/bin/uuplugin ${pkgs.uuplugin}/share/uuplugin/uu.conf";
           };
         };
       };
     };
-    systemd.services."container@uu".serviceConfig.LoadCredential = "uuplugin-uuid:${cfg.uuidFile}";
+    systemd.services."container@uu".serviceConfig.LoadCredential = "uuplugin-uuid:${config.sops.secrets.uuplugin-uuid.path}";
   };
 }
