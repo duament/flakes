@@ -342,7 +342,7 @@ in
     programs.alacritty = {
       enable = true;
       settings = {
-        import = [ "${pkgs.alacritty-theme}/catppuccin_latte.yaml" ];
+        import = [ "${pkgs.alacritty-theme}/catppuccin_latte.toml" ];
         scrolling.history = 10000;
       };
     };
