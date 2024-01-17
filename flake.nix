@@ -50,15 +50,15 @@
             name = "deploy";
             text = ''
               if [ $# -ge 2 ]; then
-                ACTION="$2"
+                ARGS=("''${@:2}")
               else
-                ACTION=switch
+                ARGS=(switch)
               fi
 
               if [ $# -eq 0 ] || [ "$1" == "." ]; then
-                exec sudo bash -c "TMPDIR=/var/tmp nixos-rebuild --flake . $ACTION ${nom-suffix}"
+                exec sudo TMPDIR=/var/tmp nixos-rebuild --flake . "''${ARGS[@]}" ${nom-suffix}
               else
-                exec nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo --use-substitutes "$ACTION" ${nom-suffix}
+                exec nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo --use-substitutes "''${ARGS[@]}" ${nom-suffix}
               fi
             '';
           };
