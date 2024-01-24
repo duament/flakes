@@ -39,12 +39,15 @@
   };
 
   services.uu = {
-    enable = true;
+    enable = false;
     useFakeIptables = true;
   };
+  presets.uutunnel.enable = true;
   networking.warp = {
     enable = true;
-    endpointAddr = "162.159.192.1";
+    #endpointAddr = "162.159.192.1";
+    endpointAddr = "127.0.0.1";
+    endpointPort = 20000;
     mtu = 1380;
     mark = 3;
     routingId = "0x699b5e";
