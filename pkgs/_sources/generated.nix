@@ -66,10 +66,10 @@
   };
   flood-for-transmission = {
     pname = "flood-for-transmission";
-    version = "2023-11-17T12-46-13";
+    version = "2024-01-24T16-52-06";
     src = fetchTarball {
-      url = "https://github.com/johman10/flood-for-transmission/releases/download/2023-11-17T12-46-13/flood-for-transmission.tar.gz";
-      sha256 = "sha256-arC73X+IqXjU2ccV35IlUW9S7GCI5GGD7fJ50JTbqmk=";
+      url = "https://github.com/johman10/flood-for-transmission/releases/download/2024-01-24T16-52-06/flood-for-transmission.tar.gz";
+      sha256 = "sha256-KPg5hikGoPRWyujIxw29pSwtDc3ITAWl0So4ygYGZHI=";
     };
   };
   hass-xiaomi-miot = {
@@ -109,10 +109,28 @@
   };
   uuplugin = {
     pname = "uuplugin";
-    version = "4.6.8";
+    version = "4.7.16";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v4.6.8/uu.tar.gz";
-      sha256 = "sha256-kAkTcFmvpenuafeGaZd/9YGm7dqOvnkmpc7Xrmtm+vM=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v4.7.16/uu.tar.gz";
+      sha256 = "sha256-TO5RoVSjdIquj20sWHOiuNaj+PB5mHvlD8CNjLn5a7o=";
     };
+  };
+  uutunnel = {
+    pname = "uutunnel";
+    version = "92a539f40ad2d1164a73742176ca2c76e1508044";
+    src = fetchFromGitHub {
+      owner = "duament";
+      repo = "uutunnel";
+      rev = "92a539f40ad2d1164a73742176ca2c76e1508044";
+      fetchSubmodules = false;
+      sha256 = "sha256-pRDNl15iHFN/M8Riw+NkUc/s5XPmnxlJLxMPG6iGsyY=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./uutunnel-92a539f40ad2d1164a73742176ca2c76e1508044/Cargo.lock;
+      outputHashes = {
+        
+      };
+    };
+    date = "2024-01-25";
   };
 }

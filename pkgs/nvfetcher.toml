@@ -41,3 +41,8 @@ fetch.github = "al-one/hass-xiaomi-miot"
 src.github_tag = "chenxiaolong/avbroot"
 fetch.github = "chenxiaolong/avbroot"
 cargo_locks = [ "Cargo.lock" ]
+
+[uutunnel]
+src.git = "https://github.com/duament/uutunnel"
+fetch.github = "duament/uutunnel"
+cargo_locks = [ "Cargo.lock" ]

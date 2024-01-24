@@ -111,11 +111,11 @@
         "passthru": null,
         "pinned": false,
         "src": {
-            "sha256": "sha256-arC73X+IqXjU2ccV35IlUW9S7GCI5GGD7fJ50JTbqmk=",
+            "sha256": "sha256-KPg5hikGoPRWyujIxw29pSwtDc3ITAWl0So4ygYGZHI=",
             "type": "tarball",
-            "url": "https://github.com/johman10/flood-for-transmission/releases/download/2023-11-17T12-46-13/flood-for-transmission.tar.gz"
+            "url": "https://github.com/johman10/flood-for-transmission/releases/download/2024-01-24T16-52-06/flood-for-transmission.tar.gz"
         },
-        "version": "2023-11-17T12-46-13"
+        "version": "2024-01-24T16-52-06"
     },
     "hass-xiaomi-miot": {
         "cargoLocks": null,
@@ -186,10 +186,35 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-kAkTcFmvpenuafeGaZd/9YGm7dqOvnkmpc7Xrmtm+vM=",
+            "sha256": "sha256-TO5RoVSjdIquj20sWHOiuNaj+PB5mHvlD8CNjLn5a7o=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v4.6.8/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v4.7.16/uu.tar.gz"
         },
-        "version": "4.6.8"
+        "version": "4.7.16"
+    },
+    "uutunnel": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./uutunnel-92a539f40ad2d1164a73742176ca2c76e1508044/Cargo.lock",
+                {}
+            ]
+        },
+        "date": "2024-01-25",
+        "extract": null,
+        "name": "uutunnel",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "duament",
+            "repo": "uutunnel",
+            "rev": "92a539f40ad2d1164a73742176ca2c76e1508044",
+            "sha256": "sha256-pRDNl15iHFN/M8Riw+NkUc/s5XPmnxlJLxMPG6iGsyY=",
+            "type": "github"
+        },
+        "version": "92a539f40ad2d1164a73742176ca2c76e1508044"
     }
 }
