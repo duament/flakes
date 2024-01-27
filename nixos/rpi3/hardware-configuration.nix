@@ -7,6 +7,7 @@
       device = "/dev/disk/by-label/system_luks";
       allowDiscards = true;
       bypassWorkqueues = true;
+      keyFile = "/sysroot/efi/key";
     };
     network = {
       enable = true;
@@ -37,6 +38,7 @@
     efiDevice = "/dev/disk/by-label/boot";
     swap = "swap";
   };
+  fileSystems."/efi".neededForBoot = true;
 
   hardware.enableRedistributableFirmware = true;
 
