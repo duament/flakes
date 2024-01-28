@@ -12,5 +12,19 @@
 
   networking.hostName = "rpi3";
 
+  systemd.network.networks."10-enu1u1u1" = {
+    matchConfig = { PermanentMACAddress = "b8:27:eb:f0:2e:8e"; };
+    DHCP = "yes";
+    dhcpV6Config = { PrefixDelegationHint = "::/63"; };
+  };
+
+  services.uu = {
+    enable = true;
+    vlan = {
+      enable = true;
+      parentName = "10-enu1u1u1";
+    };
+  };
+
   home-manager.users.rvfg = import ./home.nix;
 }
