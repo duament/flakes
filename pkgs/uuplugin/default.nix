@@ -1,4 +1,7 @@
-{ source, stdenvNoCC }:
+{ sources, stdenvNoCC }:
+let
+  source = sources."uuplugin-${stdenvNoCC.hostPlatform.parsed.cpu.name}";
+in
 stdenvNoCC.mkDerivation {
   inherit (source) pname version src;
   unpackPhase = ''
@@ -10,6 +13,6 @@ stdenvNoCC.mkDerivation {
   '';
   meta = {
     description = "uuplugin";
-    platforms = [ "x86_64-linux" ];
+    platforms = [ "x86_64-linux" "aarch64-linux" ];
   };
 }

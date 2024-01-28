@@ -177,11 +177,26 @@
         },
         "version": "5aeb20c141f6c1ca30c0aaae6b861471a48210d8"
     },
-    "uuplugin": {
+    "uuplugin-aarch64": {
         "cargoLocks": null,
         "date": null,
         "extract": null,
-        "name": "uuplugin",
+        "name": "uuplugin-aarch64",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-a9hiiSdp84lP6y3vCbMHiAvrOsfsaBsAHqD26ohtftg=",
+            "type": "url",
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v4.7.16/uu.tar.gz"
+        },
+        "version": "4.7.16"
+    },
+    "uuplugin-x86_64": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "uuplugin-x86_64",
         "passthru": null,
         "pinned": false,
         "src": {

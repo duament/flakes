@@ -107,8 +107,16 @@
     };
     date = "2023-05-21";
   };
-  uuplugin = {
-    pname = "uuplugin";
+  uuplugin-aarch64 = {
+    pname = "uuplugin-aarch64";
+    version = "4.7.16";
+    src = fetchurl {
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v4.7.16/uu.tar.gz";
+      sha256 = "sha256-a9hiiSdp84lP6y3vCbMHiAvrOsfsaBsAHqD26ohtftg=";
+    };
+  };
+  uuplugin-x86_64 = {
+    pname = "uuplugin-x86_64";
     version = "4.7.16";
     src = fetchurl {
       url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v4.7.16/uu.tar.gz";
