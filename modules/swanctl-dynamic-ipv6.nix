@@ -98,6 +98,7 @@ in
     };
 
     systemd.services."swanctl-dynamic-ipv6" = {
+      wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
       path = with pkgs; [ iproute2 jq sipcalc gawk strongswan ];
       script = ''

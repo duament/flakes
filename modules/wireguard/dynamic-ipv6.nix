@@ -16,6 +16,7 @@ in
       (interface: {
         name = "${interface}-dynamic-ipv6";
         value = {
+          wants = [ "network-online.target" ];
           after = [ "network-online.target" ];
           path = [ pkgs.iproute2 pkgs.jq pkgs.sipcalc pkgs.gawk pkgs.wireguard-tools ];
           script = ''

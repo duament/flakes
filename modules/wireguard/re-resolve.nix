@@ -21,6 +21,7 @@ in
         {
           name = "${interface}-re-resolve";
           value = {
+            wants = [ "network-online.target" ];
             after = [ "network-online.target" ];
             path = [ pkgs.wireguard-tools pkgs.gawk ];
             script = ''

@@ -19,6 +19,7 @@ in
   config = mkIf cfg.enable {
     systemd.services.clash = {
       after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = self.data.systemdHarden // {
         StateDirectory = "%N";

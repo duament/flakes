@@ -16,6 +16,7 @@ in
       (interface: {
         name = "${interface}-keep-alive";
         value = {
+          wants = [ "network-online.target" ];
           after = [ "network-online.target" ];
           wantedBy = [ "multi-user.target" ];
           path = with pkgs; [ iproute2 wireguard-tools ];

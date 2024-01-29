@@ -182,6 +182,7 @@ in
           };
         };
         systemd.services.uuplugin = {
+          wants = [ "network-online.target" ];
           after = [ "network-online.target" ];
           wantedBy = [ "multi-user.target" ];
           path = with pkgs; [ iproute2 nettools iptablesPackage ]; # ip ifconfig iptables

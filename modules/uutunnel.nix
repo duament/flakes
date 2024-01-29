@@ -20,6 +20,7 @@ in
     ];
 
     systemd.services.uutunnel = {
+      wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = self.data.systemdHarden // {
