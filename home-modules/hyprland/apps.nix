@@ -21,7 +21,7 @@ in
       "d %h/.mozilla/native-messaging-hosts - - - -"
     ] ++ [
       "d %h/.local/share/TelegramDesktop - - - -"
-      ''d "%h/Downloads/Telegram\x20Desktop" - - - -''
+      ''d "%h/Downloads/TelegramDesktop" - - - -''
     ];
 
     systemd.user.services.alacritty-w1 = {
@@ -64,7 +64,7 @@ in
         Type = "dbus";
         BusName = "org.telegram.desktop";
         MemoryHigh = "2G";
-        BindPaths = [ "%t" "%h/.local/share/TelegramDesktop" "%h/Downloads/Telegram\\ Desktop" ];
+        BindPaths = [ "%t" "%h/.local/share/TelegramDesktop" "%h/Downloads/TelegramDesktop" ];
         BindReadOnlyPaths = publicBinds;
         ExecStart = "${pkgs.telegram-desktop}/bin/telegram-desktop";
         ProtectHome = "tmpfs";
