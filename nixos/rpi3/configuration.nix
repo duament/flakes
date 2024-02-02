@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, self, ... }:
 let
   nonCNMark = 2;
 in
@@ -41,7 +41,18 @@ in
     table = 20;
   };
   presets.wireguard.keepAlive.interfaces = [ "warp" ];
+  networking.firewall = {
+    checkReversePath = "loose";
+    extraInputRules = ''
+      ip saddr { 10.7.0.1, ${self.data.tailscale.ipv4} } meta l4proto { tcp, udp } th dport 53 accept
+    '';
+    extraForwardRules = ''
+      ip saddr { 10.7.0.1, ${self.data.tailscale.ipv4} } accept
+      ip6 saddr { ${self.data.tailscale.ipv6} } accept
+    '';
+  };
   networking.nftables.mssClamping = true;
+  networking.nftables.masquerade = [ "ip saddr { ${self.data.tailscale.ipv4} }" "ip6 saddr { ${self.data.tailscale.ipv6} }" ];
   networking.nftables.markChinaIP = {
     enable = true;
     mark = nonCNMark;

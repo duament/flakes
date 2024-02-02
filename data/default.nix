@@ -5,5 +5,6 @@
   sshPub = import ./ssh-pubkeys.nix;
   syncthing = import ./syncthing.nix;
   systemdHarden = import ./systemd-harden.nix;
+  tailscale = import ./tailscale.nix;
   wg0 = import ./wg0.nix;
 }
