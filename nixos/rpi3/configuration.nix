@@ -103,5 +103,17 @@ in
     ];
   };
 
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+    port = 4164;
+    extraUpFlags = [
+      "--accept-dns=false"
+      "--advertise-exit-node"
+      "--netfilter-mode=off"
+    ];
+  };
+  presets.bpf-mark.tailscaled = 1;
+
   home-manager.users.rvfg = import ./home.nix;
 }
