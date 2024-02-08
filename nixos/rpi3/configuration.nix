@@ -9,6 +9,7 @@ in
   sops.secrets = {
     initrd_ssh_host_ed25519_key = { };
     warp_key.owner = "systemd-network";
+    duckdns = { };
   };
 
   boot.loader.generationsDir.copyKernels = true;
@@ -114,6 +115,13 @@ in
     ];
   };
   presets.bpf-mark.tailscaled = 1;
+
+  presets.duckdns = {
+    enable = true;
+    domain = "rpi3-rvfg.duckdns.org";
+    interface = "enu1u1u1";
+    tokenFile = config.sops.secrets.duckdns.path;
+  };
 
   home-manager.users.rvfg = import ./home.nix;
 }

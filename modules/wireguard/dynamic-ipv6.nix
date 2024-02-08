@@ -21,7 +21,7 @@ in
           path = [ pkgs.iproute2 pkgs.jq pkgs.sipcalc pkgs.gawk pkgs.wireguard-tools ];
           script = ''
             set -o pipefail
-            IPV6=$(ip -j -6 a show dev ${interface} scope global | jq -r '.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd").local' | head -n 1)
+            IPV6=$(ip -j -6 a show dev ${interface} scope global | jq -r '[.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd" and .local != null)][0].local')
             IPV6_EXPANDED=$(sipcalc -6 "$IPV6" | grep 'Expanded Address' | awk '{print $NF}')
             IPV6_PREFIX=''${IPV6_EXPANDED%:*:*:*:*}
             if [[ -z "$IPV6_PREFIX" ]]; then exit; fi

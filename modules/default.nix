@@ -9,6 +9,7 @@
     ./chromium.nix
     ./clash.nix
     ./common.nix
+    ./duckdns.nix
     ./fs.nix
     ./gammu-smsd.nix
     ./git.nix

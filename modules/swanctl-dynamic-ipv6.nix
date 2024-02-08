@@ -112,7 +112,7 @@ in
           fi
         }
 
-        IPV6=$(ip -j -6 a show dev ${cfg.prefixInterface} scope global | jq -r '.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd").local')
+        IPV6=$(ip -j -6 a show dev ${cfg.prefixInterface} scope global | jq -r '[.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd" and .local != null)][0].local')
         IPV6_PREFIX=$(get_prefix "$IPV6")
         if [[ -z "$IPV6_PREFIX" ]]; then exit; fi
 
