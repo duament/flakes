@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 with lib;
 {
   options = {
@@ -50,54 +50,12 @@ with lib;
               installation_mode = "force_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/header-editor/latest.xpi";
             };
-            "{74145f27-f039-47ce-a470-a662b129930a}" = {
-              installation_mode = "force_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/clearurl/latest.xpi";
-            };
             "@testpilot-containers" = {
               installation_mode = "force_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi";
             };
           };
-          "3rdparty".Extensions."uBlock0@raymondhill.net".adminSettings =
-            let
-              LegitimateURLShortener = "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt";
-            in
-            {
-              userSettings = {
-                externalLists = LegitimateURLShortener;
-                importedLists = [ LegitimateURLShortener ];
-              };
-              selectedFilterLists = [
-                "user-filters"
-                "ublock-filters"
-                "ublock-badware"
-                "ublock-privacy"
-                "ublock-quick-fixes"
-                "ublock-unbreak"
-                "easylist"
-                "adguard-spyware"
-                "adguard-spyware-url"
-                "easyprivacy"
-                "urlhaus-1"
-                "plowe-0"
-                "adguard-cookies"
-                "adguard-mobile-app-banners"
-                "adguard-other-annoyances"
-                "adguard-popup-overlays"
-                "adguard-social"
-                "adguard-widgets"
-                "fanboy-thirdparty_social"
-                "ublock-annoyances"
-                "CHN-0"
-                "JPN-1"
-                LegitimateURLShortener
-              ];
-              userFilters = ''
-                bilibili.com##.unlogin-popover-avatar:xpath(..)
-                bilibili.com##.login-panel-popover:xpath(..)
-              '';
-            };
+          "3rdparty".Extensions."uBlock0@raymondhill.net".adminSettings = self.data.ublockOriginSettings;
         };
       };
       profiles.default = {
@@ -211,7 +169,11 @@ with lib;
     programs.chromium = {
       enable = true;
       commandLineArgs = [
-        "--ozone-platform-hint=auto"
+        "--ozone-platform=wayland"
+        "--enable-wayland-ime"
+        "--enable-experimental-web-platform-features"
+        "--enable-zero-copy"
+        "--enable-features=CanvasOopRasterization,ChromeRefresh2023,ChromeWebuiRefresh2023,VaapiVideoDecodeLinuxGL,Vulkan"
       ];
     };
   };

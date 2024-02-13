@@ -6,5 +6,6 @@
   syncthing = import ./syncthing.nix;
   systemdHarden = import ./systemd-harden.nix;
   tailscale = import ./tailscale.nix;
+  ublockOriginSettings = import ./ublock-origin-settings.nix;
   wg0 = import ./wg0.nix;
 }
