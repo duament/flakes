@@ -1,56 +1,96 @@
 { config, lib, pkgs, self, ... }:
-with lib;
 let
+  inherit (lib) length listToAttrs concatStringsSep flatten imap0 toHexString mkIf mkOption mkEnableOption types;
   cfg = config.services.swanctlDynamicIPv6;
+
+  vip6Path = "/var/lib/swanctl-dynamic-ipv6/vip6.conf";
 in
 {
-  options = {
-    services.swanctlDynamicIPv6.enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
+  options.services.swanctlDynamicIPv6 = {
+    enable = mkEnableOption "";
 
-    services.swanctlDynamicIPv6.prefixInterface = mkOption {
+    interface = mkOption {
       type = types.str;
-      default = "eth0";
+      default = "xfrm0";
     };
 
-    services.swanctlDynamicIPv6.IPv6Middle = mkOption {
+    underlyingNetwork = mkOption {
+      type = types.str;
+      example = "10-eth0";
+    };
+
+    IPv6Middle = mkOption {
       type = types.str;
       default = ":1";
     };
 
-    services.swanctlDynamicIPv6.IPv4Prefix = mkOption {
+    IPv4Prefix = mkOption {
       type = types.str;
       default = "10.6.6.";
     };
 
-    services.swanctlDynamicIPv6.ULAPrefix = mkOption {
+    ULAPrefix = mkOption {
       type = types.str;
       default = "fd64::";
     };
 
-    services.swanctlDynamicIPv6.local = mkOption {
+    privateKeyFile = mkOption {
+      type = types.path;
+    };
+
+    local = mkOption {
       type = types.attrs;
       default = { };
     };
 
-    services.swanctlDynamicIPv6.cacerts = mkOption {
+    cacerts = mkOption {
       type = types.listOf types.str;
       default = [ ];
     };
 
-    services.swanctlDynamicIPv6.devices = mkOption {
+    devices = mkOption {
       type = types.listOf types.str;
       default = [ ];
     };
   };
 
-  config = mkIf (builtins.length cfg.devices > 0) {
+  config = mkIf (cfg.enable && (length cfg.devices > 0)) {
+
+    networking.firewall = {
+      checkReversePath = "loose";
+      allowedUDPPorts = [
+        500 # IPsec
+        4500 # IPsec
+      ];
+      extraInputRules = ''
+        ip protocol { ah, esp } accept
+        ip6 nexthdr { ah, esp } accept
+        iifname ${cfg.interface} meta l4proto { tcp, udp } th dport 53 accept
+      '';
+      extraForwardRules = ''
+        iifname ${cfg.interface} accept
+      '';
+    };
+    networking.nftables.checkRuleset = false;
+
+    systemd.network.networks.${cfg.underlyingNetwork}.xfrm = [ cfg.interface ];
+
+    systemd.network.netdevs."25-${cfg.interface}" = {
+      netdevConfig = { Name = cfg.interface; Kind = "xfrm"; };
+      xfrmConfig.InterfaceId = 1;
+    };
+    systemd.network.networks."25-${cfg.interface}" = {
+      name = cfg.interface;
+      address = [ "${cfg.IPv4Prefix}1/24" ];
+      networkConfig.DHCPPrefixDelegation = true;
+      dhcpPrefixDelegationConfig.Token = "::1";
+    };
+
     services.strongswan-swanctl = {
       enable = true;
+      includes = [ vip6Path ];
       swanctl = {
-        connections = builtins.listToAttrs (lib.imap0
+        connections = listToAttrs (imap0
           (id: name: {
             inherit name;
             value = {
@@ -60,18 +100,15 @@ in
                 id = "${name}@rvf6.com";
                 cacerts = cfg.cacerts;
               };
-              children.${name} = {
-                local_ts = [ "0.0.0.0/0" "::/0" ];
-                life_time = "5d";
-                rand_time = "10m";
-              };
+              children.${name}.local_ts = [ "0.0.0.0/0" "::/0" ];
               version = 2;
               pools = [ "${name}_vip" "${name}_vip6" "${name}_vip_ula" ];
-              rekey_time = "7d";
+              if_id_in = "1";
+              if_id_out = "1";
             };
           })
           cfg.devices);
-        pools = builtins.listToAttrs (lib.flatten (lib.imap0
+        pools = listToAttrs (flatten (imap0
           (id: name: [
             {
               name = "${name}_vip";
@@ -80,13 +117,13 @@ in
                 dns = [ "${cfg.IPv4Prefix}1" ];
               };
             }
-            {
-              name = "${name}_vip6";
-              value = {
-                addrs = "${cfg.ULAPrefix}${lib.toHexString (128 + id)}/128";
-                dns = [ "${cfg.ULAPrefix}1" ];
-              };
-            }
+            #{
+            #  name = "${name}_vip6";
+            #  value = {
+            #    addrs = "${cfg.ULAPrefix}${toHexString (128 + id)}/128";
+            #    dns = [ "${cfg.ULAPrefix}1" ];
+            #  };
+            #}
           ])
           cfg.devices));
       };
@@ -96,6 +133,10 @@ in
         }
       '';
     };
+
+    systemd.services.strongswan-swanctl.serviceConfig.ExecStartPre = [
+      "+${pkgs.coreutils}/bin/ln -nsf ${cfg.privateKeyFile} /etc/swanctl/private/private.key"
+    ];
 
     systemd.services."swanctl-dynamic-ipv6" = {
       wants = [ "network-online.target" ];
@@ -112,12 +153,12 @@ in
           fi
         }
 
-        IPV6=$(ip -j -6 a show dev ${cfg.prefixInterface} scope global | jq -r '[.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd" and .local != null)][0].local')
+        IPV6=$(ip -j -6 a show dev ${cfg.interface} scope global | jq -r '[.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd" and .local != null)][0].local')
         IPV6_PREFIX=$(get_prefix "$IPV6")
         if [[ -z "$IPV6_PREFIX" ]]; then exit; fi
 
         NEED_UPDATE=0
-        ${builtins.concatStringsSep "" (map (device: ''
+        ${concatStringsSep "" (map (device: ''
           POOL_IPV6=$(swanctl --list-pools -n ${device}_vip6 | awk '{print $2}')
           POOL_IPV6_PREFIX=$(get_prefix "$POOL_IPV6")
           if [[ "$IPV6_PREFIX" != "$POOL_IPV6_PREFIX" ]]; then
@@ -126,27 +167,26 @@ in
         '') cfg.devices)}
 
         if [[ $NEED_UPDATE -eq 1 ]]; then
-          TEMP=$(mktemp)
-          cat > "$TEMP" << EOF
+          cat > "${vip6Path}.tmp" << EOF
           pools {
-            ${builtins.concatStringsSep "" (lib.imap0 (id: name: ''
-              ${name}_vip {
-                addrs = ${cfg.IPv4Prefix}${toString (128 + id)}/32
-                dns = ${cfg.IPv4Prefix}1
-              }
+            ${concatStringsSep "" (imap0 (id: name: ''
+              # ${name}_vip {
+              #   addrs = ${cfg.IPv4Prefix}${toString (128 + id)}/32
+              #   dns = ${cfg.IPv4Prefix}1
+              # }
               ${name}_vip6 {
-                addrs = $IPV6_PREFIX${cfg.IPv6Middle}::${lib.toHexString (id + 2)}/128
+                addrs = $IPV6_PREFIX${cfg.IPv6Middle}::${toHexString (id + 2)}/128
                 dns = $IPV6_PREFIX::1
               }
               # ${name}_vip_ula {
-              #   addrs = ${cfg.ULAPrefix}${lib.toHexString (128 + id)}/128
+              #   addrs = ${cfg.ULAPrefix}${toHexString (128 + id)}/128
               #   dns = ${cfg.ULAPrefix}1
               # }
             '') cfg.devices)}
           }
         EOF
-          swanctl --load-pools -f "$TEMP"
-          rm -f "$TEMP"
+          mv "${vip6Path}.tmp" "${vip6Path}"
+          systemctl restart strongswan-swanctl.service
         fi
       '';
       serviceConfig = self.data.systemdHarden // {
@@ -156,6 +196,7 @@ in
         PrivateUsers = false;
         DynamicUser = false;
         ReadWritePaths = [ "/run" "/var/run" ];
+        StateDirectory = "%N";
       };
     };
 
@@ -166,5 +207,6 @@ in
         OnUnitActiveSec = 300;
       };
     };
+
   };
 }

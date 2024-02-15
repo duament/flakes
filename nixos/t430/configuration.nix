@@ -44,27 +44,18 @@ in
   networking.hostName = "t430";
   networking.firewall = {
     checkReversePath = "loose";
-    allowedUDPPorts = [
-      500 # IPsec
-      4500 # IPsec
-    ];
     extraInputRules = ''
-      ip protocol { ah, esp } accept
-      meta ipsec exists meta l4proto { tcp, udp } th dport 53 accept
       iifname { wg0, internet } meta l4proto { tcp, udp } th dport 53 accept
       iifname internet udp dport 67 accept
       ip saddr { 10.6.0.1, ${self.data.tailscale.ipv4} } udp dport 53 accept
     '';
     extraForwardRules = ''
-      meta ipsec exists accept
-      rt ipsec exists accept
       iifname { wg0, internet } accept
       oifname { wg0, internet } accept
       ip saddr { ${self.data.tailscale.ipv4} } accept
       ip6 saddr { ${self.data.tailscale.ipv6} } accept
     '';
   };
-  networking.nftables.checkRuleset = false;
   networking.nftables.mssClamping = true;
   networking.nftables.masquerade = [ "ip saddr { ${self.data.tailscale.ipv4} }" "ip6 saddr { ${self.data.tailscale.ipv6} }" ];
 
@@ -94,7 +85,7 @@ in
     networkConfig = {
       DHCPServer = true;
       IPv6SendRA = true;
-      DHCPPrefixDelegation = true;
+      #DHCPPrefixDelegation = true;
       IPForward = true;
     };
     dhcpServerConfig = { DNS = "_server_address"; };
@@ -175,15 +166,12 @@ in
     };
   };
 
-  system.activationScripts.strongswan-swanctl-private = lib.stringAfter [ "etc" ] ''
-    mkdir -p /etc/swanctl/private
-    ln -sf ${config.sops.secrets."pki/t430-pkcs8-key".path} /etc/swanctl/private/t430.key
-  '';
   services.swanctlDynamicIPv6 = {
     enable = true;
-    prefixInterface = "wg0";
+    underlyingNetwork = "10-enp1s0";
     IPv6Middle = ":1";
-    IPv4Prefix = wg0.ipv4Pre;
+    IPv4Prefix = "10.6.9.";
+    privateKeyFile = config.sops.secrets."pki/t430-pkcs8-key".path;
     local.t430 = {
       auth = "pubkey";
       id = "t430.rvf6.com";

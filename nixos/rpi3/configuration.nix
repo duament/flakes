@@ -8,6 +8,10 @@ in
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     initrd_ssh_host_ed25519_key = { };
+    "pki/ca" = { };
+    "pki/ybk" = { };
+    "pki/bundle" = { };
+    "pki/pkcs8-key" = { };
     warp_key.owner = "systemd-network";
     duckdns = { };
   };
@@ -18,9 +22,9 @@ in
   networking.hostName = "rpi3";
 
   systemd.network.networks."10-enu1u1u1" = {
-    matchConfig = { PermanentMACAddress = "b8:27:eb:f0:2e:8e"; };
+    matchConfig.PermanentMACAddress = "b8:27:eb:f0:2e:8e";
     DHCP = "yes";
-    dhcpV6Config = { PrefixDelegationHint = "::/63"; };
+    dhcpV6Config.PrefixDelegationHint = "::/63";
   };
 
   services.uu = {
@@ -121,6 +125,21 @@ in
     domain = "rpi3-rvfg.duckdns.org";
     interface = "enu1u1u1";
     tokenFile = config.sops.secrets.duckdns.path;
+  };
+
+  services.swanctlDynamicIPv6 = {
+    enable = true;
+    underlyingNetwork = "10-enu1u1u1";
+    IPv6Middle = ":1";
+    IPv4Prefix = "10.7.6.";
+    privateKeyFile = config.sops.secrets."pki/pkcs8-key".path;
+    local.rpi3 = {
+      auth = "pubkey";
+      id = "rpi3.rvf6.com";
+      certs = [ config.sops.secrets."pki/bundle".path ];
+    };
+    cacerts = [ config.sops.secrets."pki/ca".path config.sops.secrets."pki/ybk".path ];
+    devices = [ "ip13" "pixel7" "xiaoxin" ];
   };
 
   home-manager.users.rvfg = import ./home.nix;
