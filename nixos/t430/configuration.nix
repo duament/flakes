@@ -16,6 +16,7 @@ in
     "pki/t430-bundle" = { };
     "pki/t430-pkcs8-key" = { };
     warp_key.owner = "systemd-network";
+    duckdns = { };
     wireguard_key.owner = "systemd-network";
     "syncthing/cert".owner = config.services.syncthing.user;
     "syncthing/key".owner = config.services.syncthing.user;
@@ -164,6 +165,13 @@ in
       enable = true;
       parentName = "10-enp1s0";
     };
+  };
+
+  presets.duckdns = {
+    enable = true;
+    domain = "t430-rvfg.duckdns.org";
+    interface = "enp1s0";
+    tokenFile = config.sops.secrets.duckdns.path;
   };
 
   services.swanctlDynamicIPv6 = {
