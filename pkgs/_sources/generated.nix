@@ -124,20 +124,20 @@
   };
   uutunnel = {
     pname = "uutunnel";
-    version = "92a539f40ad2d1164a73742176ca2c76e1508044";
+    version = "1698c8f45a20d2eb2b2bb00f2ca3a5606bbabce0";
     src = fetchFromGitHub {
       owner = "duament";
       repo = "uutunnel";
-      rev = "92a539f40ad2d1164a73742176ca2c76e1508044";
+      rev = "1698c8f45a20d2eb2b2bb00f2ca3a5606bbabce0";
       fetchSubmodules = false;
-      sha256 = "sha256-pRDNl15iHFN/M8Riw+NkUc/s5XPmnxlJLxMPG6iGsyY=";
+      sha256 = "sha256-TOVvLaIgL8ywJhlYmU2Iv3nozXbJuYewNDVbZD1of7M=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./uutunnel-92a539f40ad2d1164a73742176ca2c76e1508044/Cargo.lock;
+      lockFile = ./uutunnel-1698c8f45a20d2eb2b2bb00f2ca3a5606bbabce0/Cargo.lock;
       outputHashes = {
         
       };
     };
-    date = "2024-01-25";
+    date = "2024-02-27";
   };
 }
