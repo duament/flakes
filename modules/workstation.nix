@@ -78,6 +78,16 @@ in
       route = "cn";
     };
 
+    services.tailscale = {
+      enable = true;
+      openFirewall = true;
+      extraUpFlags = [
+        "--accept-dns=false"
+        "--netfilter-mode=off"
+      ];
+    };
+    presets.bpf-mark.tailscaled = 1;
+
     services.clash = {
       enable = true;
       configFile = config.sops.secrets.clash.path;
