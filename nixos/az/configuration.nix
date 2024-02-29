@@ -75,6 +75,16 @@ in
     RuntimeDirectory = "%p";
     StateDirectory = "%p";
   };
+  systemd.services.etebase-server.path =
+    let
+      my-python = pkgs.python3.override {
+        packageOverrides = self: super: {
+          pydantic = super.pydantic_1;
+        };
+      };
+      python-env = my-python.withPackages (ps: with ps; [ etebase-server daphne ]);
+    in
+    lib.mkForce [ python-env ];
 
   systemd.services.miniflux = {
     description = "Miniflux";
