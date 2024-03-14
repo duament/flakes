@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.1.0";
+    version = "v3.1.1";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.1.0";
+      rev = "v3.1.1";
       fetchSubmodules = false;
-      sha256 = "sha256-xpidmnJ7X7nrBED79EEWzMYwlkMXdAGJBe4tIzAeRw0=";
+      sha256 = "sha256-GQOA+FsyeH6BSDqS2RVAlxirX4wH+7ZsbxwQCt4re68=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.1.0/Cargo.lock;
+      lockFile = ./avbroot-v3.1.1/Cargo.lock;
       outputHashes = {
         "bzip2-0.4.4" = "sha256-6VOKPlgIIibpcvxSL9Y+wKre6h2J2s+dGOhCA9pAVwg=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
@@ -73,13 +73,13 @@
   };
   hass-xiaomi-miot = {
     pname = "hass-xiaomi-miot";
-    version = "v0.7.15";
+    version = "v0.7.16";
     src = fetchFromGitHub {
       owner = "al-one";
       repo = "hass-xiaomi-miot";
-      rev = "v0.7.15";
+      rev = "v0.7.16";
       fetchSubmodules = false;
-      sha256 = "sha256-2maNxw2mYQn6hB2XJn4HzY7igCr4vwdL7VFgzcGrGlg=";
+      sha256 = "sha256-nXc2HU+1kQJvlsyi2ij6rLJlQT2M50rYsD+x4FQVcuY=";
     };
   };
   transmission-client = {

@@ -62,7 +62,7 @@
     "avbroot": {
         "cargoLocks": {
             "Cargo.lock": [
-                "./avbroot-v3.1.0/Cargo.lock",
+                "./avbroot-v3.1.1/Cargo.lock",
                 {
                     "bzip2-0.4.4": "sha256-6VOKPlgIIibpcvxSL9Y+wKre6h2J2s+dGOhCA9pAVwg=",
                     "zip-0.6.6": "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0="
@@ -81,11 +81,11 @@
             "name": null,
             "owner": "chenxiaolong",
             "repo": "avbroot",
-            "rev": "v3.1.0",
-            "sha256": "sha256-xpidmnJ7X7nrBED79EEWzMYwlkMXdAGJBe4tIzAeRw0=",
+            "rev": "v3.1.1",
+            "sha256": "sha256-GQOA+FsyeH6BSDqS2RVAlxirX4wH+7ZsbxwQCt4re68=",
             "type": "github"
         },
-        "version": "v3.1.0"
+        "version": "v3.1.1"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -130,11 +130,11 @@
             "name": null,
             "owner": "al-one",
             "repo": "hass-xiaomi-miot",
-            "rev": "v0.7.15",
-            "sha256": "sha256-2maNxw2mYQn6hB2XJn4HzY7igCr4vwdL7VFgzcGrGlg=",
+            "rev": "v0.7.16",
+            "sha256": "sha256-nXc2HU+1kQJvlsyi2ij6rLJlQT2M50rYsD+x4FQVcuY=",
             "type": "github"
         },
-        "version": "v0.7.15"
+        "version": "v0.7.16"
     },
     "transmission-client": {
         "cargoLocks": null,
