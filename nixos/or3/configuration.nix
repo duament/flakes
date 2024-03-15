@@ -187,6 +187,13 @@ in
     extraEnvFiles = [ config.sops.secrets.mastodon.path ];
     streamingProcesses = 3;
   };
+  services.nginx.virtualHosts.${config.services.mastodon.localDomain} = {
+    quic = true;
+    http3 = true;
+    extraConfig = ''
+      add_header Alt-Svc 'h3=":$server_port"; ma=86400';
+    '';
+  };
 
   presets.restic = {
     enable = true;
