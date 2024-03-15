@@ -38,7 +38,10 @@ in
 
     home.packages = with pkgs; [
       grim
+      inkscape
+      libreoffice-fresh
       papirus-icon-theme
+      pdftk
       thunderbird
       wl-clipboard
     ] ++ dolphin_packages;
