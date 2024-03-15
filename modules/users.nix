@@ -1,4 +1,4 @@
-{ config, lib, self, ... }:
+{ config, lib, pkgs, self, ... }:
 let
   cfg = config.presets.users;
 in
@@ -64,5 +64,14 @@ in
     #security.sudo.extraConfig = ''
     #  Defaults passwd_timeout=0
     #'';
+
+    # libpam_rssh
+    security.pam.services.sudo.text = lib.mkDefault (lib.mkBefore ''
+      auth sufficient ${pkgs.pam_rssh}/lib/libpam_rssh.so auth_key_file=/etc/ssh/authorized_keys.d/rvfg
+    '');
+    security.sudo.extraConfig = ''
+      Defaults env_keep+=SSH_AUTH_SOCK
+    '';
+
   };
 }
