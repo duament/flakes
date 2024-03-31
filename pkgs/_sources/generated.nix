@@ -73,13 +73,13 @@
   };
   hass-xiaomi-miot = {
     pname = "hass-xiaomi-miot";
-    version = "v0.7.16";
+    version = "v0.7.17";
     src = fetchFromGitHub {
       owner = "al-one";
       repo = "hass-xiaomi-miot";
-      rev = "v0.7.16";
+      rev = "v0.7.17";
       fetchSubmodules = false;
-      sha256 = "sha256-nXc2HU+1kQJvlsyi2ij6rLJlQT2M50rYsD+x4FQVcuY=";
+      sha256 = "sha256-IpL4e2mKCdtNu8NtI+xpx4FPW/uj1M5Rk6DswXmSJBk=";
     };
   };
   transmission-client = {
@@ -96,30 +96,30 @@
   };
   transmission-web-control = {
     pname = "transmission-web-control";
-    version = "5aeb20c141f6c1ca30c0aaae6b861471a48210d8";
+    version = "9018e35d12d2e20c9ec01b8a858ecaa2c3ce96f4";
     src = fetchFromGitHub {
       owner = "ronggang";
       repo = "transmission-web-control";
-      rev = "5aeb20c141f6c1ca30c0aaae6b861471a48210d8";
+      rev = "9018e35d12d2e20c9ec01b8a858ecaa2c3ce96f4";
       fetchSubmodules = false;
-      sha256 = "sha256-LbhAxInDEcf5Y9KPBbBVlqNC4qbVV9/KMK1PxcdFezY=";
+      sha256 = "sha256-A9EW27LGJ6asqvnZqBRe57/hzBDaS/m7ud45o9BHWE8=";
     };
-    date = "2023-05-21";
+    date = "2024-03-20";
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "4.9.4";
+    version = "4.12.12";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v4.9.4/uu.tar.gz";
-      sha256 = "sha256-574klbpt9luZ47ix+1m+RqmMgrouWw6k51c1gstLHZ0=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v4.12.12/uu.tar.gz";
+      sha256 = "sha256-JziE6dBdbYhpornTZCWgFYiUnyfaIAdUzv/0LqJEDCM=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "4.9.4";
+    version = "4.12.12";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v4.9.4/uu.tar.gz";
-      sha256 = "sha256-qC7zanu3k9HZ2fY7rGvDHVWsiebfJWZNy1S2id0Odk8=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v4.12.12/uu.tar.gz";
+      sha256 = "sha256-qCg/Uxa8SLGbfTvtyDNAeSXUg6sWoaAv5V3sbDrJcAw=";
     };
   };
   uutunnel = {
