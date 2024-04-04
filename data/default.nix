@@ -1,5 +1,6 @@
 { inputs, lib, ... }:
 {
+  dns = import ./dns.nix;
   nftChinaIP = import ./nft-china-ip.nix { inherit inputs lib; };
   sops = import ./sops.nix;
   sshPub = import ./ssh-pubkeys.nix;

@@ -1,233 +1,237 @@
 { config, lib, pkgs, self, ... }:
 let
+  inherit (lib) mkIf mkOption mkEnableOption mkMerge types toLower toHexString mapAttrsToList filterAttrs optional optionals optionalAttrs elem attrNames findFirst listToAttrs;
+
   cfg = config.presets.wireguard.wg0;
   wg0 = self.data.wg0;
-  peer = wg0.peers.${config.networking.hostName};
-  control = wg0.peers.${wg0.control};
-  isControl = config.networking.hostName == wg0.control;
-  isP2p = builtins.elem config.networking.hostName wg0.p2p;
+  host = config.networking.hostName;
+  peer = wg0.peers.${host};
+  net = wg0.networks.${host} or null;
   wgMark = 1;
   wgTable = 10;
   routeMark = 2;
-  dns = [ "${wg0.ipv6Pre}${toLowerHex control.id}" ];
 
-  toLowerHex = n: lib.toLower (lib.toHexString n);
-  toEndpoint = peer: "${peer.addr}:${toString peer.port}";
-  toAddress = peer: [
-    "${wg0.ipv4Pre}${toString peer.id}/${toString wg0.ipv4Mask}"
-    "${wg0.ipv6Pre}${toLowerHex peer.id}/${toString wg0.ipv6Mask}"
+  # from outPeers
+  reverseClientPeers = attrNames (filterAttrs (_: c: elem host (c.outPeers or [ ])) wg0.networks);
+  clientPeers = attrNames cfg.clientPeers;
+  routePeer = findFirst (_: true) null (attrNames (filterAttrs (_: p: p.route != null) cfg.clientPeers));
+  route = if (routePeer != null) then cfg.clientPeers.${routePeer}.route else null;
+
+  toLowerHex = n: toLower (toHexString n);
+  toEndpoint = h: "${self.data.dns.${h}.ipv4}:${toString wg0.peers.${h}.port}";
+  toAddress = net: peer: [
+    "${net.ipv4Pre}${toString peer.id}/${toString net.ipv4Mask}"
+    "${net.ipv6Pre}${toLowerHex peer.id}/${toString net.ipv6Mask}"
   ];
   toAllowedIPs = peer: [
-    "${wg0.ipv4Pre}${toString peer.id}/32"
-    "${wg0.ipv6Pre}${toLowerHex peer.id}/128"
+    "${net.ipv4Pre}${toString peer.id}/32"
+    "${net.ipv6Pre}${toLowerHex peer.id}/128"
   ];
+  toClientPort = h: if (peer ? port) then peer.port + wg0.peers.${h}.id else null;
+
+  clientPeerOptions = { config, name, ... }: {
+    options = {
+      endpoint = mkOption {
+        type = with types; nullOr str;
+        default = toEndpoint name;
+      };
+
+      keepalive = mkOption {
+        type = with types; nullOr int;
+        default = null;
+      };
+
+      route = mkOption {
+        type = with types; nullOr (enum [ "all" "cn" ]);
+        default = null;
+      };
+
+      routeBypass = mkOption {
+        type = with types; listOf str;
+        default = [ ];
+      };
+
+      mark = mkOption {
+        type = with types; nullOr int;
+        default = if name == routePeer then wgMark else null;
+      };
+
+      table = mkOption {
+        type = with types; nullOr int;
+        default = if name == routePeer then wgTable else null;
+      };
+    };
+  };
 in
 {
-  options = {
-    presets.wireguard.wg0.enable = lib.mkEnableOption "";
+  options.presets.wireguard.wg0 = {
 
-    presets.wireguard.wg0.mtu = lib.mkOption {
-      type = lib.types.int;
+    enable = mkEnableOption "";
+
+    mtu = mkOption {
+      type = types.int;
       default = 1420;
     };
 
-    presets.wireguard.wg0.route = lib.mkOption {
-      type = with lib.types; nullOr (enum [ "all" "cn" ]);
-      default = null;
+    dynamicIPv6 = mkEnableOption "";
+
+    clientPeers = mkOption {
+      type = with types; attrsOf (submodule clientPeerOptions);
+      default = { };
     };
 
-    presets.wireguard.wg0.routeBypass = lib.mkOption {
-      type = with lib.types; listOf str;
-      default = [ ];
-    };
   };
 
-  config = lib.mkIf cfg.enable (lib.mkMerge [
-    {
+  config = mkIf cfg.enable (mkMerge [
+    # server
+    (mkIf (net != null) {
 
+      networking.firewall = {
+        allowedUDPPorts = [ peer.port ];
+        extraForwardRules = ''
+          iifname wg-${host} accept
+        '';
+      };
+
+      systemd.network.netdevs."25-wg-${host}" = {
+        netdevConfig = {
+          Name = "wg-${host}";
+          Kind = "wireguard";
+          MTUBytes = toString cfg.mtu;
+        };
+        wireguardConfig = {
+          PrivateKeyFile = config.sops.secrets.wireguard_key.path;
+          ListenPort = peer.port;
+        };
+        wireguardPeers =
+          (mapAttrsToList
+            (h: p: {
+              wireguardPeerConfig = {
+                AllowedIPs = toAllowedIPs p;
+                PublicKey = p.pubkey;
+              } // (optionalAttrs (elem h (net.outPeers or [ ])) {
+                Endpoint = "${self.data.dns.${h}.ipv4}:${toString (p.port + peer.id)}";
+                PersistentKeepalive = 25;
+              });
+            })
+            (filterAttrs (h: _: h != host) wg0.peers)
+          );
+      };
+
+      systemd.network.networks."25-wg-${host}" = {
+        name = "wg-${host}";
+        address = toAddress net peer;
+        networkConfig.IPMasquerade = "both";
+      } // (optionalAttrs cfg.dynamicIPv6 {
+        networkConfig = { DHCPPrefixDelegation = true; };
+        dhcpPrefixDelegationConfig = { Token = "::1"; };
+        linkConfig = { RequiredForOnline = false; };
+      }
+      );
+
+      presets.wireguard.dynamicIPv6.interfaces = optional cfg.dynamicIPv6 "wg-${host}";
+
+    })
+
+    # client
+    {
       environment.systemPackages = with pkgs; [
         wireguard-tools
       ];
 
-      networking.firewall.allowedUDPPorts = lib.optional (peer ? port) peer.port;
+      networking.firewall.allowedUDPPorts = optionals (peer ? port) (map toClientPort reverseClientPeers);
 
-      networking.nftables = lib.mkIf (cfg.route == "cn") {
-        masquerade = [ "oifname \"wg0\"" ];
-        markChinaIP = {
+      networking.nftables = {
+        masquerade = map (h: ''oifname "wg-${h}"'') (reverseClientPeers ++ clientPeers);
+        markChinaIP = mkIf (route == "cn") {
           enable = true;
           mark = routeMark;
         };
       };
 
-      systemd.network.netdevs."25-wg0" = {
-        netdevConfig = {
-          Name = "wg0";
-          Kind = "wireguard";
-          MTUBytes = toString cfg.mtu;
-        };
-        wireguardConfig = {
-          PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-        } // (if cfg.route == null then {
-          ListenPort = peer.port;
-        } else {
-          FirewallMark = wgMark;
-          RouteTable = wgTable;
-        });
-        wireguardPeers =
-          if isControl then
-            (map
-              (peer: {
-                wireguardPeerConfig = {
-                  AllowedIPs = toAllowedIPs peer;
-                  PublicKey = peer.pubkey;
-                } // (lib.optionalAttrs (peer ? addr) {
-                  Endpoint = toEndpoint peer;
-                  PersistentKeepalive = 25;
+      systemd.network.netdevs = listToAttrs (map (h: {
+        name = "25-wg-${h}";
+        value = {
+          netdevConfig = {
+            Name = "wg-${h}";
+            Kind = "wireguard";
+            MTUBytes = toString cfg.mtu;
+          };
+          wireguardConfig = (filterAttrs (_: v: v != null) {
+            PrivateKeyFile = config.sops.secrets.wireguard_key.path;
+            ListenPort = toClientPort h;
+            FirewallMark = cfg.clientPeers.${h}.mark or null;
+            RouteTable = cfg.clientPeers.${h}.table or null;
+          });
+          wireguardPeers =
+            [
+              {
+                wireguardPeerConfig = (filterAttrs (_: v: v != null) {
+                  AllowedIPs = [ "0.0.0.0/0" "::/0" ];
+                  PublicKey = wg0.peers.${h}.pubkey;
+                  Endpoint = cfg.clientPeers.${h}.endpoint or null;
+                  PersistentKeepalive = cfg.clientPeers.${h}.keepalive or null;
                 });
-              })
-              (builtins.attrValues (lib.filterAttrs (host: _: host != config.networking.hostName) wg0.peers))
-            ) else [
-            {
-              wireguardPeerConfig = {
-                AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-                PublicKey = control.pubkey;
-              } // (lib.optionalAttrs (cfg.route != null) {
-                Endpoint = toEndpoint control;
-                PersistentKeepalive = 25;
-              });
-            }
-          ];
+              }
+            ];
+        };
+      }) (reverseClientPeers ++ clientPeers));
 
-      };
-
-      systemd.network.networks."25-wg0" = {
-        name = "wg0";
-        address = toAddress peer;
-      } // (lib.optionalAttrs isControl {
-        networkConfig = { DHCPPrefixDelegation = true; };
-        dhcpPrefixDelegationConfig = { Token = "::1"; };
-        linkConfig = { RequiredForOnline = false; };
-      }
-      ) // (lib.optionalAttrs (cfg.route != null) {
-        inherit dns;
-        domains = [ "~." ];
-        networkConfig = { DNSDefaultRoute = "yes"; };
-        routingPolicyRules = map
-          (ip:
-            {
-              routingPolicyRuleConfig = {
-                To = ip;
-                Priority = 9;
-              };
-            }
-          )
-          cfg.routeBypass ++ (if cfg.route == "all" then
-          [
+      systemd.network.networks = listToAttrs (map (h: {
+        name = "25-wg-${h}";
+        value = {
+          name = "wg-${h}";
+          address = toAddress wg0.networks.${h} peer;
+        } // (optionalAttrs (h == routePeer) {
+          dns = [ "${wg0.networks.${h}.ipv6Pre}${toLowerHex wg0.peers.${h}.id}" ];
+          domains = [ "~." ];
+          networkConfig = { DNSDefaultRoute = "yes"; };
+          routingPolicyRules = map
+            (ip:
+              {
+                routingPolicyRuleConfig = {
+                  To = ip;
+                  Priority = 9;
+                };
+              }
+            )
+            cfg.routeBypass ++ (if route == "all" then
+            [
+              {
+                routingPolicyRuleConfig = {
+                  Family = "both";
+                  FirewallMark = wgMark;
+                  InvertRule = "yes";
+                  Table = wgTable;
+                  Priority = 20;
+                };
+              }
+            ] else [
             {
               routingPolicyRuleConfig = {
                 Family = "both";
                 FirewallMark = wgMark;
-                InvertRule = "yes";
+                Priority = 9;
+              };
+            }
+            {
+              routingPolicyRuleConfig = {
+                Family = "both";
+                FirewallMark = routeMark;
                 Table = wgTable;
                 Priority = 20;
               };
             }
-          ] else [
-          {
-            routingPolicyRuleConfig = {
-              Family = "both";
-              FirewallMark = wgMark;
-              Priority = 9;
-            };
-          }
-          {
-            routingPolicyRuleConfig = {
-              Family = "both";
-              FirewallMark = routeMark;
-              Table = wgTable;
-              Priority = 20;
-            };
-          }
-        ]);
-      });
+          ]);
+        });
+      }) (reverseClientPeers ++ clientPeers));
 
-      presets.wireguard.dynamicIPv6.interfaces = lib.optional isControl "wg0";
+      #presets.wireguard.reResolve.interfaces = optional (cfg.route != null) "wg0";
 
-      presets.wireguard.reResolve.interfaces = lib.optional (cfg.route != null) "wg0";
-
-      presets.bpf-mark = lib.mkIf (cfg.route != null) {
-        wg0-re-resolve = wgMark;
-      };
+      #presets.bpf-mark = mkIf (cfg.route != null) {
+      #  wg0-re-resolve = wgMark;
+      #};
     }
 
-    (lib.mkIf isP2p {
-
-      networking.firewall = {
-        allowedUDPPorts = [ wg0.p2pPort ];
-        extraForwardRules = ''
-          iifname wg-${config.networking.hostName} accept
-        '';
-      };
-
-      systemd.network.netdevs."25-wg-${config.networking.hostName}" = {
-        netdevConfig = {
-          Name = "wg-${config.networking.hostName}";
-          Kind = "wireguard";
-          MTUBytes = toString cfg.mtu;
-        };
-        wireguardConfig = {
-          PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-          ListenPort = wg0.p2pPort;
-        };
-        wireguardPeers = [{
-          wireguardPeerConfig = {
-            AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-            PublicKey = control.pubkey;
-          };
-        }];
-      };
-
-      systemd.network.networks."25-wg-${config.networking.hostName}" = {
-        name = "wg-${config.networking.hostName}";
-        address = [ "10.7.${toString peer.id}.2/24" "fd66:${toLowerHex peer.id}::2/120" ];
-        networkConfig.IPMasquerade = "both";
-      };
-
-    })
-
-    (lib.mkIf isControl {
-
-      networking.nftables.masquerade = [ "oifname { ${lib.concatMapStringsSep ", " (i: "wg-${i}") wg0.p2p} }" ];
-
-      systemd.network = lib.mkMerge (map
-        (host: {
-          netdevs."25-wg-${host}" = {
-            netdevConfig = {
-              Name = "wg-${host}";
-              Kind = "wireguard";
-            };
-            wireguardConfig = {
-              PrivateKeyFile = config.sops.secrets.wireguard_key.path;
-              FirewallMark = 3;
-              RouteTable = 100 + wg0.peers.${host}.id;
-            };
-            wireguardPeers = [
-              {
-                wireguardPeerConfig = {
-                  AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-                  PublicKey = wg0.peers.${host}.pubkey;
-                  Endpoint = "${wg0.peers.${host}.addr}:${toString wg0.p2pPort}";
-                };
-              }
-            ];
-          };
-          networks."25-wg-${host}" = {
-            name = "wg-${host}";
-            address = [ "10.7.${toString wg0.peers.${host}.id}.1/24" "fd66:${toLowerHex wg0.peers.${host}.id}::1/120" ];
-          };
-        })
-        wg0.p2p);
-
-    })
   ]);
 }

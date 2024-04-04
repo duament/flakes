@@ -73,11 +73,6 @@ in
       '';
     };
 
-    presets.wireguard.wg0 = {
-      enable = false;
-      route = "cn";
-    };
-
     services.tailscale = {
       enable = true;
       openFirewall = true;

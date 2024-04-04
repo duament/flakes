@@ -93,7 +93,19 @@ in
     ipv6SendRAConfig = { DNS = "fd66::1"; };
   };
 
-  presets.wireguard.wg0.enable = true;
+  presets.wireguard.wg0 = {
+    enable = true;
+    clientPeers = {
+      ak = {
+        mark = 3;
+        table = 125;
+      };
+      or2 = {
+        mark = 3;
+        table = 122;
+      };
+    };
+  };
 
   systemd.network.networks."25-wg-ak".routingPolicyRules =
     let

@@ -44,13 +44,15 @@
   };
   presets.wireguard.wg0 = {
     enable = false;
-    route = "all";
-    routeBypass = [
-      "172.16.0.0/12"
-      "10.9.0.0/16"
-      "10.12.0.0/16"
-      "fc00::/64"
-    ];
+    clientPeers.t430 = {
+      route = "all";
+      routeBypass = [
+        "172.16.0.0/12"
+        "10.9.0.0/16"
+        "10.12.0.0/16"
+        "fc00::/64"
+      ];
+    };
   };
 
   services.tailscale.enable = true;

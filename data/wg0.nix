@@ -1,16 +1,8 @@
 {
-  ipv4Pre = "10.6.6.";
-  ipv6Pre = "fd64::";
-  ipv4Mask = 24;
-  ipv6Mask = 120;
-  control = "t430";
-  p2p = [ "or2" "ak" ];
-  p2pPort = 50000;
   peers = {
     t430 = {
       id = 1;
       pubkey = "LKEU/VwW+TFNuHWwNzOhxh0FVjnfMYHE9bxSx2luNjw=";
-      addr = "h.rvf6.com";
       port = 11112;
     };
     iphone = {
@@ -44,32 +36,49 @@
     nl = {
       id = 20;
       pubkey = "Pt/nY6/QPGfVSGRfYCDHRYZ4B+N7BZWKLxEJtEWAYxk=";
-      addr = "[2a04:52c0:106:496f::1]"; # nl.rvf6.com
       port = 11111;
     };
     or2 = {
       id = 22;
       pubkey = "y30Ml/mpgpeGz1vPmzn6V6CFshQnvuzub4TLOmhzYXI=";
-      addr = "[2603:c020:2:8c00:bdc1:ea21:3fa7:95e6]"; # or2.rvf6.com
       port = 11111;
     };
     or3 = {
       id = 23;
       pubkey = "60W+Pr5CKSpiJ1tY8Dnz+D/vD+r0au3exf3NgZ5DMVM=";
-      addr = "[2603:c020:2:8c00:79ea:4095:6b07:144d]"; # or3.rvf6.com
       port = 11111;
     };
     az = {
       id = 24;
       pubkey = "K8CvTzxt9fEatQzYkhdxuxKfNrCQ/XXVhI2vLlRnESE=";
-      addr = "104.208.105.145"; # az.rvf6.com
       port = 11111;
     };
     ak = {
       id = 25;
       pubkey = "q4HlrIfkbw9oXa4Bn0mygaOTpsM3SiSIj3gBc+NWWgU=";
-      addr = "203.147.229.50"; # ak.rvf6.com
       port = 40000;
+    };
+  };
+  networks = {
+    t430 = {
+      ipv4Pre = "10.6.6.";
+      ipv4Mask = 24;
+      ipv6Pre = "fd64::";
+      ipv6Mask = 120;
+      # Initiate connection to those peers
+      outPeers = [ "nl" "or2" "or3" "az" "ak" ];
+    };
+    or2 = {
+      ipv4Pre = "10.6.10.";
+      ipv4Mask = 24;
+      ipv6Pre = "fd66:a::";
+      ipv6Mask = 120;
+    };
+    ak = {
+      ipv4Pre = "10.6.11.";
+      ipv4Mask = 24;
+      ipv6Pre = "fd66:b::";
+      ipv6Mask = 120;
     };
   };
 }
