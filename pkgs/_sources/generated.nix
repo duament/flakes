@@ -96,30 +96,30 @@
   };
   transmission-web-control = {
     pname = "transmission-web-control";
-    version = "9018e35d12d2e20c9ec01b8a858ecaa2c3ce96f4";
+    version = "f02a47aff2680de10c2269e22a3d0b37a318dbcd";
     src = fetchFromGitHub {
       owner = "ronggang";
       repo = "transmission-web-control";
-      rev = "9018e35d12d2e20c9ec01b8a858ecaa2c3ce96f4";
+      rev = "f02a47aff2680de10c2269e22a3d0b37a318dbcd";
       fetchSubmodules = false;
-      sha256 = "sha256-A9EW27LGJ6asqvnZqBRe57/hzBDaS/m7ud45o9BHWE8=";
+      sha256 = "sha256-AFvotbGc7ytevOdWQa8RwgQccqEghW0UrQMpAsDtfgg=";
     };
-    date = "2024-03-20";
+    date = "2024-04-09";
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "4.12.12";
+    version = "4.14.4";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v4.12.12/uu.tar.gz";
-      sha256 = "sha256-JziE6dBdbYhpornTZCWgFYiUnyfaIAdUzv/0LqJEDCM=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v4.14.4/uu.tar.gz";
+      sha256 = "sha256-DhnHQz6Tt2CTSDAUpt6CI7NQcFx8TjsjOuLfWcsMNOM=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "4.12.12";
+    version = "4.14.4";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v4.12.12/uu.tar.gz";
-      sha256 = "sha256-qCg/Uxa8SLGbfTvtyDNAeSXUg6sWoaAv5V3sbDrJcAw=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v4.14.4/uu.tar.gz";
+      sha256 = "sha256-jlVX5FVeHsJhy9WVI+GxUBgbM0a3dIW0mcHnE0HDT/0=";
     };
   };
   uutunnel = {
