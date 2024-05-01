@@ -25,6 +25,7 @@
     ./smartdns.nix
     ./ssh-agent.nix
     ./swanctl-dynamic-ipv6.nix
+    ./swanctl-static.nix
     ./traefik.nix
     ./users.nix
     ./uu.nix

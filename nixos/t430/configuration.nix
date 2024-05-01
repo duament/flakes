@@ -186,10 +186,10 @@ in
     tokenFile = config.sops.secrets.duckdns.path;
   };
 
-  services.swanctlDynamicIPv6 = {
+  presets.swanctl = {
     enable = true;
     underlyingNetwork = "10-enp1s0";
-    IPv6Middle = ":1";
+    #IPv6Middle = ":1";
     IPv4Prefix = "10.6.9.";
     privateKeyFile = config.sops.secrets."pki/t430-pkcs8-key".path;
     local.t430 = {
