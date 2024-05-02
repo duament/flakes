@@ -127,5 +127,13 @@
       indicator = true;
     };
 
+    programs.alacritty = {
+      enable = true;
+      settings = {
+        import = [ "${pkgs.alacritty-theme}/catppuccin_latte.toml" ];
+        scrolling.history = 10000;
+      };
+    };
+
   };
 }

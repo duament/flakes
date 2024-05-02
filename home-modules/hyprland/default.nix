@@ -336,14 +336,6 @@ in
       extraConfig = builtins.readFile ./wezterm.lua;
     };
 
-    programs.alacritty = {
-      enable = true;
-      settings = {
-        import = [ "${pkgs.alacritty-theme}/catppuccin_latte.toml" ];
-        scrolling.history = 10000;
-      };
-    };
-
     systemd.user.services.kdeconnect.Unit.After = [ "graphical-session.target" ];
     systemd.user.services.kdeconnect-indicator.Unit.After = [ "graphical-session.target" ];
     systemd.user.services.fusuma.Unit.After = [ "graphical-session.target" ];
