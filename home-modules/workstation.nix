@@ -12,20 +12,25 @@
     presets.ssh.enable = true;
     presets.browser.enable = true;
     presets.python.enable = true;
-    presets.hyprland.enable = true;
+    #presets.hyprland.enable = true;
     presets.cert.enable = true;
 
     home.packages = with pkgs; [
       imv
       inetutils
+      inkscape
       iputils
       keepassxc
+      libreoffice-fresh
       openssl
+      papirus-icon-theme
       pciutils
+      pdftk
       tdesktop
       thunderbird
       unar
       usbutils
+      wl-clipboard
       yubikey-manager
     ];
 

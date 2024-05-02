@@ -211,39 +211,45 @@ in
       };
     };
 
-    programs.hyprland = {
-      enable = true;
-      package = pkgs.hyprland.overrideAttrs (old: {
-        patches = old.patches ++ [
-          ./0001-Add-cgroup2-in-windowrulev2.patch
-        ];
-      });
-    };
-    hardware.opengl.enable = true;
-    security.pam.services.swaylock = { };
-    services.greetd = {
-      enable = true;
-      settings =
-        let
-          hyprland-script = pkgs.writeShellScript "start-hyprland" ''
-            systemctl --user import-environment PATH SSH_AUTH_SOCK NIX_USER_PROFILE_DIR NIX_PROFILES XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID
-            exec systemctl --wait --user start hyprland.service
-          '';
-        in
-        {
-          initial_session = {
-            user = "rvfg";
-            command = hyprland-script;
-          };
-          default_session = {
-            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${hyprland-script}";
-          };
-        };
-    };
+    #programs.hyprland = {
+    #  enable = true;
+    #  package = pkgs.hyprland.overrideAttrs (old: {
+    #    patches = old.patches ++ [
+    #      ./0001-Add-cgroup2-in-windowrulev2.patch
+    #    ];
+    #  });
+    #};
+    #hardware.opengl.enable = true;
+    #security.pam.services.swaylock = { };
+    #services.greetd = {
+    #  enable = true;
+    #  settings =
+    #    let
+    #      hyprland-script = pkgs.writeShellScript "start-hyprland" ''
+    #        systemctl --user import-environment PATH SSH_AUTH_SOCK NIX_USER_PROFILE_DIR NIX_PROFILES XDG_SEAT XDG_SESSION_CLASS XDG_SESSION_ID
+    #        exec systemctl --wait --user start hyprland.service
+    #      '';
+    #    in
+    #    {
+    #      initial_session = {
+    #        user = "rvfg";
+    #        command = hyprland-script;
+    #      };
+    #      default_session = {
+    #        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${hyprland-script}";
+    #      };
+    #    };
+    #};
 
-    qt = {
+    #qt = {
+    #  enable = true;
+    #  platformTheme = "qt5ct";
+    #};
+
+    services.desktopManager.plasma6.enable = true;
+    services.displayManager.sddm = {
       enable = true;
-      platformTheme = "qt5ct";
+      wayland.enable = true;
     };
 
     services.udisks2.enable = true;
