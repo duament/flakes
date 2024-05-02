@@ -53,7 +53,10 @@
     #  BusName = "org.fcitx.Fcitx-0";
     #};
 
-    home.sessionVariables.KDE_APPLICATIONS_AS_SERVICE = "1";
+    home.sessionVariables = {
+      KDE_APPLICATIONS_AS_SERVICE = "1";
+      GTK_USE_PORTAL = "1";
+    };
 
     presets.git.enable = true;
     programs.git.extraConfig.gcrypt = {
