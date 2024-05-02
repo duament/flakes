@@ -67,7 +67,11 @@ require("bufferline").setup{
   options = {
     indicator = {
       style = 'underline'
-    }
+    },
+    buffer_close_icon = '🗙',
+    close_icon = '🗙',
+    left_trunc_marker = '🡰',
+    right_trunc_marker = '🡲',
   },
   highlights = require('catppuccin.groups.integrations.bufferline').get()
 }
