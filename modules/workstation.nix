@@ -138,9 +138,7 @@ in
 
     environment.persistence."/persist".users.rvfg = {
       directories = [
-        ".config/chromium"
-        ".config/kdeconnect"
-        ".config/fcitx5"
+        ".config"
         ".gnupg"
         ".mozilla"
         ".thunderbird"
