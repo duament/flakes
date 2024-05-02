@@ -38,20 +38,20 @@
       "L %h/syncthing - - - - /var/lib/syncthing"
     ];
 
-    i18n.inputMethod = {
-      enabled = "fcitx5";
-      fcitx5.addons = with pkgs; [
-        fcitx5-chinese-addons
-        fcitx5-pinyin-zhwiki
-        fcitx5-theme
-      ];
-    };
-    home.sessionVariables.GTK_IM_MODULE = lib.mkForce "wayland";
-    home.sessionVariables.QT_IM_MODULE = lib.mkForce "";
-    systemd.user.services.fcitx5-daemon.Service = {
-      Type = "dbus";
-      BusName = "org.fcitx.Fcitx-0";
-    };
+    #i18n.inputMethod = {
+    #  enabled = "fcitx5";
+    #  fcitx5.addons = with pkgs; [
+    #    fcitx5-chinese-addons
+    #    fcitx5-pinyin-zhwiki
+    #    fcitx5-theme
+    #  ];
+    #};
+    #home.sessionVariables.GTK_IM_MODULE = lib.mkForce "wayland";
+    #home.sessionVariables.QT_IM_MODULE = lib.mkForce "";
+    #systemd.user.services.fcitx5-daemon.Service = {
+    #  Type = "dbus";
+    #  BusName = "org.fcitx.Fcitx-0";
+    #};
 
     home.sessionVariables.KDE_APPLICATIONS_AS_SERVICE = "1";
 

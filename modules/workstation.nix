@@ -73,6 +73,18 @@ in
       '';
     };
 
+    i18n.inputMethod = {
+      enabled = "fcitx5";
+      fcitx5 = {
+        addons = with pkgs; [
+          qt6Packages.fcitx5-chinese-addons
+          fcitx5-pinyin-zhwiki
+          fcitx5-theme
+        ];
+        waylandFrontend = true;
+      };
+    };
+
     services.tailscale = {
       enable = true;
       openFirewall = true;
