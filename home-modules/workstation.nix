@@ -53,6 +53,8 @@
       BusName = "org.fcitx.Fcitx-0";
     };
 
+    home.sessionVariables.KDE_APPLICATIONS_AS_SERVICE = "1";
+
     presets.git.enable = true;
     programs.git.extraConfig.gcrypt = {
       participants = "F2E3DA8DE23F4EA11033EDEC535D184864C05736";
