@@ -167,7 +167,10 @@ in
     hardware.logitech.wireless.enable = true;
     hardware.logitech.wireless.enableGraphical = true;
 
-    xdg.portal.enable = true;
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    };
 
     security.polkit.enable = true;
 
