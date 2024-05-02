@@ -58,6 +58,8 @@
       GTK_USE_PORTAL = "1";
     };
 
+    home.file.".local/share/konsole/Catppuccin-Latte.colorscheme".text = builtins.readFile ./Catppuccin-Latte.colorscheme;
+
     presets.git.enable = true;
     programs.git.extraConfig.gcrypt = {
       participants = "F2E3DA8DE23F4EA11033EDEC535D184864C05736";
