@@ -155,6 +155,13 @@ in
         ".mozilla"
         ".thunderbird"
         "Downloads"
+        "Desktop"
+        "Documents"
+        "Music"
+        "Pictures"
+        "Public"
+        "Templates"
+        "Videos"
       ];
     };
 
