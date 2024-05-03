@@ -3,15 +3,15 @@
 {
   Fluent-solid-pink = {
     pname = "Fluent-solid-pink";
-    version = "83d5cc2013751aa9eeb944dafa3a3460652690ce";
+    version = "5c8b998c5d9c3bbda90a468dab8f9691b661f24c";
     src = fetchFromGitHub {
       owner = "vinceliuice";
       repo = "Fluent-kde";
-      rev = "83d5cc2013751aa9eeb944dafa3a3460652690ce";
+      rev = "5c8b998c5d9c3bbda90a468dab8f9691b661f24c";
       fetchSubmodules = false;
-      sha256 = "sha256-jm8ztgoWV8sewCYbFxReiVPjuHY97NslKM1AIoooSiY=";
+      sha256 = "sha256-uvBXNBuRDSm8/BFVzNo1Z7w/45ysY4MfjITS7w0cqaU=";
     };
-    date = "2023-05-27";
+    date = "2024-04-28";
   };
   Nginx-Fancyindex-Theme = {
     pname = "Nginx-Fancyindex-Theme";
@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.1.1";
+    version = "v3.1.3";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.1.1";
+      rev = "v3.1.3";
       fetchSubmodules = false;
-      sha256 = "sha256-GQOA+FsyeH6BSDqS2RVAlxirX4wH+7ZsbxwQCt4re68=";
+      sha256 = "sha256-CO1c4T8VdzDKQZcxgh1YUVKqqJR6OUF8v7S/S2InwfY=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.1.1/Cargo.lock;
+      lockFile = ./avbroot-v3.1.3/Cargo.lock;
       outputHashes = {
         "bzip2-0.4.4" = "sha256-6VOKPlgIIibpcvxSL9Y+wKre6h2J2s+dGOhCA9pAVwg=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
@@ -57,29 +57,29 @@
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20240210";
+    version = "20240426";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20240210.dict";
-      sha256 = "sha256-vNHS5n3TqSwpUx2wG26w7rK6jSqrvLANeG2n0vA4iYk=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.4/zhwiki-20240426.dict";
+      sha256 = "sha256-SiiF4kvQpgjAFd3122WYy0ReJkVLUc93JVeFHIqc+jg=";
     };
   };
   flood-for-transmission = {
     pname = "flood-for-transmission";
-    version = "2024-02-10T19-10-27";
+    version = "2024-04-29T17-33-06";
     src = fetchTarball {
-      url = "https://github.com/johman10/flood-for-transmission/releases/download/2024-02-10T19-10-27/flood-for-transmission.tar.gz";
-      sha256 = "sha256-wQC+dLOsDpa+/zUM9y15jPWSrK0AmVOXOI2GI/aN6f4=";
+      url = "https://github.com/johman10/flood-for-transmission/releases/download/2024-04-29T17-33-06/flood-for-transmission.tar.gz";
+      sha256 = "sha256-EqzPUA6NoDm57W08myQ+7CPQCMuPC3cdUbTCcEezmao=";
     };
   };
   hass-xiaomi-miot = {
     pname = "hass-xiaomi-miot";
-    version = "v0.7.17";
+    version = "v0.7.18";
     src = fetchFromGitHub {
       owner = "al-one";
       repo = "hass-xiaomi-miot";
-      rev = "v0.7.17";
+      rev = "v0.7.18";
       fetchSubmodules = false;
-      sha256 = "sha256-IpL4e2mKCdtNu8NtI+xpx4FPW/uj1M5Rk6DswXmSJBk=";
+      sha256 = "sha256-/Zn2jEjwkCHiz48nVjKEPcCpPVajLaZ81DCTNpx1vbk=";
     };
   };
   transmission-client = {
