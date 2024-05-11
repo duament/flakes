@@ -213,7 +213,7 @@ in
           sansSerif = [ "Inter" "Noto Sans CJK SC" ];
           serif = [ "Aleo" "Noto Serif CJK SC" ];
         };
-        hinting.enable = false;
+        hinting.enable = true;
         subpixel.lcdfilter = "none";
         subpixel.rgba = "none";
         localConf = ''
