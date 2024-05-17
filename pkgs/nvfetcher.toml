@@ -51,3 +51,11 @@ cargo_locks = [ "Cargo.lock" ]
 src.git = "https://github.com/duament/uutunnel"
 fetch.github = "duament/uutunnel"
 cargo_locks = [ "Cargo.lock" ]
+
+[ehforwarderbot]
+src.pypi = "ehforwarderbot"
+fetch.pypi = "ehforwarderbot"
+
+[bullet]
+src.pypi = "bullet"
+fetch.pypi = "bullet"
