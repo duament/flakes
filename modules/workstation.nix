@@ -205,7 +205,13 @@ in
         noto-fonts-color-emoji
         aleo
         (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
-        (noto-fonts.override { variants = [ "Noto Music" "Noto Sans Symbols" "Noto Sans Symbols 2" "Noto Sans Math" ]; })
+        (noto-fonts.override { variants = [
+          "Noto Music"
+          "Noto Sans Symbols"
+          "Noto Sans Symbols 2"
+          "Noto Sans Math"
+          "Noto Sans Thai"
+        ]; })
       ];
       fontconfig = {
         defaultFonts = {
