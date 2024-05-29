@@ -39,18 +39,18 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.1.3";
+    version = "v3.2.1";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.1.3";
+      rev = "v3.2.1";
       fetchSubmodules = false;
-      sha256 = "sha256-CO1c4T8VdzDKQZcxgh1YUVKqqJR6OUF8v7S/S2InwfY=";
+      sha256 = "sha256-o3XNuTvQivHxluHr/HPnPCl97mUF1sypjmszMsG7haA=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.1.3/Cargo.lock;
+      lockFile = ./avbroot-v3.2.1/Cargo.lock;
       outputHashes = {
-        "bzip2-0.4.4" = "sha256-6VOKPlgIIibpcvxSL9Y+wKre6h2J2s+dGOhCA9pAVwg=";
+        "bzip2-0.4.4" = "sha256-9YKPFvaGNdGPn2mLsfX8Dh90vR+X4l3YSrsz0u4d+uQ=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
       };
     };
@@ -65,10 +65,10 @@
   };
   flood-for-transmission = {
     pname = "flood-for-transmission";
-    version = "2024-04-29T17-33-06";
+    version = "2024-05-18T08-04-58";
     src = fetchTarball {
-      url = "https://github.com/johman10/flood-for-transmission/releases/download/2024-04-29T17-33-06/flood-for-transmission.tar.gz";
-      sha256 = "sha256-EqzPUA6NoDm57W08myQ+7CPQCMuPC3cdUbTCcEezmao=";
+      url = "https://github.com/johman10/flood-for-transmission/releases/download/2024-05-18T08-04-58/flood-for-transmission.tar.gz";
+      sha256 = "sha256-OGvFDTRysqBZY1yboQ4NRHqwM9ab+a630XtAABYmQdI=";
     };
   };
   hass-xiaomi-miot = {
