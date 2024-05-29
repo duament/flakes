@@ -26,6 +26,7 @@
       papirus-icon-theme
       pciutils
       pdftk
+      poppler_utils
       tdesktop
       thunderbird
       unar
