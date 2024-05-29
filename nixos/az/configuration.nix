@@ -6,6 +6,10 @@ in
   presets.nogui.enable = true;
   presets.metrics.enable = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "python3.11-django-3.2.25"
+  ];
+
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     "syncthing/cert".owner = config.services.syncthing.user;
