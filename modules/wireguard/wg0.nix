@@ -58,7 +58,7 @@ let
 
       table = mkOption {
         type = with types; nullOr int;
-        default = if name == routePeer then wgTable else null;
+        default = if name == routePeer then wgTable else (100 + wg0.peers.${name}.id);
       };
     };
   };

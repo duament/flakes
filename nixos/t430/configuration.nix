@@ -96,16 +96,48 @@ in
   presets.wireguard.wg0 = {
     enable = true;
     clientPeers = {
-      ak = {
-        mark = 3;
-        table = 125;
-      };
-      or2 = {
-        mark = 3;
-        table = 122;
-      };
+      ak.mark = 3;
+      az.mark = 3;
+      or2.mark = 3;
     };
   };
+
+  systemd.network.networks."25-wg-az".routingPolicyRules =
+    let
+      table = 100 + wg0.peers.az.id;
+    in
+    [
+      {
+        routingPolicyRuleConfig = {
+          FirewallMark = nonCNMark;
+          Table = table;
+          Priority = 20;
+          Family = "ipv4";
+        };
+      }
+    ];
+
+  systemd.network.networks."25-warp".routingPolicyRules =
+    let
+      table = 20;
+    in
+    [
+      {
+        routingPolicyRuleConfig = {
+          FirewallMark = nonCNMark;
+          Table = table;
+          Priority = 20;
+          Family = "ipv6";
+        };
+      }
+      {
+        routingPolicyRuleConfig = {
+          To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
+          Table = table;
+          Priority = 9;
+        };
+      }
+    ];
 
   systemd.network.networks."25-wg-ak".routingPolicyRules =
     let
@@ -114,22 +146,7 @@ in
     [
       {
         routingPolicyRuleConfig = {
-          FirewallMark = nonCNMark;
-          Table = table;
-          Priority = 20;
-          Family = "both";
-        };
-      }
-      {
-        routingPolicyRuleConfig = {
           To = "34.117.196.143"; # prod-ingress.nianticlabs.com
-          Table = table;
-          Priority = 9;
-        };
-      }
-      {
-        routingPolicyRuleConfig = {
-          To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
           Table = table;
           Priority = 9;
         };

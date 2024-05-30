@@ -80,5 +80,11 @@
       ipv6Pre = "fd66:b::";
       ipv6Mask = 120;
     };
+    az = {
+      ipv4Pre = "10.6.12.";
+      ipv4Mask = 24;
+      ipv6Pre = "fd66:c::";
+      ipv6Mask = 120;
+    };
   };
 }
