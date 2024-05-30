@@ -226,6 +226,8 @@ in
         });
       }) (reverseClientPeers ++ clientPeers));
 
+      presets.wireguard.keepAlive.interfaces = map (x: "wg-${x}") clientPeers;
+
       #presets.wireguard.reResolve.interfaces = optional (cfg.route != null) "wg0";
 
       #presets.bpf-mark = mkIf (cfg.route != null) {

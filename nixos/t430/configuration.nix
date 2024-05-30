@@ -151,7 +151,7 @@ in
     address = [ "172.16.0.2/32" "2606:4700:110:89a4:12e0:be02:634:888f/128" ];
     table = 20;
   };
-  presets.wireguard.keepAlive.interfaces = [ "warp" "wg-ak" ];
+  presets.wireguard.keepAlive.interfaces = [ "warp" ];
 
   presets.smartdns = {
     enable = true;
