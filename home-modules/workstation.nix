@@ -16,6 +16,7 @@
     presets.cert.enable = true;
 
     home.packages = with pkgs; [
+      imagemagick
       imv
       inetutils
       inkscape
