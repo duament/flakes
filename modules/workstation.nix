@@ -175,7 +175,14 @@ in
     presets.chromium.enable = true;
 
     hardware.enableRedistributableFirmware = true;
-    hardware.bluetooth.enable = true;
+    hardware.bluetooth = {
+      enable = true;
+      settings.General = {
+        ControllerMode = "le";
+        Experimental = true;
+        KernelExperimental = "6fbaf188-05e0-496a-9885-d6ddfdb4e03e";
+      };
+    };
     hardware.logitech.wireless.enable = true;
     hardware.logitech.wireless.enableGraphical = true;
 
