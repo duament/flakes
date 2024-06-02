@@ -142,10 +142,12 @@ in
 
     environment.systemPackages = with pkgs; [
       e2fsprogs
+      efibootmgr
       ifuse
       libimobiledevice
       libplist
       pcscliteWithPolkit.out # Workaround #280826
+      sbsigntool
       smartmontools
       strongswan
     ];
