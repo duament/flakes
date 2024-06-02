@@ -173,22 +173,9 @@ in
   };
   presets.wireguard.keepAlive.interfaces = [ "warp" ];
 
-  presets.smartdns = {
+  presets.adguardhome = {
     enable = true;
     chinaDns = [ "[fd65::1]" ];
-    settings.address = [
-      "/t430.rvf6.com/10.6.6.1"
-      "/t430.rvf6.com/fd64::1"
-      "/ax6s.rvf6.com/fd65::1"
-      "/ax6s.rvf6.com/-4"
-      "/rpi3.rvf6.com/10.6.0.7"
-      "/fava.rvf6.com/fd64::1"
-      "/fava.rvf6.com/-4"
-      "/luci.rvf6.com/fd64::1"
-      "/luci.rvf6.com/-4"
-      "/ha.rvf6.com/fd64::1"
-      "/ha.rvf6.com/-4"
-    ];
   };
 
   services.uu = {
@@ -366,6 +353,7 @@ in
         proxyPass = "http://[::1]:${toString config.services.home-assistant.config.http.server_port}";
         proxyWebsockets = true;
       };
+      "adg.rvf6.com".locations."/".proxyPass = "http://${config.services.adguardhome.host}:${toString config.services.adguardhome.port}";
     };
   };
 
