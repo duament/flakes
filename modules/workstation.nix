@@ -141,6 +141,7 @@ in
     };
 
     environment.systemPackages = with pkgs; [
+      dmidecode
       e2fsprogs
       efibootmgr
       ifuse
