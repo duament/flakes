@@ -145,6 +145,7 @@ in
       libimobiledevice
       libplist
       pcscliteWithPolkit.out # Workaround #280826
+      smartmontools
       strongswan
     ];
 
