@@ -97,7 +97,10 @@ in
     enable = true;
     clientPeers = {
       ak.mark = 3;
-      az.mark = 3;
+      az = {
+        mark = 3;
+        mtu = 1360;
+      };
       or2.mark = 3;
     };
   };

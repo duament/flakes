@@ -60,6 +60,11 @@ let
         type = with types; nullOr int;
         default = if name == routePeer then wgTable else (100 + wg0.peers.${name}.id);
       };
+
+      mtu = mkOption {
+        type = types.int;
+        default = cfg.mtu;
+      };
     };
   };
 in
@@ -155,7 +160,7 @@ in
           netdevConfig = {
             Name = "wg-${h}";
             Kind = "wireguard";
-            MTUBytes = toString cfg.mtu;
+            MTUBytes = toString (cfg.clientPeers.${h}.mtu or cfg.mtu);
           };
           wireguardConfig = (filterAttrs (_: v: v != null) {
             PrivateKeyFile = config.sops.secrets.wireguard_key.path;
