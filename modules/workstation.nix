@@ -141,6 +141,7 @@ in
     };
 
     environment.systemPackages = with pkgs; [
+      e2fsprogs
       ifuse
       libimobiledevice
       libplist
