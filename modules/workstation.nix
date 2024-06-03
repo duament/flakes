@@ -37,6 +37,12 @@ in
       kernel.sysctl."kernel.sysrq" = 1;
       extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
       kernelModules = [ "v4l2loopback" ];
+      kernelPatches = [
+        {
+          name = "le_audio_0";
+          patch = ./Bluetooth-add-TX-timestamping-for-ISO-SCO-L2CAP.patch;
+        }
+      ];
     };
 
     presets.refind = {
@@ -180,7 +186,7 @@ in
       settings.General = {
         ControllerMode = "le";
         Experimental = true;
-        KernelExperimental = "6fbaf188-05e0-496a-9885-d6ddfdb4e03e";
+        KernelExperimental = "6fbaf188-05e0-496a-9885-d6ddfdb4e03e,69518c4c-b69f-4679-8bc1-c021b47b5733";
       };
     };
     hardware.logitech.wireless.enable = true;
