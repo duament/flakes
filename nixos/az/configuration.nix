@@ -122,11 +122,26 @@ in
     pgDumpCommand = "PGPASSFILE=${config.sops.secrets.postgresql.path} ${pkgs.postgresql}/bin/pg_dumpall -h rvfg.postgres.database.azure.com -U rvfg --no-role-passwords --exclude-database=azure\* --exclude-database=postgres";
   };
 
+  services.kanidm = {
+    enableClient = true;
+    clientSettings.uri = "https://idm.rvf6.com";
+    enableServer = true;
+    serverSettings = {
+      bindaddress = "[::1]:8443";
+      domain = "idm.rvf6.com";
+      origin = "https://idm.rvf6.com";
+      tls_chain = "/run/credentials/kanidm.service/tls_chain";
+      tls_key = "/run/credentials/kanidm.service/tls_key";
+    };
+  };
+  systemd.services.kanidm.serviceConfig.LoadCredential = [ "tls_chain:/persist/kanidm_tls_chain" "tls_key:/persist/kanidm_tls_key" ];
+
   presets.nginx = {
     enable = true;
     virtualHosts = {
       "ete.rvf6.com".locations."/".proxyPass = "http://unix:/run/etebase-server/etebase-server:/";
       "rss.rvf6.com".locations."/".proxyPass = "http://unix:/run/miniflux/miniflux:/";
+      "idm.rvf6.com".locations."/".proxyPass = "https://${config.services.kanidm.serverSettings.bindaddress}/";
     };
   };
 }
