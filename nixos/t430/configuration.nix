@@ -178,6 +178,48 @@ in
     chinaDns = [ "[fd65::1]" ];
   };
 
+  services.sing-box = {
+    enable = true;
+    settings = {
+      inbounds = [
+        {
+          type = "http";
+          listen = "::";
+          listen_port = 8000;
+        }
+      ];
+      outbounds = [
+        {
+          type = "direct";
+          tag = "direct";
+        }
+        {
+          type = "direct";
+          tag = "warp";
+          routing_mark = config.networking.warp.table;
+        }
+        {
+          type = "direct";
+          tag = "ak";
+          routing_mark = 100 + wg0.peers.ak.id;
+        }
+      ];
+      route.rules = [
+        {
+          domain_suffix = [
+            "byr.pt"
+            "reddit.com"
+          ];
+          outbound = "warp";
+        }
+        {
+          domain = [ "prod-ingress.nianticlabs.com" ];
+          outbound = "ak";
+        }
+      ];
+    };
+  };
+
   services.uu = {
     enable = true;
     vlan = {

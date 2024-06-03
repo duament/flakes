@@ -118,6 +118,16 @@ in
     systemd.network.networks."25-warp" = {
       name = "warp";
       address = cfg.address;
+      routingPolicyRules = [
+        {
+          routingPolicyRuleConfig = {
+            FirewallMark = cfg.table;
+            Table = cfg.table;
+            Priority = 15;
+            Family = "both";
+          };
+        }
+      ];
     };
 
   };

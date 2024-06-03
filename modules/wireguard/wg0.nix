@@ -187,6 +187,14 @@ in
         value = {
           name = "wg-${h}";
           address = toAddress wg0.networks.${h} peer;
+          routingPolicyRules = optional (cfg.clientPeers ? ${h}) {
+            routingPolicyRuleConfig = {
+              Family = "both";
+              FirewallMark = cfg.clientPeers.${h}.table;
+              Table = cfg.clientPeers.${h}.table;
+              Priority = 15;
+            };
+          };
         } // (optionalAttrs (h == routePeer) {
           dns = [ "${wg0.networks.${h}.ipv6Pre}${toLowerHex wg0.peers.${h}.id}" ];
           domains = [ "~." ];
