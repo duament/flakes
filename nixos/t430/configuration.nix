@@ -49,6 +49,8 @@ in
       iifname { wg0, internet } meta l4proto { tcp, udp } th dport 53 accept
       iifname internet udp dport 67 accept
       ip saddr { 10.6.0.1, ${self.data.tailscale.ipv4} } udp dport 53 accept
+      ip saddr { 10.6.0.0/16, ${self.data.tailscale.ipv4} } tcp dport 8000 accept
+      ip6 saddr { 2606:4700:110:8395::/120 } tcp dport 8000 accept
     '';
     extraForwardRules = ''
       iifname { wg0, internet } accept
@@ -176,6 +178,48 @@ in
   presets.adguardhome = {
     enable = true;
     chinaDns = [ "[fd65::1]" ];
+  };
+
+  services.sing-box = {
+    enable = true;
+    settings = {
+      inbounds = [
+        {
+          type = "http";
+          listen = "::";
+          listen_port = 8000;
+        }
+      ];
+      outbounds = [
+        {
+          type = "direct";
+          tag = "direct";
+        }
+        {
+          type = "direct";
+          tag = "warp";
+          routing_mark = config.networking.warp.table;
+        }
+        {
+          type = "direct";
+          tag = "ak";
+          routing_mark = 100 + wg0.peers.ak.id;
+        }
+      ];
+      route.rules = [
+        {
+          domain_suffix = [
+            "byr.pt"
+            "reddit.com"
+          ];
+          outbound = "warp";
+        }
+        {
+          domain = [ "prod-ingress.nianticlabs.com" ];
+          outbound = "ak";
+        }
+      ];
+    };
   };
 
   services.uu = {
