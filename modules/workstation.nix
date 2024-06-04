@@ -183,6 +183,18 @@ in
     hardware.enableRedistributableFirmware = true;
     hardware.bluetooth = {
       enable = true;
+      package = pkgs.bluez.overrideAttrs (old: {
+        nativeBuildInputs = old.nativeBuildInputs ++ [
+          pkgs.autoreconfHook
+          pkgs.python3.pkgs.pygments
+        ];
+        src = pkgs.fetchFromGitHub {
+          owner = "bluez";
+          repo = "bluez";
+          rev = "cbe4144dea6fde87e13016c2861c9ba5f75f716f";
+          sha256 = "sha256-q83A1Xo/tTNj7UioAkVv1/Mw64ludYyEP8QMLnC8UR8=";
+        };
+      });
       settings.General = {
         ControllerMode = "le";
         Experimental = true;
@@ -207,6 +219,19 @@ in
       #alsa.support32Bit = true;
       pulse.enable = true;
       #jack.enable = true;
+      package = pkgs.pipewire.overrideAttrs (old: rec {
+        version = "1.1.82";
+        src = pkgs.fetchFromGitLab {
+          domain = "gitlab.freedesktop.org";
+          owner = "pipewire";
+          repo = "pipewire";
+          rev = version;
+          sha256 = "sha256-Y/rGNvCenYJKImghIydRrMJ8SahG07gTomHOxdsw5EA=";
+        };
+        mesonFlags = old.mesonFlags ++ [
+          (lib.mesonEnable "snap" false)
+        ];
+      });
     };
 
     services.pcscd.enable = true;
