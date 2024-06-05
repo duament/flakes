@@ -396,7 +396,22 @@ in
         proxyWebsockets = true;
       };
       "adg.rvf6.com".locations."/".proxyPass = "http://${config.services.adguardhome.host}:${toString config.services.adguardhome.port}";
+      "wpad.rvf6.com".locations."= /wpad.dat" = {
+        extraConfig = "add_header Content-Type application/x-ns-proxy-autoconfig;";
+        alias = pkgs.writeText "wpad.dat" ''
+          function FindProxyForURL(url, host) {
+            if (host.endsWith('byr.pt') || host.endsWith('reddit.com') || host === 'prod-ingress.nianticlabs.com') {
+              return 'PROXY 10.6.0.8:8000';
+            }
+            return 'DIRECT';
+          }
+        '';
+      };
     };
+  };
+  services.nginx.virtualHosts."wpad.rvf6.com" = {
+    addSSL = true;
+    forceSSL = lib.mkForce false;
   };
 
   presets.gammu-smsd = {
