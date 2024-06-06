@@ -69,16 +69,39 @@
     ];
   };
 
-  services._3proxy = {
+  presets.sing-box = {
     enable = true;
-    denyPrivate = false;
-    services = [
-      {
-        type = "socks";
-        bindAddress = "::";
-        extraArguments = "-64";
-        auth = [ "none" ];
-      }
-    ];
+    settings = {
+      inbounds = [
+        {
+          type = "socks";
+          listen = "::";
+          listen_port = 1080;
+        }
+      ];
+      outbounds = [
+        {
+          type = "direct";
+          tag = "direct";
+        }
+        {
+          type = "http";
+          tag = "http";
+          server = "t430.rvf6.com";
+          server_port = 8000;
+        }
+      ];
+      route.rules = [
+        {
+          domain_suffix = [
+            "byr.pt"
+            "reddit.com"
+          ];
+          domain = [ "prod-ingress.nianticlabs.com" ];
+          outbound = "http";
+        }
+      ];
+    };
   };
+
 }

@@ -23,6 +23,7 @@
     ./refind
     ./restic.nix
     ./router.nix
+    ./sing-box.nix
     ./smartdns.nix
     ./ssh-agent.nix
     ./swanctl-dynamic-ipv6.nix
