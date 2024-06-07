@@ -153,6 +153,7 @@ with lib;
           "layers.acceleration.force-enabled" = true;
           "media.autoplay.default" = 5;
           "media.eme.enabled" = false;
+          "media.ffmpeg.vaapi.enabled" = true;
           "network.http.referer.XOriginPolicy" = 1;
           "privacy.donottrackheader.enabled" = true;
           "privacy.trackingprotection.enabled" = true;
