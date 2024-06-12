@@ -146,6 +146,12 @@ local on_attach = function(client, bufnr)
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local apply = function()
+    vim.lsp.buf.code_action({
+      filter = function(a) return a.isPreferred end,
+      apply = true
+    })
+  end
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
@@ -163,6 +169,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
   vim.keymap.set('v', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('n', '<space>a', apply, bufopts)
 end
 
 local lsp_flags = {
@@ -178,7 +185,17 @@ require('lspconfig')['pylsp'].setup{
       plugins = {
         pycodestyle = {
           ignore = { 'E501' },
-        }
+        },
+        ruff = {
+          enabled = true,
+          formatEnabled = true,
+          -- Rules that are ignored when a pyproject.toml or ruff.toml is present:
+          lineLength = 150,
+          select = { "F", "E", "W", "C90" },
+          ignore = { },
+          preview = true,
+          targetVersion = "py311",
+        },
       }
     }
   }

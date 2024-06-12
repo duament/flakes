@@ -4,10 +4,14 @@ let
   cfg = config.presets.python;
   my-python-packages = python-packages: with python-packages; [
     python-lsp-server
+    rope
+    toml
+    whatthepatch
+    python-lsp-ruff
+
     ipython
     requests
-  ] ++ python-lsp-server.optional-dependencies.all
-  ++ cfg.extraPackages python-packages;
+  ] ++ cfg.extraPackages python-packages;
   python-with-my-packages = pkgs.python3.withPackages my-python-packages;
 in
 {
