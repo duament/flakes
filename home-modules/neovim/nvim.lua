@@ -136,6 +136,14 @@ local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
+  -- Inlay hints
+  if client.server_capabilities.inlayHintProvider then
+    vim.g.inlay_hints_visible = true
+    vim.lsp.inlay_hint.enable(true)
+  else
+    print("no inlay hints available")
+  end
+
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
@@ -154,6 +162,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('v', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
 local lsp_flags = {
@@ -183,6 +192,18 @@ require('lspconfig')['gopls'].setup{
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "@gopls@" },
+  settings = {
+    gopls = {
+      hints = {
+        assignVariableTypes = true,
+        compositeLiteralFields = true,
+        compositeLiteralTypes = true,
+        constantValues = true,
+        parameterNames = true,
+        rangeVariableTypes = true,
+      },
+    }
+  },
 }
 require('lspconfig')['rust_analyzer'].setup{
   on_attach = on_attach,
