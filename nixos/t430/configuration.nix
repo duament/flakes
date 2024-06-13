@@ -180,7 +180,7 @@ in
     chinaDns = [ "[fd65::1]" ];
   };
 
-  services.sing-box = {
+  presets.sing-box = {
     enable = true;
     settings = {
       inbounds = [

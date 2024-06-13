@@ -1,10 +1,12 @@
 { config, lib, pkgs, self, ... }:
 let
+  inherit (lib) any optionalAttrs;
   inherit (lib.strings) toJSON;
 
   cfg = config.presets.sing-box;
   settingsFormat = pkgs.formats.json { };
   configFile = pkgs.writeText "sing-box-config" (toJSON cfg.settings);
+  capNetAdmin = any (o: o ? routing_mark) (cfg.settings.outbounds or []);
 in
 {
 
@@ -64,7 +66,11 @@ in
           ""
           "${cfg.package}/bin/sing-box -D /var/lib/sing-box -c ${configFile} run"
         ];
-      };
+      } // (optionalAttrs capNetAdmin {
+        PrivateUsers = false;
+        CapabilityBoundingSet = [ "" "CAP_NET_ADMIN" ];
+        AmbientCapabilities = [ "" "CAP_NET_ADMIN" ];
+      });
     };
 
   };
