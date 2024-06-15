@@ -76,6 +76,14 @@ in
     systemd.network.networks."25-${cfg.interface}" = {
       name = cfg.interface;
       address = [ "${cfg.IPv4Prefix}1/24" "${cfg.IPv6Prefix}1/120" ];
+      routingPolicyRules = [
+        {
+          routingPolicyRuleConfig = {
+            To = "${cfg.IPv6Prefix}1/120";
+            Priority = 5;
+          };
+        }
+      ];
     };
 
     services.strongswan-swanctl = {
