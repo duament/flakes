@@ -2,8 +2,6 @@
 , lib
 , libbpf
 , markValue ? 1
-, runCommandWith
-, writeScript
 }:
 clangStdenv.mkDerivation {
   pname = "bpf-mark-${toString markValue}";
@@ -18,7 +16,7 @@ clangStdenv.mkDerivation {
   '';
 
   buildPhase = ''
-    clang -O2 -target bpf -c bpf-mark.c -o bpf-mark.o 
+    clang -O2 -g -target bpf -c bpf-mark.c -o bpf-mark.o 
   '';
 
   installPhase = ''
