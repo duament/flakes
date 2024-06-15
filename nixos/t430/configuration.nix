@@ -46,15 +46,17 @@ in
   networking.firewall = {
     checkReversePath = "loose";
     extraInputRules = ''
-      iifname { wg0, internet } meta l4proto { tcp, udp } th dport 53 accept
+      iifname { wg-*, internet } meta l4proto { tcp, udp } th dport 53 accept
+      ip saddr { 10.6.0.0/16, ${self.data.tailscale.ipv4} } meta l4proto { tcp, udp } th dport 53 accept
+      ip6 saddr { 2606:4700:110:8395::/120, ${self.data.tailscale.ipv6} } meta l4proto { tcp, udp } th dport 53 accept
       iifname internet udp dport 67 accept
-      ip saddr { 10.6.0.1, ${self.data.tailscale.ipv4} } udp dport 53 accept
+      iifname { wg-*, internet } tcp dport 8000 accept
       ip saddr { 10.6.0.0/16, ${self.data.tailscale.ipv4} } tcp dport 8000 accept
       ip6 saddr { 2606:4700:110:8395::/120, ${self.data.tailscale.ipv6} } tcp dport 8000 accept
     '';
     extraForwardRules = ''
-      iifname { wg0, internet } accept
-      oifname { wg0, internet } accept
+      iifname { wg-*, internet } accept
+      oifname { wg-*, internet } accept
       ip saddr { ${self.data.tailscale.ipv4} } accept
       ip6 saddr { ${self.data.tailscale.ipv6} } accept
     '';
