@@ -121,7 +121,7 @@ with lib;
               }
               {
                 name = "ArchWiki";
-                keyword = "archwk";
+                keyword = "aw";
                 url = "https://wiki.archlinux.org/index.php?title=Special%3ASearch&wprov=acrw1&search=%s";
               }
               {
