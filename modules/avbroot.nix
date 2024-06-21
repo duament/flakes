@@ -36,7 +36,7 @@ let
       set -ex
       DIR=$(mktemp -d)
 
-      ${avbroot-bin} ota extract --input "$1" --directory "$DIR" --boot-only --boot-partition @gki_kernel
+      ${avbroot-bin} ota extract --input "$1" --directory "$DIR" --boot-only
       ${pkgs.android-tools}/bin/unpack_bootimg --boot_img "$DIR"/boot.img --out "$DIR"/boot --format=mkbootimg > "$DIR"/mkbootimg_args
       VERSION=$(strings "$DIR"/boot/kernel | grep -o -m1 'Linux version [^-]*-[^-]*' || true)  # Linux version 5.10.157-android13
       ANDROID_RELEASE=''${VERSION##*-}  # android13
@@ -50,7 +50,7 @@ let
       ${pkgs.gzip}/bin/gunzip "$DIR/$NAME"
       NAME=''${NAME%.gz}
 
-      ${avbroot-bin} ota patch --input "$1" --prepatched "$DIR/$NAME" --boot-partition @gki_kernel \
+      ${avbroot-bin} ota patch --input "$1" --prepatched "$DIR/$NAME" \
         --privkey-avb ${config.sops.secrets."avbroot/avb_key".path} \
         --privkey-ota ${config.sops.secrets."avbroot/ota_key".path} \
         --cert-ota ${config.sops.secrets."avbroot/ota_crt".path} \
