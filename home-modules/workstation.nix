@@ -32,6 +32,7 @@
       thunderbird
       unar
       usbutils
+      wineWow64Packages.unstableFull
       wl-clipboard
       yubikey-manager
     ];
