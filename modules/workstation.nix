@@ -1,6 +1,6 @@
 { config, lib, pkgs, self, ... }:
 let
-  inherit (lib) mkOption mkIf mkForce types;
+  inherit (lib) mkOption mkIf mkForce types filterAttrs elem;
   directMark = 1;
 in
 {
@@ -292,12 +292,17 @@ in
       openDefaultPorts = true;
       cert = config.sops.secrets."syncthing/cert".path;
       key = config.sops.secrets."syncthing/key".path;
+      user = "rvfg";
+      group = "rvfg";
       settings = {
         devices = self.data.syncthing.devices;
-        folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
+        folders = filterAttrs (_: v: elem config.networking.hostName v.devices) self.data.syncthing.folders;
       };
     };
-    systemd.tmpfiles.rules = [ "d ${config.services.syncthing.dataDir} 2770 syncthing syncthing -" "a ${config.services.syncthing.dataDir} - - - - d:g::rwx" ];
+    systemd.services.syncthing = {
+      environment.HOME = "/var/lib/syncthing";
+      serviceConfig.ProtectHome = true;
+    };
 
     programs.adb.enable = true;
 
@@ -308,7 +313,7 @@ in
 
     services.usbmuxd.enable = true;
 
-    users.users.rvfg.extraGroups = [ "syncthing" "adbusers" "wireshark" ];
+    users.users.rvfg.extraGroups = [ "adbusers" "wireshark" ];
 
   };
 }

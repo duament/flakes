@@ -34,13 +34,11 @@ rec {
     };
     notes = {
       id = "m4f2r-yzqvs";
-      label = "notes";
       path = "~/notes";
       devices = [ "desktop" "desktop-arch" "xiaoxin" "xiaoxin-arch" "t430" ];
     };
     session = {
       id = "upou4-bdgln";
-      label = "session";
       path = "~/session";
       devices = [ "desktop" "desktop-arch" "xiaoxin" "xiaoxin-arch" "t430" ];
     };
@@ -48,7 +46,22 @@ rec {
       id = "hngav-zprin";
       label = "Music";
       path = "~/Music";
-      devices = [ "desktop" "desktop-arch" "xiaoxin" "xiaoxin-arch" "or3" ];
+      devices = [ "desktop" "xiaoxin" "or3" ];
+    };
+    archives = {
+      id = "mzjds-orbsp";
+      path = "~/archives";
+      devices = [ "desktop" "xiaoxin" ];
+    };
+    backups = {
+      id = "rn8kp-jell8";
+      path = "~/backups";
+      devices = [ "desktop" "xiaoxin" ];
+    };
+    ebooks = {
+      id = "lkrir-xvafz";
+      path = "~/ebooks";
+      devices = [ "desktop" "xiaoxin" ];
     };
   };
 }
