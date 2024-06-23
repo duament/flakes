@@ -1,0 +1,70 @@
+diff --git a/spa/plugins/bluez5/bluez5-dbus.c b/spa/plugins/bluez5/bluez5-dbus.c
+index ca0a98bd9..2aa14bf45 100644
+--- a/spa/plugins/bluez5/bluez5-dbus.c
++++ b/spa/plugins/bluez5/bluez5-dbus.c
+@@ -408,11 +408,11 @@ static int media_codec_to_endpoint(const struct media_codec *codec,
+ 
+ 	if (direction == SPA_BT_MEDIA_SOURCE)
+ 		endpoint = codec->bap ? BAP_SOURCE_ENDPOINT : A2DP_SOURCE_ENDPOINT;
+-	else if (direction == SPA_BT_MEDIA_SINK) 
++	else if (direction == SPA_BT_MEDIA_SINK)
+ 		endpoint = codec->bap ? BAP_SINK_ENDPOINT : A2DP_SINK_ENDPOINT;
+-	else if (direction == SPA_BT_MEDIA_SOURCE_BROADCAST) 
++	else if (direction == SPA_BT_MEDIA_SOURCE_BROADCAST)
+ 		endpoint = BAP_BROADCAST_SOURCE_ENDPOINT;
+-	else if (direction == SPA_BT_MEDIA_SINK_BROADCAST) 
++	else if (direction == SPA_BT_MEDIA_SINK_BROADCAST)
+ 		endpoint = BAP_BROADCAST_SINK_ENDPOINT;
+ 
+ 	*object_path = spa_aprintf("%s/%s", endpoint,
+@@ -2522,7 +2522,7 @@ static struct spa_bt_remote_endpoint *remote_endpoint_find(struct spa_bt_monitor
+ }
+ 
+ static struct spa_bt_device *create_bcast_device(struct spa_bt_monitor *monitor, const char *object_path)
+-{	
++{
+ 	struct spa_bt_device *d;
+ 	struct spa_bt_adapter *adapter;
+ 
+@@ -2589,7 +2589,7 @@ static int remote_endpoint_update_props(struct spa_bt_remote_endpoint *remote_en
+ 				if (device == NULL) {
+ 					/*
+ 					* If a broadcast sink endpoint is detected (over DBus) a new device
+-					* will be created.  This device will be our simulated remote device. 
++					* will be created.  This device will be our simulated remote device.
+ 					* This is done because BlueZ sets the adapter as the device
+ 					* that is connected to for a broadcast sink endpoint/transport.
+ 					*/
+@@ -4710,10 +4710,12 @@ static void append_media_object(DBusMessageIter *iter, const char *endpoint,
+ 
+ 		locations = BAP_CHANNEL_ALL;
+ 		if (spa_bt_profile_from_uuid(uuid) & SPA_BT_PROFILE_BAP_SINK) {
+-			supported_context = context = BAP_CONTEXT_ALL;
++			supported_context = BAP_CONTEXT_ALL;
++			context = BAP_CONTEXT_CONVERSATIONAL;
+ 		} else {
+-			supported_context = context = (BAP_CONTEXT_UNSPECIFIED | BAP_CONTEXT_CONVERSATIONAL |
++			supported_context = (BAP_CONTEXT_UNSPECIFIED | BAP_CONTEXT_CONVERSATIONAL |
+ 					BAP_CONTEXT_MEDIA | BAP_CONTEXT_GAME);
++			context = BAP_CONTEXT_CONVERSATIONAL;
+ 		}
+ 
+ 		append_basic_variant_dict_entry(&dict, "Locations", DBUS_TYPE_UINT32, "u", &locations);
+@@ -4834,7 +4836,7 @@ static DBusHandlerResult object_manager_handler(DBusConnection *c, DBusMessage *
+ 									codec_id, caps, caps_size);
+ 						}
+ 				}
+-				
++
+ 				if (endpoint_should_be_registered(monitor, codec, SPA_BT_MEDIA_SINK_BROADCAST)) {
+ 					caps_size = codec->fill_caps(codec, MEDIA_CODEC_FLAG_SINK, caps);
+ 					if (caps_size < 0)
+@@ -5035,7 +5037,7 @@ static bool have_codec_endpoints(struct spa_bt_monitor *monitor, bool bap)
+ 			continue;
+ 		if (endpoint_should_be_registered(monitor, codec, SPA_BT_MEDIA_SINK) ||
+ 				endpoint_should_be_registered(monitor, codec, SPA_BT_MEDIA_SOURCE) ||
+-				endpoint_should_be_registered(monitor, codec, SPA_BT_MEDIA_SOURCE_BROADCAST) || 
++				endpoint_should_be_registered(monitor, codec, SPA_BT_MEDIA_SOURCE_BROADCAST) ||
+ 				endpoint_should_be_registered(monitor, codec, SPA_BT_MEDIA_SINK_BROADCAST))
+ 			return true;
+ 	}

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   presets.workstation.enable = true;
 
@@ -41,7 +41,15 @@
   hardware.bluetooth.settings.General = {
     ControllerMode = "le";
     Experimental = true;
-    KernelExperimental = "6fbaf188-05e0-496a-9885-d6ddfdb4e03e";
+    KernelExperimental = "6fbaf188-05e0-496a-9885-d6ddfdb4e03e,d4992530-b9ec-469f-ab01-6c481c47da1c";
+  };
+  services.pipewire.package = pkgs.pipewire.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [
+      ./pipewire-le-audio-context.patch
+    ];
+  });
+  services.pipewire.wireplumber.package = pkgs.wireplumber.override {
+    pipewire = config.services.pipewire.package;
   };
 
   presets.uutunnel.enable = true;
