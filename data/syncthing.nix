@@ -51,7 +51,7 @@ rec {
     archives = {
       id = "mzjds-orbsp";
       path = "~/archives";
-      devices = [ "desktop" "xiaoxin" ];
+      devices = [ "desktop" "xiaoxin" "iphone" "pixel7" ];
     };
     backups = {
       id = "rn8kp-jell8";
@@ -61,7 +61,7 @@ rec {
     ebooks = {
       id = "lkrir-xvafz";
       path = "~/ebooks";
-      devices = [ "desktop" "xiaoxin" ];
+      devices = [ "desktop" "xiaoxin" "iphone" ];
     };
   };
 }
