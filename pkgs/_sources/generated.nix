@@ -3,15 +3,15 @@
 {
   Fluent-solid-pink = {
     pname = "Fluent-solid-pink";
-    version = "5c8b998c5d9c3bbda90a468dab8f9691b661f24c";
+    version = "ff5a90bad970225b5680609a41aba15d586d56c5";
     src = fetchFromGitHub {
       owner = "vinceliuice";
       repo = "Fluent-kde";
-      rev = "5c8b998c5d9c3bbda90a468dab8f9691b661f24c";
+      rev = "ff5a90bad970225b5680609a41aba15d586d56c5";
       fetchSubmodules = false;
-      sha256 = "sha256-uvBXNBuRDSm8/BFVzNo1Z7w/45ysY4MfjITS7w0cqaU=";
+      sha256 = "sha256-UqSBZAqP0UbZcBFrxQFTZyw9eqDZ4S1fveDousB1ndw=";
     };
-    date = "2024-04-28";
+    date = "2024-06-21";
   };
   Nginx-Fancyindex-Theme = {
     pname = "Nginx-Fancyindex-Theme";
@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.2.3";
+    version = "v3.4.0";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.2.3";
+      rev = "v3.4.0";
       fetchSubmodules = false;
-      sha256 = "sha256-ayPpXx/lbW+PtEJ8imw+1mN3brjtTa3zFLZEVwijOeA=";
+      sha256 = "sha256-RoeanW4vCFm7TCr8T8akNnDI10gqXsMjqq39Y/7LL9o=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.2.3/Cargo.lock;
+      lockFile = ./avbroot-v3.4.0/Cargo.lock;
       outputHashes = {
         "bzip2-0.4.4" = "sha256-9YKPFvaGNdGPn2mLsfX8Dh90vR+X4l3YSrsz0u4d+uQ=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
