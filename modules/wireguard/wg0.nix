@@ -111,14 +111,12 @@ in
         wireguardPeers =
           (mapAttrsToList
             (h: p: {
-              wireguardPeerConfig = {
-                AllowedIPs = toAllowedIPs p;
-                PublicKey = p.pubkey;
-              } // (optionalAttrs (elem h (net.outPeers or [ ])) {
-                Endpoint = "${self.data.dns.${h}.ipv4}:${toString (p.port + peer.id)}";
-                PersistentKeepalive = 25;
-              });
-            })
+              AllowedIPs = toAllowedIPs p;
+              PublicKey = p.pubkey;
+            } // (optionalAttrs (elem h (net.outPeers or [ ])) {
+              Endpoint = "${self.data.dns.${h}.ipv4}:${toString (p.port + peer.id)}";
+              PersistentKeepalive = 25;
+            }))
             (filterAttrs (h: _: h != host) wg0.peers)
           );
       };
@@ -170,14 +168,12 @@ in
           });
           wireguardPeers =
             [
-              {
-                wireguardPeerConfig = (filterAttrs (_: v: v != null) {
-                  AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-                  PublicKey = wg0.peers.${h}.pubkey;
-                  Endpoint = cfg.clientPeers.${h}.endpoint or null;
-                  PersistentKeepalive = cfg.clientPeers.${h}.keepalive or null;
-                });
-              }
+              (filterAttrs (_: v: v != null) {
+                AllowedIPs = [ "0.0.0.0/0" "::/0" ];
+                PublicKey = wg0.peers.${h}.pubkey;
+                Endpoint = cfg.clientPeers.${h}.endpoint or null;
+                PersistentKeepalive = cfg.clientPeers.${h}.keepalive or null;
+              })
             ];
         };
       }) (reverseClientPeers ++ clientPeers));

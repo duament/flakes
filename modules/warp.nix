@@ -107,11 +107,9 @@ in
       };
       wireguardPeers = [
         {
-          wireguardPeerConfig = {
-            AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-            Endpoint = cfg.endpoint;
-            PublicKey = cfg.pubkey;
-          };
+          AllowedIPs = [ "0.0.0.0/0" "::/0" ];
+          Endpoint = cfg.endpoint;
+          PublicKey = cfg.pubkey;
         }
       ];
     };
