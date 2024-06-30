@@ -48,6 +48,9 @@ in
       backupCleanupCommand = lib.optionalString cfg.enablePg ''
         rm -f /persist/postgres_backup
       '';
+      pruneOpts = [
+        "--keep-within 6m"
+      ];
     };
   };
 }
