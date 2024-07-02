@@ -89,8 +89,7 @@ in
     enable = true;
     database.passwordFile = config.sops.secrets."keycloak/database".path;
     settings = {
-      hostname = "id.rvf6.com";
-      hostname-strict-backchannel = true;
+      hostname = "https://id.rvf6.com";
       http-host = "[::1]";
       http-port = 6000;
       proxy = "edge";
