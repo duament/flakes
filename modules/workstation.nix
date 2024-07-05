@@ -216,6 +216,7 @@ in
           "Noto Sans Symbols 2"
           "Noto Sans Math"
           "Noto Sans Thai"
+          "Noto Sans Oriya"
         ]; })
       ];
       fontconfig = {
