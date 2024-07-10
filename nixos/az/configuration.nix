@@ -55,6 +55,7 @@ in
 
   services.etebase-server = {
     enable = true;
+    package = pkgs.python311.pkgs.etebase-server.override { python3 = pkgs.python311; };
     unixSocket = "/run/etebase-server/etebase-server";
     settings = {
       global.secret_file = config.sops.secrets."etebase/secret".path;
