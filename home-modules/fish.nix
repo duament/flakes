@@ -18,7 +18,7 @@ in
       gitcma = "git commit --amend";
       gitco = "git checkout";
       gitcob = "git checkout -b";
-      gitcp = "git git-cherry-pick";
+      gitcp = "git cherry-pick";
       gitdf = "git diff";
       gitdfs = "git diff --staged";
       gitf = "git fetch -p";
@@ -29,6 +29,7 @@ in
       gitrs = "git reset";
       gitrsh = "git reset --hard";
       gitrt = "git restore";
+      gitrv = "git revert";
       gitsh = "git show";
       gitsm = "git submodule";
       gitsmu = "git submodule update --init --recursive";
