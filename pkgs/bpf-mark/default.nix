@@ -10,6 +10,11 @@ clangStdenv.mkDerivation {
   dontUnpack = true;
   nativeBuildInputs = [ libbpf ];
 
+  hardeningDisable = [
+    "stackprotector"
+    "zerocallusedregs"
+  ];
+
   configurePhase = ''
     export markValue=${toString markValue}
     substituteAll $src bpf-mark.c
