@@ -125,6 +125,7 @@
     services.etesync-dav = {
       enable = true;
       serverUrl = "https://ete.rvf6.com/";
+      package = pkgs.etesync-dav.override { python3 = pkgs.python311; };
     };
 
     services.kdeconnect = {
