@@ -24,6 +24,14 @@ with lib;
         gpg.format = "ssh";
         gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
       };
+      delta = {
+        enable = true;
+        options = {
+          light = true;
+          line-numbers = true;
+          side-by-side = true;
+        };
+      };
     };
   };
 }
