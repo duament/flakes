@@ -100,7 +100,44 @@
         {
           formatter = pkgs.nixpkgs-fmt;
 
-          packages = import ./pkgs pkgs;
+          packages = import ./pkgs pkgs // {
+            dolphin-tools = pkgs.dockerTools.buildImage {
+              name = "dolphin-tools";
+              tag = "0.2.0";
+              copyToRoot = pkgs.buildEnv {
+                name = "image-root";
+                paths = with pkgs; [
+                  bashInteractive
+                  coreutils
+                  curl
+                  dockerTools.caCertificates
+                  dockerTools.fakeNss
+                  dockerTools.usrBinEnv
+                  docker-client
+                  git
+                  git-lfs
+                  gnugrep
+                  gnused
+                  jo
+                  jq
+                  kubectl
+                  kubevirt
+                  openssh
+                  (python3.withPackages (p: with p; [
+                    pyyaml
+                  ]))
+                  sshpass
+                  util-linux
+                  yq-go
+                ];
+                pathsToLink = [ "/bin" ];
+              };
+              runAsRoot = ''
+                ${pkgs.dockerTools.shadowSetup}
+              '';
+              created = "2024-07-19T02:20:00Z";
+            };
+          };
 
           devShells.default = pkgs.mkShell {
             packages = [
