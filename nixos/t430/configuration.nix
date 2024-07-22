@@ -421,10 +421,23 @@ in
         extraConfig = "add_header Content-Type application/x-ns-proxy-autoconfig;";
         alias = pkgs.writeText "wpad.dat" ''
           function FindProxyForURL(url, host) {
-            if (host.endsWith('byr.pt') || host.endsWith('reddit.com') || host === 'prod-ingress.nianticlabs.com') {
+            let ipv4_regex = /^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/gm;
+            if (
+              host.endsWith('byr.pt')
+              || host.endsWith('reddit.com')
+              || host === 'prod-ingress.nianticlabs.com'
+              || host.endsWith('enflame.cn')
+            ) {
               return 'PROXY 10.6.0.8:8000';
+            } else if (ipv4_regex.test(host) && (
+              isInNet(host, '10.9.0.0', '255.255.0.0')
+              || isInNet(host, '10.12.0.0', '255.255.0.0')
+              || isInNet(host, '172.16.0.0', '255.240.0.0')
+            )) {
+              return 'PROXY 10.6.0.8:8000';
+            } else {
+              return 'DIRECT';
             }
-            return 'DIRECT';
           }
         '';
       };
