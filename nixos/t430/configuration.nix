@@ -207,6 +207,12 @@ in
           tag = "ak";
           routing_mark = 100 + wg0.peers.ak.id;
         }
+        {
+          type = "socks";
+          tag = "work";
+          server = "work.rvf6.com";
+          server_port = 1080;
+        }
       ];
       route.rules = [
         {
@@ -219,6 +225,17 @@ in
         {
           domain = [ "prod-ingress.nianticlabs.com" ];
           outbound = "ak";
+        }
+        {
+          domain_suffix = [
+            "enflame.cn"
+          ];
+          ip_cidr = [
+            "10.9.0.0/16"
+            "10.12.0.0/16"
+            "172.16.0.0/12"
+          ];
+          outbound = "work";
         }
       ];
     };
