@@ -52,7 +52,7 @@
 
   programs.git = {
     enable = true;
-    userEmail = "int.ruifeng.ma@enflame-tech.com";
+    userEmail = "ruifeng.ma@enflame-tech.com";
     userName = "ruifeng.ma";
     signing = {
       signByDefault = true;
