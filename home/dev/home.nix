@@ -65,6 +65,14 @@
         int.ruifeng.ma@enflame-tech.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ
       '').outPath;
     };
+    delta = {
+      enable = true;
+      options = {
+        light = true;
+        line-numbers = true;
+        side-by-side = true;
+      };
+    };
   };
 
   programs.starship.settings.command_timeout = 4000;
