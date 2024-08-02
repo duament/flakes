@@ -212,9 +212,9 @@ def generate_efi(profile: Optional[str], generation: int, specialisation: Option
                 '@objcopy@',
                 '--add-section', f'.osrel={osrel}', '--change-section-vma', f'.osrel={osrel_offset:#x}',
                 '--add-section', f'.cmdline={cmdline.name}', '--change-section-vma', f'.cmdline={cmdline_offset:#x}',
-                '--add-section', f'.kernelp={kernel.name}', '--change-section-vma', f'.kernelp={kernelp_offset:#x}',
-                '--add-section', f'.initrdp={initrd.name}', '--change-section-vma', f'.initrdp={initrdp_offset:#x}',
-                '--add-section', f'.kernelh={kernel_hash.name}', '--change-section-vma', f'.kernelh={kernelh_offset:#x}',
+                '--add-section', f'.linux={kernel.name}', '--change-section-vma', f'.linux={kernelp_offset:#x}',
+                '--add-section', f'.initrd={initrd.name}', '--change-section-vma', f'.initrd={initrdp_offset:#x}',
+                '--add-section', f'.linuxh={kernel_hash.name}', '--change-section-vma', f'.linuxh={kernelh_offset:#x}',
                 '--add-section', f'.initrdh={initrd_hash.name}', '--change-section-vma', f'.initrdh={initrdh_offset:#x}',
                 '@efiStubPath@', objcopy_output])
         if '@sign@' == '1':
