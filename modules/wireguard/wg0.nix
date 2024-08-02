@@ -184,12 +184,10 @@ in
           name = "wg-${h}";
           address = toAddress wg0.networks.${h} peer;
           routingPolicyRules = optional (cfg.clientPeers ? ${h}) {
-            routingPolicyRuleConfig = {
-              Family = "both";
-              FirewallMark = cfg.clientPeers.${h}.table;
-              Table = cfg.clientPeers.${h}.table;
-              Priority = 15;
-            };
+            Family = "both";
+            FirewallMark = cfg.clientPeers.${h}.table;
+            Table = cfg.clientPeers.${h}.table;
+            Priority = 15;
           };
         } // (optionalAttrs (h == routePeer) {
           dns = [ "${wg0.networks.${h}.ipv6Pre}${toLowerHex wg0.peers.${h}.id}" ];
@@ -198,38 +196,30 @@ in
           routingPolicyRules = map
             (ip:
               {
-                routingPolicyRuleConfig = {
-                  To = ip;
-                  Priority = 9;
-                };
+                To = ip;
+                Priority = 9;
               }
             )
             cfg.routeBypass ++ (if route == "all" then
             [
               {
-                routingPolicyRuleConfig = {
-                  Family = "both";
-                  FirewallMark = wgMark;
-                  InvertRule = "yes";
-                  Table = wgTable;
-                  Priority = 20;
-                };
+                Family = "both";
+                FirewallMark = wgMark;
+                InvertRule = "yes";
+                Table = wgTable;
+                Priority = 20;
               }
             ] else [
             {
-              routingPolicyRuleConfig = {
-                Family = "both";
-                FirewallMark = wgMark;
-                Priority = 9;
-              };
+              Family = "both";
+              FirewallMark = wgMark;
+              Priority = 9;
             }
             {
-              routingPolicyRuleConfig = {
-                Family = "both";
-                FirewallMark = routeMark;
-                Table = wgTable;
-                Priority = 20;
-              };
+              Family = "both";
+              FirewallMark = routeMark;
+              Table = wgTable;
+              Priority = 20;
             }
           ]);
         });

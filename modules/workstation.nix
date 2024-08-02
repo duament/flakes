@@ -13,17 +13,6 @@ in
 
   config = mkIf config.presets.workstation.enable {
 
-    nixpkgs.overlays = [
-      (self: super: {
-        wpa_supplicant = super.wpa_supplicant.overrideAttrs (oldAttrs: {
-          extraConfig = oldAttrs.extraConfig + ''
-            CONFIG_SUITEB=y
-            CONFIG_SUITEB192=y
-          '';
-        });
-      })
-    ];
-
     sops.secrets = {
       clash = {
         format = "binary";
@@ -74,7 +63,8 @@ in
     };
 
     i18n.inputMethod = {
-      enabled = "fcitx5";
+      enable = true;
+      type = "fcitx5";
       fcitx5 = {
         addons = with pkgs; [
           qt6Packages.fcitx5-chinese-addons
@@ -124,11 +114,9 @@ in
       linkConfig.RequiredForOnline = true;
       routingPolicyRules = [
         {
-          routingPolicyRuleConfig = {
-            Family = "both";
-            FirewallMark = directMark;
-            Priority = 9;
-          };
+          Family = "both";
+          FirewallMark = directMark;
+          Priority = 9;
         }
       ];
       # domains = [ "~h.rvf6.com" ];

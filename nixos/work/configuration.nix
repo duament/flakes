@@ -35,10 +35,8 @@
     routingPolicyRules = map
       (ip:
         {
-          routingPolicyRuleConfig = {
-            To = ip;
-            Priority = 9;
-          };
+          To = ip;
+          Priority = 9;
         }
       ) [ "172.16.0.0/12" "10.9.0.0/16" "10.12.0.0/16" "fc00::/64" ];
   };

@@ -62,12 +62,10 @@
   };
   systemd.network.networks."25-warp".routingPolicyRules = [
     {
-      routingPolicyRuleConfig = {
-        FirewallMark = 2;
-        Table = 20;
-        Priority = 20;
-        Family = "both";
-      };
+      FirewallMark = 2;
+      Table = 20;
+      Priority = 20;
+      Family = "both";
     }
   ];
   presets.smartdns.enable = true;

@@ -118,12 +118,10 @@ in
       address = cfg.address;
       routingPolicyRules = [
         {
-          routingPolicyRuleConfig = {
-            FirewallMark = cfg.table;
-            Table = cfg.table;
-            Priority = 15;
-            Family = "both";
-          };
+          FirewallMark = cfg.table;
+          Table = cfg.table;
+          Priority = 15;
+          Family = "both";
         }
       ];
     };

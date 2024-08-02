@@ -68,26 +68,20 @@ in
     in
     [
       {
-        routingPolicyRuleConfig = {
-          FirewallMark = nonCNMark;
-          Table = table;
-          Priority = 20;
-          Family = "both";
-        };
+        FirewallMark = nonCNMark;
+        Table = table;
+        Priority = 20;
+        Family = "both";
       }
       {
-        routingPolicyRuleConfig = {
-          To = "34.117.196.143"; # prod-ingress.nianticlabs.com
-          Table = "main";
-          Priority = 9;
-        };
+        To = "34.117.196.143"; # prod-ingress.nianticlabs.com
+        Table = "main";
+        Priority = 9;
       }
       {
-        routingPolicyRuleConfig = {
-          To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
-          Table = table;
-          Priority = 9;
-        };
+        To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
+        Table = table;
+        Priority = 9;
       }
     ];
   presets.smartdns = {

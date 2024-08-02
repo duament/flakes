@@ -78,10 +78,8 @@ in
       address = [ "${cfg.IPv4Prefix}1/24" "${cfg.IPv6Prefix}1/120" ];
       routingPolicyRules = [
         {
-          routingPolicyRuleConfig = {
-            To = "${cfg.IPv6Prefix}1/120";
-            Priority = 5;
-          };
+          To = "${cfg.IPv6Prefix}1/120";
+          Priority = 5;
         }
       ];
     };

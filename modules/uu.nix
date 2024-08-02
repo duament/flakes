@@ -76,16 +76,12 @@ in
           };
           routingPolicyRules = [
             {
-              routingPolicyRuleConfig = {
-                FirewallMark = 3;
-                Table = 10;
-              };
+              FirewallMark = 3;
+              Table = 10;
             }
             {
-              routingPolicyRuleConfig = {
-                To = "10.6.8.0/24";
-                Table = 10;
-              };
+              To = "10.6.8.0/24";
+              Table = 10;
             }
           ];
         };
