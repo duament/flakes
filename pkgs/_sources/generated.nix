@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.4.0";
+    version = "v3.4.1";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.4.0";
+      rev = "v3.4.1";
       fetchSubmodules = false;
-      sha256 = "sha256-RoeanW4vCFm7TCr8T8akNnDI10gqXsMjqq39Y/7LL9o=";
+      sha256 = "sha256-gG8pR/D5oaPPqq0e815J6z+dDVxh4VSoHIm1Yl3x2p4=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.4.0/Cargo.lock;
+      lockFile = ./avbroot-v3.4.1/Cargo.lock;
       outputHashes = {
         "bzip2-0.4.4" = "sha256-9YKPFvaGNdGPn2mLsfX8Dh90vR+X4l3YSrsz0u4d+uQ=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
@@ -57,10 +57,10 @@
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20240509";
+    version = "20240722";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20240509.dict";
-      sha256 = "sha256-uRpKPq+/xJ8akKB8ol/JRF79VfDIQ8L4SxLDXzpfPxg=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20240722.dict";
+      sha256 = "sha256-ozGXj/xZmXzopF7qiG2z+hcwGHc+3Lq6OqyFRreK9Kc=";
     };
   };
   flood-for-transmission = {
@@ -108,18 +108,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "7.4.4";
+    version = "7.6.12";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.4.4/uu.tar.gz";
-      sha256 = "sha256-pKrM/UN7FqZF5UHT+DcGIKwCWOAADQHBtZ0dz9Zwyq4=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.6.12/uu.tar.gz";
+      sha256 = "sha256-lBQihcd3xDyBfGhtaiva49IyHRaMoJW1fcDcKY4dLt0=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "7.4.4";
+    version = "7.6.12";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.4.4/uu.tar.gz";
-      sha256 = "sha256-PErrSV1Kly01xgjsfd5EgZZMYENg/FxyF5h+i3aJsQg=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.6.12/uu.tar.gz";
+      sha256 = "sha256-z3MB12qQHaP4QQ18kI1i/eetDATDnBR5Q7l5Q5SGfUk=";
     };
   };
   uutunnel = {
