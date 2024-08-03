@@ -6,10 +6,6 @@ in
   presets.nogui.enable = true;
   presets.metrics.enable = true;
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "python3.11-django-3.2.25"
-  ];
-
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     "syncthing/cert".owner = config.services.syncthing.user;
@@ -55,7 +51,6 @@ in
 
   services.etebase-server = {
     enable = true;
-    package = pkgs.python311.pkgs.etebase-server.override { python3 = pkgs.python311; };
     unixSocket = "/run/etebase-server/etebase-server";
     settings = {
       global.secret_file = config.sops.secrets."etebase/secret".path;
