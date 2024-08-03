@@ -23,16 +23,12 @@
     networkConfig.IPv6AcceptRA = false;
     routes = [
       {
-        routeConfig = {
-          Gateway = "141.11.148.1";
-          GatewayOnLink = true;
-        };
+        Gateway = "141.11.148.1";
+        GatewayOnLink = true;
       }
       {
-        routeConfig = {
-          Gateway = "2401:b60:5::1";
-          GatewayOnLink = true;
-        };
+        Gateway = "2401:b60:5::1";
+        GatewayOnLink = true;
       }
     ];
   };
