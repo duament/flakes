@@ -98,6 +98,11 @@ in
         '';
       };
 
+      systemd.network.config.networkConfig = {
+        IPv4Forwarding = true;
+        IPv6Forwarding = true;
+      };
+
       systemd.network.netdevs."25-wg-${host}" = {
         netdevConfig = {
           Name = "wg-${host}";

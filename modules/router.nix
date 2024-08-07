@@ -74,6 +74,11 @@ in
   config = mkIf cfg.enable {
     services.resolved.extraConfig = "DNSStubListenerExtra=${lanIP}";
 
+    systemd.network.config.networkConfig = {
+      IPv4Forwarding = true;
+      IPv6Forwarding = true;
+    };
+
     systemd.network.netdevs."50-${cfg.lan.bridge.name}".netdevConfig = {
       Name = cfg.lan.bridge.name;
       Kind = "bridge";
