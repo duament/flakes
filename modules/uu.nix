@@ -154,25 +154,19 @@ in
             address = "10.6.8.1/24";
             staticLeases = [
               {
-                dhcpServerStaticLeaseConfig = {
-                  # simns
-                  MACAddress = "CC:5B:31:2F:BE:AE";
-                  Address = "10.6.8.2";
-                };
+                # simns
+                MACAddress = "CC:5B:31:2F:BE:AE";
+                Address = "10.6.8.2";
               }
               {
-                dhcpServerStaticLeaseConfig = {
-                  # NS
-                  MACAddress = "CC:5B:31:F5:96:3A";
-                  Address = "10.6.8.3";
-                };
+                # NS
+                MACAddress = "CC:5B:31:F5:96:3A";
+                Address = "10.6.8.3";
               }
               {
-                dhcpServerStaticLeaseConfig = {
-                  # NS-wire
-                  MACAddress = "CC:5B:31:2F:D6:BD";
-                  Address = "10.6.8.4";
-                };
+                # NS-wire
+                MACAddress = "CC:5B:31:2F:D6:BD";
+                Address = "10.6.8.4";
               }
             ];
           };

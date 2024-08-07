@@ -91,7 +91,8 @@ in
       DHCPServer = true;
       IPv6SendRA = true;
       #DHCPPrefixDelegation = true;
-      IPForward = true;
+      IPv4Forwarding = true;
+      IPv6Forwarding = true;
     };
     dhcpServerConfig = { DNS = "_server_address"; };
     ipv6SendRAConfig = { DNS = "fd66::1"; };

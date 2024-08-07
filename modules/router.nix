@@ -87,7 +87,7 @@ in
         address = [ cfg.lan.address ];
         networkConfig = {
           DHCPServer = true;
-          IPForward = "ipv4";
+          IPv4Forwarding = true;
         };
         dhcpServerConfig = { DNS = "_server_address"; };
         dhcpServerStaticLeases = cfg.lan.staticLeases;
