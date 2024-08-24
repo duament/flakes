@@ -3,15 +3,15 @@
 {
   Fluent-solid-pink = {
     pname = "Fluent-solid-pink";
-    version = "ff5a90bad970225b5680609a41aba15d586d56c5";
+    version = "42bc6ac2d94383fa363b5dffcfa4c4562ad21e9f";
     src = fetchFromGitHub {
       owner = "vinceliuice";
       repo = "Fluent-kde";
-      rev = "ff5a90bad970225b5680609a41aba15d586d56c5";
+      rev = "42bc6ac2d94383fa363b5dffcfa4c4562ad21e9f";
       fetchSubmodules = false;
-      sha256 = "sha256-UqSBZAqP0UbZcBFrxQFTZyw9eqDZ4S1fveDousB1ndw=";
+      sha256 = "sha256-wAwGik1PuKEKEKyzv5xU1yfYSyWVFnug/uNpMIqRpZw=";
     };
-    date = "2024-06-21";
+    date = "2024-08-23";
   };
   Nginx-Fancyindex-Theme = {
     pname = "Nginx-Fancyindex-Theme";
@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.4.1";
+    version = "v3.6.0";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.4.1";
+      rev = "v3.6.0";
       fetchSubmodules = false;
-      sha256 = "sha256-gG8pR/D5oaPPqq0e815J6z+dDVxh4VSoHIm1Yl3x2p4=";
+      sha256 = "sha256-HxK6cbQpdSz4uelZQ1CRqQGIlbuqZ4ewDDYdz84uAfg=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.4.1/Cargo.lock;
+      lockFile = ./avbroot-v3.6.0/Cargo.lock;
       outputHashes = {
         "bzip2-0.4.4" = "sha256-9YKPFvaGNdGPn2mLsfX8Dh90vR+X4l3YSrsz0u4d+uQ=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
@@ -73,13 +73,13 @@
   };
   hass-xiaomi-miot = {
     pname = "hass-xiaomi-miot";
-    version = "v0.7.19";
+    version = "v0.7.20";
     src = fetchFromGitHub {
       owner = "al-one";
       repo = "hass-xiaomi-miot";
-      rev = "v0.7.19";
+      rev = "v0.7.20";
       fetchSubmodules = false;
-      sha256 = "sha256-QtvcXQOq4aqXdydXaWDtRSZYzD0ZqDstpestdBiTQwo=";
+      sha256 = "sha256-wR5N6a+g4TE9cRv1k4zExCWiui7ZHwK54j0oUxnhcR0=";
     };
   };
   transmission-client = {
@@ -108,18 +108,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "7.6.12";
+    version = "7.8.0";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.6.12/uu.tar.gz";
-      sha256 = "sha256-lBQihcd3xDyBfGhtaiva49IyHRaMoJW1fcDcKY4dLt0=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.8.0/uu.tar.gz";
+      sha256 = "sha256-5oPO0dXkIruEFymIbD+mbqk+pySDbv+KdeA34IeDvaw=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "7.6.12";
+    version = "7.8.0";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.6.12/uu.tar.gz";
-      sha256 = "sha256-z3MB12qQHaP4QQ18kI1i/eetDATDnBR5Q7l5Q5SGfUk=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.8.0/uu.tar.gz";
+      sha256 = "sha256-alG1Pp4dasZIlpAg0+z4+HcCO66ukmXoBrneBgh9JDA=";
     };
   };
   uutunnel = {
