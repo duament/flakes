@@ -1,6 +1,21 @@
 { config, lib, pkgs, self, ... }:
 let
   cfg = config.presets.users;
+
+  pam_rssh = pkgs.pam_rssh.override (old: {
+    rustPlatform.buildRustPackage = x: old.rustPlatform.buildRustPackage (
+      x // {
+        src = pkgs.fetchFromGitHub {
+          owner = "z4yx";
+          repo = "pam_rssh";
+          rev = "1d5bf963c9b1c5d3298bf563454e08bbeb9700c0";
+          hash = "sha256-T2edexuSjLsr7BL/cXwZEiwipplKueKpNNu40n3r4+o=";
+          fetchSubmodules = true;
+        };
+        cargoHash = "sha256-Z+axlIwCll1vrgRXCSiLmQzT84UjTYy6rE2/B2KUB/g=";
+      }
+    );
+  });
 in
 {
   options = {
@@ -67,7 +82,7 @@ in
 
     # libpam_rssh
     security.pam.services.sudo.text = lib.mkDefault (lib.mkBefore ''
-      auth sufficient ${pkgs.pam_rssh}/lib/libpam_rssh.so auth_key_file=/etc/ssh/authorized_keys.d/rvfg
+      auth sufficient ${pam_rssh}/lib/libpam_rssh.so auth_key_file=/etc/ssh/authorized_keys.d/rvfg
     '');
     security.sudo.extraConfig = ''
       Defaults env_keep+=SSH_AUTH_SOCK
