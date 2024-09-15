@@ -86,7 +86,7 @@ in
   systemd.network.networks."50-internet" = {
     name = "internet";
     address = [ "fd66::1/64" "10.6.1.1/24" ];
-    ipv6Prefixes = [{ ipv6PrefixConfig.Prefix = "fd66::/64"; }];
+    ipv6Prefixes = [{ Prefix = "fd66::/64"; }];
     networkConfig = {
       DHCPServer = true;
       IPv6SendRA = true;
