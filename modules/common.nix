@@ -70,8 +70,14 @@ with lib;
     };
   };
   systemd.network.networks = lib.mkIf config.networking.useDHCP {
-    "99-ethernet-default-dhcp".dhcpV6Config.UseDelegatedPrefix = false;
-    "99-wireless-client-dhcp".dhcpV6Config.UseDelegatedPrefix = false;
+    "99-ethernet-default-dhcp" = {
+      dhcpV6Config.UseDelegatedPrefix = false;
+      networkConfig.IPv6AcceptRA = true;
+    };
+    "99-wireless-client-dhcp" = {
+      dhcpV6Config.UseDelegatedPrefix = false;
+      networkConfig.IPv6AcceptRA = true;
+    };
   };
 
   time.timeZone = "Asia/Hong_Kong";
