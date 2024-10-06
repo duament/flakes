@@ -8,7 +8,7 @@
     "sbsign-cert" = { };
     wireguard_key.owner = "systemd-network";
     warp_key.owner = "systemd-network";
-    "pki/ca" = { };
+    "pki/ca".mode = "0444";
     "pki/ybk" = { };
     "pki/bundle" = { };
     "pki/pkcs8-key" = { };
