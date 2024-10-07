@@ -98,16 +98,7 @@ in
       };
       environmentFile = config.sops.secrets."wireless".path;
       networks = {
-        #"Xiaomi_3304_5G".psk = "@PSK_3304@";
         a5.psk = "@PSK_a5@";
-        eduroam = {
-          authProtocols = [ "WPA-EAP" "WPA-EAP-SUITE-B-192" "FT-EAP" "FT-EAP-SHA384" ];
-          auth = ''
-            eap=PEAP
-            identity="@EDUROAM_ID@"
-            password="@EDUROAM_PWD@"
-          '';
-        };
       };
     };
     systemd.network.networks."99-wireless-client-dhcp" = {
