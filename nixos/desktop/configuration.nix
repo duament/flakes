@@ -38,12 +38,6 @@
   };
   #systemd.network.networks."99-ethernet-default-dhcp".domains = [ "~h.rvf6.com" ];
 
-  hardware.bluetooth.settings.General = {
-    ControllerMode = "le";
-    Experimental = true;
-    KernelExperimental = "6fbaf188-05e0-496a-9885-d6ddfdb4e03e";
-  };
-
   presets.uutunnel.enable = true;
   networking.warp = {
     enable = true;
