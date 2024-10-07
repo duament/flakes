@@ -96,9 +96,9 @@ in
         enable = true;
         group = "rvfg";
       };
-      environmentFile = config.sops.secrets."wireless".path;
+      secretsFile = config.sops.secrets."wireless".path;
       networks = {
-        a5.psk = "@PSK_a5@";
+        a5.psk = "ext:PSK_a5";
       };
     };
     systemd.network.networks."99-wireless-client-dhcp" = {
