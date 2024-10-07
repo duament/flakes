@@ -240,7 +240,7 @@ require('lspconfig')['beancount'].setup{
     journal_file = vim.fn.getcwd() .. "/main.beancount",
   };
 }
-require('lspconfig')['tsserver'].setup{
+require('lspconfig')['ts_ls'].setup{
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "@typescript_language_server@", "--stdio" },
