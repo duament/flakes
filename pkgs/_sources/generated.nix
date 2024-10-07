@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.6.0";
+    version = "v3.7.0";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.6.0";
+      rev = "v3.7.0";
       fetchSubmodules = false;
-      sha256 = "sha256-HxK6cbQpdSz4uelZQ1CRqQGIlbuqZ4ewDDYdz84uAfg=";
+      sha256 = "sha256-GkmZQJynK4g5NueAFk0DGAYNAxe+dMFaGJ4cUhT4Hyg=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.6.0/Cargo.lock;
+      lockFile = ./avbroot-v3.7.0/Cargo.lock;
       outputHashes = {
         "bzip2-0.4.4" = "sha256-9YKPFvaGNdGPn2mLsfX8Dh90vR+X4l3YSrsz0u4d+uQ=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
@@ -108,18 +108,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "7.9.14";
+    version = "7.11.2";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.9.14/uu.tar.gz";
-      sha256 = "sha256-lepdmaatjSLDZQZg0E1gNQhQmXLskJjWgMgufVH/Ak4=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.11.2/uu.tar.gz";
+      sha256 = "sha256-nxKviqwRICxsxmag9yTmrDmgPKGxnSHJyMdZlIamgK0=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "7.9.14";
+    version = "7.11.2";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.9.14/uu.tar.gz";
-      sha256 = "sha256-YCWvI+dxVA4x+GFErrsUINVuMV4pyzFXrB3A2kKPz2M=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.11.2/uu.tar.gz";
+      sha256 = "sha256-7RaHR2nOc4nNz1pAdvxfGWXQbFMZwF+/qPoXMbaNOHk=";
     };
   };
   uutunnel = {
