@@ -62,7 +62,7 @@
     "avbroot": {
         "cargoLocks": {
             "Cargo.lock": [
-                "./avbroot-v3.7.0/Cargo.lock",
+                "./avbroot-v3.7.1/Cargo.lock",
                 {
                     "bzip2-0.4.4": "sha256-9YKPFvaGNdGPn2mLsfX8Dh90vR+X4l3YSrsz0u4d+uQ=",
                     "zip-0.6.6": "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0="
@@ -81,11 +81,11 @@
             "name": null,
             "owner": "chenxiaolong",
             "repo": "avbroot",
-            "rev": "v3.7.0",
-            "sha256": "sha256-GkmZQJynK4g5NueAFk0DGAYNAxe+dMFaGJ4cUhT4Hyg=",
+            "rev": "v3.7.1",
+            "sha256": "sha256-ZRakMmTEHH7oXpkYBgxjW3Im3fBqxlNg/ivzk4AnRm8=",
             "type": "github"
         },
-        "version": "v3.7.0"
+        "version": "v3.7.1"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -185,11 +185,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-nxKviqwRICxsxmag9yTmrDmgPKGxnSHJyMdZlIamgK0=",
+            "sha256": "sha256-V/a+dmAcizcSXkrOKrKCj5Tbu/HVMGCjJFzdm2FJ0ng=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.11.2/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.12.12/uu.tar.gz"
         },
-        "version": "7.11.2"
+        "version": "7.12.12"
     },
     "uuplugin-x86_64": {
         "cargoLocks": null,
@@ -200,11 +200,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-7RaHR2nOc4nNz1pAdvxfGWXQbFMZwF+/qPoXMbaNOHk=",
+            "sha256": "sha256-3YYowQDk6o1GW3O/r3xn6S3FXY0XcPosWsQ48CBVNLc=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.11.2/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.12.12/uu.tar.gz"
         },
-        "version": "7.11.2"
+        "version": "7.12.12"
     },
     "uutunnel": {
         "cargoLocks": {
