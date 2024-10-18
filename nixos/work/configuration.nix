@@ -53,7 +53,7 @@
     };
   };
 
-  services.tailscale.enable = true;
+  services.tailscale.enable = false;
 
   users.users.rvfg.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ enflame"
