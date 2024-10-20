@@ -107,6 +107,7 @@ in
         mtu = 1360;
       };
       or2.mark = 3;
+      sg.mark = 3;
     };
   };
 
