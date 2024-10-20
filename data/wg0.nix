@@ -58,6 +58,11 @@
       pubkey = "q4HlrIfkbw9oXa4Bn0mygaOTpsM3SiSIj3gBc+NWWgU=";
       port = 40000;
     };
+    sg = {
+      id = 26;
+      pubkey = "+Rdxz9Cc7W+b7jwfLWR9RgF3Sa0mWEunf/tw9lmY8ys=";
+      port = 11111;
+    };
   };
   networks = {
     t430 = {
@@ -66,7 +71,7 @@
       ipv6Pre = "fd64::";
       ipv6Mask = 120;
       # Initiate connection to those peers
-      outPeers = [ "nl" "or2" "or3" "az" "ak" ];
+      outPeers = [ "nl" "or2" "or3" "az" "ak" "sg" ];
     };
     or2 = {
       ipv4Pre = "10.6.10.";
@@ -84,6 +89,12 @@
       ipv4Pre = "10.6.12.";
       ipv4Mask = 24;
       ipv6Pre = "fd66:c::";
+      ipv6Mask = 120;
+    };
+    sg = {
+      ipv4Pre = "10.6.13.";
+      ipv4Mask = 24;
+      ipv6Pre = "fd66:d::";
       ipv6Mask = 120;
     };
   };
