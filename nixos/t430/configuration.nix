@@ -75,6 +75,7 @@ in
   systemd.network.networks."10-enp1s0" = {
     matchConfig = { PermanentMACAddress = "04:0e:3c:2f:c9:9a"; };
     DHCP = "yes";
+    networkConfig.IPv6AcceptRA = true;
     dhcpV6Config = { PrefixDelegationHint = "::/63"; };
     vlan = [ "internet" ];
   };
