@@ -1,11 +1,9 @@
-{ config, lib, pkgs, self, ... }:
+{ config, lib, pkgs, self, utils, ... }:
 let
   inherit (lib) any optionalAttrs;
-  inherit (lib.strings) toJSON;
 
   cfg = config.presets.sing-box;
   settingsFormat = pkgs.formats.json { };
-  configFile = pkgs.writeText "sing-box-config" (toJSON cfg.settings);
   capNetAdmin = any (o: o ? routing_mark) (cfg.settings.outbounds or []);
 in
 {
@@ -57,20 +55,24 @@ in
     systemd.packages = [ cfg.package ];
 
     systemd.services.sing-box = {
-      wantedBy = [ "multi-user.target" ];
+      preStart = utils.genJqSecretsReplacementSnippet cfg.settings "/run/sing-box/config.json";
       serviceConfig = self.data.systemdHarden // {
         PrivateNetwork = false;
         RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
         StateDirectory = "sing-box";
+        StateDirectoryMode = "0700";
+        RuntimeDirectory = "sing-box";
+        RuntimeDirectoryMode = "0700";
         ExecStart = [
           ""
-          "${cfg.package}/bin/sing-box -D /var/lib/sing-box -c ${configFile} run"
+          "${lib.getExe cfg.package} -D \${STATE_DIRECTORY} -C \${RUNTIME_DIRECTORY} run"
         ];
       } // (optionalAttrs capNetAdmin {
         PrivateUsers = false;
         CapabilityBoundingSet = [ "" "CAP_NET_ADMIN" ];
         AmbientCapabilities = [ "" "CAP_NET_ADMIN" ];
       });
+      wantedBy = [ "multi-user.target" ];
     };
 
   };
