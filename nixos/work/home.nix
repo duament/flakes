@@ -45,6 +45,8 @@
     checksec
     gcc
     gdb
+    kubectl
+    kubevirt
     unar
   ];
 
