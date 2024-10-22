@@ -13,7 +13,13 @@
   presets.nogui.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
-  sops.secrets.wireguard_key.owner = "systemd-network";
+  sops.secrets = {
+    wireguard_key.owner = "systemd-network";
+    "tuic/uuid" = { };
+    "tuic/password" = { };
+    "tuic/tls_cert" = { };
+    "tuic/ech_key" = { };
+  };
 
   boot.loader.systemd-boot.enable = true;
 

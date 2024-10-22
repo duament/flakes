@@ -32,6 +32,11 @@ in
       owner = "hass";
       path = "/var/lib/hass/secrets.yaml";
     };
+    "tuic/uuid" = { };
+    "tuic/password" = { };
+    "tuic/tls_cert" = { };
+    "tuic/tls_key" = { };
+    "tuic/ech_key" = { };
   };
 
   boot.loader.generationsDir.copyKernels = true;
@@ -44,6 +49,9 @@ in
 
   networking.hostName = "t430";
   networking.firewall = {
+    allowedUDPPorts = [
+      11113
+    ];
     checkReversePath = "loose";
     extraInputRules = ''
       iifname { wg-*, internet } meta l4proto { tcp, udp } th dport 53 accept
@@ -177,6 +185,13 @@ in
     chinaDns = [ "[fd65::1]" ];
   };
 
+  systemd.services.sing-box.serviceConfig.LoadCredential = [
+    "uuid:${config.sops.secrets."tuic/uuid".path}"
+    "password:${config.sops.secrets."tuic/password".path}"
+    "tls_cert:${config.sops.secrets."tuic/tls_cert".path}"
+    "tls_key:${config.sops.secrets."tuic/tls_key".path}"
+    "ech_key:${config.sops.secrets."tuic/ech_key".path}"
+  ];
   presets.sing-box = {
     enable = true;
     settings = {
@@ -185,6 +200,34 @@ in
           type = "http";
           listen = "::";
           listen_port = 8000;
+        }
+        {
+          type = "tuic";
+          tag = "tuic-in";
+          listen = "::";
+          listen_port = 11113;
+          users = [
+            {
+              name = "rvfg";
+              uuid._secret = "/run/credentials/sing-box.service/uuid";
+              password._secret = "/run/credentials/sing-box.service/password";
+            }
+          ];
+          congestion_control = "cubic";
+          auth_timeout = "3s";
+          heartbeat = "10s";
+          tls = {
+            enabled = true;
+            server_name = "t430.rvf6.com";
+            min_version = "1.3";
+            certificate_path = "/run/credentials/sing-box.service/tls_cert";
+            key_path = "/run/credentials/sing-box.service/tls_key";
+            ech = {
+              enabled = true;
+              pq_signature_schemes_enabled = false;
+              key_path = "/run/credentials/sing-box.service/ech_key";
+            };
+          };
         }
       ];
       outbounds = [
