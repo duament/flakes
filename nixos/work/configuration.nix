@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 {
   #nixpkgs.overlays = [
   #  (self: super: {
@@ -18,7 +18,7 @@
     "tuic/uuid" = { };
     "tuic/password" = { };
     "tuic/tls_cert" = { };
-    "tuic/ech_key" = { };
+    "tuic/ech_config" = { };
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -73,6 +73,12 @@
     ];
   };
 
+  systemd.services.sing-box.serviceConfig.LoadCredential = [
+    "uuid:${config.sops.secrets."tuic/uuid".path}"
+    "password:${config.sops.secrets."tuic/password".path}"
+    "tls_cert:${config.sops.secrets."tuic/tls_cert".path}"
+    "ech_config:${config.sops.secrets."tuic/ech_config".path}"
+  ];
   presets.sing-box = {
     enable = true;
     settings = {
@@ -81,6 +87,15 @@
           type = "socks";
           listen = "::";
           listen_port = 1080;
+        }
+        {
+          type = "direct";
+          tag = "wg-tunnel";
+          listen = "::1";
+          listen_port = 11112;
+          network = "udp";
+          override_address = "::1";
+          override_port = 11112;
         }
       ];
       outbounds = [
@@ -93,6 +108,28 @@
           tag = "http";
           server = "t430.rvf6.com";
           server_port = 8000;
+        }
+        {
+          type = "tuic";
+          tag = "tuic";
+          server = "t430.rvf6.com";
+          server_port = 11113;
+          uuid._secret = "/run/credentials/sing-box.service/uuid";
+          password._secret = "/run/credentials/sing-box.service/password";
+          congestion_control = "cubic";
+          udp_relay_mode = "native";
+          heartbeat = "10s";
+          tls = {
+            enabled = true;
+            server_name = "t430.rvf6.com";
+            min_version = "1.3";
+            certificate_path = "/run/credentials/sing-box.service/tls_cert";
+            ech = {
+              enabled = true;
+              pq_signature_schemes_enabled = false;
+              config_path = "/run/credentials/sing-box.service/ech_config";
+            };
+          };
         }
       ];
       route.rules = [
