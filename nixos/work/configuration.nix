@@ -47,7 +47,7 @@
       ) [ "172.16.0.0/12" "10.9.0.0/16" "10.12.0.0/16" "fc00::/64" ];
   };
   presets.wireguard.wg0 = {
-    enable = false;
+    enable = true;
     clientPeers.t430 = {
       route = "all";
       routeBypass = [
@@ -56,6 +56,7 @@
         "10.12.0.0/16"
         "fc00::/64"
       ];
+      endpoint = "[::1]:11112";
     };
   };
 
@@ -112,6 +113,7 @@
         {
           type = "tuic";
           tag = "tuic";
+          routing_mark = 1;
           server = "t430.rvf6.com";
           server_port = 11113;
           uuid._secret = "/run/credentials/sing-box.service/uuid";
