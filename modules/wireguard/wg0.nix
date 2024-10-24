@@ -205,7 +205,7 @@ in
                 Priority = 9;
               }
             )
-            cfg.routeBypass ++ (if route == "all" then
+            cfg.clientPeers.${h}.routeBypass ++ (if route == "all" then
             [
               {
                 Family = "both";
