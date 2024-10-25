@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, self, ... }:
 {
   #nixpkgs.overlays = [
   #  (self: super: {
@@ -37,7 +37,7 @@
     address = [ "172.26.0.2/24" "fc00::2/64" ];
     gateway = [ "172.26.0.1" "fc00::1" ];
     dns = [ "10.9.231.5" ];
-    domains = [ "~enflame.cn" "~h.rvf6.com" ];
+    domains = [ "~${self.data.ef}" "~h.rvf6.com" ];
     routingPolicyRules = map
       (ip:
         {
@@ -64,7 +64,7 @@
   services.tailscale.enable = false;
 
   users.users.rvfg.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ enflame"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ ef"
   ];
 
   home-manager.users.rvfg = import ./home.nix;
@@ -160,7 +160,7 @@
           outbound = "tuic";
         }
         {
-          domain_suffix = [ "enflame.cn" ];
+          domain_suffix = [ self.data.ef ];
           ip_cidr = [
             "10.9.0.0/16"
             "10.12.0.0/16"

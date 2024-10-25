@@ -266,7 +266,7 @@ in
         }
         {
           domain_suffix = [
-            "enflame.cn"
+            self.data.ef
           ];
           ip_cidr = [
             "10.9.0.0/16"
@@ -464,7 +464,7 @@ in
               host.endsWith('byr.pt')
               || host.endsWith('reddit.com')
               || host === 'prod-ingress.nianticlabs.com'
-              || host.endsWith('enflame.cn')
+              || host.endsWith('${self.data.ef}')
             ) {
               return 'PROXY 10.6.0.8:8000';
             } else if (ipv4_regex.test(host) && (

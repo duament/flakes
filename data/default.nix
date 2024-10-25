@@ -9,4 +9,7 @@
   tailscale = import ./tailscale.nix;
   ublockOriginSettings = import ./ublock-origin-settings.nix;
   wg0 = import ./wg0.nix;
+
+  ef = "enfla" + "me.cn";
+  efcom = "enfla" + "me-tech.com";
 }
