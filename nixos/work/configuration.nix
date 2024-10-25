@@ -57,6 +57,7 @@
         "fc00::/64"
       ];
       endpoint = "[::1]:11112";
+      keepalive = 25;
     };
   };
 
@@ -157,6 +158,15 @@
           ];
           domain = [ "prod-ingress.nianticlabs.com" ];
           outbound = "tuic";
+        }
+        {
+          domain_suffix = [ "enflame.cn" ];
+          ip_cidr = [
+            "10.9.0.0/16"
+            "10.12.0.0/16"
+            "172.16.0.0/12"
+          ];
+          outbound = "direct";
         }
         {
           outbound = "tuic";
