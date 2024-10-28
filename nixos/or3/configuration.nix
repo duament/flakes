@@ -92,7 +92,8 @@ in
       hostname = "https://id.rvf6.com";
       http-host = "[::1]";
       http-port = 6000;
-      proxy = "edge";
+      proxy-headers = "xforwarded";
+      http-enabled = true;
     };
   };
   systemd.services.keycloak.environment.JAVA_OPTS_APPEND = "-Djava.net.preferIPv4Stack=false -Djava.net.preferIPv6Addresses=true";
