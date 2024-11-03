@@ -29,7 +29,7 @@ let
 
     inherit (cfg) extraConfig installAsRemovable defaultSelection sign signKey signCert;
 
-    inherit (pkgs) refind efibootmgr coreutils gnugrep gnused gawk util-linux;
+    inherit (pkgs) refind efibootmgr coreutils gnugrep gnused gawk;
 
     inherit (config.boot.loader.efi) efiSysMountPoint canTouchEfiVariables;
 
