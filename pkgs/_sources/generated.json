@@ -130,11 +130,11 @@
             "name": null,
             "owner": "al-one",
             "repo": "hass-xiaomi-miot",
-            "rev": "v0.7.20",
-            "sha256": "sha256-wR5N6a+g4TE9cRv1k4zExCWiui7ZHwK54j0oUxnhcR0=",
+            "rev": "v0.7.21",
+            "sha256": "sha256-5MYA5MejQAANyjVqhqZtaIEQEs1K/aOx+1n+L9TmNmY=",
             "type": "github"
         },
-        "version": "v0.7.20"
+        "version": "v0.7.21"
     },
     "transmission-client": {
         "cargoLocks": null,
@@ -185,11 +185,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-V/a+dmAcizcSXkrOKrKCj5Tbu/HVMGCjJFzdm2FJ0ng=",
+            "sha256": "sha256-OZNF+LhO1HT08UUEbuetGq0kKyqo0nKWye2QkPLcyEU=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.12.12/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.13.2/uu.tar.gz"
         },
-        "version": "7.12.12"
+        "version": "7.13.2"
     },
     "uuplugin-x86_64": {
         "cargoLocks": null,
@@ -200,11 +200,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-3YYowQDk6o1GW3O/r3xn6S3FXY0XcPosWsQ48CBVNLc=",
+            "sha256": "sha256-pu8T4ijKVb33Z6Msl6/jIdUxLHnx7amRvDihyDYbnTE=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.12.12/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.13.2/uu.tar.gz"
         },
-        "version": "7.12.12"
+        "version": "7.13.2"
     },
     "uutunnel": {
         "cargoLocks": {
