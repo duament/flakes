@@ -132,7 +132,6 @@ in
       ifuse
       libimobiledevice
       libplist
-      pcscliteWithPolkit.out # Workaround #280826
       sbsigntool
       smartmontools
       strongswan
