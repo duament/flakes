@@ -11,6 +11,11 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+
+    # Work around
+    boot.initrd.systemd.suppressedUnits = [ "systemd-machine-id-commit.service" ];
+    systemd.suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
+
     fileSystems."/" = {
       fsType = "tmpfs";
       options = [ "defaults" "size=2G" "mode=755" ];
@@ -35,5 +40,6 @@ in
         ];
       };
     };
+
   };
 }
