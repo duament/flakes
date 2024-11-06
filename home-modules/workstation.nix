@@ -96,7 +96,7 @@
         stretch-image-subs-to-screen = true;
         audio-display = false;
         ytdl-raw-options-append = [
-          "format=bestvideo[height<=1440][fps>=60]+bestaudio/bestvideo[height<=1440]+bestaudio/best[height<=1440]/best"
+          "format=bestvideo[height<=2160][fps>=60]+bestaudio/bestvideo[height<=2160]+bestaudio/best[height<=2160]/best"
           "write-sub="
           "sub-lang=${builtins.concatStringsSep "," slang-append}"
         ];
