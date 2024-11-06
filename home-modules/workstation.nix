@@ -118,6 +118,10 @@
         uosc
       ];
       scriptOpts.uosc.languages = [ "en" ];
+      profiles.bilibili = {
+        profile-cond = "path:find('bilibili.com')";
+        ytdl-raw-options-append = "cookies-from-browser=firefox::bilibili";
+      };
     };
 
     programs.zathura.enable = true;
