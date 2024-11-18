@@ -99,7 +99,7 @@
         {
           formatter = pkgs.nixpkgs-fmt;
 
-          packages = import ./pkgs pkgs;
+          packages = import ./pkgs pkgs // (import ./misc/debug-container.nix pkgs);
 
           devShells.default = pkgs.mkShell {
             packages = [
