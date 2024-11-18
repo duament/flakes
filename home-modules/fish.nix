@@ -26,6 +26,7 @@ in
       gitib = "git init -b main --bare";
       gitl = "git log";
       gitls = "git log --show-signature";
+      gitrb = "git rebase";
       gitrs = "git reset";
       gitrsh = "git reset --hard";
       gitrt = "git restore";
