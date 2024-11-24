@@ -1,4 +1,9 @@
-{ inputs, nixpkgs, self }: nixpkgs.lib.nixosSystem {
+{
+  inputs,
+  nixpkgs,
+  self,
+}:
+nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = {
     inherit inputs self;

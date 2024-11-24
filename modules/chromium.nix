@@ -1,4 +1,9 @@
-{ config, lib, self, ... }:
+{
+  config,
+  lib,
+  self,
+  ...
+}:
 with lib;
 {
   options = {
@@ -12,7 +17,7 @@ with lib;
     programs.chromium = {
       enable = true;
       extensions = [
-        "dcpihecpambacapedldabdbpakmachpb;https://raw.githubusercontent.com/iamadamdev/bypass-paywalls-chrome/master/src/updates/updates.xml" # 
+        "dcpihecpambacapedldabdbpakmachpb;https://raw.githubusercontent.com/iamadamdev/bypass-paywalls-chrome/master/src/updates/updates.xml"
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
         "oboonakemofpalcgghocfoadofidjkkk" # KeePassXC-Browser
         "jlmiipndkcgobnpmcdhinopedkkejkek" # Redirect Link

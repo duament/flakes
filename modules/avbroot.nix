@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
   enable = builtins.elem config.networking.hostName self.data.sops.secrets."secrets/avbroot.yaml";
 
@@ -64,16 +70,21 @@ in
 {
   config = lib.mkIf enable {
 
-    sops.secrets = builtins.listToAttrs (map
-      (name:
-        {
+    sops.secrets = builtins.listToAttrs (
+      map
+        (name: {
           inherit name;
           value = {
             owner = "rvfg";
             sopsFile = ../secrets/avbroot.yaml;
           };
-        }
-      ) [ "avbroot/avb_key" "avbroot/ota_key" "avbroot/ota_crt" ]);
+        })
+        [
+          "avbroot/avb_key"
+          "avbroot/ota_key"
+          "avbroot/ota_crt"
+        ]
+    );
 
     environment.systemPackages = with pkgs; [
       avbroot

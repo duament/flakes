@@ -2,7 +2,12 @@
 
 {
   boot.initrd = {
-    availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" ];
+    availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "usb_storage"
+      "sd_mod"
+    ];
     kernelModules = [ "kvm-amd" ];
     luks.devices."cryptroot" = {
       device = "/dev/disk/by-label/system_luks";

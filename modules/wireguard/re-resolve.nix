@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 with lib;
 let
   cfg = config.presets.wireguard.reResolve;
@@ -12,8 +18,9 @@ in
   };
 
   config = {
-    systemd.services = builtins.listToAttrs (map
-      (interface:
+    systemd.services = builtins.listToAttrs (
+      map (
+        interface:
         let
           wg = self.data.${interface};
           control = wg.peers.${wg.control};
@@ -23,7 +30,10 @@ in
           value = {
             wants = [ "network-online.target" ];
             after = [ "network-online.target" ];
-            path = [ pkgs.wireguard-tools pkgs.gawk ];
+            path = [
+              pkgs.wireguard-tools
+              pkgs.gawk
+            ];
             script = ''
               set -o pipefail
               ENDPOINT=$(wg show ${interface} endpoints | grep ${control.pubkey} | awk '{print $2}')
@@ -38,16 +48,22 @@ in
               Type = "oneshot";
               AmbientCapabilities = [ "CAP_NET_ADMIN" ];
               CapabilityBoundingSet = [ "CAP_NET_ADMIN" ];
-              RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+              RestrictAddressFamilies = [
+                "AF_UNIX"
+                "AF_INET"
+                "AF_INET6"
+                "AF_NETLINK"
+              ];
               PrivateNetwork = false;
               PrivateUsers = false;
             };
           };
-        })
-      cfg.interfaces);
+        }
+      ) cfg.interfaces
+    );
 
-    systemd.timers = builtins.listToAttrs (map
-      (interface: {
+    systemd.timers = builtins.listToAttrs (
+      map (interface: {
         name = "${interface}-re-resolve";
         value = {
           wantedBy = [ "timers.target" ];
@@ -56,7 +72,7 @@ in
             OnUnitActiveSec = 600;
           };
         };
-      })
-      cfg.interfaces);
+      }) cfg.interfaces
+    );
   };
 }

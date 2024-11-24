@@ -6,7 +6,15 @@
   spacing = 5; # Gaps between modules (4px)
   margin-bottom = -11;
   modules-left = [ "hyprland/workspaces" ];
-  modules-right = [ "tray" "pulseaudio" "network" "battery" "backlight" "clock" "keyboard-state" ];
+  modules-right = [
+    "tray"
+    "pulseaudio"
+    "network"
+    "battery"
+    "backlight"
+    "clock"
+    "keyboard-state"
+  ];
   modules-center = [ "hyprland/window" ];
 
   keyboard-state = {
@@ -45,7 +53,16 @@
   cpu = {
     interval = 1;
     format = "{icon0} {icon1} {icon2} {icon3}";
-    format-icons = [ "▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" ];
+    format-icons = [
+      "▁"
+      "▂"
+      "▃"
+      "▄"
+      "▅"
+      "▆"
+      "▇"
+      "█"
+    ];
   };
   memory = {
     format = "{}% ";
@@ -57,7 +74,17 @@
   };
   backlight = {
     format = "{icon}";
-    format-icons = [ "" "" "" "" "" "" "" "" "" ];
+    format-icons = [
+      ""
+      ""
+      ""
+      ""
+      ""
+      ""
+      ""
+      ""
+      ""
+    ];
     tooltip-format = "{percent}%";
   };
   battery = {
@@ -70,11 +97,27 @@
     format = "{icon}";
     format-charging = "{icon}";
     format-plugged = "";
-    format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+    format-icons = [
+      "󰁺"
+      "󰁻"
+      "󰁼"
+      "󰁽"
+      "󰁾"
+      "󰁿"
+      "󰂀"
+      "󰂁"
+      "󰂂"
+      "󰁹"
+    ];
     tooltip-format = "{timeTo} ({capacity}%)";
   };
   network = {
-    format-icons = [ "󰤟" "󰤢" "󰤥" "󰤨" ];
+    format-icons = [
+      "󰤟"
+      "󰤢"
+      "󰤥"
+      "󰤨"
+    ];
     format-wifi = "{icon}";
     format-ethernet = "󰈀";
     tooltip-format = "{essid} ({signalStrength}%) via {ifname}";
@@ -95,7 +138,11 @@
       phone = "";
       portable = "";
       car = "";
-      default = [ "" "" "" ];
+      default = [
+        ""
+        ""
+        ""
+      ];
     };
     on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
   };

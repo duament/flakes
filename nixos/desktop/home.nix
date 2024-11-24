@@ -1,4 +1,5 @@
-{ pkgs, self, ... }: {
+{ pkgs, self, ... }:
+{
   imports = [
     self.nixosModules.myHomeModules
   ];
@@ -8,6 +9,8 @@
     "DP-1, preferred, auto, 2"
   ];
 
-  home.packages = with pkgs; [
-  ];
+  home.packages =
+    with pkgs;
+    [
+    ];
 }

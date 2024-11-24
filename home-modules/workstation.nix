@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   options = {
     presets.workstation.enable = lib.mkOption {
@@ -85,7 +90,18 @@
         gpu-api = "vulkan";
         gpu-context = "waylandvk";
         # profile = "gpu-hq";
-        slang-append = [ "zh-Hans" "zh-CN" "zh" "chi" "zh-Hant" "zh-TW" "zh-HK" "en-US" "en-GB" "en" ];
+        slang-append = [
+          "zh-Hans"
+          "zh-CN"
+          "zh"
+          "chi"
+          "zh-Hant"
+          "zh-TW"
+          "zh-HK"
+          "en-US"
+          "en-GB"
+          "en"
+        ];
         audio-file-auto = "fuzzy";
         sub-auto = "fuzzy";
         sub-font-size = 36;

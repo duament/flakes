@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 with lib;
 let
   cfg = config.presets.wireguard.keepAlive;
@@ -12,14 +18,17 @@ in
   };
 
   config = {
-    systemd.services = builtins.listToAttrs (map
-      (interface: {
+    systemd.services = builtins.listToAttrs (
+      map (interface: {
         name = "${interface}-keep-alive";
         value = {
           wants = [ "network-online.target" ];
           after = [ "network-online.target" ];
           wantedBy = [ "multi-user.target" ];
-          path = with pkgs; [ iproute2 wireguard-tools ];
+          path = with pkgs; [
+            iproute2
+            wireguard-tools
+          ];
           script = ''
             # https://gist.github.com/Menci/99a4f1fc4590f326205f6582b7255605
             # When there's a upstream NAT bug, WireGuard will never succeed senting packets
@@ -79,12 +88,17 @@ in
           serviceConfig = self.data.systemdHarden // {
             AmbientCapabilities = [ "CAP_NET_ADMIN" ];
             CapabilityBoundingSet = [ "CAP_NET_ADMIN" ];
-            RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+            RestrictAddressFamilies = [
+              "AF_UNIX"
+              "AF_INET"
+              "AF_INET6"
+              "AF_NETLINK"
+            ];
             PrivateNetwork = false;
             PrivateUsers = false;
           };
         };
-      })
-      cfg.interfaces);
+      }) cfg.interfaces
+    );
   };
 }

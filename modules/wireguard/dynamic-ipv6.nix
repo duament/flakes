@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 with lib;
 let
   cfg = config.presets.wireguard.dynamicIPv6;
@@ -12,13 +18,19 @@ in
   };
 
   config = {
-    systemd.services = builtins.listToAttrs (map
-      (interface: {
+    systemd.services = builtins.listToAttrs (
+      map (interface: {
         name = "${interface}-dynamic-ipv6";
         value = {
           wants = [ "network-online.target" ];
           after = [ "network-online.target" ];
-          path = [ pkgs.iproute2 pkgs.jq pkgs.sipcalc pkgs.gawk pkgs.wireguard-tools ];
+          path = [
+            pkgs.iproute2
+            pkgs.jq
+            pkgs.sipcalc
+            pkgs.gawk
+            pkgs.wireguard-tools
+          ];
           script = ''
             set -o pipefail
             IPV6=$(ip -j -6 a show dev ${interface} scope global | jq -r '[.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd" and .local != null)][0].local')
@@ -52,16 +64,21 @@ in
             Type = "oneshot";
             AmbientCapabilities = [ "CAP_NET_ADMIN" ];
             CapabilityBoundingSet = [ "CAP_NET_ADMIN" ];
-            RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+            RestrictAddressFamilies = [
+              "AF_UNIX"
+              "AF_INET"
+              "AF_INET6"
+              "AF_NETLINK"
+            ];
             PrivateNetwork = false;
             PrivateUsers = false;
           };
         };
-      })
-      cfg.interfaces);
+      }) cfg.interfaces
+    );
 
-    systemd.timers = builtins.listToAttrs (map
-      (interface: {
+    systemd.timers = builtins.listToAttrs (
+      map (interface: {
         name = "${interface}-dynamic-ipv6";
         value = {
           wantedBy = [ "timers.target" ];
@@ -70,7 +87,7 @@ in
             OnUnitActiveSec = 300;
           };
         };
-      })
-      cfg.interfaces);
+      }) cfg.interfaces
+    );
   };
 }

@@ -14,7 +14,14 @@ in
         inputs = {
           cpu = { };
           disk = {
-            ignore_fs = [ "tmpfs" "devtmpfs" "devfs" "overlay" "aufs" "squashfs" ];
+            ignore_fs = [
+              "tmpfs"
+              "devtmpfs"
+              "devfs"
+              "overlay"
+              "aufs"
+              "squashfs"
+            ];
             ignore_mount_opts = [ "bind" ];
           };
           diskio = { };

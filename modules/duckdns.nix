@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
   inherit (lib) types mkOption mkEnableOption;
   cfg = config.presets.duckdns;
@@ -27,11 +33,20 @@ in
       after = [ "network-online.target" ];
       serviceConfig = self.data.systemdHarden // {
         Type = "oneshot";
-        RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+        RestrictAddressFamilies = [
+          "AF_UNIX"
+          "AF_INET"
+          "AF_INET6"
+          "AF_NETLINK"
+        ];
         PrivateNetwork = false;
         LoadCredential = "token:${cfg.tokenFile}";
       };
-      path = with pkgs; [ curl iproute2 jq ];
+      path = with pkgs; [
+        curl
+        iproute2
+        jq
+      ];
       script = ''
         TOKEN=$(systemd-creds cat token)
         IPV6=$(ip -j -6 a show dev ${cfg.interface} scope global | jq -r '[.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd" and .local != null)][0].local')

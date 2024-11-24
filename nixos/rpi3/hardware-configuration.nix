@@ -1,7 +1,16 @@
-{ config, lib, self, ... }:
+{
+  config,
+  lib,
+  self,
+  ...
+}:
 {
   boot.initrd = {
-    availableKernelModules = [ "usbhid" "usb_storage" "lan78xx" ];
+    availableKernelModules = [
+      "usbhid"
+      "usb_storage"
+      "lan78xx"
+    ];
     kernelModules = [ ];
     luks.devices."cryptroot" = {
       device = "/dev/disk/by-label/system_luks";
@@ -19,7 +28,9 @@
       };
     };
     systemd.network.networks."80-ethernet" = {
-      matchConfig = { Type = "ether"; };
+      matchConfig = {
+        Type = "ether";
+      };
       DHCP = "yes";
       dhcpV6Config.UseDelegatedPrefix = false;
     };

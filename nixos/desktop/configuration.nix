@@ -24,7 +24,11 @@
   networking = {
     hostName = "desktop";
     wireless.networks.rvfg = {
-      authProtocols = [ "WPA-EAP-SUITE-B-192" "FT-EAP" "FT-EAP-SHA384" ];
+      authProtocols = [
+        "WPA-EAP-SUITE-B-192"
+        "FT-EAP"
+        "FT-EAP-SHA384"
+      ];
       auth = ''
         eap=TLS
         pairwise=GCMP-256
@@ -48,7 +52,10 @@
     mark = 3;
     routingId = "0x616add";
     keyFile = config.sops.secrets.warp_key.path;
-    address = [ "172.16.0.2/32" "2606:4700:110:8395:570b:d0c1:ea2a:8251/128" ];
+    address = [
+      "172.16.0.2/32"
+      "2606:4700:110:8395:570b:d0c1:ea2a:8251/128"
+    ];
     table = 20;
   };
   presets.wireguard.keepAlive.interfaces = [ "warp" ];

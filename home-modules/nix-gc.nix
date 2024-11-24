@@ -1,4 +1,9 @@
-{ config, lib, sysConfig, ... }:
+{
+  config,
+  lib,
+  sysConfig,
+  ...
+}:
 let
   cfg = config.presets.nix-gc;
 in

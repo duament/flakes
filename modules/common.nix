@@ -1,11 +1,23 @@
-{ config, inputs, lib, pkgs, self, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 with lib;
 {
   nixpkgs.overlays = [ self.overlays.default ];
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" "cgroups" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+        "auto-allocate-uids"
+        "cgroups"
+      ];
       substituters = [
         "https://nix-community.cachix.org"
         "https://rvfg.cachix.org"
@@ -103,31 +115,67 @@ with lib;
 
   services.openssh = {
     enable = mkDefault true;
-    hostKeys = [{ path = "/etc/ssh/ssh_host_ed25519_key"; type = "ed25519"; }];
+    hostKeys = [
+      {
+        path = "/etc/ssh/ssh_host_ed25519_key";
+        type = "ed25519";
+      }
+    ];
     settings = {
       PermitRootLogin = "no";
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
       AuthenticationMethods = "publickey";
-      AllowUsers = [ "rvfg" "deploy" ];
-      KexAlgorithms = [ "sntrup761x25519-sha512@openssh.com" "curve25519-sha256" "curve25519-sha256@libssh.org" ];
-      Ciphers = [ "chacha20-poly1305@openssh.com" "aes256-gcm@openssh.com" ];
-      Macs = [ "hmac-sha2-512-etm@openssh.com" "umac-128-etm@openssh.com" ];
+      AllowUsers = [
+        "rvfg"
+        "deploy"
+      ];
+      KexAlgorithms = [
+        "sntrup761x25519-sha512@openssh.com"
+        "curve25519-sha256"
+        "curve25519-sha256@libssh.org"
+      ];
+      Ciphers = [
+        "chacha20-poly1305@openssh.com"
+        "aes256-gcm@openssh.com"
+      ];
+      Macs = [
+        "hmac-sha2-512-etm@openssh.com"
+        "umac-128-etm@openssh.com"
+      ];
     };
-    knownHosts = builtins.listToAttrs
-      (map
-        (host: {
-          name = host;
-          value = {
-            hostNames = [ "${host}.rvf6.com" ];
-            publicKey = self.data.sshPub."${host}";
-          };
-        }) [ "nl" "az" "or1" "or2" "or3" "ak" "sg" "owrt" "rpi3" "t430" "k2" "k1" "work" ]) // {
-      "github" = {
-        hostNames = [ "github.com" ];
-        publicKey = self.data.sshPub.github;
+    knownHosts =
+      builtins.listToAttrs (
+        map
+          (host: {
+            name = host;
+            value = {
+              hostNames = [ "${host}.rvf6.com" ];
+              publicKey = self.data.sshPub."${host}";
+            };
+          })
+          [
+            "nl"
+            "az"
+            "or1"
+            "or2"
+            "or3"
+            "ak"
+            "sg"
+            "owrt"
+            "rpi3"
+            "t430"
+            "k2"
+            "k1"
+            "work"
+          ]
+      )
+      // {
+        "github" = {
+          hostNames = [ "github.com" ];
+          publicKey = self.data.sshPub.github;
+        };
       };
-    };
   };
 
   systemd.services.systemd-importd.environment.SYSTEMD_IMPORT_BTRFS_QUOTA = "0";

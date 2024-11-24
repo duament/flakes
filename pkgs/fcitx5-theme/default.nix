@@ -1,4 +1,8 @@
-{ stdenvNoCC, lib, writeText }:
+{
+  stdenvNoCC,
+  lib,
+  writeText,
+}:
 let
   themeConf = writeText "theme.conf" ''
     [Metadata]

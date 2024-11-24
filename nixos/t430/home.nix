@@ -1,4 +1,5 @@
-{ pkgs, self, ... }: {
+{ pkgs, self, ... }:
+{
   imports = [
     self.nixosModules.myHomeModules
   ];

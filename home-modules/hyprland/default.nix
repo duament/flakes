@@ -1,8 +1,16 @@
-{ config, lib, pkgs, sysConfig, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  sysConfig,
+  ...
+}:
 let
   cfg = config.presets.hyprland;
   hyprland = sysConfig.programs.hyprland.finalPackage;
-  xdg-desktop-portal-hyprland = sysConfig.programs.hyprland.portalPackage.override { inherit hyprland; };
+  xdg-desktop-portal-hyprland = sysConfig.programs.hyprland.portalPackage.override {
+    inherit hyprland;
+  };
 
   iconTheme = {
     package = pkgs.papirus-icon-theme;
@@ -36,9 +44,12 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    home.packages = with pkgs; [
-      grim
-    ] ++ dolphin_packages;
+    home.packages =
+      with pkgs;
+      [
+        grim
+      ]
+      ++ dolphin_packages;
 
     home.pointerCursor = {
       package = pkgs.breeze-qt5;
@@ -98,12 +109,25 @@ in
       enable = true;
       systemdTarget = "graphical-session.target";
       timeouts = [
-        { timeout = 600; command = "${config.programs.swaylock.package}/bin/swaylock &"; }
-        { timeout = 610; command = "${hyprland}/bin/hyprctl dispatch dpms off"; resumeCommand = "${hyprland}/bin/hyprctl dispatch dpms on"; }
+        {
+          timeout = 600;
+          command = "${config.programs.swaylock.package}/bin/swaylock &";
+        }
+        {
+          timeout = 610;
+          command = "${hyprland}/bin/hyprctl dispatch dpms off";
+          resumeCommand = "${hyprland}/bin/hyprctl dispatch dpms on";
+        }
       ];
       events = [
-        { event = "lock"; command = "${config.programs.swaylock.package}/bin/swaylock &"; }
-        { event = "before-sleep"; command = "${config.programs.swaylock.package}/bin/swaylock &"; }
+        {
+          event = "lock";
+          command = "${config.programs.swaylock.package}/bin/swaylock &";
+        }
+        {
+          event = "before-sleep";
+          command = "${config.programs.swaylock.package}/bin/swaylock &";
+        }
       ];
     };
     systemd.user.services.swayidle.Unit.After = [ "graphical-session.target" ];
@@ -147,7 +171,10 @@ in
     systemd.user.targets.hyprland-session = {
       Unit = {
         BindsTo = [ "graphical-session-pre.target" ];
-        After = [ "graphical-session-pre.target" "hyprland.service" ];
+        After = [
+          "graphical-session-pre.target"
+          "hyprland.service"
+        ];
       };
     };
     systemd.user.services.fcitx5-daemon.Unit = {

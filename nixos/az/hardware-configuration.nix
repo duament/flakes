@@ -11,17 +11,24 @@
 
   presets.fs.enable = true;
 
-  fileSystems."/mnt/resource" =
-    {
-      device = "/dev/disk/by-label/resource";
-      fsType = "ext4";
-      options = [ "nofail" "x-systemd.automount" ];
-    };
+  fileSystems."/mnt/resource" = {
+    device = "/dev/disk/by-label/resource";
+    fsType = "ext4";
+    options = [
+      "nofail"
+      "x-systemd.automount"
+    ];
+  };
 
-  swapDevices = [{
-    device = "/mnt/resource/swapfile";
-    options = [ "nofail" "x-systemd.automount" ];
-  }];
+  swapDevices = [
+    {
+      device = "/mnt/resource/swapfile";
+      options = [
+        "nofail"
+        "x-systemd.automount"
+      ];
+    }
+  ];
 
   virtualisation.hypervGuest.enable = true;
 }

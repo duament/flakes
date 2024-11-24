@@ -1,4 +1,9 @@
-{ config, lib, self, ... }:
+{
+  config,
+  lib,
+  self,
+  ...
+}:
 let
   musicDir = "/var/lib/music";
 in
@@ -26,7 +31,9 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "or3";
-  networking.hosts = { "fd64::1" = [ "t430.rvf6.com" ]; };
+  networking.hosts = {
+    "fd64::1" = [ "t430.rvf6.com" ];
+  };
 
   presets.wireguard.wg0 = {
     enable = true;
@@ -36,7 +43,10 @@ in
   home-manager.users.rvfg = import ./home.nix;
 
   users.groups."music" = { };
-  systemd.tmpfiles.rules = [ "d ${musicDir} 2770 root music -" "a ${musicDir} - - - - d:g::rwx" ];
+  systemd.tmpfiles.rules = [
+    "d ${musicDir} 2770 root music -"
+    "a ${musicDir} - - - - d:g::rwx"
+  ];
   systemd.services.syncthing.serviceConfig.SupplementaryGroups = [ "music" ];
   systemd.services.navidrome.serviceConfig.SupplementaryGroups = [ "music" ];
 
@@ -75,7 +85,13 @@ in
       </dynamicruncommand>
     '';
   };
-  nix.settings = { allowed-uris = [ "https://github.com" "https://gitlab.com" "https://git.sr.ht" ]; };
+  nix.settings = {
+    allowed-uris = [
+      "https://github.com"
+      "https://gitlab.com"
+      "https://git.sr.ht"
+    ];
+  };
   systemd.services.hydra-evaluator.environment.GC_DONT_GC = "true";
 
   services.nix-serve = {
@@ -106,7 +122,17 @@ in
       {
         job_name = "metrics";
         scheme = "https";
-        static_configs = [{ targets = [ "t430.rvf6.com" "nl.rvf6.com" "az.rvf6.com" "or2.rvf6.com" "or3.rvf6.com" ]; }];
+        static_configs = [
+          {
+            targets = [
+              "t430.rvf6.com"
+              "nl.rvf6.com"
+              "az.rvf6.com"
+              "or2.rvf6.com"
+              "or3.rvf6.com"
+            ];
+          }
+        ];
       }
     ];
   };
@@ -115,8 +141,9 @@ in
     enable = true;
     provision = {
       enable = true;
-      dashboards.settings.providers = [
-      ];
+      dashboards.settings.providers =
+        [
+        ];
       datasources.settings.datasources = [
         {
           name = "Prometheus";
@@ -232,8 +259,12 @@ in
           };
           "~ ^/(rest|share)".proxyPass = proxy_address;
         };
-      "hydra.rvf6.com".locations."/".proxyPass = with config.services.hydra; "http://${listenHost}:${toString port}/";
-      "cache.rvf6.com".locations."/".proxyPass = with config.services.nix-serve; "http://${bindAddress}:${toString port}/";
+      "hydra.rvf6.com".locations."/".proxyPass =
+        with config.services.hydra;
+        "http://${listenHost}:${toString port}/";
+      "cache.rvf6.com".locations."/".proxyPass =
+        with config.services.nix-serve;
+        "http://${bindAddress}:${toString port}/";
       "id.rvf6.com".locations."/" = {
         proxyPass = with config.services.keycloak.settings; "http://${http-host}:${toString http-port}/";
         extraConfig = ''
@@ -242,7 +273,9 @@ in
           proxy_busy_buffers_size 256k;
         '';
       };
-      "prom.rvf6.com".locations."/".proxyPass = with config.services.prometheus; "http://${listenAddress}:${toString port}/";
+      "prom.rvf6.com".locations."/".proxyPass =
+        with config.services.prometheus;
+        "http://${listenAddress}:${toString port}/";
       "graf.rvf6.com".locations."/".proxyPass = "http://unix:${config.services.grafana.settings.server.socket}:/";
     };
   };

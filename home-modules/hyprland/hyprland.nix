@@ -138,17 +138,26 @@
     ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
   ];
 
-  windowrulev2 = [
-    "float, class:^(imv)$"
-    "float, class:^(pavucontrol)$"
-    "float, class:^(org.telegram.desktop)$, title:^(Media viewer)$"
-    "float, class:^(firefox)$, title:^(Picture-in-Picture)$"
-    "float, class:^(org.kde.kdeconnect-indicator)$"
-    "float, class:^(org.kde.kdeconnect.handler)$"
-    "float, class:^(org.kde.dolphin)$"
-    "group set, cgroup2:^(.*)(-w1\.service)$"
-  ] ++ (builtins.genList (i: let n = toString (i + 1); in "workspace ${n}, cgroup2:^(.*)(-w${n}\.service)$") 9);
+  windowrulev2 =
+    [
+      "float, class:^(imv)$"
+      "float, class:^(pavucontrol)$"
+      "float, class:^(org.telegram.desktop)$, title:^(Media viewer)$"
+      "float, class:^(firefox)$, title:^(Picture-in-Picture)$"
+      "float, class:^(org.kde.kdeconnect-indicator)$"
+      "float, class:^(org.kde.kdeconnect.handler)$"
+      "float, class:^(org.kde.dolphin)$"
+      "group set, cgroup2:^(.*)(-w1\.service)$"
+    ]
+    ++ (builtins.genList (
+      i:
+      let
+        n = toString (i + 1);
+      in
+      "workspace ${n}, cgroup2:^(.*)(-w${n}\.service)$"
+    ) 9);
 
-  exec-once = [
-  ];
+  exec-once =
+    [
+    ];
 }

@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.networking.warp;
@@ -107,7 +112,10 @@ in
       };
       wireguardPeers = [
         {
-          AllowedIPs = [ "0.0.0.0/0" "::/0" ];
+          AllowedIPs = [
+            "0.0.0.0/0"
+            "::/0"
+          ];
           Endpoint = cfg.endpoint;
           PublicKey = cfg.pubkey;
         }

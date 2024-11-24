@@ -1,4 +1,10 @@
-{ config, lib, pkgs, sysConfig, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  sysConfig,
+  ...
+}:
 let
   cfg = config.presets.cert;
 
@@ -31,7 +37,11 @@ let
     if [ ! -f "$1".key ]; then
       ${openssl} ecparam -out "$1".key -name secp384r1 -genkey
     fi
-    ${openssl} req -new -key "$1".key -out "$1".csr -sha384 -subj "${if usage == "client" then "/CN=$1@rvf6.com/emailAddress=$1@rvf6.com" else "/CN=$1.rvf6.com"}" -addext 'basicConstraints = critical, CA:FALSE' -addext "subjectAltName = ${if usage == "client" then "email:$1@rvf6.com" else "DNS:$1.rvf6.com"}" -addext 'extendedKeyUsage = critical, ${usage}Auth'
+    ${openssl} req -new -key "$1".key -out "$1".csr -sha384 -subj "${
+      if usage == "client" then "/CN=$1@rvf6.com/emailAddress=$1@rvf6.com" else "/CN=$1.rvf6.com"
+    }" -addext 'basicConstraints = critical, CA:FALSE' -addext "subjectAltName = ${
+      if usage == "client" then "email:$1@rvf6.com" else "DNS:$1.rvf6.com"
+    }" -addext 'extendedKeyUsage = critical, ${usage}Auth'
     if [ ! -f ybk.crt ]; then
       ${pkgs.yubikey-manager}/bin/ykman piv certificates export 9c ybk.crt
     fi

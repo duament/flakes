@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.presets.nginx;
 in
@@ -38,21 +43,21 @@ in
       recommendedOptimisation = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
-      virtualHosts = builtins.mapAttrs
-        (name: value:
-          value // {
-            forceSSL = true;
-            enableACME = cfg.useACMEHost == null;
-            inherit (cfg) useACMEHost;
-            extraConfig = ''
-              add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
-              add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-            '';
-            quic = true;
-            http3 = true;
-          }
-        )
-        cfg.virtualHosts;
+      virtualHosts = builtins.mapAttrs (
+        name: value:
+        value
+        // {
+          forceSSL = true;
+          enableACME = cfg.useACMEHost == null;
+          inherit (cfg) useACMEHost;
+          extraConfig = ''
+            add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
+          '';
+          quic = true;
+          http3 = true;
+        }
+      ) cfg.virtualHosts;
     };
 
     presets.nginx.virtualHosts."${config.networking.hostName}.rvf6.com" = {

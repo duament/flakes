@@ -20,7 +20,12 @@ in
   };
 
   services.resolved.enable = false;
-  services.openssh.listenAddresses = [{ addr = "[::1]"; port = 10022; }];
+  services.openssh.listenAddresses = [
+    {
+      addr = "[::1]";
+      port = 10022;
+    }
+  ];
   systemd.network.wait-online.enable = false;
 
   documentation.nixos.enable = true;

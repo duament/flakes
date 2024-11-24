@@ -1,4 +1,9 @@
-{ config, pkgs, self, ... }:
+{
+  config,
+  pkgs,
+  self,
+  ...
+}:
 {
   imports = [
     self.nixosModules.myHomeModules

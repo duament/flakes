@@ -1,6 +1,21 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (lib) length listToAttrs flatten imap0 toHexString mkIf mkOption mkEnableOption types;
+  inherit (lib)
+    length
+    listToAttrs
+    flatten
+    imap0
+    toHexString
+    mkIf
+    mkOption
+    mkEnableOption
+    types
+    ;
   cfg = config.presets.swanctl;
 in
 {
@@ -70,12 +85,18 @@ in
     systemd.network.networks.${cfg.underlyingNetwork}.xfrm = [ cfg.interface ];
 
     systemd.network.netdevs."25-${cfg.interface}" = {
-      netdevConfig = { Name = cfg.interface; Kind = "xfrm"; };
+      netdevConfig = {
+        Name = cfg.interface;
+        Kind = "xfrm";
+      };
       xfrmConfig.InterfaceId = 1;
     };
     systemd.network.networks."25-${cfg.interface}" = {
       name = cfg.interface;
-      address = [ "${cfg.IPv4Prefix}1/24" "${cfg.IPv6Prefix}1/120" ];
+      address = [
+        "${cfg.IPv4Prefix}1/24"
+        "${cfg.IPv6Prefix}1/120"
+      ];
       routingPolicyRules = [
         {
           To = "${cfg.IPv6Prefix}1/120";
@@ -87,8 +108,8 @@ in
     services.strongswan-swanctl = {
       enable = true;
       swanctl = {
-        connections = listToAttrs (imap0
-          (id: name: {
+        connections = listToAttrs (
+          imap0 (id: name: {
             inherit name;
             value = {
               local = cfg.local;
@@ -97,32 +118,40 @@ in
                 id = "${name}@rvf6.com";
                 cacerts = cfg.cacerts;
               };
-              children.${name}.local_ts = [ "0.0.0.0/0" "::/0" ];
+              children.${name}.local_ts = [
+                "0.0.0.0/0"
+                "::/0"
+              ];
               version = 2;
-              pools = [ "${name}_vip" "${name}_vip6" ];
+              pools = [
+                "${name}_vip"
+                "${name}_vip6"
+              ];
               if_id_in = "1";
               if_id_out = "1";
             };
-          })
-          cfg.devices);
-        pools = listToAttrs (flatten (imap0
-          (id: name: [
-            {
-              name = "${name}_vip";
-              value = {
-                addrs = "${cfg.IPv4Prefix}${toString (128 + id)}/32";
-                dns = [ "${cfg.IPv4Prefix}1" ];
-              };
-            }
-            {
-              name = "${name}_vip6";
-              value = {
-                addrs = "${cfg.IPv6Prefix}${toHexString (128 + id)}/128";
-                dns = [ "${cfg.IPv6Prefix}1" ];
-              };
-            }
-          ])
-          cfg.devices));
+          }) cfg.devices
+        );
+        pools = listToAttrs (
+          flatten (
+            imap0 (id: name: [
+              {
+                name = "${name}_vip";
+                value = {
+                  addrs = "${cfg.IPv4Prefix}${toString (128 + id)}/32";
+                  dns = [ "${cfg.IPv4Prefix}1" ];
+                };
+              }
+              {
+                name = "${name}_vip6";
+                value = {
+                  addrs = "${cfg.IPv6Prefix}${toHexString (128 + id)}/128";
+                  dns = [ "${cfg.IPv6Prefix}1" ];
+                };
+              }
+            ]) cfg.devices
+          )
+        );
       };
       strongswan.extraConfig = ''
         charon {

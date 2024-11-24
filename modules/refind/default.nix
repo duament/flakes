@@ -1,4 +1,10 @@
-{ config, inputs, lib, pkgs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -11,9 +17,11 @@ let
 
     isExecutable = true;
 
-    python3 = pkgs.python311.withPackages (p: with p; [
-      pefile
-    ]);
+    python3 = pkgs.python311.withPackages (
+      p: with p; [
+        pefile
+      ]
+    );
 
     nix = config.nix.package.out;
 
@@ -27,9 +35,23 @@ let
 
     configurationLimit = if cfg.configurationLimit == null then 0 else cfg.configurationLimit;
 
-    inherit (cfg) extraConfig installAsRemovable defaultSelection sign signKey signCert;
+    inherit (cfg)
+      extraConfig
+      installAsRemovable
+      defaultSelection
+      sign
+      signKey
+      signCert
+      ;
 
-    inherit (pkgs) refind efibootmgr coreutils gnugrep gnused gawk;
+    inherit (pkgs)
+      refind
+      efibootmgr
+      coreutils
+      gnugrep
+      gnused
+      gawk
+      ;
 
     inherit (config.boot.loader.efi) efiSysMountPoint canTouchEfiVariables;
 

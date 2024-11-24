@@ -42,7 +42,10 @@ in
     mark = 3;
     routingId = "0x29478c";
     keyFile = config.sops.secrets.warp_key.path;
-    address = [ "172.16.0.2/32" "2606:4700:110:81f3:a59c:d5a7:d339:59b8/128" ];
+    address = [
+      "172.16.0.2/32"
+      "2606:4700:110:81f3:a59c:d5a7:d339:59b8/128"
+    ];
     table = 20;
   };
   presets.wireguard.keepAlive.interfaces = [ "warp" ];
@@ -57,7 +60,10 @@ in
     '';
   };
   networking.nftables.mssClamping = true;
-  networking.nftables.masquerade = [ "ip saddr { ${self.data.tailscale.ipv4} }" "ip6 saddr { ${self.data.tailscale.ipv6} }" ];
+  networking.nftables.masquerade = [
+    "ip saddr { ${self.data.tailscale.ipv4} }"
+    "ip6 saddr { ${self.data.tailscale.ipv6} }"
+  ];
   networking.nftables.markChinaIP = {
     enable = true;
     mark = nonCNMark;
@@ -132,8 +138,15 @@ in
       id = "rpi3.rvf6.com";
       certs = [ config.sops.secrets."pki/bundle".path ];
     };
-    cacerts = [ config.sops.secrets."pki/ca".path config.sops.secrets."pki/ybk".path ];
-    devices = [ "ip13" "pixel7" "xiaoxin" ];
+    cacerts = [
+      config.sops.secrets."pki/ca".path
+      config.sops.secrets."pki/ybk".path
+    ];
+    devices = [
+      "ip13"
+      "pixel7"
+      "xiaoxin"
+    ];
   };
 
   home-manager.users.rvfg = import ./home.nix;

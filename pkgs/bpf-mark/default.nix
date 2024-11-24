@@ -1,7 +1,8 @@
-{ clangStdenv
-, lib
-, libbpf
-, markValue ? 1
+{
+  clangStdenv,
+  lib,
+  libbpf,
+  markValue ? 1,
 }:
 clangStdenv.mkDerivation {
   pname = "bpf-mark-${toString markValue}";

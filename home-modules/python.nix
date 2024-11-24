@@ -1,17 +1,26 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.presets.python;
-  my-python-packages = python-packages: with python-packages; [
-    python-lsp-server
-    rope
-    toml
-    whatthepatch
-    python-lsp-ruff
+  my-python-packages =
+    python-packages:
+    with python-packages;
+    [
+      python-lsp-server
+      rope
+      toml
+      whatthepatch
+      python-lsp-ruff
 
-    ipython
-    requests
-  ] ++ cfg.extraPackages python-packages;
+      ipython
+      requests
+    ]
+    ++ cfg.extraPackages python-packages;
   python-with-my-packages = pkgs.python3.withPackages my-python-packages;
 in
 {

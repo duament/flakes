@@ -13,19 +13,27 @@ rec {
     az = "3M5RKEG-CA737AY-43AYUKG-6M63PHI-JB3DEB5-2WPJAZG-PB766LJ-4MLSTQS";
   };
 
-  devices = builtins.mapAttrs
-    (name: id: {
-      id = id;
-      name = name;
-    })
-    dev;
+  devices = builtins.mapAttrs (name: id: {
+    id = id;
+    name = name;
+  }) dev;
 
   folders = {
     keepass = {
       id = "xudus-kdccy";
       label = "KeePass";
       path = "~/KeePass";
-      devices = [ "desktop" "desktop-arch" "xiaoxin" "xiaoxin-arch" "iphone" "pixel7" "t430" "nl" "az" ];
+      devices = [
+        "desktop"
+        "desktop-arch"
+        "xiaoxin"
+        "xiaoxin-arch"
+        "iphone"
+        "pixel7"
+        "t430"
+        "nl"
+        "az"
+      ];
       versioning = {
         type = "staggered";
         params.cleanInterval = "3600";
@@ -35,33 +43,61 @@ rec {
     notes = {
       id = "m4f2r-yzqvs";
       path = "~/notes";
-      devices = [ "desktop" "desktop-arch" "xiaoxin" "xiaoxin-arch" "t430" ];
+      devices = [
+        "desktop"
+        "desktop-arch"
+        "xiaoxin"
+        "xiaoxin-arch"
+        "t430"
+      ];
     };
     session = {
       id = "upou4-bdgln";
       path = "~/session";
-      devices = [ "desktop" "desktop-arch" "xiaoxin" "xiaoxin-arch" "t430" ];
+      devices = [
+        "desktop"
+        "desktop-arch"
+        "xiaoxin"
+        "xiaoxin-arch"
+        "t430"
+      ];
     };
     music = {
       id = "hngav-zprin";
       label = "Music";
       path = "~/Music";
-      devices = [ "desktop" "xiaoxin" "or3" ];
+      devices = [
+        "desktop"
+        "xiaoxin"
+        "or3"
+      ];
     };
     archives = {
       id = "mzjds-orbsp";
       path = "~/archives";
-      devices = [ "desktop" "xiaoxin" "iphone" "pixel7" ];
+      devices = [
+        "desktop"
+        "xiaoxin"
+        "iphone"
+        "pixel7"
+      ];
     };
     backups = {
       id = "rn8kp-jell8";
       path = "~/backups";
-      devices = [ "desktop" "xiaoxin" ];
+      devices = [
+        "desktop"
+        "xiaoxin"
+      ];
     };
     ebooks = {
       id = "lkrir-xvafz";
       path = "~/ebooks";
-      devices = [ "desktop" "xiaoxin" "iphone" ];
+      devices = [
+        "desktop"
+        "xiaoxin"
+        "iphone"
+      ];
     };
   };
 }

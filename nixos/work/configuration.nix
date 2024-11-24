@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 {
   #nixpkgs.overlays = [
   #  (self: super: {
@@ -31,20 +37,36 @@
     ];
   };
   systemd.network.networks."80-ethernet" = {
-    matchConfig = { Type = "ether"; };
+    matchConfig = {
+      Type = "ether";
+    };
     DHCP = "no";
     # dhcpV4Config = { SendOption = "50:ipv4address:172.26.0.2"; };
-    address = [ "172.26.0.2/24" "fc00::2/64" ];
-    gateway = [ "172.26.0.1" "fc00::1" ];
+    address = [
+      "172.26.0.2/24"
+      "fc00::2/64"
+    ];
+    gateway = [
+      "172.26.0.1"
+      "fc00::1"
+    ];
     dns = [ "10.9.231.5" ];
-    domains = [ "~${self.data.ef}" "~h.rvf6.com" ];
-    routingPolicyRules = map
-      (ip:
-        {
+    domains = [
+      "~${self.data.ef}"
+      "~h.rvf6.com"
+    ];
+    routingPolicyRules =
+      map
+        (ip: {
           To = ip;
           Priority = 9;
-        }
-      ) [ "172.16.0.0/12" "10.9.0.0/16" "10.12.0.0/16" "fc00::/64" ];
+        })
+        [
+          "172.16.0.0/12"
+          "10.9.0.0/16"
+          "10.12.0.0/16"
+          "fc00::/64"
+        ];
   };
   presets.wireguard.wg0 = {
     enable = true;

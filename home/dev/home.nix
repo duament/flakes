@@ -1,4 +1,10 @@
-{ config, inputs, pkgs, self, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  self,
+  ...
+}:
 {
   imports = [
     self.nixosModules.myHomeModules
@@ -8,7 +14,10 @@
 
   nix.package = pkgs.nix;
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     substituters = [
       "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://mirror.sjtu.edu.cn/nix-channels/store"
@@ -61,9 +70,10 @@
     extraConfig = {
       init.defaultBranch = "main";
       gpg.format = "ssh";
-      gpg.ssh.allowedSignersFile = (pkgs.writeText "allowed_signers" ''
-        int.ruifeng.ma@${self.data.efcom} ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ
-      '').outPath;
+      gpg.ssh.allowedSignersFile =
+        (pkgs.writeText "allowed_signers" ''
+          int.ruifeng.ma@${self.data.efcom} ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ
+        '').outPath;
     };
     delta = {
       enable = true;

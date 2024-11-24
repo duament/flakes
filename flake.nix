@@ -33,11 +33,19 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, ... }:
+  outputs =
+    inputs@{ self, nixpkgs, ... }:
     let
-      data = import ./data { inherit inputs; inherit (nixpkgs) lib; };
+      data = import ./data {
+        inherit inputs;
+        inherit (nixpkgs) lib;
+      };
     in
-    inputs.flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
+    inputs.flake-utils.lib.eachSystem
+      [
+        "aarch64-linux"
+        "x86_64-linux"
+      ]
       (
         system:
         let
@@ -114,12 +122,14 @@
             type = "app";
             program =
               let
-                hosts = [ "az" "nl" "or2" ];
-                known_hosts = pkgs.writeText "ssh_known_hosts" (builtins.concatStringsSep "" (map
-                  (host:
-                    "${host}.rvf6.com ${data.sshPub.${host}}\n"
-                  )
-                  hosts));
+                hosts = [
+                  "az"
+                  "nl"
+                  "or2"
+                ];
+                known_hosts = pkgs.writeText "ssh_known_hosts" (
+                  builtins.concatStringsSep "" (map (host: "${host}.rvf6.com ${data.sshPub.${host}}\n") hosts)
+                );
               in
               (pkgs.writeShellScript "ci-deploy" ''
                 export NIX_SSHOPTS="-o GlobalKnownHostsFile=${known_hosts}"
@@ -140,17 +150,13 @@
       nixosModules.myModules = import ./modules;
       nixosModules.myHomeModules = import ./home-modules;
 
-      nixosConfigurations = builtins.mapAttrs
-        (k: v:
-          import (./nixos + "/${k}") { inherit inputs nixpkgs self; }
-        )
-        (builtins.readDir ./nixos);
+      nixosConfigurations = builtins.mapAttrs (
+        k: v: import (./nixos + "/${k}") { inherit inputs nixpkgs self; }
+      ) (builtins.readDir ./nixos);
 
-      homeConfigurations = builtins.mapAttrs
-        (k: v:
-          import (./home + "/${k}") { inherit inputs nixpkgs self; }
-        )
-        (builtins.readDir ./home);
+      homeConfigurations = builtins.mapAttrs (
+        k: v: import (./home + "/${k}") { inherit inputs nixpkgs self; }
+      ) (builtins.readDir ./home);
 
       hydraJobs = {
         rpi3 = self.nixosConfigurations.rpi3.config.system.build.toplevel;

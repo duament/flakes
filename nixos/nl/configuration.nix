@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
   systemdHarden = self.data.systemdHarden;
 in
@@ -39,9 +45,20 @@ in
 
   systemd.network.networks."10-ens3" = {
     name = "ens3";
-    address = [ "2a04:52c0:106:496f::1/48" "5.255.101.158/24" ];
-    gateway = [ "2a04:52c0:106::1" "5.255.101.1" ];
-    dns = [ "2a01:6340:1:20:4::10" "2a01:1b0:7999:446::1:4" "185.31.172.240" "89.188.29.4" ];
+    address = [
+      "2a04:52c0:106:496f::1/48"
+      "5.255.101.158/24"
+    ];
+    gateway = [
+      "2a04:52c0:106::1"
+      "5.255.101.1"
+    ];
+    dns = [
+      "2a01:6340:1:20:4::10"
+      "2a01:1b0:7999:446::1:4"
+      "185.31.172.240"
+      "89.188.29.4"
+    ];
     networkConfig.IPv6AcceptRA = false;
   };
 
@@ -106,7 +123,13 @@ in
     settings.vouch.port = 2001;
     jwtSecretFile = config.sops.secrets."vouch-bt/jwt".path;
     clientSecretFile = config.sops.secrets."vouch-bt/client".path;
-    authLocations = [ "/flood/" "/twc/" "/tc/" "/og/" "/rpc" ];
+    authLocations = [
+      "/flood/"
+      "/twc/"
+      "/tc/"
+      "/og/"
+      "/rpc"
+    ];
   };
 
   presets.nginx = {

@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
   wg0 = self.data.wg0;
   systemdHarden = self.data.systemdHarden;
@@ -70,7 +76,10 @@ in
     '';
   };
   networking.nftables.mssClamping = true;
-  networking.nftables.masquerade = [ "ip saddr { ${self.data.tailscale.ipv4} }" "ip6 saddr { ${self.data.tailscale.ipv6} }" ];
+  networking.nftables.masquerade = [
+    "ip saddr { ${self.data.tailscale.ipv4} }"
+    "ip6 saddr { ${self.data.tailscale.ipv6} }"
+  ];
 
   home-manager.users.rvfg = import ./home.nix;
 
@@ -81,21 +90,33 @@ in
   };
 
   systemd.network.networks."10-enp1s0" = {
-    matchConfig = { PermanentMACAddress = "04:0e:3c:2f:c9:9a"; };
+    matchConfig = {
+      PermanentMACAddress = "04:0e:3c:2f:c9:9a";
+    };
     DHCP = "yes";
     networkConfig.IPv6AcceptRA = true;
-    dhcpV6Config = { PrefixDelegationHint = "::/63"; };
+    dhcpV6Config = {
+      PrefixDelegationHint = "::/63";
+    };
     vlan = [ "internet" ];
   };
 
   systemd.network.netdevs."50-internet" = {
-    netdevConfig = { Name = "internet"; Kind = "vlan"; };
-    vlanConfig = { Id = 4; };
+    netdevConfig = {
+      Name = "internet";
+      Kind = "vlan";
+    };
+    vlanConfig = {
+      Id = 4;
+    };
   };
   systemd.network.networks."50-internet" = {
     name = "internet";
-    address = [ "fd66::1/64" "10.6.1.1/24" ];
-    ipv6Prefixes = [{ Prefix = "fd66::/64"; }];
+    address = [
+      "fd66::1/64"
+      "10.6.1.1/24"
+    ];
+    ipv6Prefixes = [ { Prefix = "fd66::/64"; } ];
     networkConfig = {
       DHCPServer = true;
       IPv6SendRA = true;
@@ -103,8 +124,12 @@ in
       IPv4Forwarding = true;
       IPv6Forwarding = true;
     };
-    dhcpServerConfig = { DNS = "_server_address"; };
-    ipv6SendRAConfig = { DNS = "fd66::1"; };
+    dhcpServerConfig = {
+      DNS = "_server_address";
+    };
+    ipv6SendRAConfig = {
+      DNS = "fd66::1";
+    };
   };
 
   presets.wireguard.wg0 = {
@@ -175,7 +200,10 @@ in
     mark = 3;
     routingId = "0xb18031";
     keyFile = config.sops.secrets.warp_key.path;
-    address = [ "172.16.0.2/32" "2606:4700:110:89a4:12e0:be02:634:888f/128" ];
+    address = [
+      "172.16.0.2/32"
+      "2606:4700:110:89a4:12e0:be02:634:888f/128"
+    ];
     table = 20;
   };
   presets.wireguard.keepAlive.interfaces = [ "warp" ];
@@ -305,8 +333,15 @@ in
       id = "t430.rvf6.com";
       certs = [ config.sops.secrets."pki/t430-bundle".path ];
     };
-    cacerts = [ config.sops.secrets."pki/ca".path config.sops.secrets."pki/ybk".path ];
-    devices = [ "ip13" "pixel7" "xiaoxin" ];
+    cacerts = [
+      config.sops.secrets."pki/ca".path
+      config.sops.secrets."pki/ybk".path
+    ];
+    devices = [
+      "ip13"
+      "pixel7"
+      "xiaoxin"
+    ];
   };
 
   services.syncthing = {
@@ -316,7 +351,11 @@ in
     key = config.sops.secrets."syncthing/key".path;
     settings = {
       devices = self.data.syncthing.devices;
-      folders = lib.getAttrs [ "keepass" "notes" "session" ] self.data.syncthing.folders;
+      folders = lib.getAttrs [
+        "keepass"
+        "notes"
+        "session"
+      ] self.data.syncthing.folders;
     };
   };
 
@@ -375,10 +414,11 @@ in
       "met"
       "xiaomi_miio"
     ];
-    extraPackages = python3Packages: with python3Packages; [
-      hap-python
-      pyqrcode
-    ];
+    extraPackages =
+      python3Packages: with python3Packages; [
+        hap-python
+        pyqrcode
+      ];
   };
   systemd.services.home-assistant.preStart = ''
     mkdir -p ${config.services.home-assistant.configDir}/custom_components
@@ -413,7 +453,10 @@ in
       settings.vouch.port = 2002;
       jwtSecretFile = config.sops.secrets."vouch-luci/jwt".path;
       clientSecretFile = config.sops.secrets."vouch-luci/client".path;
-      authLocations = [ "/" "= /cgi-bin/luci/" ];
+      authLocations = [
+        "/"
+        "= /cgi-bin/luci/"
+      ];
     };
   };
 
@@ -495,30 +538,35 @@ in
     };
   };
 
-  systemd.services.gammu-smsd.serviceConfig.LoadCredential = [ "tg-bot-token:${config.sops.secrets.tg-bot-token.path}" ];
-  presets.gammu-smsd.settings.smsd.RunOnReceive = (pkgs.writers.writePython3 "gammu-smsd-on-receive"
-    {
-      libraries = [ pkgs.python3Packages.requests ];
-    } ''
-    import os
-    import requests
+  systemd.services.gammu-smsd.serviceConfig.LoadCredential = [
+    "tg-bot-token:${config.sops.secrets.tg-bot-token.path}"
+  ];
+  presets.gammu-smsd.settings.smsd.RunOnReceive =
+    (pkgs.writers.writePython3 "gammu-smsd-on-receive"
+      {
+        libraries = [ pkgs.python3Packages.requests ];
+      }
+      ''
+        import os
+        import requests
 
-    cred_dir = os.environ['CREDENTIALS_DIRECTORY']
-    with open(os.path.join(cred_dir, 'tg-bot-token')) as f:
-        token = f.read()
+        cred_dir = os.environ['CREDENTIALS_DIRECTORY']
+        with open(os.path.join(cred_dir, 'tg-bot-token')) as f:
+            token = f.read()
 
-    text = '''
-    n = int(os.environ['SMS_MESSAGES'])
-    for i in range(n):
-        text += f'class: {os.environ[f"SMS_{i + 1}_CLASS"]}\n'
-        text += f'number: {os.environ[f"SMS_{i + 1}_NUMBER"]}\n'
-        text += f'text: {os.environ[f"SMS_{i + 1}_TEXT"]}\n\n'
+        text = '''
+        n = int(os.environ['SMS_MESSAGES'])
+        for i in range(n):
+            text += f'class: {os.environ[f"SMS_{i + 1}_CLASS"]}\n'
+            text += f'number: {os.environ[f"SMS_{i + 1}_NUMBER"]}\n'
+            text += f'text: {os.environ[f"SMS_{i + 1}_TEXT"]}\n\n'
 
-    url = f'https://api.telegram.org/bot{token}/sendMessage'
-    data = {
-        'chat_id': 96994562,
-        'text': text,
-    }
-    requests.post(url, json=data)
-  '').outPath;
+        url = f'https://api.telegram.org/bot{token}/sendMessage'
+        data = {
+            'chat_id': 96994562,
+            'text': text,
+        }
+        requests.post(url, json=data)
+      ''
+    ).outPath;
 }

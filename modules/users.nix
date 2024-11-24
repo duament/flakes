@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
   cfg = config.presets.users;
 in
@@ -26,7 +32,10 @@ in
       uid = 1000;
       group = "rvfg";
       hashedPasswordFile = config.sops.secrets.passwd.path;
-      extraGroups = [ "systemd-journal" "input" ];
+      extraGroups = [
+        "systemd-journal"
+        "input"
+      ];
       openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys;
     };
 
@@ -35,7 +44,9 @@ in
       isSystemUser = true;
       group = "deploy";
       useDefaultShell = true;
-      openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys ++ [ self.data.sshPub.github-action-deploy ];
+      openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys ++ [
+        self.data.sshPub.github-action-deploy
+      ];
     };
 
     security.sudo.extraRules = [
@@ -66,9 +77,11 @@ in
     #'';
 
     # libpam_rssh
-    security.pam.services.sudo.text = lib.mkDefault (lib.mkBefore ''
-      auth sufficient ${pkgs.pam_rssh}/lib/libpam_rssh.so auth_key_file=/etc/ssh/authorized_keys.d/rvfg
-    '');
+    security.pam.services.sudo.text = lib.mkDefault (
+      lib.mkBefore ''
+        auth sufficient ${pkgs.pam_rssh}/lib/libpam_rssh.so auth_key_file=/etc/ssh/authorized_keys.d/rvfg
+      ''
+    );
     security.sudo.extraConfig = ''
       Defaults env_keep+=SSH_AUTH_SOCK
     '';

@@ -1,6 +1,13 @@
-{ config, lib, self, ... }:
+{
+  config,
+  lib,
+  self,
+  ...
+}:
 let
-  enable = builtins.elem config.networking.hostName self.data.sops.secrets."secrets/github-token.yaml";
+  enable =
+    builtins.elem config.networking.hostName
+      self.data.sops.secrets."secrets/github-token.yaml";
 in
 {
   config = lib.mkIf enable {

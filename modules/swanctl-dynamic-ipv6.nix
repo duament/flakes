@@ -1,6 +1,23 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
-  inherit (lib) length listToAttrs concatStringsSep flatten imap0 toHexString mkIf mkOption mkEnableOption types;
+  inherit (lib)
+    length
+    listToAttrs
+    concatStringsSep
+    flatten
+    imap0
+    toHexString
+    mkIf
+    mkOption
+    mkEnableOption
+    types
+    ;
   cfg = config.services.swanctlDynamicIPv6;
 
   vip6Path = "/var/lib/swanctl-dynamic-ipv6/vip6.conf";
@@ -76,7 +93,10 @@ in
     systemd.network.networks.${cfg.underlyingNetwork}.xfrm = [ cfg.interface ];
 
     systemd.network.netdevs."25-${cfg.interface}" = {
-      netdevConfig = { Name = cfg.interface; Kind = "xfrm"; };
+      netdevConfig = {
+        Name = cfg.interface;
+        Kind = "xfrm";
+      };
       xfrmConfig.InterfaceId = 1;
     };
     systemd.network.networks."25-${cfg.interface}" = {
@@ -90,8 +110,8 @@ in
       enable = true;
       includes = [ vip6Path ];
       swanctl = {
-        connections = listToAttrs (imap0
-          (id: name: {
+        connections = listToAttrs (
+          imap0 (id: name: {
             inherit name;
             value = {
               local = cfg.local;
@@ -100,32 +120,41 @@ in
                 id = "${name}@rvf6.com";
                 cacerts = cfg.cacerts;
               };
-              children.${name}.local_ts = [ "0.0.0.0/0" "::/0" ];
+              children.${name}.local_ts = [
+                "0.0.0.0/0"
+                "::/0"
+              ];
               version = 2;
-              pools = [ "${name}_vip" "${name}_vip6" "${name}_vip_ula" ];
+              pools = [
+                "${name}_vip"
+                "${name}_vip6"
+                "${name}_vip_ula"
+              ];
               if_id_in = "1";
               if_id_out = "1";
             };
-          })
-          cfg.devices);
-        pools = listToAttrs (flatten (imap0
-          (id: name: [
-            {
-              name = "${name}_vip";
-              value = {
-                addrs = "${cfg.IPv4Prefix}${toString (128 + id)}/32";
-                dns = [ "${cfg.IPv4Prefix}1" ];
-              };
-            }
-            #{
-            #  name = "${name}_vip6";
-            #  value = {
-            #    addrs = "${cfg.ULAPrefix}${toHexString (128 + id)}/128";
-            #    dns = [ "${cfg.ULAPrefix}1" ];
-            #  };
-            #}
-          ])
-          cfg.devices));
+          }) cfg.devices
+        );
+        pools = listToAttrs (
+          flatten (
+            imap0 (id: name: [
+              {
+                name = "${name}_vip";
+                value = {
+                  addrs = "${cfg.IPv4Prefix}${toString (128 + id)}/32";
+                  dns = [ "${cfg.IPv4Prefix}1" ];
+                };
+              }
+              #{
+              #  name = "${name}_vip6";
+              #  value = {
+              #    addrs = "${cfg.ULAPrefix}${toHexString (128 + id)}/128";
+              #    dns = [ "${cfg.ULAPrefix}1" ];
+              #  };
+              #}
+            ]) cfg.devices
+          )
+        );
       };
       strongswan.extraConfig = ''
         charon {
@@ -141,7 +170,13 @@ in
     systemd.services."swanctl-dynamic-ipv6" = {
       wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
-      path = with pkgs; [ iproute2 jq sipcalc gawk strongswan ];
+      path = with pkgs; [
+        iproute2
+        jq
+        sipcalc
+        gawk
+        strongswan
+      ];
       script = ''
         set -o pipefail
 
@@ -158,31 +193,37 @@ in
         if [[ -z "$IPV6_PREFIX" ]]; then exit; fi
 
         NEED_UPDATE=0
-        ${concatStringsSep "" (map (device: ''
-          POOL_IPV6=$(swanctl --list-pools -n ${device}_vip6 | awk '{print $2}')
-          POOL_IPV6_PREFIX=$(get_prefix "$POOL_IPV6")
-          if [[ "$IPV6_PREFIX" != "$POOL_IPV6_PREFIX" ]]; then
-            NEED_UPDATE=1
-          fi
-        '') cfg.devices)}
+        ${concatStringsSep "" (
+          map (device: ''
+            POOL_IPV6=$(swanctl --list-pools -n ${device}_vip6 | awk '{print $2}')
+            POOL_IPV6_PREFIX=$(get_prefix "$POOL_IPV6")
+            if [[ "$IPV6_PREFIX" != "$POOL_IPV6_PREFIX" ]]; then
+              NEED_UPDATE=1
+            fi
+          '') cfg.devices
+        )}
 
         if [[ $NEED_UPDATE -eq 1 ]]; then
           cat > "${vip6Path}.tmp" << EOF
           pools {
-            ${concatStringsSep "" (imap0 (id: name: ''
-              # ${name}_vip {
-              #   addrs = ${cfg.IPv4Prefix}${toString (128 + id)}/32
-              #   dns = ${cfg.IPv4Prefix}1
-              # }
-              ${name}_vip6 {
-                addrs = $IPV6_PREFIX${cfg.IPv6Middle}::${toHexString (id + 2)}/128
-                dns = $IPV6_PREFIX::1
-              }
-              # ${name}_vip_ula {
-              #   addrs = ${cfg.ULAPrefix}${toHexString (128 + id)}/128
-              #   dns = ${cfg.ULAPrefix}1
-              # }
-            '') cfg.devices)}
+            ${
+              concatStringsSep "" (
+                imap0 (id: name: ''
+                  # ${name}_vip {
+                  #   addrs = ${cfg.IPv4Prefix}${toString (128 + id)}/32
+                  #   dns = ${cfg.IPv4Prefix}1
+                  # }
+                  ${name}_vip6 {
+                    addrs = $IPV6_PREFIX${cfg.IPv6Middle}::${toHexString (id + 2)}/128
+                    dns = $IPV6_PREFIX::1
+                  }
+                  # ${name}_vip_ula {
+                  #   addrs = ${cfg.ULAPrefix}${toHexString (128 + id)}/128
+                  #   dns = ${cfg.ULAPrefix}1
+                  # }
+                '') cfg.devices
+              )
+            }
           }
         EOF
           mv "${vip6Path}.tmp" "${vip6Path}"
@@ -191,11 +232,19 @@ in
       '';
       serviceConfig = self.data.systemdHarden // {
         Type = "oneshot";
-        RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+        RestrictAddressFamilies = [
+          "AF_UNIX"
+          "AF_INET"
+          "AF_INET6"
+          "AF_NETLINK"
+        ];
         PrivateNetwork = false;
         PrivateUsers = false;
         DynamicUser = false;
-        ReadWritePaths = [ "/run" "/var/run" ];
+        ReadWritePaths = [
+          "/run"
+          "/var/run"
+        ];
         StateDirectory = "%N";
       };
     };

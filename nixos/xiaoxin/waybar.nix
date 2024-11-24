@@ -6,7 +6,14 @@
   spacing = 5; # Gaps between modules (4px)
   margin-bottom = -11;
   modules-left = [ "wlr/workspaces" ];
-  modules-right = [ "tray" "pulseaudio" "network" "battery" "clock" "keyboard-state" ];
+  modules-right = [
+    "tray"
+    "pulseaudio"
+    "network"
+    "battery"
+    "clock"
+    "keyboard-state"
+  ];
   modules-center = [ "hyprland/window" ];
 
   keyboard-state = {
@@ -47,7 +54,16 @@
   cpu = {
     interval = 1;
     format = "{icon0} {icon1} {icon2} {icon3}";
-    format-icons = [ "▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" ];
+    format-icons = [
+      "▁"
+      "▂"
+      "▃"
+      "▄"
+      "▅"
+      "▆"
+      "▇"
+      "█"
+    ];
   };
   memory = {
     format = "{}% ";
@@ -59,7 +75,17 @@
   };
   backlight = {
     format = "{percent}% {icon}";
-    format-icons = [ "" "" "" "" "" "" "" "" "" ];
+    format-icons = [
+      ""
+      ""
+      ""
+      ""
+      ""
+      ""
+      ""
+      ""
+      ""
+    ];
   };
   battery = {
     bat = "BAT0";
@@ -71,7 +97,13 @@
     format = "{icon}";
     format-charging = "{icon}";
     format-plugged = "";
-    format-icons = [ "" "" "" "" "" ];
+    format-icons = [
+      ""
+      ""
+      ""
+      ""
+      ""
+    ];
   };
   network = {
     format-wifi = "󰤨 {signalStrength}";
@@ -94,7 +126,11 @@
       phone = "";
       portable = "";
       car = "";
-      default = [ "" "" "" ];
+      default = [
+        ""
+        ""
+        ""
+      ];
     };
     on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
   };

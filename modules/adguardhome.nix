@@ -1,6 +1,18 @@
-{ config, inputs, lib, pkgs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (lib) mkIf mkOption mkEnableOption types concatStringsSep;
+  inherit (lib)
+    mkIf
+    mkOption
+    mkEnableOption
+    types
+    concatStringsSep
+    ;
   cfg = config.presets.adguardhome;
 
   adguardhomeUpstream = pkgs.runCommand "adguardhome-upstream-dns" { } ''
@@ -22,12 +34,22 @@ in
 
     chinaDns = mkOption {
       type = with types; listOf str;
-      default = [ "[2400:3200::1]" "[2402:4e00::]" "223.5.5.5" "119.29.29.29" ];
+      default = [
+        "[2400:3200::1]"
+        "[2402:4e00::]"
+        "223.5.5.5"
+        "119.29.29.29"
+      ];
     };
 
     upstream = mkOption {
       type = with types; listOf str;
-      default = [ "[2606:4700:4700::1111]" "[2001:4860:4860::8888]" "1.1.1.1" "8.8.8.8" ];
+      default = [
+        "[2606:4700:4700::1111]"
+        "[2001:4860:4860::8888]"
+        "1.1.1.1"
+        "8.8.8.8"
+      ];
     };
 
     bootstrap_dns = mkOption {

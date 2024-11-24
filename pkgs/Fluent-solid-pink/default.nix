@@ -1,4 +1,9 @@
-{ source, stdenvNoCC, lib, crudini }:
+{
+  source,
+  stdenvNoCC,
+  lib,
+  crudini,
+}:
 stdenvNoCC.mkDerivation {
   inherit (source) pname version src;
   installPhase = ''

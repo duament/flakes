@@ -26,7 +26,10 @@ in
     };
 
     presets.router.wan.type = mkOption {
-      type = types.enum [ "static" "DHCP" ];
+      type = types.enum [
+        "static"
+        "DHCP"
+      ];
       default = "DHCP";
     };
 
@@ -85,8 +88,7 @@ in
       MACAddress = cfg.lan.bridge.MACAddress;
     };
 
-    systemd.network.networks = builtins.listToAttrs (map generateLan cfg.lan.interfaces)
-      // {
+    systemd.network.networks = builtins.listToAttrs (map generateLan cfg.lan.interfaces) // {
       "50-${cfg.lan.bridge.name}" = {
         name = cfg.lan.bridge.name;
         address = [ cfg.lan.address ];
@@ -94,20 +96,25 @@ in
           DHCPServer = true;
           IPv4Forwarding = true;
         };
-        dhcpServerConfig = { DNS = "_server_address"; };
+        dhcpServerConfig = {
+          DNS = "_server_address";
+        };
         dhcpServerStaticLeases = cfg.lan.staticLeases;
       };
 
       "50-${cfg.wan.interface}" =
-        if cfg.wan.type == "DHCP" then {
-          name = cfg.wan.interface;
-          DHCP = "yes";
-        } else {
-          name = cfg.wan.interface;
-          address = [ cfg.wan.address ];
-          gateway = [ cfg.wan.gateway ];
-          dns = [ cfg.wan.dns ];
-        };
+        if cfg.wan.type == "DHCP" then
+          {
+            name = cfg.wan.interface;
+            DHCP = "yes";
+          }
+        else
+          {
+            name = cfg.wan.interface;
+            address = [ cfg.wan.address ];
+            gateway = [ cfg.wan.gateway ];
+            dns = [ cfg.wan.dns ];
+          };
     };
 
     networking.firewall.extraInputRules = ''

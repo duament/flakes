@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   fishVariablesFile = pkgs.writeText "fish_variables" ''
     # VERSION: 3.0
@@ -8,65 +13,77 @@ in
 {
   programs.fish = {
     enable = true;
-    shellAbbrs = {
-      d = "docker";
-      dl = "curl -LJO";
-      gitad = "git add";
-      gitap = "git apply";
-      gitb = "git branch";
-      gitcm = "git commit -m";
-      gitcma = "git commit --amend";
-      gitco = "git checkout";
-      gitcob = "git checkout -b";
-      gitcp = "git cherry-pick";
-      gitdf = "git diff";
-      gitdfs = "git diff --staged";
-      gitf = "git fetch -p";
-      giti = "git init -b main";
-      gitib = "git init -b main --bare";
-      gitl = "git log";
-      gitls = "git log --show-signature";
-      gitrb = "git rebase";
-      gitrs = "git reset";
-      gitrsh = "git reset --hard";
-      gitrt = "git restore";
-      gitrv = "git revert";
-      gitsh = "git show";
-      gitsm = "git submodule";
-      gitsmu = "git submodule update --init --recursive";
-      gitss = "git stash";
-      gitst = "git status";
-      gitps = "git push";
-      gitpsf = "git push -f";
-      gitpsu = "git push -u origin HEAD";
-      gitpl = "git pull";
-      j = "journalctl";
-      jb = "journalctl -b 0";
-      jp = "journalctl -b 0 -p 4";
-      mpvb = "mpv --ytdl-raw-options-append=cookies-from-browser=firefox::bilibili";
-      nftadd = "sudo nft add inet nixos-fw input-allow tcp dport";
-      nftls = "sudo nft -at list ruleset";
-      nixrp = { expansion = "nix run nixpkgs#% --"; setCursor = true; position = "anywhere"; };
-      nixsp = { expansion = "nix shell nixpkgs#% -c"; setCursor = true; position = "anywhere"; };
-      r = "systemd-run --user -d -t --wait -G";
-      s = "systemctl";
-      se = "sudoedit";
-      sls = "systemctl list-units --type=service";
-      slt = "systemctl list-timers";
-      suls = "systemctl --user list-units --type=service";
-      sult = "systemctl --user list-timers";
-      sus = "sudo systemctl";
-      v = "nvim";
-    } // (builtins.listToAttrs (builtins.genList
-      (i:
-        let
-          n = toString (i + 1);
-        in
-        {
-          name = "r${n}";
-          value = "systemd-run --user -d -t --wait -G -u run-w${n}";
-        }
-      ) 9));
+    shellAbbrs =
+      {
+        d = "docker";
+        dl = "curl -LJO";
+        gitad = "git add";
+        gitap = "git apply";
+        gitb = "git branch";
+        gitcm = "git commit -m";
+        gitcma = "git commit --amend";
+        gitco = "git checkout";
+        gitcob = "git checkout -b";
+        gitcp = "git cherry-pick";
+        gitdf = "git diff";
+        gitdfs = "git diff --staged";
+        gitf = "git fetch -p";
+        giti = "git init -b main";
+        gitib = "git init -b main --bare";
+        gitl = "git log";
+        gitls = "git log --show-signature";
+        gitrb = "git rebase";
+        gitrs = "git reset";
+        gitrsh = "git reset --hard";
+        gitrt = "git restore";
+        gitrv = "git revert";
+        gitsh = "git show";
+        gitsm = "git submodule";
+        gitsmu = "git submodule update --init --recursive";
+        gitss = "git stash";
+        gitst = "git status";
+        gitps = "git push";
+        gitpsf = "git push -f";
+        gitpsu = "git push -u origin HEAD";
+        gitpl = "git pull";
+        j = "journalctl";
+        jb = "journalctl -b 0";
+        jp = "journalctl -b 0 -p 4";
+        mpvb = "mpv --ytdl-raw-options-append=cookies-from-browser=firefox::bilibili";
+        nftadd = "sudo nft add inet nixos-fw input-allow tcp dport";
+        nftls = "sudo nft -at list ruleset";
+        nixrp = {
+          expansion = "nix run nixpkgs#% --";
+          setCursor = true;
+          position = "anywhere";
+        };
+        nixsp = {
+          expansion = "nix shell nixpkgs#% -c";
+          setCursor = true;
+          position = "anywhere";
+        };
+        r = "systemd-run --user -d -t --wait -G";
+        s = "systemctl";
+        se = "sudoedit";
+        sls = "systemctl list-units --type=service";
+        slt = "systemctl list-timers";
+        suls = "systemctl --user list-units --type=service";
+        sult = "systemctl --user list-timers";
+        sus = "sudo systemctl";
+        v = "nvim";
+      }
+      // (builtins.listToAttrs (
+        builtins.genList (
+          i:
+          let
+            n = toString (i + 1);
+          in
+          {
+            name = "r${n}";
+            value = "systemd-run --user -d -t --wait -G -u run-w${n}";
+          }
+        ) 9
+      ));
     shellAliases = {
       l = "eza -lag --time-style=long-iso";
       ll = "eza -lg --time-style=long-iso";

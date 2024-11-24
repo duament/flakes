@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
   inherit (lib) types mkOption mkEnableOption;
   cfg = config.presets.uutunnel;

@@ -1,4 +1,10 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
   domain = "rvf6.com";
   hostname = "${config.networking.hostName}.${domain}";
@@ -33,13 +39,19 @@ in
       smtpd_sasl_type = "dovecot";
       smtpd_sasl_path = "/run/dovecot2/auth";
       smtpd_sasl_local_domain = "$mydomain";
-      smtpd_relay_restrictions = [ "permit_sasl_authenticated" "reject_unauth_destination" ];
+      smtpd_relay_restrictions = [
+        "permit_sasl_authenticated"
+        "reject_unauth_destination"
+      ];
       smtpd_sender_restrictions = "reject_sender_login_mismatch";
       smtpd_sender_login_maps = "hash:/etc/postfix/smtpd_sender_login_maps";
       smtpd_tls_auth_only = true;
       smtpd_tls_security_level = "may";
       smtpd_tls_received_header = true;
-      smtpd_tls_chain_files = [ keyPath certificatePath ];
+      smtpd_tls_chain_files = [
+        keyPath
+        certificatePath
+      ];
       smtpd_tls_loglevel = "1";
 
       smtp_tls_security_level = "may";

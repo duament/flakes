@@ -71,7 +71,14 @@
       ipv6Pre = "fd64::";
       ipv6Mask = 120;
       # Initiate connection to those peers
-      outPeers = [ "nl" "or2" "or3" "az" "ak" "sg" ];
+      outPeers = [
+        "nl"
+        "or2"
+        "or3"
+        "az"
+        "ak"
+        "sg"
+      ];
     };
     or2 = {
       ipv4Pre = "10.6.10.";

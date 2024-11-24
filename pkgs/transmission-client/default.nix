@@ -1,4 +1,8 @@
-{ source, mkYarnPackage, lib }:
+{
+  source,
+  mkYarnPackage,
+  lib,
+}:
 mkYarnPackage {
   inherit (source) pname version src;
   patchPhase = ''

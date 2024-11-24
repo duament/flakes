@@ -33,7 +33,16 @@ in
         "/efi" = {
           device = cfg.efiDevice;
           fsType = "vfat";
-          options = [ "umask=0077" "noexec" "nosuid" "nodev" "noauto" "rw" "x-systemd.automount" "x-systemd.idle-timeout=120" ];
+          options = [
+            "umask=0077"
+            "noexec"
+            "nosuid"
+            "nodev"
+            "noauto"
+            "rw"
+            "x-systemd.automount"
+            "x-systemd.idle-timeout=120"
+          ];
         };
       })
 
@@ -41,7 +50,11 @@ in
         "/persist" = {
           device = cfg.device;
           fsType = "btrfs";
-          options = [ "subvol=${cfg.prefix}persist" "compress=zstd" "discard=async" ];
+          options = [
+            "subvol=${cfg.prefix}persist"
+            "compress=zstd"
+            "discard=async"
+          ];
           neededForBoot = true;
         };
       })
@@ -50,7 +63,12 @@ in
         "/nix" = {
           device = cfg.device;
           fsType = "btrfs";
-          options = [ "subvol=${cfg.prefix}nix" "compress=zstd" "noatime" "discard=async" ];
+          options = [
+            "subvol=${cfg.prefix}nix"
+            "compress=zstd"
+            "noatime"
+            "discard=async"
+          ];
         };
       })
 
@@ -58,7 +76,12 @@ in
         "/swap" = {
           device = cfg.device;
           fsType = "btrfs";
-          options = [ "subvol=${cfg.swap}" "compress=zstd" "noatime" "discard=async" ];
+          options = [
+            "subvol=${cfg.swap}"
+            "compress=zstd"
+            "noatime"
+            "discard=async"
+          ];
         };
       })
     ];

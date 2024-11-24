@@ -1,10 +1,17 @@
-{ config, lib, pkgs, self, utils, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  utils,
+  ...
+}:
 let
   inherit (lib) any optionalAttrs;
 
   cfg = config.presets.sing-box;
   settingsFormat = pkgs.formats.json { };
-  capNetAdmin = any (o: o ? routing_mark) (cfg.settings.outbounds or []);
+  capNetAdmin = any (o: o ? routing_mark) (cfg.settings.outbounds or [ ]);
 in
 {
 
@@ -56,22 +63,36 @@ in
 
     systemd.services.sing-box = {
       preStart = utils.genJqSecretsReplacementSnippet cfg.settings "/run/sing-box/config.json";
-      serviceConfig = self.data.systemdHarden // {
-        PrivateNetwork = false;
-        RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
-        StateDirectory = "sing-box";
-        StateDirectoryMode = "0700";
-        RuntimeDirectory = "sing-box";
-        RuntimeDirectoryMode = "0700";
-        ExecStart = [
-          ""
-          "${lib.getExe cfg.package} -D \${STATE_DIRECTORY} -C \${RUNTIME_DIRECTORY} run"
-        ];
-      } // (optionalAttrs capNetAdmin {
-        PrivateUsers = false;
-        CapabilityBoundingSet = [ "" "CAP_NET_ADMIN" ];
-        AmbientCapabilities = [ "" "CAP_NET_ADMIN" ];
-      });
+      serviceConfig =
+        self.data.systemdHarden
+        // {
+          PrivateNetwork = false;
+          RestrictAddressFamilies = [
+            "AF_UNIX"
+            "AF_INET"
+            "AF_INET6"
+            "AF_NETLINK"
+          ];
+          StateDirectory = "sing-box";
+          StateDirectoryMode = "0700";
+          RuntimeDirectory = "sing-box";
+          RuntimeDirectoryMode = "0700";
+          ExecStart = [
+            ""
+            "${lib.getExe cfg.package} -D \${STATE_DIRECTORY} -C \${RUNTIME_DIRECTORY} run"
+          ];
+        }
+        // (optionalAttrs capNetAdmin {
+          PrivateUsers = false;
+          CapabilityBoundingSet = [
+            ""
+            "CAP_NET_ADMIN"
+          ];
+          AmbientCapabilities = [
+            ""
+            "CAP_NET_ADMIN"
+          ];
+        });
       wantedBy = [ "multi-user.target" ];
     };
 

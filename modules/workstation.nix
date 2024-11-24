@@ -1,6 +1,19 @@
-{ config, lib, pkgs, self, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 let
-  inherit (lib) mkOption mkIf mkForce types filterAttrs elem;
+  inherit (lib)
+    mkOption
+    mkIf
+    mkForce
+    types
+    filterAttrs
+    elem
+    ;
   directMark = 1;
 in
 {
@@ -121,8 +134,18 @@ in
 
     networking.firewall = {
       checkReversePath = "loose";
-      allowedTCPPortRanges = [{ from = 1714; to = 1764; }]; # KDE Connect
-      allowedUDPPortRanges = [{ from = 1714; to = 1764; }]; # KDE Connect
+      allowedTCPPortRanges = [
+        {
+          from = 1714;
+          to = 1764;
+        }
+      ]; # KDE Connect
+      allowedUDPPortRanges = [
+        {
+          from = 1714;
+          to = 1764;
+        }
+      ]; # KDE Connect
     };
 
     environment.systemPackages = with pkgs; [
@@ -185,29 +208,42 @@ in
 
     fonts = {
       enableDefaultPackages = false;
-      packages = with pkgs; mkForce [
-        inter
-        source-serif
-        hack-font
-        noto-fonts-cjk-sans
-        noto-fonts-cjk-serif
-        noto-fonts-color-emoji
-        aleo
-        (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
-        (noto-fonts.override { variants = [
-          "Noto Music"
-          "Noto Sans Symbols"
-          "Noto Sans Symbols 2"
-          "Noto Sans Math"
-          "Noto Sans Thai"
-          "Noto Sans Oriya"
-        ]; })
-      ];
+      packages =
+        with pkgs;
+        mkForce [
+          inter
+          source-serif
+          hack-font
+          noto-fonts-cjk-sans
+          noto-fonts-cjk-serif
+          noto-fonts-color-emoji
+          aleo
+          (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+          (noto-fonts.override {
+            variants = [
+              "Noto Music"
+              "Noto Sans Symbols"
+              "Noto Sans Symbols 2"
+              "Noto Sans Math"
+              "Noto Sans Thai"
+              "Noto Sans Oriya"
+            ];
+          })
+        ];
       fontconfig = {
         defaultFonts = {
-          monospace = [ "Hack" "Symbols Nerd Font" ];
-          sansSerif = [ "Inter" "Noto Sans CJK SC" ];
-          serif = [ "Aleo" "Noto Serif CJK SC" ];
+          monospace = [
+            "Hack"
+            "Symbols Nerd Font"
+          ];
+          sansSerif = [
+            "Inter"
+            "Noto Sans CJK SC"
+          ];
+          serif = [
+            "Aleo"
+            "Noto Serif CJK SC"
+          ];
         };
         hinting.enable = true;
         subpixel.lcdfilter = "none";
@@ -298,7 +334,10 @@ in
 
     services.usbmuxd.enable = true;
 
-    users.users.rvfg.extraGroups = [ "adbusers" "wireshark" ];
+    users.users.rvfg.extraGroups = [
+      "adbusers"
+      "wireshark"
+    ];
 
   };
 }
