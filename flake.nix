@@ -97,7 +97,7 @@
           };
         in
         {
-          formatter = pkgs.nixpkgs-fmt;
+          formatter = pkgs.nixfmt-rfc-style;
 
           packages = import ./pkgs pkgs;
 
