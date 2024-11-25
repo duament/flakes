@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.8.0";
+    version = "v3.9.0";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.8.0";
+      rev = "v3.9.0";
       fetchSubmodules = false;
-      sha256 = "sha256-p+SZGhUXkoAf0CX5f2bdB06MyCjIodd3rpwRb5O2yYU=";
+      sha256 = "sha256-4NIsBuqf8/GFeOrI6zhVV3atP0uSScaaMiPfLMaF4RE=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.8.0/Cargo.lock;
+      lockFile = ./avbroot-v3.9.0/Cargo.lock;
       outputHashes = {
         "bzip2-0.4.4" = "sha256-9YKPFvaGNdGPn2mLsfX8Dh90vR+X4l3YSrsz0u4d+uQ=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
@@ -65,21 +65,21 @@
   };
   flood-for-transmission = {
     pname = "flood-for-transmission";
-    version = "2024-05-18T08-04-58";
+    version = "2024-11-16T12-26-17";
     src = fetchTarball {
-      url = "https://github.com/johman10/flood-for-transmission/releases/download/2024-05-18T08-04-58/flood-for-transmission.tar.gz";
-      sha256 = "sha256-OGvFDTRysqBZY1yboQ4NRHqwM9ab+a630XtAABYmQdI=";
+      url = "https://github.com/johman10/flood-for-transmission/releases/download/2024-11-16T12-26-17/flood-for-transmission.tar.gz";
+      sha256 = "sha256-K/eqvPfZ1hdaeYikHaE34agfpjsOLUOm/x4Hxhr9hFU=";
     };
   };
   hass-xiaomi-miot = {
     pname = "hass-xiaomi-miot";
-    version = "v0.7.21";
+    version = "v1.0.0b3";
     src = fetchFromGitHub {
       owner = "al-one";
       repo = "hass-xiaomi-miot";
-      rev = "v0.7.21";
+      rev = "v1.0.0b3";
       fetchSubmodules = false;
-      sha256 = "sha256-5MYA5MejQAANyjVqhqZtaIEQEs1K/aOx+1n+L9TmNmY=";
+      sha256 = "sha256-GA88Pf8a83zx5lUpjg7QQj8D2In5GGw63VJ6kf71OFg=";
     };
   };
   transmission-client = {
@@ -108,18 +108,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "7.13.2";
+    version = "7.14.4";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.13.2/uu.tar.gz";
-      sha256 = "sha256-OZNF+LhO1HT08UUEbuetGq0kKyqo0nKWye2QkPLcyEU=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.14.4/uu.tar.gz";
+      sha256 = "sha256-kSrCHJuHA8vrRr61+/GUA/F1khU1DDyaWThAz7ofWY0=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "7.13.2";
+    version = "7.13.12";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.13.2/uu.tar.gz";
-      sha256 = "sha256-pu8T4ijKVb33Z6Msl6/jIdUxLHnx7amRvDihyDYbnTE=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.13.12/uu.tar.gz";
+      sha256 = "sha256-oD+OIvX4PwxD5TV/93vmoo9pYMzUZyUvzdvVjMYOFtw=";
     };
   };
   uutunnel = {
