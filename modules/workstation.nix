@@ -218,7 +218,7 @@ in
           noto-fonts-cjk-serif
           noto-fonts-color-emoji
           aleo
-          (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+          nerd-fonts.symbols-only
           (noto-fonts.override {
             variants = [
               "Noto Music"
