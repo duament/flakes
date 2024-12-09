@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.9.0";
+    version = "v3.10.0";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.9.0";
+      rev = "v3.10.0";
       fetchSubmodules = false;
-      sha256 = "sha256-4NIsBuqf8/GFeOrI6zhVV3atP0uSScaaMiPfLMaF4RE=";
+      sha256 = "sha256-HuN+OQ3P2sdgL55BnJVfA0U0+nL53EzVmnBZgMOtVEw=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.9.0/Cargo.lock;
+      lockFile = ./avbroot-v3.10.0/Cargo.lock;
       outputHashes = {
         "bzip2-0.4.4" = "sha256-9YKPFvaGNdGPn2mLsfX8Dh90vR+X4l3YSrsz0u4d+uQ=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
@@ -73,13 +73,13 @@
   };
   hass-xiaomi-miot = {
     pname = "hass-xiaomi-miot";
-    version = "v1.0.0b3";
+    version = "v1.0.2";
     src = fetchFromGitHub {
       owner = "al-one";
       repo = "hass-xiaomi-miot";
-      rev = "v1.0.0b3";
+      rev = "v1.0.2";
       fetchSubmodules = false;
-      sha256 = "sha256-GA88Pf8a83zx5lUpjg7QQj8D2In5GGw63VJ6kf71OFg=";
+      sha256 = "sha256-WoPzWCraTj0VNzwZT9IpK7Loc1OuoQf/2B++SwP7f0Y=";
     };
   };
   transmission-client = {
@@ -108,18 +108,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "7.14.6";
+    version = "8.0.10";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.14.6/uu.tar.gz";
-      sha256 = "sha256-aUu6Lj+UpzjVK+hKY9pXfw1LaP3F8Oamq0V7JVZxeBU=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v8.0.10/uu.tar.gz";
+      sha256 = "sha256-I6eWwrqsYfi8Lw2yj5z/jsSjbGpY7FIjKqPeWOiJl48=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "7.14.6";
+    version = "8.0.10";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.14.6/uu.tar.gz";
-      sha256 = "sha256-L/omWe4mMcBL16rXaE92lUBeMKApKsbPkXC0dG5uGPU=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v8.0.10/uu.tar.gz";
+      sha256 = "sha256-2HoyeVWjpefv8MEX7T+XKnE6rS9gfXg2Y8JNGbLassU=";
     };
   };
   uutunnel = {

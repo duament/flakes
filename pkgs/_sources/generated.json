@@ -62,7 +62,7 @@
     "avbroot": {
         "cargoLocks": {
             "Cargo.lock": [
-                "./avbroot-v3.9.0/Cargo.lock",
+                "./avbroot-v3.10.0/Cargo.lock",
                 {
                     "bzip2-0.4.4": "sha256-9YKPFvaGNdGPn2mLsfX8Dh90vR+X4l3YSrsz0u4d+uQ=",
                     "zip-0.6.6": "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0="
@@ -81,11 +81,11 @@
             "name": null,
             "owner": "chenxiaolong",
             "repo": "avbroot",
-            "rev": "v3.9.0",
-            "sha256": "sha256-4NIsBuqf8/GFeOrI6zhVV3atP0uSScaaMiPfLMaF4RE=",
+            "rev": "v3.10.0",
+            "sha256": "sha256-HuN+OQ3P2sdgL55BnJVfA0U0+nL53EzVmnBZgMOtVEw=",
             "type": "github"
         },
-        "version": "v3.9.0"
+        "version": "v3.10.0"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -130,11 +130,11 @@
             "name": null,
             "owner": "al-one",
             "repo": "hass-xiaomi-miot",
-            "rev": "v1.0.0b3",
-            "sha256": "sha256-GA88Pf8a83zx5lUpjg7QQj8D2In5GGw63VJ6kf71OFg=",
+            "rev": "v1.0.2",
+            "sha256": "sha256-WoPzWCraTj0VNzwZT9IpK7Loc1OuoQf/2B++SwP7f0Y=",
             "type": "github"
         },
-        "version": "v1.0.0b3"
+        "version": "v1.0.2"
     },
     "transmission-client": {
         "cargoLocks": null,
@@ -185,11 +185,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-aUu6Lj+UpzjVK+hKY9pXfw1LaP3F8Oamq0V7JVZxeBU=",
+            "sha256": "sha256-I6eWwrqsYfi8Lw2yj5z/jsSjbGpY7FIjKqPeWOiJl48=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v7.14.6/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v8.0.10/uu.tar.gz"
         },
-        "version": "7.14.6"
+        "version": "8.0.10"
     },
     "uuplugin-x86_64": {
         "cargoLocks": null,
@@ -200,11 +200,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-L/omWe4mMcBL16rXaE92lUBeMKApKsbPkXC0dG5uGPU=",
+            "sha256": "sha256-2HoyeVWjpefv8MEX7T+XKnE6rS9gfXg2Y8JNGbLassU=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v7.14.6/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v8.0.10/uu.tar.gz"
         },
-        "version": "7.14.6"
+        "version": "8.0.10"
     },
     "uutunnel": {
         "cargoLocks": {
