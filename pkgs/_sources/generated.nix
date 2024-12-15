@@ -73,13 +73,13 @@
   };
   hass-xiaomi-miot = {
     pname = "hass-xiaomi-miot";
-    version = "v1.0.2";
+    version = "v1.0.5";
     src = fetchFromGitHub {
       owner = "al-one";
       repo = "hass-xiaomi-miot";
-      rev = "v1.0.2";
+      rev = "v1.0.5";
       fetchSubmodules = false;
-      sha256 = "sha256-WoPzWCraTj0VNzwZT9IpK7Loc1OuoQf/2B++SwP7f0Y=";
+      sha256 = "sha256-hgTVjdDKzcjkJujI7TnANhLMvuwxW0jGb7rslhf0nXg=";
     };
   };
   transmission-client = {
@@ -108,18 +108,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "8.0.10";
+    version = "8.0.12";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v8.0.10/uu.tar.gz";
-      sha256 = "sha256-I6eWwrqsYfi8Lw2yj5z/jsSjbGpY7FIjKqPeWOiJl48=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v8.0.12/uu.tar.gz";
+      sha256 = "sha256-+OWeKMc3BaRwXnkQtcE8MMXu7wzv/KVIb6UF/AMmcBc=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "8.0.10";
+    version = "8.0.12";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v8.0.10/uu.tar.gz";
-      sha256 = "sha256-2HoyeVWjpefv8MEX7T+XKnE6rS9gfXg2Y8JNGbLassU=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v8.0.12/uu.tar.gz";
+      sha256 = "sha256-0RkxIFa2hvvFhSM+u2dFZg9PSFwIX21FqSIb8qoHU7s=";
     };
   };
   uutunnel = {
