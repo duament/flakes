@@ -14,6 +14,7 @@ let
     gopls = makeLsp pkgs.gopls "gopls";
     rust_analyzer = makeLsp pkgs.rust-analyzer "rust-analyzer";
     nil = makeLsp pkgs.nil "nil";
+    nixfmt = makeLsp pkgs.nixfmt-rfc-style "nixfmt";
     beancount_language_server = makeLsp pkgs.beancount-language-server "beancount-language-server";
     typescript_language_server = makeLsp pkgs.nodePackages.typescript-language-server "typescript-language-server";
   };

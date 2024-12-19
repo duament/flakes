@@ -231,6 +231,13 @@ require('lspconfig')['nil_ls'].setup{
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "@nil@" },
+  settings = {
+    ['nil'] = {
+      formatting = {
+        command = { "@nixfmt@" },
+      },
+    },
+  },
 }
 require('lspconfig')['beancount'].setup{
   on_attach = on_attach,
