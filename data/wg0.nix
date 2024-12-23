@@ -29,6 +29,11 @@
       id = 7;
       pubkey = "3vv0NIrXnQXedkvmTWgHXQMfxC6IcLk4P+cWuGV6qXU=";
     };
+    router = {
+      id = 8;
+      pubkey = "5urMuQeci5UaISydWJtgi+YB9IPuYc0Y7kBwZZyCPnU=";
+      port = 11111;
+    };
     work = {
       id = 10;
       pubkey = "Zwg16+rw0uVJHFWsKj56nc9+eli0/XIYrKxespMbGj0=";
@@ -103,6 +108,21 @@
       ipv4Mask = 24;
       ipv6Pre = "fd66:d::";
       ipv6Mask = 120;
+    };
+    router = {
+      ipv4Pre = "10.6.14.";
+      ipv4Mask = 24;
+      ipv6Pre = "fd66:e::";
+      ipv6Mask = 120;
+      # Initiate connection to those peers
+      outPeers = [
+        "nl"
+        "or2"
+        "or3"
+        "az"
+        "ak"
+        "sg"
+      ];
     };
   };
 }

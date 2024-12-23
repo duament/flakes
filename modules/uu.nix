@@ -34,6 +34,11 @@ in
       default = "ve-uu";
     };
 
+    extraInterfaces = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+    };
+
     vlan = {
       enable = mkEnableOption "Whether to create a vlan and add it to the LAN bridge";
 
@@ -119,7 +124,7 @@ in
       privateNetwork = true;
       extraVeths.${cfg.vethName} = { };
       extraVeths.simns = { };
-      interfaces = optional cfg.vlan.enable cfg.vlan.name;
+      interfaces = (optional cfg.vlan.enable cfg.vlan.name) ++ cfg.extraInterfaces;
       extraFlags = [ "--load-credential=uuplugin-uuid:uuplugin-uuid" ];
       config =
         { config, ... }:

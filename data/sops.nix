@@ -9,6 +9,7 @@ let
     desktop = "age1y6fkn5p6x5zr6rw9r8p5urz0gnhuqqwup0g69hpf4wtuhv4sty3qe7zpu4";
     xiaoxin = "age1xyxljs0yx5dttk77f9r8l7s30js6zjy30h9ldy09mwyhrlhrdptqdzwcek";
     t430 = "age1nprdnw6pdhstfll7hy8jv74evy2kajr257hc7p9jhe446l5xz52qej7y0v";
+    router = "age1px5yaq8rd77d6802ex5fl2ctezseg03m42dnp9rtrk9keuv4nvxspptr86";
     nl = "age1h3eu4fukupn8ssquqyfgn587hv5l0ck0gmmvyv8lhncpq0myhq8sg54mxy";
     or2 = "age19p2mn396dl4qnwlyczuahwrjz0dglmcpk0yd86wcn9mn9mpxzffs6qdpa9";
     or3 = "age1t7fpg9m0n5cg5vz0fypltc6c7py548uhpyp8f37hmdnq2j73ky9s6cvhgr";
@@ -38,6 +39,7 @@ rec {
         "desktop"
         "xiaoxin"
         "t430"
+        "router"
         "nl"
         "or2"
         "or3"
@@ -59,6 +61,7 @@ rec {
       "secrets/uu.yaml" = [
         "rpi3"
         "t430"
+        "router"
         "desktop"
         "xiaoxin"
       ];
