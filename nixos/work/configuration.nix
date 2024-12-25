@@ -70,7 +70,7 @@
   };
   presets.wireguard.wg0 = {
     enable = true;
-    clientPeers.t430 = {
+    clientPeers.router = {
       route = "all";
       routeBypass = [
         "172.16.0.0/12"
@@ -78,7 +78,7 @@
         "10.12.0.0/16"
         "fc00::/64"
       ];
-      endpoint = "[::1]:11112";
+      endpoint = "[::1]:11111";
       keepalive = 25;
     };
   };
@@ -127,10 +127,10 @@
           type = "direct";
           tag = "wg-tunnel";
           listen = "::1";
-          listen_port = 11112;
+          listen_port = 11111;
           network = "udp";
           override_address = "::1";
-          override_port = 11112;
+          override_port = 11111;
         }
       ];
       outbounds = [
