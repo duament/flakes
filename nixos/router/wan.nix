@@ -68,7 +68,7 @@ in
         matchConfig.Type = "ppp";
         DHCP = "ipv6";
         networkConfig = {
-          IPv6AcceptRA = false;
+          IPv6AcceptRA = true;
           KeepConfiguration = true;
         };
         dhcpV6Config.WithoutRA = "solicit";
