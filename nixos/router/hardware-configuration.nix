@@ -38,7 +38,10 @@
   };
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [ ];
+  boot.kernelParams = [
+    "nmi_watchdog=0"
+    "snd_hda_intel.power_save=1"
+  ];
 
   presets.fs = {
     enable = true;
