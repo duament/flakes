@@ -50,6 +50,7 @@ in
 
     systemd.network.networks = {
       "10-enp1s0" = {
+        name = "enp1s0";
         networkConfig = {
           IPv6AcceptRA = false;
         };
