@@ -414,17 +414,10 @@ in
       "met"
       "xiaomi_miio"
     ];
-    extraPackages =
-      python3Packages: with python3Packages; [
-        hap-python
-        pyqrcode
-      ];
+    customComponents = with pkgs.home-assistant-custom-components; [
+      xiaomi_miot
+    ];
   };
-  systemd.services.home-assistant.preStart = ''
-    mkdir -p ${config.services.home-assistant.configDir}/custom_components
-    ln -sf ${pkgs.hass-xiaomi-miot}/share/hass/custom_components/xiaomi_miot ${config.services.home-assistant.configDir}/custom_components/
-  '';
-  nixpkgs.config.permittedInsecurePackages = [ "openssl-1.1.1w" ];
 
   security.acme = {
     acceptTerms = true;
