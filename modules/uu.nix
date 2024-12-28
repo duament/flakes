@@ -178,7 +178,7 @@ in
               dns = "10.6.0.1";
             };
             lan = {
-              interfaces = [ "simns" ] ++ optional cfg.vlan.enable cfg.vlan.name;
+              interfaces = [ "simns" ] ++ cfg.extraInterfaces ++ optional cfg.vlan.enable cfg.vlan.name;
               address = "10.6.8.1/24";
               staticLeases = [
                 {
