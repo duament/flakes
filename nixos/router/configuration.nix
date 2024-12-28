@@ -171,6 +171,7 @@ in
       "ffmpeg"
       "met"
       "xiaomi_miio"
+      "roborock"
     ];
     extraPackages =
       python3Packages: with python3Packages; [
@@ -182,7 +183,6 @@ in
     mkdir -p ${config.services.home-assistant.configDir}/custom_components
     ln -sf ${pkgs.hass-xiaomi-miot}/share/hass/custom_components/xiaomi_miot ${config.services.home-assistant.configDir}/custom_components/
   '';
-  nixpkgs.config.permittedInsecurePackages = [ "openssl-1.1.1w" ];
 
   security.acme = {
     acceptTerms = true;
