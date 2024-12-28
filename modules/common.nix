@@ -168,6 +168,7 @@ with lib;
             "k2"
             "k1"
             "work"
+            "router"
           ]
       )
       // {

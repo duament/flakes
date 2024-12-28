@@ -76,6 +76,7 @@ in
               "rpi3"
               "t430"
               "work"
+              "router"
             ]
         )
         // builtins.listToAttrs (
