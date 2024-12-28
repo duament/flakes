@@ -417,6 +417,11 @@ in
     customComponents = with pkgs.home-assistant-custom-components; [
       xiaomi_miot
     ];
+    extraPackages =
+      python3Packages: with python3Packages; [
+        hap-python
+        pyqrcode
+      ];
   };
 
   security.acme = {
