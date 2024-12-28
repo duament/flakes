@@ -76,7 +76,7 @@ in
   presets.duckdns = {
     enable = true;
     domain = "t430-rvfg.duckdns.org";
-    interface = "enp1s0";
+    interface = "ppp0";
     tokenFile = config.sops.secrets.duckdns.path;
   };
 
