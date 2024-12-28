@@ -39,28 +39,28 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.10.0";
+    version = "v3.11.0";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.10.0";
+      rev = "v3.11.0";
       fetchSubmodules = false;
-      sha256 = "sha256-HuN+OQ3P2sdgL55BnJVfA0U0+nL53EzVmnBZgMOtVEw=";
+      sha256 = "sha256-q/IrlltNF9J3M4e51YlvpG3hRyn7K0tO1GfpfYBX1cY=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.10.0/Cargo.lock;
+      lockFile = ./avbroot-v3.11.0/Cargo.lock;
       outputHashes = {
-        "bzip2-0.4.4" = "sha256-9YKPFvaGNdGPn2mLsfX8Dh90vR+X4l3YSrsz0u4d+uQ=";
+        "bzip2-0.5.0" = "sha256-TEgKsd88g8L9FBYgZM/Y6vFCMmzjz6VsZbQuc5TF0Rk=";
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
       };
     };
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20240909";
+    version = "20241218";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20240909.dict";
-      sha256 = "sha256-djXrwl1MmiAf0U5Xvm4S7Fk2fKNRm5jtc94KUYIrcm8=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20241218.dict";
+      sha256 = "sha256-9Z+dgicQQdsySn1/xn6w4Q4hOqMv7Rngol615/JxtRk=";
     };
   };
   flood-for-transmission = {
@@ -69,17 +69,6 @@
     src = fetchTarball {
       url = "https://github.com/johman10/flood-for-transmission/releases/download/2024-11-16T12-26-17/flood-for-transmission.tar.gz";
       sha256 = "sha256-K/eqvPfZ1hdaeYikHaE34agfpjsOLUOm/x4Hxhr9hFU=";
-    };
-  };
-  hass-xiaomi-miot = {
-    pname = "hass-xiaomi-miot";
-    version = "v1.0.5";
-    src = fetchFromGitHub {
-      owner = "al-one";
-      repo = "hass-xiaomi-miot";
-      rev = "v1.0.5";
-      fetchSubmodules = false;
-      sha256 = "sha256-hgTVjdDKzcjkJujI7TnANhLMvuwxW0jGb7rslhf0nXg=";
     };
   };
   transmission-client = {
