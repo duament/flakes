@@ -5,8 +5,11 @@
   ];
 
   home.packages = with pkgs; [
+    ethtool
     iperf
+    lm_sensors
     pciutils
+    powertop
     usbutils
   ];
 
