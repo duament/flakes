@@ -16,17 +16,17 @@ in
 
   config = {
 
-  networking.firewall = {
-    extraInputRules = ''
-      iifname { ${config.router.dnsEnabledIfs} } meta l4proto { tcp, udp } th dport 53 accept
-    '';
-  };
+    networking.firewall = {
+      extraInputRules = ''
+        iifname { ${config.router.dnsEnabledIfs} } meta l4proto { tcp, udp } th dport 53 accept
+      '';
+    };
 
-  # TODO
-  presets.adguardhome = {
-    enable = true;
-    chinaDns = [ "223.5.5.5" ];
-  };
+    # TODO
+    presets.adguardhome = {
+      enable = true;
+      chinaDns = [ "223.5.5.5" ];
+    };
 
   };
 

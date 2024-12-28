@@ -157,7 +157,6 @@
       "workspace ${n}, cgroup2:^(.*)(-w${n}\.service)$"
     ) 9);
 
-  exec-once =
-    [
-    ];
+  exec-once = [
+  ];
 }

@@ -150,7 +150,8 @@ in
                 auth_request_set $auth_resp_failcount $upstream_http_x_vouch_failcount;
               '';
             };
-            "@error401".return = "302 /vouch/login?url=$scheme://$host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
+            "@error401".return =
+              "302 /vouch/login?url=$scheme://$host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
           }
           // (builtins.listToAttrs (
             map (loc: {

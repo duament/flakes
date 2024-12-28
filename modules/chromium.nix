@@ -40,7 +40,8 @@ with lib;
         SafeBrowsingProtectionLevel = 0;
         SearchSuggestEnabled = false;
         SyncDisabled = true;
-        "3rdparty".extensions.cjpalhdlnbpafiamejdnhcphjbkeiagm.adminSettings = builtins.toJSON self.data.ublockOriginSettings;
+        "3rdparty".extensions.cjpalhdlnbpafiamejdnhcphjbkeiagm.adminSettings =
+          builtins.toJSON self.data.ublockOriginSettings;
       };
     };
   };

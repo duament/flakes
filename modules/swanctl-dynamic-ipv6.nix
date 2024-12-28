@@ -206,24 +206,22 @@ in
         if [[ $NEED_UPDATE -eq 1 ]]; then
           cat > "${vip6Path}.tmp" << EOF
           pools {
-            ${
-              concatStringsSep "" (
-                imap0 (id: name: ''
-                  # ${name}_vip {
-                  #   addrs = ${cfg.IPv4Prefix}${toString (128 + id)}/32
-                  #   dns = ${cfg.IPv4Prefix}1
-                  # }
-                  ${name}_vip6 {
-                    addrs = $IPV6_PREFIX${cfg.IPv6Middle}::${toHexString (id + 2)}/128
-                    dns = $IPV6_PREFIX::1
-                  }
-                  # ${name}_vip_ula {
-                  #   addrs = ${cfg.ULAPrefix}${toHexString (128 + id)}/128
-                  #   dns = ${cfg.ULAPrefix}1
-                  # }
-                '') cfg.devices
-              )
-            }
+            ${concatStringsSep "" (
+              imap0 (id: name: ''
+                # ${name}_vip {
+                #   addrs = ${cfg.IPv4Prefix}${toString (128 + id)}/32
+                #   dns = ${cfg.IPv4Prefix}1
+                # }
+                ${name}_vip6 {
+                  addrs = $IPV6_PREFIX${cfg.IPv6Middle}::${toHexString (id + 2)}/128
+                  dns = $IPV6_PREFIX::1
+                }
+                # ${name}_vip_ula {
+                #   addrs = ${cfg.ULAPrefix}${toHexString (128 + id)}/128
+                #   dns = ${cfg.ULAPrefix}1
+                # }
+              '') cfg.devices
+            )}
           }
         EOF
           mv "${vip6Path}.tmp" "${vip6Path}"

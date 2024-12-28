@@ -236,6 +236,7 @@ in
           };
         };
     };
-    systemd.services."container@uu".serviceConfig.LoadCredential = "uuplugin-uuid:${config.sops.secrets.uuplugin-uuid.path}";
+    systemd.services."container@uu".serviceConfig.LoadCredential =
+      "uuplugin-uuid:${config.sops.secrets.uuplugin-uuid.path}";
   };
 }

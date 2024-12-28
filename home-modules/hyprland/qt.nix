@@ -46,7 +46,8 @@ in
       activate_item_on_single_click=2
     '';
 
-    xdg.configFile."Kvantum/Fluent-solid-pink".source = "${pkgs.Fluent-solid-pink}/share/Kvantum/Fluent-solid-pink";
+    xdg.configFile."Kvantum/Fluent-solid-pink".source =
+      "${pkgs.Fluent-solid-pink}/share/Kvantum/Fluent-solid-pink";
     xdg.configFile."Kvantum/kvantum.kvconfig".text = ''
       [General]
       theme=Fluent-solid-pink

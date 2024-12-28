@@ -112,7 +112,8 @@ in
       http-enabled = true;
     };
   };
-  systemd.services.keycloak.environment.JAVA_OPTS_APPEND = "-Djava.net.preferIPv4Stack=false -Djava.net.preferIPv6Addresses=true";
+  systemd.services.keycloak.environment.JAVA_OPTS_APPEND =
+    "-Djava.net.preferIPv4Stack=false -Djava.net.preferIPv6Addresses=true";
 
   services.prometheus = {
     enable = true;
@@ -141,9 +142,8 @@ in
     enable = true;
     provision = {
       enable = true;
-      dashboards.settings.providers =
-        [
-        ];
+      dashboards.settings.providers = [
+      ];
       datasources.settings.datasources = [
         {
           name = "Prometheus";
@@ -276,7 +276,8 @@ in
       "prom.rvf6.com".locations."/".proxyPass =
         with config.services.prometheus;
         "http://${listenAddress}:${toString port}/";
-      "graf.rvf6.com".locations."/".proxyPass = "http://unix:${config.services.grafana.settings.server.socket}:/";
+      "graf.rvf6.com".locations."/".proxyPass =
+        "http://unix:${config.services.grafana.settings.server.socket}:/";
     };
   };
   systemd.services.nginx.serviceConfig.SupplementaryGroups = [ "grafana" ];

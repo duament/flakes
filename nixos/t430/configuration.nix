@@ -495,7 +495,8 @@ in
         proxyPass = "http://[::1]:${toString config.services.home-assistant.config.http.server_port}";
         proxyWebsockets = true;
       };
-      "adg.rvf6.com".locations."/".proxyPass = "http://${config.services.adguardhome.host}:${toString config.services.adguardhome.port}";
+      "adg.rvf6.com".locations."/".proxyPass =
+        "http://${config.services.adguardhome.host}:${toString config.services.adguardhome.port}";
       "wpad.rvf6.com".locations."= /wpad.dat" = {
         extraConfig = "add_header Content-Type application/x-ns-proxy-autoconfig;";
         alias = pkgs.writeText "wpad.dat" ''

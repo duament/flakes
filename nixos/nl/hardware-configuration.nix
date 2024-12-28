@@ -11,9 +11,8 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams =
-    [
-    ];
+  boot.kernelParams = [
+  ];
 
   presets.fs = {
     enable = true;
