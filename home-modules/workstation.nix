@@ -27,7 +27,7 @@
       inkscape
       iputils
       keepassxc
-      (llama-cpp.override { rocmSupport = true; })
+      # TODO (llama-cpp.override { rocmSupport = true; })
       libreoffice-fresh
       openssl
       papirus-icon-theme
