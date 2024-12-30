@@ -12,6 +12,7 @@ let
   cfg = config.presets.sing-box;
   settingsFormat = pkgs.formats.json { };
   capNetAdmin = any (o: o ? routing_mark) (cfg.settings.outbounds or [ ]);
+  prepareScript = pkgs.writeShellScript "sing-box-config-setup" cfg.prepareScript;
 in
 {
 
@@ -20,6 +21,10 @@ in
       enable = lib.mkEnableOption "sing-box universal proxy platform";
 
       package = lib.mkPackageOption pkgs "sing-box" { };
+
+      prepareScript = lib.mkOption {
+        type = lib.types.lines;
+      };
 
       settings = lib.mkOption {
         type = lib.types.submodule {
@@ -62,7 +67,6 @@ in
     systemd.packages = [ cfg.package ];
 
     systemd.services.sing-box = {
-      preStart = utils.genJqSecretsReplacementSnippet cfg.settings "/run/sing-box/config.json";
       serviceConfig =
         self.data.systemdHarden
         // {
@@ -77,9 +81,20 @@ in
           StateDirectoryMode = "0700";
           RuntimeDirectory = "sing-box";
           RuntimeDirectoryMode = "0700";
+          ExecStartPre = [
+            (pkgs.writeShellScript "sing-box-replace-secrets" (
+              utils.genJqSecretsReplacementSnippet cfg.settings "/run/sing-box/config.json"
+            ))
+            prepareScript
+          ];
           ExecStart = [
             ""
             "${lib.getExe cfg.package} -D \${STATE_DIRECTORY} -C \${RUNTIME_DIRECTORY} run"
+          ];
+          ExecReload = [
+            ""
+            prepareScript
+            "${lib.getExe' pkgs.coreutils "kill"} -HUP $MAINPID"
           ];
         }
         // (optionalAttrs capNetAdmin {

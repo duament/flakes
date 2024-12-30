@@ -103,19 +103,19 @@
     "tls_cert:${config.sops.secrets."tuic/tls_cert".path}"
     "ech_config:${config.sops.secrets."tuic/ech_config".path}"
   ];
-  systemd.services.sing-box.preStart = lib.mkAfter ''
-    TXT_PATH=/var/lib/dns-txt/t430-rvfg.duckdns.org
-    if [[ -f $TXT_PATH ]]; then
-      IP=$(cat $TXT_PATH | ${pkgs.gawk}/bin/awk '{print $1}')
-      PORT=$(cat $TXT_PATH | ${pkgs.gawk}/bin/awk '{print $2}')
-      if [[ $IP ]] && [[ $PORT ]]; then
-        cat /run/sing-box/config.json | ${pkgs.jq}/bin/jq --arg IP "$IP" --arg PORT "$PORT" '.outbounds[] |= if .type == "tuic" then (.server = $IP | .server_port = ($PORT | tonumber)) end' > /run/sing-box/config.json.tmp
-        mv /run/sing-box/config.json.tmp /run/sing-box/config.json
-      fi
-    fi
-  '';
   presets.sing-box = {
     enable = true;
+    prepareScript = lib.mkAfter ''
+      TXT_PATH=/var/lib/dns-txt/t430-rvfg.duckdns.org
+      if [[ -f $TXT_PATH ]]; then
+        IP=$(cat $TXT_PATH | ${pkgs.gawk}/bin/awk '{print $1}')
+        PORT=$(cat $TXT_PATH | ${pkgs.gawk}/bin/awk '{print $2}')
+        if [[ $IP ]] && [[ $PORT ]]; then
+          cat /run/sing-box/config.json | ${pkgs.jq}/bin/jq --arg IP "$IP" --arg PORT "$PORT" '.outbounds[] |= if .type == "tuic" then (.server = $IP | .server_port = ($PORT | tonumber)) end' > /run/sing-box/config.json.tmp
+          mv /run/sing-box/config.json.tmp /run/sing-box/config.json
+        fi
+      fi
+    '';
     settings = {
       inbounds = [
         {
