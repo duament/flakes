@@ -197,4 +197,49 @@
     };
   };
 
+  systemd.services.sing-box-re-resolve = {
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    serviceConfig = self.data.systemdHarden // {
+      Type = "oneshot";
+      RestrictAddressFamilies = [
+        "AF_UNIX"
+        "AF_INET"
+        "AF_INET6"
+        "AF_NETLINK"
+      ];
+      PrivateNetwork = false;
+      DynamicUser = false;
+      ReadWritePaths = [ "/var/lib/dns-txt" ];
+    };
+    path = with pkgs; [
+      curl
+      iproute2
+      jq
+    ];
+    script = ''
+      set -eu -o pipefail
+      IP=$(curl -s --retry 3 -m 60 --fail "https://223.5.5.5/resolve?name=t430-rvfg.duckdns.org&type=1" | jq -r '.Answer[0].data')
+      if [[ ! $IP ]]; then
+        >&2 echo "Cannot get IP address"
+        exit 1
+      fi
+
+      text_path="/var/lib/dns-txt/t430-rvfg.duckdns.org"
+      new_text="$IP 11113"
+      if [[ $(< "$text_path") != "$new_text" ]]; then
+        echo "$new_text" > "$text_path"
+        systemctl reload sing-box
+      fi
+    '';
+  };
+  presets.bpf-mark.sing-box-re-resolve = 1;
+  systemd.timers.sing-box-re-resolve = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnStartupSec = 60;
+      OnUnitActiveSec = 300;
+    };
+  };
+
 }
