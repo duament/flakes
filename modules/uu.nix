@@ -119,6 +119,7 @@ in
 
     containers.uu = {
       autoStart = true;
+      restartIfChanged = false;
       enableTun = true;
       ephemeral = true;
       privateNetwork = true;
