@@ -176,7 +176,7 @@ in
               type = "static";
               address = "10.6.7.2/24";
               gateway = "10.6.7.1";
-              dns = "10.6.0.1";
+              dns = "10.6.7.1";
             };
             lan = {
               interfaces = [ "simns" ] ++ cfg.extraInterfaces ++ optional cfg.vlan.enable cfg.vlan.name;
