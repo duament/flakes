@@ -33,6 +33,21 @@ in
     '';
     networking.nftables.masquerade = [ "oifname ppp0" ];
 
+    networking.nftables.tables.interface-mark = {
+      family = "inet";
+      content = ''
+        chain inbound-mark {
+          type filter hook prerouting priority mangle;
+          iifname ppp0 ct state new ct mark set 65536
+          ct direction reply ct mark 65536 meta mark set ct mark
+        }
+        chain output-restore-mark {
+          type route hook output priority mangle;
+          ct direction reply ct mark 65536 meta mark set ct mark
+        }
+      '';
+    };
+
     systemd.services.pppd-isp.serviceConfig.LoadCredential = [
       "pppoe:${config.sops.secrets.pppoe.path}"
     ];
@@ -85,6 +100,13 @@ in
           KeepConfiguration = true;
         };
         dhcpV6Config.WithoutRA = "solicit";
+        routingPolicyRules = [
+          {
+            FirewallMark = 65536;
+            Priority = 64;
+            Family = "both";
+          }
+        ];
       };
     };
 
