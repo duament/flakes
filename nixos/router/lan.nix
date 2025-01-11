@@ -66,11 +66,9 @@ in
       lanIfs = map ifName managedVlans;
       lanEnabledIfs = map ifName [
         "lan"
-        "internet"
       ];
       wgEnabledIfs = map ifName [
         "lan"
-        "internet"
       ];
       wanEnabledIfs = map ifName managedVlans;
       dnsEnabledIfs = map ifName managedVlans;
