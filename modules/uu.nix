@@ -102,10 +102,12 @@ in
             {
               FirewallMark = 3;
               Table = 10;
+              Priority = 64;
             }
             {
               To = "10.6.8.0/24";
               Table = 10;
+              Priority = 64;
             }
           ];
         };

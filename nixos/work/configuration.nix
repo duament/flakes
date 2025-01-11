@@ -59,7 +59,7 @@
       map
         (ip: {
           To = ip;
-          Priority = 9;
+          Priority = 128;
         })
         [
           "172.16.0.0/12"

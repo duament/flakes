@@ -100,7 +100,7 @@ in
       routingPolicyRules = [
         {
           To = "${cfg.IPv6Prefix}1/120";
-          Priority = 5;
+          Priority = 64;
         }
       ];
     };

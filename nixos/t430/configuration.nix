@@ -153,7 +153,7 @@ in
       {
         FirewallMark = nonCNMark;
         Table = table;
-        Priority = 20;
+        Priority = 16384;
         Family = "ipv4";
       }
     ];
@@ -166,13 +166,13 @@ in
       {
         FirewallMark = nonCNMark;
         Table = table;
-        Priority = 20;
+        Priority = 16384;
         Family = "ipv6";
       }
       {
         To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
         Table = table;
-        Priority = 9;
+        Priority = 128;
       }
     ];
 
@@ -184,7 +184,7 @@ in
       {
         To = "34.117.196.143"; # prod-ingress.nianticlabs.com
         Table = table;
-        Priority = 9;
+        Priority = 128;
       }
     ];
 

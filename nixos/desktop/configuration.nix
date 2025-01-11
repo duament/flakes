@@ -77,7 +77,7 @@ in
   #  {
   #    FirewallMark = 2;
   #    Table = 20;
-  #    Priority = 20;
+  #    Priority = 16384;
   #    Family = "both";
   #  }
   #];

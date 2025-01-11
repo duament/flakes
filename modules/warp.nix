@@ -128,7 +128,7 @@ in
         {
           FirewallMark = cfg.table;
           Table = cfg.table;
-          Priority = 15;
+          Priority = 1024;
           Family = "both";
         }
       ];

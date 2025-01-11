@@ -126,7 +126,7 @@ in
         {
           Family = "both";
           FirewallMark = directMark;
-          Priority = 9;
+          Priority = 64;
         }
       ];
       # domains = [ "~h.rvf6.com" ];

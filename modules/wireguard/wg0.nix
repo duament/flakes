@@ -241,7 +241,7 @@ in
                 Family = "both";
                 FirewallMark = cfg.clientPeers.${h}.table;
                 Table = cfg.clientPeers.${h}.table;
-                Priority = 15;
+                Priority = 1024;
               };
             }
             // (optionalAttrs (h == routePeer) {
@@ -253,7 +253,7 @@ in
               routingPolicyRules =
                 map (ip: {
                   To = ip;
-                  Priority = 9;
+                  Priority = 128;
                 }) cfg.clientPeers.${h}.routeBypass
                 ++ (
                   if route == "all" then
@@ -263,7 +263,7 @@ in
                         FirewallMark = wgMark;
                         InvertRule = "yes";
                         Table = wgTable;
-                        Priority = 20;
+                        Priority = 16384;
                       }
                     ]
                   else
@@ -271,13 +271,13 @@ in
                       {
                         Family = "both";
                         FirewallMark = wgMark;
-                        Priority = 9;
+                        Priority = 64;
                       }
                       {
                         Family = "both";
                         FirewallMark = routeMark;
                         Table = wgTable;
-                        Priority = 20;
+                        Priority = 16384;
                       }
                     ]
                 );
