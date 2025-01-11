@@ -20,8 +20,6 @@ let
     make SERVER="${concatStringsSep " " cfg.chinaDns}" adguardhome
     cat accelerated-domains.china.adguardhome.conf >> $out
     echo >> $out
-    cat apple.china.adguardhome.conf >> $out
-    echo >> $out
     cat <<EOF >> $out
     ${concatStringsSep "\n" cfg.upstream}
     EOF
@@ -77,11 +75,16 @@ in
           bind_hosts = [ "::" ];
           port = 53;
           ratelimit = 0;
-          upstream_dns_file = adguardhomeUpstream.outPath;
+          upstream_dns_file = "/var/lib/AdGuardHome/upstream";
         };
         dhcp.enabled = false;
       };
     };
+
+    systemd.services.adguardhome.preStart = lib.mkOrder 1200 ''
+      cp ${adguardhomeUpstream.outPath} $STATE_DIRECTORY/upstream
+      chmod 600 $STATE_DIRECTORY/upstream
+    '';
 
   };
 }

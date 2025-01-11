@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -44,9 +45,20 @@ in
         noauth
         defaultroute
         defaultroute-metric 512
+        usepeerdns
         file /run/credentials/pppd-isp.service/pppoe
       '';
     };
+    environment.etc."ppp/ip-up".source = pkgs.writeShellScript "ppp-ip-up" ''
+      set -eu -o pipefail
+      if [[ ! -z "$DNS1" ]]; then
+        echo "$DNS1" > /run/dns/ppp
+        if [[ ! -z "$DNS2" ]]; then
+          echo "$DNS2" >> /run/dns/ppp
+        fi
+        chmod 644 /run/dns/ppp
+      fi
+    '';
 
     systemd.network.networks = {
       "10-enp1s0" = {
@@ -73,6 +85,26 @@ in
           KeepConfiguration = true;
         };
         dhcpV6Config.WithoutRA = "solicit";
+      };
+    };
+
+    services.networkd-dispatcher = {
+      enable = true;
+      rules."dns" = {
+        onState = [
+          "configured"
+        ];
+        script = ''
+          #!${pkgs.runtimeShell}
+          set -eu -o pipefail
+          if [[ $IFACE == "ppp0" ]]; then
+            DNS=$(echo "$json" | ${lib.getExe pkgs.jq} -r '.DNS[] // empty')
+            if [[ ! -z "$DNS" ]]; then
+              echo "$DNS"
+              echo "$DNS" > /run/dns/networkd
+            fi
+          fi
+        '';
       };
     };
 
