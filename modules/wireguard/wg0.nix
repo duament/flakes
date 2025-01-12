@@ -65,7 +65,7 @@ let
 
         keepalive = mkOption {
           type = with types; nullOr int;
-          default = null;
+          default = 25;
         };
 
         route = mkOption {
