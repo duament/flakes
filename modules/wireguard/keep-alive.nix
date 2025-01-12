@@ -39,7 +39,7 @@ in
                 sleep 10
 
                 # Configuration
-                CHECK_INTERVAL=3
+                CHECK_INTERVAL=15
                 MAX_FAILED_CHECKS=3
                 PORT_MIN=24000
                 PORT_MAX=30000
