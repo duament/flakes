@@ -103,6 +103,7 @@ in
       RuntimeDirectory = "%p";
       LoadCredential = "miniflux.conf:${config.sops.secrets.miniflux.path}";
       ExecStart = "${pkgs.miniflux}/bin/miniflux -c \${CREDENTIALS_DIRECTORY}/miniflux.conf";
+      Restart = "on-failure";
     };
   };
 
