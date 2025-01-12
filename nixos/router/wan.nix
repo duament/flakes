@@ -31,7 +31,10 @@ in
     networking.firewall.extraForwardRules = ''
       iifname { ${config.router.wanEnabledIfs} } oifname ppp0 accept
     '';
-    networking.nftables.masquerade = [ "oifname ppp0" ];
+    networking.nftables.masquerade = [
+      "meta nfproto ipv4 oifname ppp0"
+      "ip6 saddr fc00::/7 oifname ppp0"
+    ];
 
     networking.nftables.tables.interface-mark = {
       family = "inet";
