@@ -194,7 +194,7 @@ in
     security.polkit.enable = true;
 
     security.rtkit.enable = true;
-    hardware.pulseaudio.enable = false;
+    services.pulseaudio.enable = false;
     services.pipewire = {
       enable = true;
       #alsa.enable = true;
