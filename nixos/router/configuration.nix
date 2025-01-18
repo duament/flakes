@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   self,
   ...
@@ -75,6 +74,7 @@ in
 
   presets.duckdns = {
     enable = true;
+    family = "both";
     domain = "t430-rvfg.duckdns.org";
     interface = "ppp0";
     tokenFile = config.sops.secrets.duckdns.path;

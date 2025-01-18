@@ -6,12 +6,29 @@
   ...
 }:
 let
-  inherit (lib) types mkOption mkEnableOption;
+  inherit (lib)
+    types
+    mkOption
+    mkEnableOption
+    optionalString
+    ;
   cfg = config.presets.duckdns;
+
+  enableIPv4 = cfg.family != "ipv6";
+  enableIPv6 = cfg.family != "ipv4";
 in
 {
   options.presets.duckdns = {
     enable = mkEnableOption "";
+
+    family = mkOption {
+      type = types.enum [
+        "ipv4"
+        "ipv6"
+        "both"
+      ];
+      default = "ipv6";
+    };
 
     domain = mkOption {
       type = types.str;
@@ -49,12 +66,21 @@ in
       ];
       script = ''
         TOKEN=$(systemd-creds cat token)
-        IPV6=$(ip -j -6 a show dev ${cfg.interface} scope global | jq -r '[.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd" and .local != null)][0].local')
-        if [[ ! $IPV6 ]]; then
-          >&2 echo "Cannot get IPv6 addresses"
-          exit
-        fi
-        curl -s --retry 3 -m 60 "https://www.duckdns.org/update?domains=${cfg.domain}&token=$TOKEN&verbose=true&ipv6=$IPV6"
+        ${optionalString enableIPv4 ''
+          IPV4=$(ip -j -4 a show dev ${cfg.interface} scope global | jq -r '[.[0].addr_info[] | select(.local != null)][0].local')
+          if [[ ! $IPV4 ]]; then
+            >&2 echo "Cannot get IPv4 addresses"
+            exit
+          fi
+        ''}
+        ${optionalString enableIPv6 ''
+          IPV6=$(ip -j -6 a show dev ${cfg.interface} scope global | jq -r '[.[0].addr_info[] | select(.local[:2] != "fc" and .local[:2] != "fd" and .local != null)][0].local')
+          if [[ ! $IPV6 ]]; then
+            >&2 echo "Cannot get IPv6 addresses"
+            exit
+          fi
+        ''}
+        curl --no-progress-meter --retry 3 -m 60 "https://www.duckdns.org/update?domains=${cfg.domain}&token=$TOKEN&verbose=true${optionalString enableIPv4 "&ip=$IPV4"}${optionalString enableIPv6 "&ipv6=$IPV6"}"
       '';
     };
 
