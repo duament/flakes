@@ -170,6 +170,7 @@ in
                 ipv6SendRAConfig = {
                   DNS = "_link_local";
                 };
+                dhcpPrefixDelegationConfig.SubnetId = i - 1;
               }
           ) vlans
         )
