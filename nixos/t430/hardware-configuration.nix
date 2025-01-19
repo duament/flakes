@@ -33,7 +33,11 @@
         Type = "ether";
       };
       DHCP = "yes";
-      dhcpV6Config.UseDelegatedPrefix = false;
+      dhcpV4Config.DUIDType = "link-layer-time:2025-01-01 00:00:00 UTC";
+      dhcpV6Config = {
+        UseDelegatedPrefix = false;
+        DUIDType = "link-layer-time:2025-01-01 00:00:00 UTC";
+      };
     };
     systemd.services.initrd-nixos-activation.serviceConfig.ExecStartPre = "-/bin/rm -rf /run/secrets";
   };

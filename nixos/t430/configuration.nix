@@ -34,10 +34,6 @@ in
     luci-nginx-add-auth.owner = config.services.nginx.user;
     sim-pin = { };
     tg-bot-token = { };
-    "home-assistant-secrets.yaml" = {
-      owner = "hass";
-      path = "/var/lib/hass/secrets.yaml";
-    };
     "tuic/uuid" = { };
     "tuic/password" = { };
     "tuic/tls_cert" = { };
@@ -98,99 +94,10 @@ in
     dhcpV6Config = {
       PrefixDelegationHint = "::/63";
     };
-    vlan = [ "internet" ];
-  };
-
-  systemd.network.netdevs."50-internet" = {
-    netdevConfig = {
-      Name = "internet";
-      Kind = "vlan";
-    };
-    vlanConfig = {
-      Id = 4;
-    };
-  };
-  systemd.network.networks."50-internet" = {
-    name = "internet";
-    address = [
-      "fd66::1/64"
-      "10.6.1.1/24"
-    ];
-    ipv6Prefixes = [ { Prefix = "fd66::/64"; } ];
-    networkConfig = {
-      DHCPServer = true;
-      IPv6SendRA = true;
-      #DHCPPrefixDelegation = true;
-      IPv4Forwarding = true;
-      IPv6Forwarding = true;
-    };
-    dhcpServerConfig = {
-      DNS = "_server_address";
-    };
-    ipv6SendRAConfig = {
-      DNS = "fd66::1";
-    };
   };
 
   presets.wireguard.wg0 = {
     enable = true;
-    clientPeers = {
-      ak.mark = 3;
-      az = {
-        mark = 3;
-        mtu = 1360;
-      };
-      or2.mark = 3;
-      sg.mark = 3;
-    };
-  };
-
-  systemd.network.networks."25-wg-az".routingPolicyRules =
-    let
-      table = 100 + wg0.peers.az.id;
-    in
-    [
-      {
-        FirewallMark = nonCNMark;
-        Table = table;
-        Priority = 16384;
-        Family = "ipv4";
-      }
-    ];
-
-  systemd.network.networks."25-warp".routingPolicyRules =
-    let
-      table = 20;
-    in
-    [
-      {
-        FirewallMark = nonCNMark;
-        Table = table;
-        Priority = 16384;
-        Family = "ipv6";
-      }
-      {
-        To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
-        Table = table;
-        Priority = 128;
-      }
-    ];
-
-  systemd.network.networks."25-wg-ak".routingPolicyRules =
-    let
-      table = 100 + wg0.peers.ak.id;
-    in
-    [
-      {
-        To = "34.117.196.143"; # prod-ingress.nianticlabs.com
-        Table = table;
-        Priority = 128;
-      }
-    ];
-
-  networking.nftables.markChinaIP = {
-    enable = true;
-    mark = nonCNMark;
   };
 
   networking.warp = {
@@ -208,11 +115,6 @@ in
   };
   presets.wireguard.keepAlive.interfaces = [ "warp" ];
 
-  presets.adguardhome = {
-    enable = true;
-    chinaDns = [ "[fd65::1]" ];
-  };
-
   systemd.services.sing-box.serviceConfig.LoadCredential = [
     "uuid:${config.sops.secrets."tuic/uuid".path}"
     "password:${config.sops.secrets."tuic/password".path}"
@@ -229,49 +131,11 @@ in
           listen = "::";
           listen_port = 8000;
         }
-        {
-          type = "tuic";
-          tag = "tuic-in";
-          listen = "::";
-          listen_port = 11113;
-          users = [
-            {
-              name = "rvfg";
-              uuid._secret = "/run/credentials/sing-box.service/uuid";
-              password._secret = "/run/credentials/sing-box.service/password";
-            }
-          ];
-          congestion_control = "cubic";
-          auth_timeout = "3s";
-          heartbeat = "10s";
-          tls = {
-            enabled = true;
-            server_name = "t430.rvf6.com";
-            min_version = "1.3";
-            certificate_path = "/run/credentials/sing-box.service/tls_cert";
-            key_path = "/run/credentials/sing-box.service/tls_key";
-            ech = {
-              enabled = true;
-              pq_signature_schemes_enabled = false;
-              key_path = "/run/credentials/sing-box.service/ech_key";
-            };
-          };
-        }
       ];
       outbounds = [
         {
           type = "direct";
           tag = "direct";
-        }
-        {
-          type = "direct";
-          tag = "warp";
-          routing_mark = config.networking.warp.table;
-        }
-        {
-          type = "direct";
-          tag = "ak";
-          routing_mark = 100 + wg0.peers.ak.id;
         }
         {
           type = "socks";
@@ -281,17 +145,6 @@ in
         }
       ];
       route.rules = [
-        {
-          domain_suffix = [
-            "byr.pt"
-            "reddit.com"
-          ];
-          outbound = "warp";
-        }
-        {
-          domain = [ "prod-ingress.nianticlabs.com" ];
-          outbound = "ak";
-        }
         {
           domain_suffix = [
             self.data.ef
@@ -307,23 +160,8 @@ in
     };
   };
 
-  services.uu = {
-    enable = true;
-    vlan = {
-      enable = true;
-      parentName = "10-enp1s0";
-    };
-  };
-
-  presets.duckdns = {
-    enable = true;
-    domain = "t430-rvfg.duckdns.org";
-    interface = "enp1s0";
-    tokenFile = config.sops.secrets.duckdns.path;
-  };
-
   presets.swanctl = {
-    enable = true;
+    enable = false;
     underlyingNetwork = "10-enp1s0";
     #IPv6Middle = ":1";
     IPv4Prefix = "10.6.9.";
@@ -383,45 +221,6 @@ in
       ExecStart = "${pkgs.fava}/bin/fava -H ::1 -p 5000 /var/lib/git/beancount/main.beancount";
       PrivateNetwork = false;
     };
-  };
-
-  services.home-assistant = {
-    enable = true;
-    config = {
-      default_config = { };
-      homeassistant = {
-        name = "Home";
-        latitude = "!secret latitude";
-        longitude = "!secret longitude";
-        elevation = "!secret elevation";
-        unit_system = "metric";
-        time_zone = config.time.timeZone;
-      };
-      http = {
-        server_host = "::1";
-        use_x_forwarded_for = true;
-        trusted_proxies = [ "::1/128" ];
-      };
-      xiaomi_miot = {
-        username = "!secret mi_username";
-        password = "!secret mi_password";
-      };
-    };
-    extraComponents = [
-      "default_config"
-      "esphome"
-      "ffmpeg"
-      "met"
-      "xiaomi_miio"
-    ];
-    customComponents = with pkgs.home-assistant-custom-components; [
-      xiaomi_miot
-    ];
-    extraPackages =
-      python3Packages: with python3Packages; [
-        hap-python
-        pyqrcode
-      ];
   };
 
   security.acme = {
@@ -491,10 +290,6 @@ in
             "/".proxyPass = "https://10.6.0.1";
           };
         };
-      "ha.rvf6.com".locations."/" = {
-        proxyPass = "http://[::1]:${toString config.services.home-assistant.config.http.server_port}";
-        proxyWebsockets = true;
-      };
       "adg.rvf6.com".locations."/".proxyPass =
         "http://${config.services.adguardhome.host}:${toString config.services.adguardhome.port}";
       "wpad.rvf6.com".locations."= /wpad.dat" = {
