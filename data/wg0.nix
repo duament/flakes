@@ -5,7 +5,7 @@
       pubkey = "LKEU/VwW+TFNuHWwNzOhxh0FVjnfMYHE9bxSx2luNjw=";
       port = 11112;
     };
-    iphone = {
+    ip16 = {
       id = 2;
       pubkey = "BcLh8OUygmCL2m50MREgsAwOLMkF9A+eAhuQDEPaqWI=";
     };
@@ -33,6 +33,10 @@
       id = 8;
       pubkey = "5urMuQeci5UaISydWJtgi+YB9IPuYc0Y7kBwZZyCPnU=";
       port = 11111;
+    };
+    ip13 = {
+      id = 9;
+      pubkey = "L3rTtPVUkQukGaqJrv/ZHd1fBHzDpZnsCtvMlPhac3M=";
     };
     work = {
       id = 10;
