@@ -45,6 +45,16 @@ in
   };
   systemd.services.wpa_supplicant.wantedBy = mkForce [ ];
 
+  systemd.network.links."50-enxe89c2597d186" = {
+    matchConfig.MACAddress = "e8:9c:25:97:d1:86";
+    linkConfig = {
+      NamePolicy = [ "keep" "kernel" "database" "onboard" "slot" "path" ];
+      AlternativeNamesPolicy = [ "database" "onboard" "slot" "path" "mac" ];
+      MACAddressPolicy = "persistent";
+      WakeOnLan = "magic";
+    };
+  };
+
   presets.wireguard.wg0 = {
     enable = true;
     clientPeers.router = {
