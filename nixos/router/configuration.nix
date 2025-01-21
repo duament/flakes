@@ -92,6 +92,10 @@ in
       "--netfilter-mode=off"
     ];
   };
+  router.dnsEnabledIfs = [ "tailscale0" ];
+  router.lanEnabledIfs = [ "tailscale0" ];
+  router.wanEnabledIfs = [ "tailscale0" ];
+  router.wgEnabledIfs = [ "tailscale0" ];
 
   #presets.swanctl = {
   #  enable = true;
