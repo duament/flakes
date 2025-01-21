@@ -11,6 +11,7 @@
     pciutils
     powertop
     usbutils
+    wol
   ];
 
   presets.git.enable = true;
