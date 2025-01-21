@@ -83,6 +83,7 @@ in
 
   services.tailscale = {
     enable = true;
+    package = pkgs.tailscale.override { iptables = pkgs.nftables; };
     openFirewall = true;
     authKeyFile = config.sops.secrets.tailscale_auth_key.path;
     extraUpFlags = [
