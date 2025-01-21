@@ -235,6 +235,7 @@ in
                 "${pkgs.coreutils}/bin/ln -nsf \${CREDENTIALS_DIRECTORY}/uuplugin-uuid %S/%N/.uuplugin_uuid"
               ];
               ExecStart = "${pkgs.uuplugin}/bin/uuplugin ${pkgs.uuplugin}/share/uuplugin/uu.conf";
+              Restart = "on-failure";
             };
           };
         };
