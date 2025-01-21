@@ -48,6 +48,7 @@ in
     "tuic/tls_cert" = { };
     "tuic/tls_key" = { };
     "tuic/ech_key" = { };
+    tailscale_auth_key = { };
   };
 
   boot.loader.generationsDir.copyKernels = true;
@@ -78,6 +79,17 @@ in
     domain = "t430-rvfg.duckdns.org";
     interface = "ppp0";
     tokenFile = config.sops.secrets.duckdns.path;
+  };
+
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+    authKeyFile = config.sops.secrets.tailscale_auth_key.path;
+    extraUpFlags = [
+      "--accept-dns=false"
+      "--advertise-exit-node"
+      "--netfilter-mode=off"
+    ];
   };
 
   #presets.swanctl = {
