@@ -42,6 +42,7 @@
       '';
     };
     networkmanager = {
+      enable = true;
       unmanaged = [ "except:type:wifi" ];
       ensureProfiles.profiles.rvfg = {
         connection = {
@@ -65,6 +66,7 @@
           eap = "tls;";
           identity = "xiaoxin@rvf6.com";
           private-key = "/run/credentials/NetworkManager.service/key";
+          private-key-password = "";
         };
         ipv4 = {
           method = "auto";
