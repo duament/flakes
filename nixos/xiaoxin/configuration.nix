@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, self, ... }:
 {
   presets.workstation.enable = true;
 
@@ -40,6 +40,17 @@
         private_key="${config.sops.secrets."pki/xiaoxin-key".path}"
       '';
     };
+  };
+
+  presets.wireguard.wg0 = {
+    enable = true;
+    clientPeers.router = {
+      endpoint = "10.8.0.1:11111";
+    };
+  };
+  presets.wireguard.reResolve.wg-router = {
+    address = "t430-rvfg.duckdns.org";
+    pubkey = self.data.wg0.peers.router.pubkey;
   };
 
   services.uu = {
