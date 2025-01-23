@@ -24,6 +24,7 @@
 
   networking = {
     hostName = "xiaoxin";
+    wireless.enable = false;
     wireless.networks.rvfg = {
       authProtocols = [
         "WPA-EAP-SUITE-B-192"
@@ -40,7 +41,46 @@
         private_key="${config.sops.secrets."pki/xiaoxin-key".path}"
       '';
     };
+    networkmanager = {
+      unmanaged = [ "except:type:wifi" ];
+      ensureProfiles.profiles.rvfg = {
+        connection = {
+          id = "rvfg";
+          uuid = "2ebf7581-f536-483e-b553-f7b67727e8f8";
+          type = "wifi";
+          autoconnect = true;
+          permissions = "user:rvfg:;";
+        };
+        wifi = {
+          mode = "infrastructure";
+          ssid = "rvfg";
+        };
+        wifi-security = {
+          key-mgmt = "wpa-eap-suite-b-192";
+          pmf = "3";
+        };
+        "802-1x" = {
+          ca-cert = "/run/credentials/NetworkManager.service/ca";
+          client-cert = "/run/credentials/NetworkManager.service/bundle";
+          eap = "tls;";
+          identity = "xiaoxin@rvf6.com";
+          private-key = "/run/credentials/NetworkManager.service/key";
+        };
+        ipv4 = {
+          method = "auto";
+        };
+        ipv6 = {
+          addr-gen-mode = "stable-privacy";
+          method = "auto";
+        };
+      };
+    };
   };
+  systemd.services.NetworkManager.serviceConfig.LoadCredential = [
+    "ca:${config.sops.secrets."pki/ca".path}"
+    "bundle:${config.sops.secrets."pki/xiaoxin-bundle".path}"
+    "key:${config.sops.secrets."pki/xiaoxin-key".path}"
+  ];
 
   presets.wireguard.wg0 = {
     enable = true;

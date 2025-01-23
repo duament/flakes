@@ -9,6 +9,7 @@ let
   inherit (lib)
     mkOption
     mkIf
+    mkDefault
     mkForce
     types
     filterAttrs
@@ -110,7 +111,7 @@ in
     };
 
     networking.wireless = {
-      enable = true;
+      enable = mkDefault true;
       userControlled = {
         enable = true;
         group = "rvfg";
