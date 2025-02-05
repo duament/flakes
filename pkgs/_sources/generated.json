@@ -15,6 +15,7 @@
             "repo": "Fluent-kde",
             "rev": "9d6b7d4733707c38f72e8a614528f1df591419f3",
             "sha256": "sha256-eRAM4f2scGLSDNljI3qjyn5XF7zjrsp8ArIGswNyimY=",
+            "sparseCheckout": [],
             "type": "github"
         },
         "version": "9d6b7d4733707c38f72e8a614528f1df591419f3"
@@ -35,6 +36,7 @@
             "repo": "Nginx-Fancyindex-Theme",
             "rev": "32d124a0885a7a4409c2dc557c9b1d4bcf836dd5",
             "sha256": "sha256-BFXmTwKcgX94+0wH5x77c9sEP6h9JR73WGY5gp5cyGQ=",
+            "sparseCheckout": [],
             "type": "github"
         },
         "version": "32d124a0885a7a4409c2dc557c9b1d4bcf836dd5"
@@ -55,6 +57,7 @@
             "repo": "aleo",
             "rev": "ce875e48d9983031648e87f38b7a269f4fbf5eb5",
             "sha256": "sha256-HSxP5/sLHQTujBVt1u93625EXEc42lxpt8W1//6ngWM=",
+            "sparseCheckout": [],
             "type": "github"
         },
         "version": "ce875e48d9983031648e87f38b7a269f4fbf5eb5"
@@ -62,9 +65,9 @@
     "avbroot": {
         "cargoLocks": {
             "Cargo.lock": [
-                "./avbroot-v3.11.0/Cargo.lock",
+                "./avbroot-v3.12.0/Cargo.lock",
                 {
-                    "bzip2-0.5.0": "sha256-TEgKsd88g8L9FBYgZM/Y6vFCMmzjz6VsZbQuc5TF0Rk=",
+                    "bzip2-0.5.0": "sha256-ccUPWVxSnk9ClKahsAvvUAK5COlyQFm3Wij2izKff6o=",
                     "zip-0.6.6": "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0="
                 }
             ]
@@ -81,11 +84,12 @@
             "name": null,
             "owner": "chenxiaolong",
             "repo": "avbroot",
-            "rev": "v3.11.0",
-            "sha256": "sha256-q/IrlltNF9J3M4e51YlvpG3hRyn7K0tO1GfpfYBX1cY=",
+            "rev": "v3.12.0",
+            "sha256": "sha256-oHCu3KHQjtDsxUIyN5UHm8E4nsoVk7jSGmIjqHdCN/I=",
+            "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v3.11.0"
+        "version": "v3.12.0"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -132,6 +136,7 @@
             "repo": "transmission-client",
             "rev": "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a",
             "sha256": "sha256-paqfvc4NaT5fX7/P/HxA92C46WLqTaAegX9GiqaJK0s=",
+            "sparseCheckout": [],
             "type": "github"
         },
         "version": "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a"
@@ -152,6 +157,7 @@
             "repo": "transmission-web-control",
             "rev": "f02a47aff2680de10c2269e22a3d0b37a318dbcd",
             "sha256": "sha256-AFvotbGc7ytevOdWQa8RwgQccqEghW0UrQMpAsDtfgg=",
+            "sparseCheckout": [],
             "type": "github"
         },
         "version": "f02a47aff2680de10c2269e22a3d0b37a318dbcd"
@@ -207,6 +213,7 @@
             "repo": "uutunnel",
             "rev": "46b76bb4ee2e523e5b835b5d70d87efa2d099295",
             "sha256": "sha256-I6x0outD7wSOdaou3Ner5MclMyKRZPdss/CY0KpZDuE=",
+            "sparseCheckout": [],
             "type": "github"
         },
         "version": "46b76bb4ee2e523e5b835b5d70d87efa2d099295"
