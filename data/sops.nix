@@ -65,6 +65,10 @@ rec {
         "desktop"
         "xiaoxin"
       ];
+      "secrets/workstation.yaml" = [
+        "desktop"
+        "xiaoxin"
+      ];
     }
     // (builtins.listToAttrs (
       builtins.attrValues (

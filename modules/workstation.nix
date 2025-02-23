@@ -33,6 +33,10 @@ in
         sopsFile = ../secrets/clash;
       };
       wireless.sopsFile = ../secrets/wireless.yaml;
+      d-auth = {
+        sopsFile = ../secrets/workstation.yaml;
+        owner = "rvfg";
+      };
     };
 
     boot = {

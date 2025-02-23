@@ -136,11 +136,35 @@
         uosc
       ];
       scriptOpts.uosc.languages = [ "en" ];
-      profiles.bilibili = {
-        profile-cond = "path:find('bilibili.com')";
-        ytdl-raw-options-append = "cookies-from-browser=firefox::bilibili";
+      profiles = {
+        bilibili = {
+          profile-cond = "path:find('bilibili.com')";
+          ytdl-raw-options-append = "cookies-from-browser=firefox::bilibili";
+        };
       };
     };
+    home.file.".config/mpv/scripts/d.lua".text = ''
+      function string.starts(String,Start)
+         return string.sub(String,1,string.len(Start))==Start
+      end
+
+      function readAll(file)
+          local f = assert(io.open(file, "rb"))
+          local content = f:read("*all")
+          f:close()
+          return content
+      end
+
+      mp.add_hook("on_load", 50, function ()
+          local url = mp.get_property("stream-open-filename", "")
+          if string.starts(url, "https://d.rvf6.com") then
+              mp.msg.info("loading d-auth")
+              local auth = readAll("/run/secrets/d-auth")
+              local new_url = "https://" .. auth .. "@" .. string.sub(url, 9, -1)
+              mp.set_property("stream-open-filename", new_url)
+          end
+      end)
+    '';
 
     programs.zathura.enable = true;
 
