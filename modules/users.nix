@@ -43,7 +43,7 @@ in
     users.users.deploy = {
       isSystemUser = true;
       group = "deploy";
-      useDefaultShell = true;
+      shell = pkgs.bashInteractive;
       openssh.authorizedKeys.keys = self.data.sshPub.authorizedKeys ++ [
         self.data.sshPub.github-action-deploy
       ];
