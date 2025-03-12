@@ -57,10 +57,10 @@
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20241218";
+    version = "20250310";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20241218.dict";
-      sha256 = "sha256-9Z+dgicQQdsySn1/xn6w4Q4hOqMv7Rngol615/JxtRk=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250310.dict";
+      sha256 = "sha256-73yhLHfCLVlDxF74tS06bwiXYYVL5zzH8mnRgfJEahw=";
     };
   };
   flood-for-transmission = {
@@ -85,30 +85,30 @@
   };
   transmission-web-control = {
     pname = "transmission-web-control";
-    version = "f02a47aff2680de10c2269e22a3d0b37a318dbcd";
+    version = "c9d83844ee2cf2f07e36e03660a2886da5f4208a";
     src = fetchFromGitHub {
       owner = "ronggang";
       repo = "transmission-web-control";
-      rev = "f02a47aff2680de10c2269e22a3d0b37a318dbcd";
+      rev = "c9d83844ee2cf2f07e36e03660a2886da5f4208a";
       fetchSubmodules = false;
-      sha256 = "sha256-AFvotbGc7ytevOdWQa8RwgQccqEghW0UrQMpAsDtfgg=";
+      sha256 = "sha256-NQ1wZwe8VRIcvuLtUhjjldD00f1WgZsGAIkTDkIxgLw=";
     };
-    date = "2024-04-09";
+    date = "2025-02-21";
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "8.0.12";
+    version = "8.6.4";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v8.0.12/uu.tar.gz";
-      sha256 = "sha256-+OWeKMc3BaRwXnkQtcE8MMXu7wzv/KVIb6UF/AMmcBc=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v8.6.4/uu.tar.gz";
+      sha256 = "sha256-xpqI0qKyn+GAI9tZIwgvuJnMTaUAl1SSdrQDfsjdU7Q=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "8.0.12";
+    version = "8.6.4";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v8.0.12/uu.tar.gz";
-      sha256 = "sha256-0RkxIFa2hvvFhSM+u2dFZg9PSFwIX21FqSIb8qoHU7s=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v8.6.4/uu.tar.gz";
+      sha256 = "sha256-1fV7e+QV2Ikx2U+LvMjwBvRCznmZG4zMd3HzBwz/QHc=";
     };
   };
   uutunnel = {
