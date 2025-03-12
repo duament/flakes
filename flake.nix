@@ -122,7 +122,7 @@
             program =
               let
                 hosts = [
-                  "az"
+                  "sg"
                   "nl"
                   "or2"
                 ];
