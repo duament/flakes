@@ -49,6 +49,7 @@ in
     "tuic/tls_key" = { };
     "tuic/ech_key" = { };
     tailscale_auth_key = { };
+    shadowsocks = { };
   };
 
   boot.loader.generationsDir.copyKernels = true;

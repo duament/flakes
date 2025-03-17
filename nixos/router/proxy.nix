@@ -3,6 +3,7 @@
   lib,
   pkgs,
   self,
+  utils,
   ...
 }:
 let
@@ -10,12 +11,14 @@ let
 
   httpPort = 8000;
   tuicPort = 11113;
+  ssPort = 11114;
 in
 {
 
   networking.firewall = {
     allowedUDPPorts = [
       tuicPort
+      ssPort
     ];
     extraInputRules = ''
       iifname { ${config.router.wanEnabledIfs} } tcp dport ${toString httpPort} accept
@@ -115,6 +118,25 @@ in
         }
       ];
     };
+  };
+
+  systemd.services.shadowsocks-rust = {
+    serviceConfig = self.data.systemdHarden // {
+      PrivateNetwork = false;
+      LoadCredential = [ "shadowsocks:${config.sops.secrets."shadowsocks".path}" ];
+      RuntimeDirectory = "shadowsocks-rust";
+      RuntimeDirectoryMode = "0700";
+      ExecStartPre = pkgs.writeShellScript "shadowsocks-replace-secrets" (
+        utils.genJqSecretsReplacementSnippet {
+          server = "::";
+          server_port = ssPort;
+          password._secret = "/run/credentials/shadowsocks-rust.service/shadowsocks";
+          method = "2022-blake3-aes-256-gcm";
+        } "/run/shadowsocks-rust/config.json"
+      );
+      ExecStart = "${pkgs.shadowsocks-rust}/bin/ssserver -c \${RUNTIME_DIRECTORY}/config.json";
+    };
+    wantedBy = [ "multi-user.target" ];
   };
 
   # TODO
