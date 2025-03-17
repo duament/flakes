@@ -230,7 +230,7 @@
     script = ''
       set -eu -o pipefail
       IP=$(curl -s --retry 3 -m 60 --fail "https://223.5.5.5/resolve?name=t430-rvfg.duckdns.org&type=1" | jq -r '.Answer[0].data')
-      if [[ ! $IP ]]; then
+      if [[ ! $IP ]] || [[ "$IP" == "null" ]]; then
         >&2 echo "Cannot get IP address"
         exit 1
       fi
