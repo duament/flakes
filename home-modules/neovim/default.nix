@@ -47,6 +47,7 @@ in
         cmp-buffer
         cmp-path
         editorconfig-nvim
+        fzf-lua
         git-blame-nvim
         indent-blankline-nvim
         lualine-lsp-progress

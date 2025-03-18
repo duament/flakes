@@ -61,7 +61,8 @@ require("ibl").setup {
 }
 
 require("nvim-tree").setup()
-vim.api.nvim_set_keymap('n', '<space>t', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
+vim.keymap.set('n', "<C-t>", function() require("fzf-lua").files() end, { silent = true })
+vim.keymap.set('n', "<C-f>", function() require("fzf-lua").grep_project() end, { silent = true })
 
 require("bufferline").setup{
   options = {
@@ -75,6 +76,9 @@ require("bufferline").setup{
   },
   highlights = require('catppuccin.groups.integrations.bufferline').get()
 }
+
+require("fzf-lua").setup()
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -91,8 +95,6 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
     ["<Tab>"] = cmp.mapping(function(fallback)
