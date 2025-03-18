@@ -134,6 +134,35 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
+local function filter(arr, fn)
+  if type(arr) ~= "table" then
+    return arr
+  end
+
+  local filtered = {}
+  for k, v in pairs(arr) do
+    if fn(v, k, arr) then
+      table.insert(filtered, v)
+    end
+  end
+
+  return filtered
+end
+
+local function filterReactDTS(value)
+  return string.match(value.filename, 'react/index.d.ts') == nil
+end
+
+local function on_list(options)
+  local items = options.items
+  if #items > 1 then
+    items = filter(items, filterReactDTS)
+  end
+
+  vim.fn.setqflist({}, ' ', { title = options.title, items = items, context = options.context })
+  vim.api.nvim_command('cfirst')
+end
+
 local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -156,7 +185,7 @@ local on_attach = function(client, bufnr)
   end
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition{on_list=on_list} end, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
