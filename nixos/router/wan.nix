@@ -69,12 +69,12 @@ in
     };
     environment.etc."ppp/ip-up".source = pkgs.writeShellScript "ppp-ip-up" ''
       set -eu -o pipefail
+      umask 0022
       if [[ ! -z "$DNS1" ]]; then
         echo "$DNS1" > /run/dns/ppp
         if [[ ! -z "$DNS2" ]]; then
           echo "$DNS2" >> /run/dns/ppp
         fi
-        chmod 644 /run/dns/ppp
       fi
     '';
 
