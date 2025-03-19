@@ -160,7 +160,11 @@ local function on_list(options)
   end
 
   vim.fn.setqflist({}, ' ', { title = options.title, items = items, context = options.context })
-  vim.api.nvim_command('cfirst')
+  if #items > 1 then
+    vim.api.nvim_command('copen')
+  else
+    vim.api.nvim_command('cfirst')
+  end
 end
 
 local on_attach = function(client, bufnr)
