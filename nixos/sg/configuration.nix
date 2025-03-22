@@ -20,7 +20,7 @@
   systemd.network.networks."10-ens3" = {
     name = "ens3";
     address = [
-      "2a02:6ea0:d158::522:5d47/112"
+      "2a11:8083:11:22c9::64/64"
       "167.253.159.33/25"
     ];
     dns = [
@@ -35,7 +35,7 @@
         GatewayOnLink = true;
       }
       {
-        Gateway = "2a02:6ea0:d158::1337";
+        Gateway = "2a11:8083:11::1";
         GatewayOnLink = true;
       }
     ];
