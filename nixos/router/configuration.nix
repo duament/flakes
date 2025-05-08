@@ -50,6 +50,7 @@ in
     "tuic/ech_key" = { };
     tailscale_auth_key = { };
     shadowsocks = { };
+    radicale = { };
   };
 
   boot.loader.generationsDir.copyKernels = true;
@@ -274,6 +275,7 @@ in
       };
       "adg.rvf6.com".locations."/".proxyPass =
         "http://${config.services.adguardhome.host}:${toString config.services.adguardhome.port}";
+      "radicale.rvf6.com".locations."/".proxyPass = "http://[::1]:5232";
     };
   };
 
@@ -317,4 +319,18 @@ in
         requests.post(url, json=data)
       ''
     ).outPath;
+
+  services.radicale = {
+    enable = true;
+    settings = {
+      server.hosts = [ "[::1]:5232" ];
+      auth = {
+        type = "htpasswd";
+        htpasswd_filename = "/run/credentials/radicale.service/htpasswd";
+        htpasswd_encryption = "plain";
+      };
+    };
+  };
+  systemd.services.radicale.serviceConfig.LoadCredential = [ "htpasswd:${config.sops.secrets.radicale.path}" ];
+
 }
