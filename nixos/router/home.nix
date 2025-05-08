@@ -15,4 +15,6 @@
   ];
 
   presets.git.enable = true;
+  presets.ssh.enable = true;
+  presets.python.enable = true;
 }
