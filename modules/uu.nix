@@ -109,6 +109,11 @@ in
               Table = 10;
               Priority = 64;
             }
+            {
+              From = "10.6.8.2";
+              Table = 10;
+              Priority = 64;
+            }
           ];
         };
       }
