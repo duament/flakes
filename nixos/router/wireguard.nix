@@ -26,6 +26,7 @@ in
 
     networking.firewall.extraForwardRules = ''
       iifname { ${config.router.wgEnabledIfs} } oifname { wg-*, warp } accept
+      mark ${toString nonCNMark} oifname { wg-*, warp } accept
     '';
 
     presets.wireguard.wg0 = {
