@@ -22,10 +22,18 @@ in
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     initrd_ssh_host_ed25519_key = { };
-    "pki/ca" = { };
+    "pki/ca".mode = "0444";
     "pki/ybk" = { };
     "pki/t430-bundle" = { };
     "pki/t430-pkcs8-key" = { };
+    "pki/rvf6.com.crt" = {
+      group = "nginx";
+      mode = "0440";
+    };
+    "pki/rvf6.com.key" = {
+      group = "nginx";
+      mode = "0440";
+    };
     warp_key.owner = "systemd-network";
     duckdns = { };
     wireguard_key.owner = "systemd-network";
@@ -277,6 +285,12 @@ in
         "http://${config.services.adguardhome.host}:${toString config.services.adguardhome.port}";
       "radicale.rvf6.com".locations."/".proxyPass = "http://[::1]:5232";
     };
+    selfSignedVirtualHosts = {
+      "victorialogs.rvf6.com".locations."/".proxyPass =
+        "http://${config.services.victorialogs.listenAddress}";
+      "victoriametrics.rvf6.com".locations."/".proxyPass =
+        "http://${config.services.victoriametrics.listenAddress}";
+    };
   };
 
   presets.gammu-smsd = {
@@ -331,6 +345,26 @@ in
       };
     };
   };
-  systemd.services.radicale.serviceConfig.LoadCredential = [ "htpasswd:${config.sops.secrets.radicale.path}" ];
+  systemd.services.radicale.serviceConfig.LoadCredential = [
+    "htpasswd:${config.sops.secrets.radicale.path}"
+  ];
+
+  services.victorialogs = {
+    enable = true;
+    extraOptions = [
+      "-enableTCP6"
+      "-retention.maxDiskSpaceUsageBytes=64GiB"
+      "-retentionPeriod=12w"
+    ];
+    listenAddress = "[::1]:9428";
+  };
+
+  services.victoriametrics = {
+    enable = true;
+    extraOptions = [
+      "-enableTCP6"
+    ];
+    listenAddress = "[::1]:8428";
+  };
 
 }
