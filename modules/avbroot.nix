@@ -44,7 +44,7 @@ let
 
       ${avbroot-bin} ota extract --input "$1" --directory "$DIR" --boot-only
       ${pkgs.android-tools}/bin/unpack_bootimg --boot_img "$DIR"/boot.img --out "$DIR"/boot --format=mkbootimg > "$DIR"/mkbootimg_args
-      VERSION=$(strings "$DIR"/boot/kernel | grep -o -m1 'Linux version [^-]*-[^-]*' || true)  # Linux version 5.10.157-android13
+      VERSION=$(${pkgs.lz4.out}/bin/lz4 -d "$DIR"/boot/kernel - | strings | grep -o -m1 'Linux version [^-]*-[^-]*' || true)  # Linux version 5.10.157-android13
       ANDROID_RELEASE=''${VERSION##*-}  # android13
       VERSION=''${VERSION%-*}  # Linux version 5.10.157
       VERSION=''${VERSION##* }  # 5.10.157
