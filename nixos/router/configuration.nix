@@ -15,6 +15,7 @@ in
     ./proxy.nix
     ./wireguard.nix
     ./mosquitto.nix
+    ./owntracks.nix
   ];
 
   presets.nogui.enable = true;
