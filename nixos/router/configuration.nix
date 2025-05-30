@@ -14,6 +14,7 @@ in
     ./dns.nix
     ./proxy.nix
     ./wireguard.nix
+    ./mosquitto.nix
   ];
 
   presets.nogui.enable = true;
