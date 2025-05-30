@@ -11,7 +11,7 @@
         port = 8883;
         settings = {
           allow_anonymous = false;
-          cafile = config.sops.secrets."pki/ca".path;
+          cafile = config.sops.secrets."pki/all-ca".path;
           certfile = config.sops.secrets."pki/rvf6.com.crt".path;
           keyfile = config.sops.secrets."pki/rvf6.com.key".path;
           require_certificate = true;

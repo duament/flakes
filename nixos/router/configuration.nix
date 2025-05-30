@@ -24,7 +24,8 @@ in
   sops.secrets = {
     initrd_ssh_host_ed25519_key = { };
     "pki/ca".mode = "0444";
-    "pki/ybk" = { };
+    "pki/ybk".mode = "0444";
+    "pki/all-ca".mode = "0444";
     "pki/t430-bundle" = { };
     "pki/t430-pkcs8-key" = { };
     "pki/rvf6.com.crt" = {

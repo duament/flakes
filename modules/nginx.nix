@@ -75,7 +75,7 @@ in
             http3 = true;
             sslCertificate = config.sops.secrets."pki/rvf6.com.crt".path;
             sslCertificateKey = config.sops.secrets."pki/rvf6.com.key".path;
-            sslTrustedCertificate = config.sops.secrets."pki/ca".path;
+            sslTrustedCertificate = config.sops.secrets."pki/all-ca".path;
           }
           // value
           // {
