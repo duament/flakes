@@ -3,15 +3,15 @@
 {
   Fluent-solid-pink = {
     pname = "Fluent-solid-pink";
-    version = "9d6b7d4733707c38f72e8a614528f1df591419f3";
+    version = "315251f3e0099fc7afa7ab183880141a478f584e";
     src = fetchFromGitHub {
       owner = "vinceliuice";
       repo = "Fluent-kde";
-      rev = "9d6b7d4733707c38f72e8a614528f1df591419f3";
+      rev = "315251f3e0099fc7afa7ab183880141a478f584e";
       fetchSubmodules = false;
-      sha256 = "sha256-eRAM4f2scGLSDNljI3qjyn5XF7zjrsp8ArIGswNyimY=";
+      sha256 = "sha256-DBliFDKSAEFWqKtGvOzwKxNi3YK5VEbLzKa8byEUg1Y=";
     };
-    date = "2024-08-27";
+    date = "2025-04-28";
   };
   Nginx-Fancyindex-Theme = {
     pname = "Nginx-Fancyindex-Theme";
@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.15.0";
+    version = "v3.17.0";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.15.0";
+      rev = "v3.17.0";
       fetchSubmodules = false;
-      sha256 = "sha256-OICx08MiiiocqVB61fMiUSmG7QOpsrLfPkLuDktTXt0=";
+      sha256 = "sha256-a+HCaXElo2uHYMa3y1cnd5LwO7qAfiKWmAynR7vDM4k=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.15.0/Cargo.lock;
+      lockFile = ./avbroot-v3.17.0/Cargo.lock;
       outputHashes = {
         "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
       };
@@ -56,10 +56,10 @@
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20250310";
+    version = "20250526";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250310.dict";
-      sha256 = "sha256-73yhLHfCLVlDxF74tS06bwiXYYVL5zzH8mnRgfJEahw=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250526.dict";
+      sha256 = "sha256-znHic2/mP0HWJgO1v7sqF2W4Xv2ZhhC8xufaUu87ZzE=";
     };
   };
   flood-for-transmission = {
@@ -84,30 +84,30 @@
   };
   transmission-web-control = {
     pname = "transmission-web-control";
-    version = "c9d83844ee2cf2f07e36e03660a2886da5f4208a";
+    version = "054e2edf7ee1ec859cec3ee5661a550481321a27";
     src = fetchFromGitHub {
       owner = "ronggang";
       repo = "transmission-web-control";
-      rev = "c9d83844ee2cf2f07e36e03660a2886da5f4208a";
+      rev = "054e2edf7ee1ec859cec3ee5661a550481321a27";
       fetchSubmodules = false;
-      sha256 = "sha256-NQ1wZwe8VRIcvuLtUhjjldD00f1WgZsGAIkTDkIxgLw=";
+      sha256 = "sha256-OsGT4emj6nLVNG87RZ/NW1RcSrw50phKGy04t45QvX8=";
     };
-    date = "2025-02-21";
+    date = "2025-06-01";
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "8.9.14";
+    version = "9.0.0";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v8.9.14/uu.tar.gz";
-      sha256 = "sha256-9glgipOpJUtW5HcdY/izVwgQWTJJMSAhAcxB1Yn+hVk=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v9.0.0/uu.tar.gz";
+      sha256 = "sha256-ZgBZlFN22O76btZDtEUOts0TyK9j4/dY0QwaqMpXaF8=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "8.9.14";
+    version = "9.0.0";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v8.9.14/uu.tar.gz";
-      sha256 = "sha256-zdu1togxPAPRMMwdAPQJI2omaSoVv5WDEBnxPtGTYKA=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v9.0.0/uu.tar.gz";
+      sha256 = "sha256-N/uD5H+sl+rcqNregBXEF0kCpUYXozTDd1pbacCgE7g=";
     };
   };
   uutunnel = {

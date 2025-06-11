@@ -1,7 +1,7 @@
 {
     "Fluent-solid-pink": {
         "cargoLocks": null,
-        "date": "2024-08-27",
+        "date": "2025-04-28",
         "extract": null,
         "name": "Fluent-solid-pink",
         "passthru": null,
@@ -13,12 +13,12 @@
             "name": null,
             "owner": "vinceliuice",
             "repo": "Fluent-kde",
-            "rev": "9d6b7d4733707c38f72e8a614528f1df591419f3",
-            "sha256": "sha256-eRAM4f2scGLSDNljI3qjyn5XF7zjrsp8ArIGswNyimY=",
+            "rev": "315251f3e0099fc7afa7ab183880141a478f584e",
+            "sha256": "sha256-DBliFDKSAEFWqKtGvOzwKxNi3YK5VEbLzKa8byEUg1Y=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "9d6b7d4733707c38f72e8a614528f1df591419f3"
+        "version": "315251f3e0099fc7afa7ab183880141a478f584e"
     },
     "Nginx-Fancyindex-Theme": {
         "cargoLocks": null,
@@ -65,7 +65,7 @@
     "avbroot": {
         "cargoLocks": {
             "Cargo.lock": [
-                "./avbroot-v3.15.0/Cargo.lock",
+                "./avbroot-v3.17.0/Cargo.lock",
                 {
                     "zip-0.6.6": "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0="
                 }
@@ -83,12 +83,12 @@
             "name": null,
             "owner": "chenxiaolong",
             "repo": "avbroot",
-            "rev": "v3.15.0",
-            "sha256": "sha256-OICx08MiiiocqVB61fMiUSmG7QOpsrLfPkLuDktTXt0=",
+            "rev": "v3.17.0",
+            "sha256": "sha256-a+HCaXElo2uHYMa3y1cnd5LwO7qAfiKWmAynR7vDM4k=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v3.15.0"
+        "version": "v3.17.0"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -99,11 +99,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-73yhLHfCLVlDxF74tS06bwiXYYVL5zzH8mnRgfJEahw=",
+            "sha256": "sha256-znHic2/mP0HWJgO1v7sqF2W4Xv2ZhhC8xufaUu87ZzE=",
             "type": "url",
-            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250310.dict"
+            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250526.dict"
         },
-        "version": "20250310"
+        "version": "20250526"
     },
     "flood-for-transmission": {
         "cargoLocks": null,
@@ -142,7 +142,7 @@
     },
     "transmission-web-control": {
         "cargoLocks": null,
-        "date": "2025-02-21",
+        "date": "2025-06-01",
         "extract": null,
         "name": "transmission-web-control",
         "passthru": null,
@@ -154,12 +154,12 @@
             "name": null,
             "owner": "ronggang",
             "repo": "transmission-web-control",
-            "rev": "c9d83844ee2cf2f07e36e03660a2886da5f4208a",
-            "sha256": "sha256-NQ1wZwe8VRIcvuLtUhjjldD00f1WgZsGAIkTDkIxgLw=",
+            "rev": "054e2edf7ee1ec859cec3ee5661a550481321a27",
+            "sha256": "sha256-OsGT4emj6nLVNG87RZ/NW1RcSrw50phKGy04t45QvX8=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "c9d83844ee2cf2f07e36e03660a2886da5f4208a"
+        "version": "054e2edf7ee1ec859cec3ee5661a550481321a27"
     },
     "uuplugin-aarch64": {
         "cargoLocks": null,
@@ -170,11 +170,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-9glgipOpJUtW5HcdY/izVwgQWTJJMSAhAcxB1Yn+hVk=",
+            "sha256": "sha256-ZgBZlFN22O76btZDtEUOts0TyK9j4/dY0QwaqMpXaF8=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v8.9.14/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v9.0.0/uu.tar.gz"
         },
-        "version": "8.9.14"
+        "version": "9.0.0"
     },
     "uuplugin-x86_64": {
         "cargoLocks": null,
@@ -185,11 +185,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-zdu1togxPAPRMMwdAPQJI2omaSoVv5WDEBnxPtGTYKA=",
+            "sha256": "sha256-N/uD5H+sl+rcqNregBXEF0kCpUYXozTDd1pbacCgE7g=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v8.9.14/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v9.0.0/uu.tar.gz"
         },
-        "version": "8.9.14"
+        "version": "9.0.0"
     },
     "uutunnel": {
         "cargoLocks": {
