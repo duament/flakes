@@ -78,7 +78,7 @@
             text = ''
               nix flake update
 
-              TOKEN_FILE_PATH="/run/secrets-rendered/nvchecker-github-token.toml"
+              TOKEN_FILE_PATH="/run/secrets/rendered/nvchecker-github-token.toml"
               args=()
               if [[ -f "$TOKEN_FILE_PATH" ]]; then
                 args=("-k" "$TOKEN_FILE_PATH")
