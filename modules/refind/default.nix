@@ -12,50 +12,55 @@ let
 
   cfg = config.presets.refind;
 
-  refindBuilder = pkgs.substituteAll {
+  refindBuilder = pkgs.replaceVarsWith {
     src = ./refind-builder.py;
 
     isExecutable = true;
 
-    python3 = pkgs.python311.withPackages (
-      p: with p; [
-        pefile
-      ]
-    );
+    replacements = {
 
-    nix = config.nix.package.out;
+      python3 = pkgs.python311.withPackages (
+        p: with p; [
+          pefile
+        ]
+      );
 
-    timeout = if config.boot.loader.timeout != null then config.boot.loader.timeout else "";
+      nix = config.nix.package.out;
 
-    objcopy = "${pkgs.binutils}/bin/objcopy";
+      timeout = if config.boot.loader.timeout != null then config.boot.loader.timeout else "";
 
-    efiStubPath = "${inputs.lanzaboote.packages.${pkgs.system}.stub}/bin/lanzaboote_stub.efi";
+      objcopy = "${pkgs.binutils}/bin/objcopy";
 
-    sbsign = "${pkgs.sbsigntool}/bin/sbsign";
+      efiStubPath = "${inputs.lanzaboote.packages.${pkgs.system}.stub}/bin/lanzaboote_stub.efi";
 
-    configurationLimit = if cfg.configurationLimit == null then 0 else cfg.configurationLimit;
+      sbsign = "${pkgs.sbsigntool}/bin/sbsign";
 
-    inherit (cfg)
-      extraConfig
-      installAsRemovable
-      defaultSelection
-      sign
-      signKey
-      signCert
-      ;
+      configurationLimit = if cfg.configurationLimit == null then 0 else cfg.configurationLimit;
 
-    inherit (pkgs)
-      refind
-      efibootmgr
-      coreutils
-      gnugrep
-      gnused
-      gawk
-      ;
+      inherit (cfg)
+        extraConfig
+        installAsRemovable
+        defaultSelection
+        sign
+        signKey
+        signCert
+        ;
 
-    inherit (config.boot.loader.efi) efiSysMountPoint canTouchEfiVariables;
+      inherit (pkgs)
+        refind
+        efibootmgr
+        coreutils
+        utillinux
+        gnugrep
+        gnused
+        gawk
+        ;
 
-    inherit (config.system.nixos) distroName;
+      inherit (config.boot.loader.efi) efiSysMountPoint canTouchEfiVariables;
+
+      inherit (config.system.nixos) distroName;
+
+    };
   };
 
 in

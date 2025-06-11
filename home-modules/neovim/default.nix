@@ -9,14 +9,16 @@ let
 
   makeLsp = package: binary: if cfg.enableLsp then "${package}/bin/${binary}" else binary;
 
-  luaConfig = pkgs.substituteAll {
+  luaConfig = pkgs.replaceVarsWith {
     src = ./nvim.lua;
-    gopls = makeLsp pkgs.gopls "gopls";
-    rust_analyzer = makeLsp pkgs.rust-analyzer "rust-analyzer";
-    nil = makeLsp pkgs.nil "nil";
-    nixfmt = makeLsp pkgs.nixfmt-rfc-style "nixfmt";
-    beancount_language_server = makeLsp pkgs.beancount-language-server "beancount-language-server";
-    typescript_language_server = makeLsp pkgs.nodePackages.typescript-language-server "typescript-language-server";
+    replacements = {
+      gopls = makeLsp pkgs.gopls "gopls";
+      rust_analyzer = makeLsp pkgs.rust-analyzer "rust-analyzer";
+      nil = makeLsp pkgs.nil "nil";
+      nixfmt = makeLsp pkgs.nixfmt-rfc-style "nixfmt";
+      beancount_language_server = makeLsp pkgs.beancount-language-server "beancount-language-server";
+      typescript_language_server = makeLsp pkgs.nodePackages.typescript-language-server "typescript-language-server";
+    };
   };
 in
 {
