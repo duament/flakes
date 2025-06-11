@@ -123,8 +123,9 @@ in
           #!${pkgs.runtimeShell}
           set -eu -o pipefail
           if [[ $IFACE == "ppp0" ]]; then
+            [[ -v json ]] || exit 1
             DNS=$(echo "$json" | ${lib.getExe pkgs.jq} -r '.DNS[] // empty')
-            if [[ ! -z "$DNS" ]]; then
+            if [[ -n "$DNS" ]]; then
               echo "$DNS"
               echo "$DNS" > /run/dns/networkd
             fi
