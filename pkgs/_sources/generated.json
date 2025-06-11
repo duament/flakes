@@ -119,6 +119,20 @@
         },
         "version": "2024-11-16T12-26-17"
     },
+    "owntracks-frontend": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "owntracks-frontend",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "sha256": "sha256-iy+yISPcOD/2lTyJUb1eI3wufLku1mKfVDm0+Dy8OKk=",
+            "type": "tarball",
+            "url": "https://github.com/owntracks/frontend/releases/download/v2.15.3/v2.15.3-dist.zip"
+        },
+        "version": "v2.15.3"
+    },
     "transmission-client": {
         "cargoLocks": null,
         "date": "2023-02-15",

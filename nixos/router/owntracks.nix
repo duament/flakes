@@ -4,6 +4,9 @@
   self,
   ...
 }:
+let
+  otRecorderUrl = "http://localhost:8083";
+in
 {
 
   sops.secrets = {
@@ -35,5 +38,20 @@
     OTR_CERTFILE="/run/credentials/ot-recorder.service/cert"
     OTR_KEYFILE="/run/credentials/ot-recorder.service/key"
   '';
+
+  presets.nginx.selfSignedVirtualHosts = {
+    "ot.rvf6.com".locations = {
+      "/api/".proxyPass = "${otRecorderUrl}/api/";
+      "/ws/" = {
+        proxyPass = "${otRecorderUrl}/ws/";
+        proxyWebsockets = true;
+      };
+      "/" = {
+        root = "${pkgs.owntracks-frontend}/share/owntracks-frontend";
+        index = "index.html";
+      };
+    };
+    "ot-recorder.rvf6.com".locations."/".proxyPass = otRecorderUrl;
+  };
 
 }

@@ -70,6 +70,14 @@
       sha256 = "sha256-K/eqvPfZ1hdaeYikHaE34agfpjsOLUOm/x4Hxhr9hFU=";
     };
   };
+  owntracks-frontend = {
+    pname = "owntracks-frontend";
+    version = "v2.15.3";
+    src = fetchTarball {
+      url = "https://github.com/owntracks/frontend/releases/download/v2.15.3/v2.15.3-dist.zip";
+      sha256 = "sha256-iy+yISPcOD/2lTyJUb1eI3wufLku1mKfVDm0+Dy8OKk=";
+    };
+  };
   transmission-client = {
     pname = "transmission-client";
     version = "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a";

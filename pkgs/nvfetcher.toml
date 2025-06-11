@@ -47,3 +47,7 @@ cargo_locks = [ "Cargo.lock" ]
 src.git = "https://github.com/duament/uutunnel"
 fetch.github = "duament/uutunnel"
 cargo_locks = [ "Cargo.lock" ]
+
+[owntracks-frontend]
+src.github_tag = "owntracks/frontend"
+fetch.tarball = "https://github.com/owntracks/frontend/releases/download/$ver/$ver-dist.zip"
