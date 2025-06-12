@@ -73,27 +73,6 @@ in
     };
   };
 
-  services.hydra = {
-    enable = true;
-    listenHost = "localhost";
-    hydraURL = "https://hydra.rvf6.com";
-    useSubstitutes = true;
-    notificationSender = "hydra@rvf6.com";
-    extraConfig = ''
-      <dynamicruncommand>
-        enable = 1
-      </dynamicruncommand>
-    '';
-  };
-  nix.settings = {
-    allowed-uris = [
-      "https://github.com"
-      "https://gitlab.com"
-      "https://git.sr.ht"
-    ];
-  };
-  systemd.services.hydra-evaluator.environment.GC_DONT_GC = "true";
-
   services.nix-serve = {
     enable = true;
     bindAddress = "localhost";
@@ -259,9 +238,6 @@ in
           };
           "~ ^/(rest|share)".proxyPass = proxy_address;
         };
-      "hydra.rvf6.com".locations."/".proxyPass =
-        with config.services.hydra;
-        "http://${listenHost}:${toString port}/";
       "cache.rvf6.com".locations."/".proxyPass =
         with config.services.nix-serve;
         "http://${bindAddress}:${toString port}/";

@@ -161,9 +161,5 @@
         k: v: import (./home + "/${k}") { inherit inputs nixpkgs self; }
       ) (builtins.readDir ./home);
 
-      hydraJobs = {
-        rpi3 = self.nixosConfigurations.rpi3.config.system.build.toplevel;
-        or3 = self.nixosConfigurations.or3.config.system.build.toplevel;
-      };
     };
 }
