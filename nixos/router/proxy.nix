@@ -59,7 +59,7 @@ in
           heartbeat = "10s";
           tls = {
             enabled = true;
-            server_name = "t430.rvf6.com";
+            server_name = "mirror.sjtu.edu.cn";
             min_version = "1.3";
             certificate_path = "/run/credentials/sing-box.service/tls_cert";
             key_path = "/run/credentials/sing-box.service/tls_key";
