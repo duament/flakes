@@ -105,16 +105,6 @@
   ];
   presets.sing-box = {
     enable = true;
-    package = pkgs.sing-box.overrideAttrs (old: rec {
-      version = "1.10.7";
-      src = pkgs.fetchFromGitHub {
-        owner = "SagerNet";
-        repo = old.pname;
-        rev = "v${version}";
-        hash = "sha256-+0wzCFeQ0ZdjYKGQQcwBOAj3bGRHOaHeFMMg/hyXDGQ=";
-      };
-      vendorHash = "sha256-Z3SGEDphy4U+AJzI7QSTEWG/T+U/FwTlP/zJN/mBAL0=";
-    });
     prepareScript = lib.mkAfter ''
       TXT_PATH=/var/lib/dns-txt/t430-rvfg.duckdns.org
       if [[ -f $TXT_PATH ]]; then
