@@ -42,7 +42,7 @@ in
 
     home.activation.ipython = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       mkdir -p ~/.local/share/ipython
-      ln -sf .local/share/ipython ~/.ipython
+      ln -nsf .local/share/ipython ~/.ipython
     '';
   };
 
