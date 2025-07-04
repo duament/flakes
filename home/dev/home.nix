@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   self,
   ...
@@ -53,7 +54,7 @@
     util-linux
   ];
 
-  programs.fish.interactiveShellInit = ''
+  programs.fish.interactiveShellInit = lib.mkOrder 10 ''
     if not set -q IN_NIX_SHELL
       fish_add_path -g /home/.devtools/tools/bin ~/.nix-profile/bin
     end
