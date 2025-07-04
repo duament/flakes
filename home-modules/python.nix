@@ -37,6 +37,13 @@ in
   };
 
   config = mkIf config.presets.python.enable {
+
     home.packages = [ python-with-my-packages ];
+
+    home.activation.ipython = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      mkdir -p ~/.local/share/ipython
+      ln -sf .local/share/ipython ~/.ipython
+    '';
   };
+
 }
