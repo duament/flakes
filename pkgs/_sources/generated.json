@@ -65,9 +65,9 @@
     "avbroot": {
         "cargoLocks": {
             "Cargo.lock": [
-                "./avbroot-v3.17.0/Cargo.lock",
+                "./avbroot-v3.17.2/Cargo.lock",
                 {
-                    "zip-0.6.6": "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0="
+                    "zip-4.1.0": "sha256-xEpsfZFsO9NBp51+O/FaWyHKyvRcvgUeMA5h5mM9hl8="
                 }
             ]
         },
@@ -83,12 +83,12 @@
             "name": null,
             "owner": "chenxiaolong",
             "repo": "avbroot",
-            "rev": "v3.17.0",
-            "sha256": "sha256-a+HCaXElo2uHYMa3y1cnd5LwO7qAfiKWmAynR7vDM4k=",
+            "rev": "v3.17.2",
+            "sha256": "sha256-7/EW547UCyuKxp8JYWxg9qIr3p4CfA0RKxJuEify6DU=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v3.17.0"
+        "version": "v3.17.2"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -118,6 +118,35 @@
             "url": "https://github.com/johman10/flood-for-transmission/releases/download/2024-11-16T12-26-17/flood-for-transmission.tar.gz"
         },
         "version": "2024-11-16T12-26-17"
+    },
+    "ksud": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "ksud",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-3cne0GBqlOMGEVWkugIszwXWUGuNDDNRrOvkOc5sYic=",
+            "type": "url",
+            "url": "https://github.com/tiann/KernelSU/releases/download/v1.0.5/ksud-x86_64-unknown-linux-musl"
+        },
+        "version": "v1.0.5"
+    },
+    "magisk": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "magisk",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "sha256": "sha256-wSZFQziw0cTkNv9CWkbRBdwIcmr2AlWkIr1n0PrygEc=",
+            "type": "tarball",
+            "url": "https://github.com/topjohnwu/Magisk/releases/download/v30.1/Magisk-v30.1.apk"
+        },
+        "version": "v30.1"
     },
     "owntracks-frontend": {
         "cargoLocks": null,
@@ -184,11 +213,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-ZgBZlFN22O76btZDtEUOts0TyK9j4/dY0QwaqMpXaF8=",
+            "sha256": "sha256-ORpIrIRdjU15q34I69kEt2bHP0l5vsMtsAhlmUj9zwA=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v9.0.0/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v9.3.0/uu.tar.gz"
         },
-        "version": "9.0.0"
+        "version": "9.3.0"
     },
     "uuplugin-x86_64": {
         "cargoLocks": null,
@@ -199,11 +228,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-N/uD5H+sl+rcqNregBXEF0kCpUYXozTDd1pbacCgE7g=",
+            "sha256": "sha256-nBvejWo3k1/Q8DUeJ76uAC1fb7IkKCf02oe1S1Fw2Ek=",
             "type": "url",
-            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v9.0.0/uu.tar.gz"
+            "url": "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v9.3.0/uu.tar.gz"
         },
-        "version": "9.0.0"
+        "version": "9.3.0"
     },
     "uutunnel": {
         "cargoLocks": {

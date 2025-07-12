@@ -39,18 +39,18 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.17.0";
+    version = "v3.17.2";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.17.0";
+      rev = "v3.17.2";
       fetchSubmodules = false;
-      sha256 = "sha256-a+HCaXElo2uHYMa3y1cnd5LwO7qAfiKWmAynR7vDM4k=";
+      sha256 = "sha256-7/EW547UCyuKxp8JYWxg9qIr3p4CfA0RKxJuEify6DU=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.17.0/Cargo.lock;
+      lockFile = ./avbroot-v3.17.2/Cargo.lock;
       outputHashes = {
-        "zip-0.6.6" = "sha256-oZQOW7xlSsb7Tw8lby4LjmySpWty9glcZfzpPuQSSz0=";
+        "zip-4.1.0" = "sha256-xEpsfZFsO9NBp51+O/FaWyHKyvRcvgUeMA5h5mM9hl8=";
       };
     };
   };
@@ -68,6 +68,22 @@
     src = fetchTarball {
       url = "https://github.com/johman10/flood-for-transmission/releases/download/2024-11-16T12-26-17/flood-for-transmission.tar.gz";
       sha256 = "sha256-K/eqvPfZ1hdaeYikHaE34agfpjsOLUOm/x4Hxhr9hFU=";
+    };
+  };
+  ksud = {
+    pname = "ksud";
+    version = "v1.0.5";
+    src = fetchurl {
+      url = "https://github.com/tiann/KernelSU/releases/download/v1.0.5/ksud-x86_64-unknown-linux-musl";
+      sha256 = "sha256-3cne0GBqlOMGEVWkugIszwXWUGuNDDNRrOvkOc5sYic=";
+    };
+  };
+  magisk = {
+    pname = "magisk";
+    version = "v30.1";
+    src = fetchTarball {
+      url = "https://github.com/topjohnwu/Magisk/releases/download/v30.1/Magisk-v30.1.apk";
+      sha256 = "sha256-wSZFQziw0cTkNv9CWkbRBdwIcmr2AlWkIr1n0PrygEc=";
     };
   };
   owntracks-frontend = {
@@ -104,18 +120,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "9.0.0";
+    version = "9.3.0";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v9.0.0/uu.tar.gz";
-      sha256 = "sha256-ZgBZlFN22O76btZDtEUOts0TyK9j4/dY0QwaqMpXaF8=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v9.3.0/uu.tar.gz";
+      sha256 = "sha256-ORpIrIRdjU15q34I69kEt2bHP0l5vsMtsAhlmUj9zwA=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "9.0.0";
+    version = "9.3.0";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v9.0.0/uu.tar.gz";
-      sha256 = "sha256-N/uD5H+sl+rcqNregBXEF0kCpUYXozTDd1pbacCgE7g=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v9.3.0/uu.tar.gz";
+      sha256 = "sha256-nBvejWo3k1/Q8DUeJ76uAC1fb7IkKCf02oe1S1Fw2Ek=";
     };
   };
   uutunnel = {
