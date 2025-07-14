@@ -40,6 +40,7 @@ jobs:
         extraPullNames: nix-community
     - name: Build
       run: |
+        nix build .#devShells.x86_64-linux.default
         for host in nixos/*; do
           host=${host#nixos/}
           if [[ "$(nix eval .#nixosConfigurations."$host".pkgs.system)" = '"x86_64-linux"' ]]; then
