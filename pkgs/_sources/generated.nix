@@ -120,18 +120,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "9.3.0";
+    version = "9.5.8";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v9.3.0/uu.tar.gz";
-      sha256 = "sha256-ORpIrIRdjU15q34I69kEt2bHP0l5vsMtsAhlmUj9zwA=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v9.5.8/uu.tar.gz";
+      sha256 = "sha256-lvKGTdDCH+PebFb6R3zFx7qIjhWusBnSjSuJMLmA2ZY=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "9.3.0";
+    version = "9.5.8";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v9.3.0/uu.tar.gz";
-      sha256 = "sha256-nBvejWo3k1/Q8DUeJ76uAC1fb7IkKCf02oe1S1Fw2Ek=";
+      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v9.5.8/uu.tar.gz";
+      sha256 = "sha256-XoCUted1eyqpCieGAXJc8go2S6gOQupH89jNe2K6MRw=";
     };
   };
   uutunnel = {
