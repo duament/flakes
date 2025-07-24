@@ -237,6 +237,10 @@ in
             {
               name = "wg-${h}";
               address = toAddress wg0.networks.${h} peer;
+              # Add route to 10.8.0.0/16
+              routes = optional (h == "router" && elem host wg0.networks.router.outPeers) {
+                Destination = "10.8.0.0/16";
+              };
               routingPolicyRules = optional (cfg.clientPeers ? ${h}) {
                 Family = "both";
                 FirewallMark = cfg.clientPeers.${h}.table;
