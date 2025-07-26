@@ -31,6 +31,12 @@ rec {
 
   github-action-deploy = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2DsZM21JRgzLA0Fv88Qv3HQ78nqf+DnpQZBHNPW+75";
 
+  securityKeys = [
+    ybk
+    canokey
+    a4b
+  ];
+
   authorizedKeys = [
     ybk
     canokey

@@ -81,14 +81,12 @@ in
     #'';
 
     # libpam_rssh
-    security.pam.services.sudo.text = lib.mkDefault (
-      lib.mkBefore ''
-        auth sufficient ${pkgs.pam_rssh}/lib/libpam_rssh.so auth_key_file=/etc/ssh/authorized_keys.d/rvfg
-      ''
-    );
-    security.sudo.extraConfig = ''
-      Defaults env_keep+=SSH_AUTH_SOCK
-    '';
+    security.pam.rssh = {
+      enable = true;
+      settings.auth_key_file = "/etc/ssh/pam_rssh_keys.d/$ruser";
+    };
+    security.pam.services.sudo.rssh = true;
+    environment.etc."ssh/pam_rssh_keys.d/rvfg".text = lib.concatLines self.data.sshPub.securityKeys;
 
   };
 }
