@@ -66,7 +66,11 @@ in
             options = [ "NOPASSWD" ];
           }
           {
-            command = "/run/current-system/sw/bin/systemd-run ^((-E |--)[^ ]* )*(true|/nix/store/[^/ ]*/bin/switch-to-configuration (switch|boot))$";
+            command = "/run/current-system/sw/bin/systemd-run ^(-E [^ ]+ )*(-- )?(true|/nix/store/[^/ ]+/bin/switch-to-configuration (switch|boot))$";
+            options = [ "NOPASSWD" ];
+          }
+          {
+            command = "/run/current-system/sw/bin/env ^([^= ]+=[^ ]* )*systemd-run (-E [^ ]+ |--[^ ]+ )*(-- )?(true|/nix/store/[^/ ]+/bin/switch-to-configuration (switch|boot))$";
             options = [ "NOPASSWD" ];
           }
         ];
