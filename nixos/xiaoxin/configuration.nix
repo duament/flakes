@@ -102,7 +102,7 @@
   };
   presets.uutunnel.enable = true;
   networking.warp = {
-    enable = true;
+    enable = false;
     #endpointAddr = "162.159.192.1";
     endpointAddr = "127.0.0.1";
     endpointPort = 20000;
@@ -116,7 +116,7 @@
     ];
     table = 20;
   };
-  presets.wireguard.keepAlive.interfaces = [ "warp" ];
+  #presets.wireguard.keepAlive.interfaces = [ "warp" ];
   networking.nftables.markChinaIP = {
     enable = true;
     mark = 2;
@@ -129,7 +129,7 @@
       Family = "both";
     }
   ];
-  presets.smartdns.enable = true;
+  presets.smartdns.enable = false;
 
   home-manager.users.rvfg = import ./home.nix;
 }
