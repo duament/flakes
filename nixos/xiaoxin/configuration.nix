@@ -63,10 +63,11 @@
         "802-1x" = {
           ca-cert = "/run/credentials/NetworkManager.service/ca";
           client-cert = "/run/credentials/NetworkManager.service/bundle";
-          eap = "tls;";
+          eap = "tls";
           identity = "xiaoxin@rvf6.com";
           private-key = "/run/credentials/NetworkManager.service/key";
-          private-key-password = "";
+          # make NM happy
+          private-key-password = "null";
         };
         ipv4 = {
           method = "auto";
