@@ -89,6 +89,7 @@
     enable = true;
     clientPeers.router = {
       endpoint = "10.8.0.1:11111";
+      route = "all";
     };
   };
   presets.wireguard.reResolve.wg-router = {
