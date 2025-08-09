@@ -22,6 +22,11 @@ let
         pubkey = mkOption {
           type = types.str;
         };
+
+        mark = mkOption {
+          type = types.int;
+          default = 1;
+        };
       };
     };
 in
@@ -34,6 +39,7 @@ in
   };
 
   config = {
+
     systemd.services = mapAttrs' (interface: option: {
       name = "${interface}-re-resolve";
       value = {
@@ -83,5 +89,11 @@ in
         };
       }) interfaces
     );
+
+    presets.bpf-mark = mapAttrs' (interface: option: {
+      name = "${interface}-re-resolve";
+      value = option.mark;
+    }) cfg;
+
   };
 }
