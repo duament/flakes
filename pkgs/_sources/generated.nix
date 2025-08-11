@@ -27,47 +27,48 @@
   };
   aleo = {
     pname = "aleo";
-    version = "ce875e48d9983031648e87f38b7a269f4fbf5eb5";
+    version = "acd8d56d42be24d285708cf463652b194bdcddd2";
     src = fetchFromGitHub {
       owner = "AlessioLaiso";
       repo = "aleo";
-      rev = "ce875e48d9983031648e87f38b7a269f4fbf5eb5";
+      rev = "acd8d56d42be24d285708cf463652b194bdcddd2";
       fetchSubmodules = false;
-      sha256 = "sha256-HSxP5/sLHQTujBVt1u93625EXEc42lxpt8W1//6ngWM=";
+      sha256 = "sha256-2CJTMJNTVCqjGAR24N82/cyhjOXg9HY/kCUZt4aILcE=";
     };
-    date = "2023-06-03";
+    date = "2025-08-08";
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.17.2";
+    version = "v3.20.0";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.17.2";
+      rev = "v3.20.0";
       fetchSubmodules = false;
-      sha256 = "sha256-7/EW547UCyuKxp8JYWxg9qIr3p4CfA0RKxJuEify6DU=";
+      sha256 = "sha256-O5Mmu/b2Sl9UZTNHnDkqu6nWF79m480n03vJ7Ve3khQ=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.17.2/Cargo.lock;
+      lockFile = ./avbroot-v3.20.0/Cargo.lock;
       outputHashes = {
+        "system-properties-0.2.1" = "sha256-aO+uTYSCJJ8ktsUjyoQOh2uyU+trdx45mwwHaZzpE9I=";
         "zip-4.1.0" = "sha256-xEpsfZFsO9NBp51+O/FaWyHKyvRcvgUeMA5h5mM9hl8=";
       };
     };
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20250526";
+    version = "20250731";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250526.dict";
-      sha256 = "sha256-znHic2/mP0HWJgO1v7sqF2W4Xv2ZhhC8xufaUu87ZzE=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250731.dict";
+      sha256 = "sha256-pS2fVLfihJGgKA1XsW1x0VanfhjHgDGtsqedpmvdUnE=";
     };
   };
   flood-for-transmission = {
     pname = "flood-for-transmission";
-    version = "2024-11-16T12-26-17";
+    version = "2025-07-19T10-51-22";
     src = fetchTarball {
-      url = "https://github.com/johman10/flood-for-transmission/releases/download/2024-11-16T12-26-17/flood-for-transmission.tar.gz";
-      sha256 = "sha256-K/eqvPfZ1hdaeYikHaE34agfpjsOLUOm/x4Hxhr9hFU=";
+      url = "https://github.com/johman10/flood-for-transmission/releases/download/2025-07-19T10-51-22/flood-for-transmission.tar.gz";
+      sha256 = "sha256-DRWD+0ArfNR1V44DLdnT5sv3+4MftTlvoyzJJ4jdcKI=";
     };
   };
   ksud = {
@@ -80,10 +81,10 @@
   };
   magisk = {
     pname = "magisk";
-    version = "v30.1";
+    version = "v30.2";
     src = fetchTarball {
-      url = "https://github.com/topjohnwu/Magisk/releases/download/v30.1/Magisk-v30.1.apk";
-      sha256 = "sha256-wSZFQziw0cTkNv9CWkbRBdwIcmr2AlWkIr1n0PrygEc=";
+      url = "https://github.com/topjohnwu/Magisk/releases/download/v30.2/Magisk-v30.2.apk";
+      sha256 = "sha256-f1uNJVCMs3IKQs4JE5gkMHhhmkdX5ycuw6Q1JDtIXiA=";
     };
   };
   owntracks-frontend = {
@@ -120,18 +121,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "9.5.8";
+    version = "9.7.0";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v9.5.8/uu.tar.gz";
-      sha256 = "sha256-lvKGTdDCH+PebFb6R3zFx7qIjhWusBnSjSuJMLmA2ZY=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v9.7.0/uu.tar.gz";
+      sha256 = "sha256-kpU1S+5hqRKdQ57/89yQeK00bIU5GrPQHrPtodYjoFk=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "9.5.8";
+    version = "9.7.0";
     src = fetchurl {
-      url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v9.5.8/uu.tar.gz";
-      sha256 = "sha256-XoCUted1eyqpCieGAXJc8go2S6gOQupH89jNe2K6MRw=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v9.7.0/uu.tar.gz";
+      sha256 = "sha256-cYQgug2C48TSY6QFhRF3hNg0s1VkR0u/VJywABGt2vc=";
     };
   };
   uutunnel = {
