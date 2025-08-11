@@ -6,12 +6,12 @@ fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/downlo
 [uuplugin-x86_64]
 src.webpage = "https://router.uu.163.com/api/plugin?type=openwrt-x86_64"
 src.regex = 'openwrt-x86_64/v([^/]*)/'
-fetch.url = "https://uu.gdl.netease.com/uuplugin/openwrt-x86_64/v$ver/uu.tar.gz"
+fetch.url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v$ver/uu.tar.gz"
 
 [uuplugin-aarch64]
 src.webpage = "https://router.uu.163.com/api/plugin?type=openwrt-aarch64"
 src.regex = 'openwrt-aarch64/v([^/]*)/'
-fetch.url = "https://uu.gdl.netease.com/uuplugin/openwrt-aarch64/v$ver/uu.tar.gz"
+fetch.url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v$ver/uu.tar.gz"
 
 [flood-for-transmission]
 src.github_tag = "johman10/flood-for-transmission"
