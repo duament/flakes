@@ -23,13 +23,13 @@ in
     enable = true;
     enableSmtp = true;
     enableSubmissions = true;
-    hostname = hostname;
-    networksStyle = "host";
     mapFiles.smtpd_sender_login_maps = pkgs.writeText "postfix-smtpd_sender_login_maps" ''
       i@${domain} i@${domain}
       admin@${domain} i@${domain}
     '';
-    config = {
+    settings.main = {
+      myhostname = hostname;
+      mynetworks_style = "host";
       mydestination = "";
 
       virtual_mailbox_domains = domain;
