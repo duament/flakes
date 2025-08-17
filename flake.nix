@@ -135,6 +135,7 @@
                 );
               in
               (pkgs.writeShellScript "ci-deploy" ''
+                set -eu
                 export NIX_SSHOPTS="-o GlobalKnownHostsFile=${known_hosts}"
                 hosts=(${builtins.concatStringsSep " " hosts})
                 for host in ''${hosts[*]}; do
