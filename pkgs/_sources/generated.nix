@@ -39,28 +39,19 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.20.0";
+    version = "v3.21.0";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.20.0";
+      rev = "v3.21.0";
       fetchSubmodules = false;
-      sha256 = "sha256-O5Mmu/b2Sl9UZTNHnDkqu6nWF79m480n03vJ7Ve3khQ=";
+      sha256 = "sha256-SkRNRmeU3MQ1SgbQAex786w+mYeTY1LV/P9ochzXFIY=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.20.0/Cargo.lock;
+      lockFile = ./avbroot-v3.21.0/Cargo.lock;
       outputHashes = {
         "system-properties-0.2.1" = "sha256-aO+uTYSCJJ8ktsUjyoQOh2uyU+trdx45mwwHaZzpE9I=";
-        "zip-4.1.0" = "sha256-xEpsfZFsO9NBp51+O/FaWyHKyvRcvgUeMA5h5mM9hl8=";
       };
-    };
-  };
-  fcitx5-pinyin-zhwiki = {
-    pname = "fcitx5-pinyin-zhwiki";
-    version = "20250731";
-    src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250731.dict";
-      sha256 = "sha256-pS2fVLfihJGgKA1XsW1x0VanfhjHgDGtsqedpmvdUnE=";
     };
   };
   flood-for-transmission = {
@@ -121,18 +112,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "9.7.0";
+    version = "9.8.8";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v9.7.0/uu.tar.gz";
-      sha256 = "sha256-kpU1S+5hqRKdQ57/89yQeK00bIU5GrPQHrPtodYjoFk=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v9.8.8/uu.tar.gz";
+      sha256 = "sha256-VZIc6jutRs6YGy+sRq/KdTpGwZobSZ1JXEoivoSAiR4=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "9.7.0";
+    version = "9.8.8";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v9.7.0/uu.tar.gz";
-      sha256 = "sha256-cYQgug2C48TSY6QFhRF3hNg0s1VkR0u/VJywABGt2vc=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v9.8.8/uu.tar.gz";
+      sha256 = "sha256-AB/Vik7yQPC2ig1BgvlORsSHwqANAxXpDs0Y3wojurA=";
     };
   };
   uutunnel = {
