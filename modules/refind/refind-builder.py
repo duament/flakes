@@ -12,8 +12,29 @@ import shutil
 import ctypes
 import pefile
 import hashlib
-from typing import NamedTuple, List, Optional
+import json
+from typing import NamedTuple, List, Optional, Any, Sequence
+from dataclasses import dataclass
+from pathlib import Path
 libc = ctypes.CDLL("libc.so.6")
+
+
+BOOTSPEC_TOOLS = "@bootspecTools@"
+
+
+@dataclass
+class BootSpec:
+    init: Path
+    initrd: Path
+    kernel: Path
+    kernelParams: list[str]  # noqa: N815
+    label: str
+    system: str
+    toplevel: Path
+    specialisations: dict[str, "BootSpec"]
+    sortKey: str  # noqa: N815
+    devicetree: Path | None = None  # noqa: N815
+    initrdSecrets: str | None = None  # noqa: N815
 
 
 class SystemIdentifier(NamedTuple):
@@ -22,22 +43,29 @@ class SystemIdentifier(NamedTuple):
     specialisation: Optional[str]
 
 
+FILE = None | int
+
+
+def run(cmd: Sequence[str | Path], stdout: FILE = None) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(cmd, check=True, text=True, stdout=stdout)
+
+
 def copy_if_not_exists(source: str, dest: str) -> None:
     if not os.path.exists(dest):
         shutil.copyfile(source, dest)
 
 
-def generation_dir(profile: Optional[str], generation: int) -> str:
+def generation_dir(profile: str | None, generation: int) -> Path:
     if profile:
-        return "/nix/var/nix/profiles/system-profiles/%s-%d-link" % (profile, generation)
+        return Path(f"/nix/var/nix/profiles/system-profiles/{profile}-{generation}-link")
     else:
-        return "/nix/var/nix/profiles/system-%d-link" % (generation)
+        return Path(f"/nix/var/nix/profiles/system-{generation}-link")
 
 
-def system_dir(profile: Optional[str], generation: int, specialisation: Optional[str]) -> str:
+def system_dir(profile: str | None, generation: int, specialisation: str | None) -> Path:
     d = generation_dir(profile, generation)
     if specialisation:
-        return os.path.join(d, "specialisation", specialisation)
+        return d / "specialisation" / specialisation
     else:
         return d
 
@@ -80,27 +108,6 @@ def copy_from_profile(profile: Optional[str], generation: int, specialisation: O
     if not dry_run:
         copy_if_not_exists(store_file_path, "@efiSysMountPoint@%s" % (efi_file_path))
     return efi_file_path
-
-
-def describe_generation(profile: Optional[str], generation: int, specialisation: Optional[str]) -> str:
-    try:
-        with open(profile_path(profile, generation, specialisation, "nixos-version")) as f:
-            nixos_version = f.read()
-    except IOError:
-        nixos_version = "Unknown"
-
-    kernel_dir = os.path.dirname(profile_path(profile, generation, specialisation, "kernel"))
-    module_dir = glob.glob("%s/lib/modules/*" % kernel_dir)[0]
-    kernel_version = os.path.basename(module_dir)
-
-    build_time = int(os.path.getctime(system_dir(profile, generation, specialisation)))
-    build_date = datetime.datetime.fromtimestamp(build_time).strftime('%F')
-
-    description = "@distroName@ {}, Linux Kernel {}, Built on {}".format(
-        nixos_version, kernel_version, build_date
-    )
-
-    return description
 
 
 def mkdir_p(path: str) -> None:
@@ -228,14 +235,66 @@ def generation_details(profile: Optional[str], generation: int, specialisation: 
     with open("%s/kernel-params" % (generation_dir)) as params_file:
         kernel_params = kernel_params + params_file.read()
     efi_file_path = generate_efi(profile, generation, specialisation, kernel_params)
-    description = describe_generation(profile, generation, specialisation)
+    bootspec = get_bootspec(profile, generation)
+
+    build_time = int(system_dir(profile, generation, specialisation).stat().st_ctime)
+    build_date = datetime.datetime.fromtimestamp(build_time).strftime('%F')
+
     return {
         "profile": f"[{profile}] " if profile else "",
         "specialisation": f"({specialisation}) " if specialisation else "",
         "generation": generation,
         "loader": efi_file_path,
-        "description": description
+        "description": f"{bootspec.label}, built on {build_date}",
     }
+
+
+def get_bootspec(profile: str | None, generation: int) -> BootSpec:
+    system_directory = system_dir(profile, generation, None)
+    boot_json_path = (system_directory / "boot.json").resolve()
+    if boot_json_path.is_file():
+        with boot_json_path.open("r") as f:
+            # check if json is well-formed, else throw error with filepath
+            try:
+                bootspec_json = json.load(f)
+            except ValueError as e:
+                print(f"error: Malformed Json: {e}, in {boot_json_path}", file=sys.stderr)
+                sys.exit(1)
+    else:
+        boot_json_str = run(
+            [
+                f"{BOOTSPEC_TOOLS}/bin/synthesize",
+                "--version",
+                "1",
+                system_directory,
+                "/dev/stdout",
+            ],
+            stdout=subprocess.PIPE,
+        ).stdout
+        bootspec_json = json.loads(boot_json_str)
+    return bootspec_from_json(bootspec_json)
+
+
+def bootspec_from_json(bootspec_json: dict[str, Any]) -> BootSpec:
+    specialisations = bootspec_json['org.nixos.specialisation.v1']
+    specialisations = {k: bootspec_from_json(v) for k, v in specialisations.items()}
+    systemdBootExtension = bootspec_json.get('org.nixos.systemd-boot', {})
+    sortKey = systemdBootExtension.get('sortKey', 'nixos')
+    devicetree = systemdBootExtension.get('devicetree')
+
+    if devicetree:
+        devicetree = Path(devicetree)
+
+    main_json = bootspec_json['org.nixos.bootspec.v1']
+    for attr in ("kernel", "initrd", "toplevel"):
+        if attr in main_json:
+            main_json[attr] = Path(main_json[attr])
+    return BootSpec(
+        **main_json,
+        specialisations=specialisations,
+        sortKey=sortKey,
+        devicetree=devicetree,
+    )
 
 
 def write_refind_config(path: str, default_generation: SystemIdentifier, generations: List[SystemIdentifier]) -> None:
