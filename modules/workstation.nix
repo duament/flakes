@@ -233,6 +233,7 @@ in
               "Noto Sans Math"
               "Noto Sans Thai"
               "Noto Sans Oriya"
+              "Noto Sans Bamum"
             ];
           })
         ];
