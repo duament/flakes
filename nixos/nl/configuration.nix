@@ -100,6 +100,7 @@ in
 
   services.transmission = {
     enable = true;
+    package = pkgs.transmission_4;
     openPeerPorts = true;
     downloadDirPermissions = "770";
     settings = {
