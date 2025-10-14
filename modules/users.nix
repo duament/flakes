@@ -10,13 +10,22 @@ let
 in
 {
   options = {
-    presets.users.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
+    presets.users = {
+      enable = lib.mkEnableOption "" // {
+        default = true;
+      };
+
+      sudoKeys = lib.mkOption {
+        type = with lib.types; listOf string;
+        default = [ ];
+      };
     };
   };
 
   config = lib.mkIf cfg.enable {
+
+    presets.users.sudoKeys = lib.mkOrder 1200 self.data.sshPub.securityKeys;
+
     sops.secrets.passwd = {
       neededForUsers = true;
       sopsFile = ../secrets/passwd.yaml;
@@ -86,7 +95,7 @@ in
       settings.auth_key_file = "/etc/ssh/pam_rssh_keys.d/$ruser";
     };
     security.pam.services.sudo.rssh = true;
-    environment.etc."ssh/pam_rssh_keys.d/rvfg".text = lib.concatLines self.data.sshPub.securityKeys;
+    environment.etc."ssh/pam_rssh_keys.d/rvfg".text = lib.concatLines cfg.sudoKeys;
 
   };
 }
