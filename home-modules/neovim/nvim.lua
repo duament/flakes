@@ -74,7 +74,7 @@ require("bufferline").setup{
     left_trunc_marker = '🡰',
     right_trunc_marker = '🡲',
   },
-  highlights = require('catppuccin.groups.integrations.bufferline').get_theme()
+  highlights = require('catppuccin.special.bufferline').get_theme()
 }
 
 require("fzf-lua").setup()
@@ -211,7 +211,8 @@ local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,
 }
-require('lspconfig')['pylsp'].setup{
+
+vim.lsp.config('pylsp', {
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "pylsp" },
@@ -234,13 +235,17 @@ require('lspconfig')['pylsp'].setup{
       }
     }
   }
-}
-require('lspconfig')['clangd'].setup{
+})
+vim.lsp.enable('pylsp')
+
+vim.lsp.config('clangd', {
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "clangd" },
-}
-require('lspconfig')['gopls'].setup{
+})
+vim.lsp.enable('clangd')
+
+vim.lsp.config('gopls', {
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "@gopls@" },
@@ -256,13 +261,17 @@ require('lspconfig')['gopls'].setup{
       },
     }
   },
-}
-require('lspconfig')['rust_analyzer'].setup{
+})
+vim.lsp.enable('gopls')
+
+vim.lsp.config('rust_analyzer', {
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "@rust_analyzer@" },
-}
-require('lspconfig')['nil_ls'].setup{
+})
+vim.lsp.enable('rust_analyzer')
+
+vim.lsp.config('nil_ls', {
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "@nil@" },
@@ -273,25 +282,34 @@ require('lspconfig')['nil_ls'].setup{
       },
     },
   },
-}
-require('lspconfig')['beancount'].setup{
+})
+vim.lsp.enable('nil_ls')
+
+vim.lsp.config('beancount', {
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "@beancount_language_server@", "--stdio" },
   init_options = {
     journal_file = vim.fn.getcwd() .. "/main.beancount",
   };
-}
-require('lspconfig')['ts_ls'].setup{
+})
+vim.lsp.enable('beancount')
+
+vim.lsp.config('ts_ls', {
   on_attach = on_attach,
   flags = lsp_flags,
   cmd = { "@typescript_language_server@", "--stdio" },
-}
-require('lspconfig')['svelte'].setup{
+})
+vim.lsp.enable('ts_ls')
+
+vim.lsp.config('svelte', {
   on_attach = on_attach,
   flags = lsp_flags,
-}
-require('lspconfig')['texlab'].setup{
+})
+vim.lsp.enable('svelte')
+
+vim.lsp.config('texlab', {
   on_attach = on_attach,
   flags = lsp_flags,
-}
+})
+vim.lsp.enable('texlab')
