@@ -7,6 +7,8 @@
 }:
 let
   cfg = config.presets.users;
+  hashedPasswordFile =
+    if cfg.hashedPasswordFile == "" then config.sops.secrets.passwd.path else cfg.hashedPasswordFile;
 in
 {
   options = {
@@ -19,6 +21,11 @@ in
         type = with lib.types; listOf string;
         default = [ ];
       };
+
+      hashedPasswordFile = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+      };
     };
   };
 
@@ -26,12 +33,14 @@ in
 
     presets.users.sudoKeys = lib.mkOrder 1200 self.data.sshPub.securityKeys;
 
-    sops.secrets.passwd = {
-      neededForUsers = true;
-      sopsFile = ../secrets/passwd.yaml;
+    sops.secrets = lib.mkIf (cfg.hashedPasswordFile == "") {
+      passwd = {
+        neededForUsers = true;
+        sopsFile = ../secrets/passwd.yaml;
+      };
     };
 
-    users.users.root.hashedPasswordFile = config.sops.secrets.passwd.path;
+    users.users.root.hashedPasswordFile = hashedPasswordFile;
 
     users.groups.rvfg = {
       gid = 1000;
@@ -40,7 +49,7 @@ in
       isNormalUser = true;
       uid = 1000;
       group = "rvfg";
-      hashedPasswordFile = config.sops.secrets.passwd.path;
+      hashedPasswordFile = hashedPasswordFile;
       extraGroups = [
         "systemd-journal"
         "input"
