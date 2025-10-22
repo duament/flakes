@@ -18,7 +18,7 @@ in
       };
 
       sudoKeys = lib.mkOption {
-        type = with lib.types; listOf string;
+        type = with lib.types; listOf str;
         default = [ ];
       };
 
