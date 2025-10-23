@@ -86,6 +86,8 @@ in
       '';
     };
 
+    console.font = "${pkgs.spleen}/share/consolefonts/spleen-16x32.psfu";
+
     i18n.inputMethod = {
       enable = true;
       type = "fcitx5";
