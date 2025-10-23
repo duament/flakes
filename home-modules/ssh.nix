@@ -47,94 +47,96 @@ in
 
     programs.ssh = {
       enable = true;
-      compression = true;
-      serverAliveInterval = 10;
-      extraConfig = ''
-        CheckHostIP no
-      '';
       includes = [ "config.d/*" ];
-      matchBlocks =
-        builtins.listToAttrs (
-          map
-            (host: {
-              name = host;
-              value = {
-                user = "rvfg";
-                hostname = "${host}.rvf6.com";
-                identityFile = sshIdentities;
-                identitiesOnly = true;
-                forwardAgent = true;
-              };
-            })
-            [
-              "nl"
-              "or2"
-              "or3"
-              "az"
-              "ak"
-              "sg"
-              "rpi3"
-              "t430"
-              "work"
-              "router"
-            ]
-        )
-        // builtins.listToAttrs (
-          map (host: {
+      enableDefaultConfig = false;
+      matchBlocks = {
+        "*" = {
+          serverAliveInterval = 10;
+          compression = true;
+          checkHostIP = false;
+        };
+      }
+      // builtins.listToAttrs (
+        map
+          (host: {
             name = host;
             value = {
-              user = "duama";
+              user = "rvfg";
               hostname = "${host}.rvf6.com";
               identityFile = sshIdentities;
               identitiesOnly = true;
               forwardAgent = true;
             };
-          }) [ "or1" ]
-        )
-        // builtins.listToAttrs (
-          map
-            (host: {
-              name = host;
-              value = {
-                user = "root";
-                hostname = "${host}.rvf6.com";
-                identitiesOnly = true;
-                identityFile = sshIdentities;
-              };
-            })
-            [
-              "owrt"
-              "k2"
-              "k1"
-            ]
-        )
-        // builtins.listToAttrs (
-          map (host: {
-            name = "${host}-init";
+          })
+          [
+            "nl"
+            "or2"
+            "or3"
+            "az"
+            "ak"
+            "sg"
+            "rpi3"
+            "t430"
+            "work"
+            "router"
+          ]
+      )
+      // builtins.listToAttrs (
+        map (host: {
+          name = host;
+          value = {
+            user = "duama";
+            hostname = "${host}.rvf6.com";
+            identityFile = sshIdentities;
+            identitiesOnly = true;
+            forwardAgent = true;
+          };
+        }) [ "or1" ]
+      )
+      // builtins.listToAttrs (
+        map
+          (host: {
+            name = host;
             value = {
               user = "root";
               hostname = "${host}.rvf6.com";
-              identityFile = sshIdentities;
               identitiesOnly = true;
-              extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_${host}_init";
+              identityFile = sshIdentities;
             };
-          }) [ "rpi3" ]
-        )
-        // {
-          "t430-init" = {
+          })
+          [
+            "owrt"
+            "k2"
+            "k1"
+          ]
+      )
+      // builtins.listToAttrs (
+        map (host: {
+          name = "${host}-init";
+          value = {
             user = "root";
-            hostname = "10.6.0.8";
+            hostname = "${host}.rvf6.com";
             identityFile = sshIdentities;
             identitiesOnly = true;
-            extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_t430_init";
+            extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_${host}_init";
           };
-        }
-        // {
-          "github.com" = {
-            identityFile = sshIdentities;
-            identitiesOnly = true;
-          };
+        }) [ "rpi3" ]
+      )
+      // {
+        "t430-init" = {
+          user = "root";
+          hostname = "10.6.0.8";
+          identityFile = sshIdentities;
+          identitiesOnly = true;
+          extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_t430_init";
         };
+      }
+      // {
+        "github.com" = {
+          identityFile = sshIdentities;
+          identitiesOnly = true;
+        };
+      };
     };
   };
 }
