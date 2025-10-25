@@ -62,27 +62,31 @@
 
   programs.git = {
     enable = true;
-    userEmail = "ruifeng.ma@${self.data.efcom}";
-    userName = "ruifeng.ma";
-    signing = {
-      signByDefault = true;
-      key = "~/.ssh/id_ed25519";
-    };
-    extraConfig = {
+    settings = {
       init.defaultBranch = "main";
+      user = {
+        email = "ruifeng.ma@${self.data.efcom}";
+        name = "ruifeng.ma";
+      };
       gpg.format = "ssh";
       gpg.ssh.allowedSignersFile =
         (pkgs.writeText "allowed_signers" ''
           int.ruifeng.ma@${self.data.efcom} ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkJYJCkj7fPff31pDkGULXhgff+jaaj4BKu1xzL/DeZ
         '').outPath;
     };
-    delta = {
-      enable = true;
-      options = {
-        light = true;
-        line-numbers = true;
-        side-by-side = true;
-      };
+    signing = {
+      signByDefault = true;
+      key = "~/.ssh/id_ed25519";
+    };
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      light = true;
+      line-numbers = true;
+      side-by-side = true;
     };
   };
 

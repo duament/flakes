@@ -70,7 +70,7 @@
       builtins.readFile ./Catppuccin-Latte.colorscheme;
 
     presets.git.enable = true;
-    programs.git.extraConfig.gcrypt = {
+    programs.git.settings.gcrypt = {
       participants = "F2E3DA8DE23F4EA11033EDEC535D184864C05736";
       publish-participants = true;
     };
