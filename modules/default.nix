@@ -23,6 +23,7 @@
     ./refind
     ./restic.nix
     ./router.nix
+    ./shadowsocks.nix
     ./sing-box.nix
     ./smartdns.nix
     ./ssh-agent.nix

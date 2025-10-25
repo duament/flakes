@@ -5,9 +5,6 @@
   self,
   ...
 }:
-let
-  systemdHarden = self.data.systemdHarden;
-in
 {
   presets.nogui.enable = true;
   presets.metrics.enable = true;
@@ -86,16 +83,14 @@ in
     };
   };
 
-  services.shadowsocks = {
+  presets.shadowsocks = {
     enable = true;
-    fastOpen = false;
-    passwordFile = "/run/credentials/shadowsocks-libev.service/shadowsocks";
-    port = 13926;
-    extraConfig.user = null;
-  };
-  systemd.services.shadowsocks-libev.serviceConfig = systemdHarden // {
-    PrivateNetwork = false;
-    LoadCredential = "shadowsocks:${config.sops.secrets.shadowsocks.path}";
+    settings = {
+      server = "::";
+      server_port = 13926;
+      method = "chacha20-ietf-poly1305";
+    };
+    passwordFile = config.sops.secrets.shadowsocks.path;
   };
 
   services.transmission = {
