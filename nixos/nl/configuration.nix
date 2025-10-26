@@ -5,6 +5,9 @@
   self,
   ...
 }:
+let
+  ssPort = 13926;
+in
 {
   presets.nogui.enable = true;
   presets.metrics.enable = true;
@@ -33,10 +36,10 @@
       25 # SMTP
       465 # SMTPS
       993 # IMAPS
-      config.services.shadowsocks.port
+      ssPort
     ];
     allowedUDPPorts = [
-      config.services.shadowsocks.port
+      ssPort
     ];
   };
 
@@ -87,7 +90,7 @@
     enable = true;
     settings = {
       server = "::";
-      server_port = 13926;
+      server_port = ssPort;
       method = "chacha20-ietf-poly1305";
     };
     passwordFile = config.sops.secrets.shadowsocks.path;
