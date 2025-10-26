@@ -55,6 +55,7 @@
     };
   };
   systemd.services.nginx.serviceConfig.SupplementaryGroups = [ "miniflux" ];
+  systemd.services.nginx.after = [ "miniflux.service" ];
 
   services.miniflux = {
     enable = true;
