@@ -53,7 +53,7 @@
 
   hardware.wirelessRegulatoryDatabase = true;
   hardware.firmware = [
-    (pkgs.runCommandNoCC "firmware" { } ''
+    (pkgs.runCommand "firmware" { } ''
       install -dm755 $out/lib/firmware/rtl_bt/
       install -dm755 $out/lib/firmware/rtw88/
       install -dm755 $out/lib/firmware/i915/

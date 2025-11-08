@@ -53,7 +53,7 @@
   hardware.cpu.intel.updateMicrocode = true;
   hardware.firmware = [
     pkgs.wireless-regdb
-    (pkgs.runCommandNoCC "firmware" { } ''
+    (pkgs.runCommand "firmware" { } ''
       install -dm755 $out/lib/firmware/i915/
       install -Dm644 ${pkgs.linux-firmware}/lib/firmware/i915/* $out/lib/firmware/i915/
     '')
