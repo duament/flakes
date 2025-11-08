@@ -39,16 +39,16 @@
   };
   avbroot = {
     pname = "avbroot";
-    version = "v3.23.1";
+    version = "v3.23.2";
     src = fetchFromGitHub {
       owner = "chenxiaolong";
       repo = "avbroot";
-      rev = "v3.23.1";
+      rev = "v3.23.2";
       fetchSubmodules = false;
-      sha256 = "sha256-ExP1ifZBiAQO0JntUsVPCVtItnX3JTv2QhbOcdbw8zo=";
+      sha256 = "sha256-rS3V+D7dBt/px0UNC8ZZyQ4FzNsjTykMSeXbjFF6iis=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.23.1/Cargo.lock;
+      lockFile = ./avbroot-v3.23.2/Cargo.lock;
       outputHashes = {
         "system-properties-0.2.1" = "sha256-aO+uTYSCJJ8ktsUjyoQOh2uyU+trdx45mwwHaZzpE9I=";
       };
@@ -64,10 +64,10 @@
   };
   ksud = {
     pname = "ksud";
-    version = "v1.0.5";
+    version = "v2.0.0";
     src = fetchurl {
-      url = "https://github.com/tiann/KernelSU/releases/download/v1.0.5/ksud-x86_64-unknown-linux-musl";
-      sha256 = "sha256-3cne0GBqlOMGEVWkugIszwXWUGuNDDNRrOvkOc5sYic=";
+      url = "https://github.com/tiann/KernelSU/releases/download/v2.0.0/ksud-x86_64-unknown-linux-musl";
+      sha256 = "sha256-qjtYctduVnqc2TQo4CGlveEkNR2y8QDwpHowYKT+Y0Y=";
     };
   };
   magisk = {
@@ -112,18 +112,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "10.12.4";
+    version = "10.13.0";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.12.4/uu.tar.gz";
-      sha256 = "sha256-OIa/7x1hewjRTklr5jUtFGg1eKuNec1sSZxdVHr8qvw=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.13.0/uu.tar.gz";
+      sha256 = "sha256-Y+pXWQ+VzbsPtyuK5psVcjjz0NHA+mIRVuJsHiFFUlk=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "10.12.4";
+    version = "10.13.0";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.12.4/uu.tar.gz";
-      sha256 = "sha256-0T4J+LHC2NATHHW5ws4Jz33pFW/YAWsZ3KeFKxt+5Bg=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.13.0/uu.tar.gz";
+      sha256 = "sha256-gt8btliL6TXj5MjmcD5DYaJnrrsW4UnqoxgIYWGoWBY=";
     };
   };
   uutunnel = {
