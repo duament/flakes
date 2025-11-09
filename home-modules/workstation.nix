@@ -32,8 +32,8 @@
       papirus-icon-theme
       pciutils
       pdftk
-      poppler_utils
-      tdesktop
+      poppler-utils
+      telegram-desktop
       thunderbird
       unar
       usbutils

@@ -33,11 +33,13 @@ let
 
       objcopy = "${pkgs.binutils}/bin/objcopy";
 
-      efiStubPath = "${inputs.lanzaboote.packages.${pkgs.system}.stub}/bin/lanzaboote_stub.efi";
+      efiStubPath = "${inputs.lanzaboote.packages.${pkgs.stdenv.hostPlatform.system}.stub}/bin/lanzaboote_stub.efi";
 
       sbsign = "${pkgs.sbsigntool}/bin/sbsign";
 
       configurationLimit = if cfg.configurationLimit == null then 0 else cfg.configurationLimit;
+
+      utillinux = pkgs.util-linux;
 
       inherit (cfg)
         extraConfig
@@ -52,7 +54,6 @@ let
         refind
         efibootmgr
         coreutils
-        utillinux
         gnugrep
         gnused
         gawk
