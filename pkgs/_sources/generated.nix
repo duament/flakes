@@ -3,27 +3,27 @@
 {
   Fluent-solid-pink = {
     pname = "Fluent-solid-pink";
-    version = "315251f3e0099fc7afa7ab183880141a478f584e";
+    version = "44794f29c89de994b0179aebabd2f5776c90d236";
     src = fetchFromGitHub {
       owner = "vinceliuice";
       repo = "Fluent-kde";
-      rev = "315251f3e0099fc7afa7ab183880141a478f584e";
+      rev = "44794f29c89de994b0179aebabd2f5776c90d236";
       fetchSubmodules = false;
-      sha256 = "sha256-DBliFDKSAEFWqKtGvOzwKxNi3YK5VEbLzKa8byEUg1Y=";
+      sha256 = "sha256-Ejr2wDs3tr36YN2mWSd9ZKp5e6gH/whcuhauN/2Y15I=";
     };
-    date = "2025-04-28";
+    date = "2025-11-10";
   };
   Nginx-Fancyindex-Theme = {
     pname = "Nginx-Fancyindex-Theme";
-    version = "32d124a0885a7a4409c2dc557c9b1d4bcf836dd5";
+    version = "70136fa6865000cb4f317c6d6f78c089a325ce58";
     src = fetchFromGitHub {
       owner = "Naereen";
       repo = "Nginx-Fancyindex-Theme";
-      rev = "32d124a0885a7a4409c2dc557c9b1d4bcf836dd5";
+      rev = "70136fa6865000cb4f317c6d6f78c089a325ce58";
       fetchSubmodules = false;
-      sha256 = "sha256-BFXmTwKcgX94+0wH5x77c9sEP6h9JR73WGY5gp5cyGQ=";
+      sha256 = "sha256-hPn1XZrO9zR/5CAlxqbkV5nWscL6+T+NARUg+eXGgFM=";
     };
-    date = "2022-09-16";
+    date = "2025-11-20";
   };
   aleo = {
     pname = "aleo";
@@ -64,10 +64,10 @@
   };
   ksud = {
     pname = "ksud";
-    version = "v2.0.0";
+    version = "v2.1.2";
     src = fetchurl {
-      url = "https://github.com/tiann/KernelSU/releases/download/v2.0.0/ksud-x86_64-unknown-linux-musl";
-      sha256 = "sha256-qjtYctduVnqc2TQo4CGlveEkNR2y8QDwpHowYKT+Y0Y=";
+      url = "https://github.com/tiann/KernelSU/releases/download/v2.1.2/ksud-x86_64-unknown-linux-musl";
+      sha256 = "sha256-vQvEmdJifp4F1in7S+be0yqJAwOMC5UFgG+PUxG7MMc=";
     };
   };
   magisk = {
@@ -112,18 +112,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "10.13.0";
+    version = "10.14.12";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.13.0/uu.tar.gz";
-      sha256 = "sha256-Y+pXWQ+VzbsPtyuK5psVcjjz0NHA+mIRVuJsHiFFUlk=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.14.12/uu.tar.gz";
+      sha256 = "sha256-SFJTR/yd2StwmffpWDpV6Z1yUnsX7o+af8B8FcRQbNQ=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "10.13.0";
+    version = "10.14.12";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.13.0/uu.tar.gz";
-      sha256 = "sha256-gt8btliL6TXj5MjmcD5DYaJnrrsW4UnqoxgIYWGoWBY=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.14.12/uu.tar.gz";
+      sha256 = "sha256-z5kykqiBvWkvdBKPl8cPICEeZzsZwE2gWc3eoAlk7Rw=";
     };
   };
   uutunnel = {
