@@ -55,6 +55,7 @@
     };
   };
   systemd.services.nginx.serviceConfig.SupplementaryGroups = [ "miniflux" ];
+  systemd.services.nginx.wants = [ "miniflux.service" ];
   systemd.services.nginx.after = [ "miniflux.service" ];
 
   services.miniflux = {
