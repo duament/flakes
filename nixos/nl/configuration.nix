@@ -142,10 +142,10 @@ in
           fancyindex on;
           fancyindex_localtime on;
           fancyindex_exact_size off;
-          fancyindex_header "/Nginx-Fancyindex-Theme/header.html";
-          fancyindex_footer "/Nginx-Fancyindex-Theme/footer.html";
+          fancyindex_header "/Nginx-Fancyindex/header.html";
+          fancyindex_footer "/Nginx-Fancyindex/footer.html";
         '';
-        locations."/Nginx-Fancyindex-Theme/".alias =
+        locations."/Nginx-Fancyindex/".alias =
           "${pkgs.Nginx-Fancyindex-Theme}/share/Nginx-Fancyindex/";
       };
       "transmission.rvf6.com" = {
