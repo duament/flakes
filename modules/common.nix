@@ -179,6 +179,8 @@ with lib;
       };
   };
 
+  services.postgresql.package = mkOverride 900 pkgs.postgresql_18;
+
   systemd.services.systemd-importd.environment.SYSTEMD_IMPORT_BTRFS_QUOTA = "0";
 
   sops = {
