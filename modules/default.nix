@@ -20,6 +20,7 @@
     ./nftables
     ./nginx.nix
     ./nogui.nix
+    ./postgresql.nix
     ./refind
     ./restic.nix
     ./router.nix
