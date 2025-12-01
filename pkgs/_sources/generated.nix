@@ -64,18 +64,18 @@
   };
   ksud = {
     pname = "ksud";
-    version = "v2.1.2";
+    version = "v3.0.0";
     src = fetchurl {
-      url = "https://github.com/tiann/KernelSU/releases/download/v2.1.2/ksud-x86_64-unknown-linux-musl";
-      sha256 = "sha256-vQvEmdJifp4F1in7S+be0yqJAwOMC5UFgG+PUxG7MMc=";
+      url = "https://github.com/tiann/KernelSU/releases/download/v3.0.0/ksud-x86_64-unknown-linux-musl";
+      sha256 = "sha256-Z8gffqtWIsf7SvlFOeAQMg4oe0Yvnzo3eQEBJwxHrYU=";
     };
   };
   magisk = {
     pname = "magisk";
-    version = "v30.4";
+    version = "v30.5";
     src = fetchTarball {
-      url = "https://github.com/topjohnwu/Magisk/releases/download/v30.4/Magisk-v30.4.apk";
-      sha256 = "sha256-DvzShY2NcrWxfVyAAS9NSxGUkSGzEbySxYSvrFsaEHk=";
+      url = "https://github.com/topjohnwu/Magisk/releases/download/v30.5/Magisk-v30.5.apk";
+      sha256 = "sha256-f5NT8ishvLbr5qPveIhs/3Mv8KmSKkYoCyWeVfagxsM=";
     };
   };
   owntracks-frontend = {
@@ -112,18 +112,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "10.14.12";
+    version = "10.15.4";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.14.12/uu.tar.gz";
-      sha256 = "sha256-SFJTR/yd2StwmffpWDpV6Z1yUnsX7o+af8B8FcRQbNQ=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.15.4/uu.tar.gz";
+      sha256 = "sha256-+1fzai+oQSHUHerHxHCjAp8x1cmBogWHS8pVHVHr9XQ=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "10.14.12";
+    version = "10.15.4";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.14.12/uu.tar.gz";
-      sha256 = "sha256-z5kykqiBvWkvdBKPl8cPICEeZzsZwE2gWc3eoAlk7Rw=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.15.4/uu.tar.gz";
+      sha256 = "sha256-2Q+3bsR2EVmZAPVbOuFaak9MWuNiO9pLvy1i1h+dmGM=";
     };
   };
   uutunnel = {
