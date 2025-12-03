@@ -43,7 +43,7 @@ in
 
     services.nginx = {
       enable = true;
-      package = pkgs.nginxQuic;
+      package = pkgs.nginxMainline;
       recommendedGzipSettings = true;
       recommendedOptimisation = true;
       recommendedProxySettings = true;
