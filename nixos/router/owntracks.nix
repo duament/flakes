@@ -12,6 +12,8 @@ in
   sops.secrets = {
     "owntracks/cert" = { };
     "owntracks/key" = { };
+    "dawarich/oidc_secret_env" = { };
+    "dawarich/secret_key_base" = { };
   };
 
   systemd.services.ot-recorder = {
@@ -38,6 +40,22 @@ in
     OTR_CERTFILE="/run/credentials/ot-recorder.service/cert"
     OTR_KEYFILE="/run/credentials/ot-recorder.service/key"
   '';
+
+  services.dawarich = {
+    enable = true;
+    localDomain = "dawarich.rvf6.com";
+    extraConfig = {
+      OIDC_CLIENT_ID = "dawarich";
+      OIDC_ISSUER = "https://id.rvf6.com/realms/rvfg";
+      OIDC_REDIRECT_URI = "https://dawarich.rvf6.com/users/auth/openid_connect/callback";
+      OIDC_AUTO_REGISTER = "true";
+      ALLOW_EMAIL_PASSWORD_REGISTRATION = "false";
+    };
+    extraEnvFiles = [ config.sops.secrets."dawarich/oidc_secret_env".path ];
+    secretKeyBaseFile = config.sops.secrets."dawarich/secret_key_base".path;
+  };
+
+  presets.nginx.virtualHosts."${config.services.dawarich.localDomain}" = { };
 
   presets.nginx.selfSignedVirtualHosts = {
     "ot.rvf6.com".locations = {
