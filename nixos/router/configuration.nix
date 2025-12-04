@@ -16,6 +16,7 @@ in
     ./wireguard.nix
     ./mosquitto.nix
     ./owntracks.nix
+    ./vpn.nix
   ];
 
   presets.nogui.enable = true;
@@ -27,8 +28,8 @@ in
     "pki/ca".mode = "0444";
     "pki/ybk".mode = "0444";
     "pki/all-ca".mode = "0444";
-    "pki/t430-bundle" = { };
-    "pki/t430-pkcs8-key" = { };
+    "pki/router-bundle" = { };
+    "pki/router-pkcs8-key" = { };
     "pki/rvf6.com.crt" = {
       group = "nginx";
       mode = "0440";
@@ -93,44 +94,6 @@ in
     interface = "ppp0";
     tokenFile = config.sops.secrets.duckdns.path;
   };
-
-  services.tailscale = {
-    enable = true;
-    package = pkgs.tailscale.override { iptables = pkgs.nftables; };
-    openFirewall = true;
-    authKeyFile = config.sops.secrets.tailscale_auth_key.path;
-    extraUpFlags = [
-      "--accept-dns=false"
-      "--advertise-exit-node"
-      "--netfilter-mode=off"
-    ];
-  };
-  router.dnsEnabledIfs = [ "tailscale0" ];
-  router.lanEnabledIfs = [ "tailscale0" ];
-  router.wanEnabledIfs = [ "tailscale0" ];
-  router.wgEnabledIfs = [ "tailscale0" ];
-
-  #presets.swanctl = {
-  #  enable = true;
-  #  underlyingNetwork = "10-enp1s0";
-  #  #IPv6Middle = ":1";
-  #  IPv4Prefix = "10.6.9.";
-  #  privateKeyFile = config.sops.secrets."pki/t430-pkcs8-key".path;
-  #  local.t430 = {
-  #    auth = "pubkey";
-  #    id = "t430.rvf6.com";
-  #    certs = [ config.sops.secrets."pki/t430-bundle".path ];
-  #  };
-  #  cacerts = [
-  #    config.sops.secrets."pki/ca".path
-  #    config.sops.secrets."pki/ybk".path
-  #  ];
-  #  devices = [
-  #    "ip13"
-  #    "pixel7"
-  #    "xiaoxin"
-  #  ];
-  #};
 
   #services.syncthing = {
   #  enable = true;
