@@ -151,6 +151,7 @@ in
           users.allowNoPasswordLogin = true;
           services.openssh.enable = false;
           boot.initrd.systemd.enable = false;
+          system.etc.overlay.enable = false;
           networking = {
             hostName = "uu";
             useHostResolvConf = false;

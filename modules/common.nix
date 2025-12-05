@@ -65,6 +65,8 @@ with lib;
     tmp.useTmpfs = mkDefault true;
   };
 
+  system.etc.overlay.enable = mkDefault true;
+
   networking = {
     useNetworkd = true;
     firewall = {
