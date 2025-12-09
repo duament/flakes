@@ -69,6 +69,19 @@
             '';
           };
 
+          deploy-lan-script = pkgs.writeShellApplication {
+            name = "deploy-lan";
+            text = ''
+              if [ $# -ge 2 ]; then
+                ARGS=("''${@:2}")
+              else
+                ARGS=(switch)
+              fi
+
+              exec nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo "''${ARGS[@]}" ${nom-suffix}
+            '';
+          };
+
           nvfetcher-patched = pkgs.nvfetcher.overrideAttrs (old: {
             patches = [ ./patches/nvfetcher-dontCheckForBrokenSymlinks.patch ];
           });
@@ -77,6 +90,7 @@
             name = "update";
             text = ''
               nix flake update
+              direnv reload
 
               TOKEN_FILE_PATH="/run/secrets/rendered/nvchecker-github-token.toml"
               args=()
@@ -115,6 +129,7 @@
           devShells.default = pkgs.mkShell {
             packages = [
               deploy-script
+              deploy-lan-script
               update-script
               build-script
               sops
