@@ -39,7 +39,6 @@ with lib;
     };
     registry.nixpkgs.flake = inputs.nixpkgs;
   };
-  systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
 
   environment.systemPackages = with pkgs; [
     bandwhich

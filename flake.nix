@@ -62,7 +62,7 @@
               fi
 
               if [ $# -eq 0 ] || [ "$1" == "." ]; then
-                exec sudo TMPDIR=/var/tmp nixos-rebuild --flake . "''${ARGS[@]}" ${nom-suffix}
+                exec sudo nixos-rebuild --flake . "''${ARGS[@]}" ${nom-suffix}
               else
                 exec nixos-rebuild --flake .#"$1" --target-host deploy@"$1" --use-remote-sudo --use-substitutes "''${ARGS[@]}" ${nom-suffix}
               fi
