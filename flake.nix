@@ -82,10 +82,6 @@
             '';
           };
 
-          nvfetcher-patched = pkgs.nvfetcher.overrideAttrs (old: {
-            patches = [ ./patches/nvfetcher-dontCheckForBrokenSymlinks.patch ];
-          });
-
           update-script = pkgs.writeShellApplication {
             name = "update";
             text = ''
@@ -98,7 +94,7 @@
                 args=("-k" "$TOKEN_FILE_PATH")
               fi
               cd pkgs
-              exec ${nvfetcher-patched}/bin/nvfetcher "''${args[@]}"
+              exec ${pkgs.nvfetcher}/bin/nvfetcher "''${args[@]}"
             '';
           };
 

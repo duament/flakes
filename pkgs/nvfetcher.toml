@@ -33,11 +33,6 @@ fetch.github = "vinceliuice/Fluent-kde"
 src.git = "https://github.com/AlessioLaiso/aleo"
 fetch.github = "AlessioLaiso/aleo"
 
-[avbroot]
-src.github_tag = "chenxiaolong/avbroot"
-fetch.github = "chenxiaolong/avbroot"
-cargo_locks = [ "Cargo.lock" ]
-
 [uutunnel]
 src.git = "https://github.com/duament/uutunnel"
 fetch.github = "duament/uutunnel"
