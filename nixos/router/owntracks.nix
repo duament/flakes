@@ -44,7 +44,7 @@ in
   services.dawarich = {
     enable = true;
     localDomain = "dawarich.rvf6.com";
-    extraConfig = {
+    environment = {
       OIDC_CLIENT_ID = "dawarich";
       OIDC_ISSUER = "https://id.rvf6.com/realms/rvfg";
       OIDC_REDIRECT_URI = "https://dawarich.rvf6.com/users/auth/openid_connect/callback";
