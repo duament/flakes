@@ -62,34 +62,6 @@
         },
         "version": "acd8d56d42be24d285708cf463652b194bdcddd2"
     },
-    "avbroot": {
-        "cargoLocks": {
-            "Cargo.lock": [
-                "./avbroot-v3.23.2/Cargo.lock",
-                {
-                    "system-properties-0.2.1": "sha256-aO+uTYSCJJ8ktsUjyoQOh2uyU+trdx45mwwHaZzpE9I="
-                }
-            ]
-        },
-        "date": null,
-        "extract": null,
-        "name": "avbroot",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "chenxiaolong",
-            "repo": "avbroot",
-            "rev": "v3.23.2",
-            "sha256": "sha256-rS3V+D7dBt/px0UNC8ZZyQ4FzNsjTykMSeXbjFF6iis=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "v3.23.2"
-    },
     "flood-for-transmission": {
         "cargoLocks": null,
         "date": null,
@@ -127,11 +99,11 @@
         "passthru": null,
         "pinned": false,
         "src": {
-            "sha256": "sha256-f5NT8ishvLbr5qPveIhs/3Mv8KmSKkYoCyWeVfagxsM=",
+            "sha256": "sha256-UsxNZf3OoYb4NeXfQYX5IVGXUqL+iM5glDEoziKO9WU=",
             "type": "tarball",
-            "url": "https://github.com/topjohnwu/Magisk/releases/download/v30.5/Magisk-v30.5.apk"
+            "url": "https://github.com/topjohnwu/Magisk/releases/download/v30.6/Magisk-v30.6.apk"
         },
-        "version": "v30.5"
+        "version": "v30.6"
     },
     "owntracks-frontend": {
         "cargoLocks": null,
@@ -198,11 +170,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-+1fzai+oQSHUHerHxHCjAp8x1cmBogWHS8pVHVHr9XQ=",
+            "sha256": "sha256-rUgBGGcu5JT/w/gwIDkZA+95ODYoG7etgarDnvPsLbc=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.15.4/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.15.16/uu.tar.gz"
         },
-        "version": "10.15.4"
+        "version": "10.15.16"
     },
     "uuplugin-x86_64": {
         "cargoLocks": null,
@@ -213,11 +185,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-2Q+3bsR2EVmZAPVbOuFaak9MWuNiO9pLvy1i1h+dmGM=",
+            "sha256": "sha256-IVXOq5kOlUl1socbBWBcLDRrY7kHlgFx6iC5krFWCVk=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.15.4/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.15.16/uu.tar.gz"
         },
-        "version": "10.15.4"
+        "version": "10.15.16"
     },
     "uutunnel": {
         "cargoLocks": {

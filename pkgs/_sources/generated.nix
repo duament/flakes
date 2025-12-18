@@ -37,23 +37,6 @@
     };
     date = "2025-08-08";
   };
-  avbroot = {
-    pname = "avbroot";
-    version = "v3.23.2";
-    src = fetchFromGitHub {
-      owner = "chenxiaolong";
-      repo = "avbroot";
-      rev = "v3.23.2";
-      fetchSubmodules = false;
-      sha256 = "sha256-rS3V+D7dBt/px0UNC8ZZyQ4FzNsjTykMSeXbjFF6iis=";
-    };
-    cargoLock."Cargo.lock" = {
-      lockFile = ./avbroot-v3.23.2/Cargo.lock;
-      outputHashes = {
-        "system-properties-0.2.1" = "sha256-aO+uTYSCJJ8ktsUjyoQOh2uyU+trdx45mwwHaZzpE9I=";
-      };
-    };
-  };
   flood-for-transmission = {
     pname = "flood-for-transmission";
     version = "2025-07-19T10-51-22";
@@ -72,10 +55,10 @@
   };
   magisk = {
     pname = "magisk";
-    version = "v30.5";
+    version = "v30.6";
     src = fetchTarball {
-      url = "https://github.com/topjohnwu/Magisk/releases/download/v30.5/Magisk-v30.5.apk";
-      sha256 = "sha256-f5NT8ishvLbr5qPveIhs/3Mv8KmSKkYoCyWeVfagxsM=";
+      url = "https://github.com/topjohnwu/Magisk/releases/download/v30.6/Magisk-v30.6.apk";
+      sha256 = "sha256-UsxNZf3OoYb4NeXfQYX5IVGXUqL+iM5glDEoziKO9WU=";
     };
   };
   owntracks-frontend = {
@@ -112,18 +95,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "10.15.4";
+    version = "10.15.16";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.15.4/uu.tar.gz";
-      sha256 = "sha256-+1fzai+oQSHUHerHxHCjAp8x1cmBogWHS8pVHVHr9XQ=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.15.16/uu.tar.gz";
+      sha256 = "sha256-rUgBGGcu5JT/w/gwIDkZA+95ODYoG7etgarDnvPsLbc=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "10.15.4";
+    version = "10.15.16";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.15.4/uu.tar.gz";
-      sha256 = "sha256-2Q+3bsR2EVmZAPVbOuFaak9MWuNiO9pLvy1i1h+dmGM=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.15.16/uu.tar.gz";
+      sha256 = "sha256-IVXOq5kOlUl1socbBWBcLDRrY7kHlgFx6iC5krFWCVk=";
     };
   };
   uutunnel = {
