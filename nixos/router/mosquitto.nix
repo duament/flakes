@@ -35,6 +35,10 @@
     ];
     logType = [ "all" ];
   };
+  environment.etc."mosquitto/acl-0.conf".uid = config.ids.uids.mosquitto;
+  environment.etc."mosquitto/acl-0.conf".gid = config.ids.gids.mosquitto;
+  environment.etc."mosquitto/acl-1.conf".uid = config.ids.uids.mosquitto;
+  environment.etc."mosquitto/acl-1.conf".gid = config.ids.gids.mosquitto;
 
   systemd.services.mosquitto.serviceConfig.SupplementaryGroups = [ "nginx" ];
 
