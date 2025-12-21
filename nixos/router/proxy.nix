@@ -37,6 +37,30 @@ in
   presets.sing-box = {
     enable = true;
     settings = {
+      dns = {
+        servers = [
+          {
+            type = "local";
+            tag = "local";
+          }
+          {
+            type = "udp";
+            tag = "cn";
+            server = "223.5.5.5";
+          }
+        ];
+        rules = [
+          {
+            inbound = "cn-in";
+            action = "route";
+            server = "cn";
+          }
+          {
+            action = "route";
+            server = "local";
+          }
+        ];
+      };
       inbounds = [
         {
           type = "http";
