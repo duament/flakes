@@ -131,6 +131,12 @@ in
       ];
       route.rules = [
         {
+          domain_suffix = [
+            "googleapis.com"
+          ];
+          outbound = "direct";
+        }
+        {
           inbound = "cn-in";
           outbound = "cn";
         }
