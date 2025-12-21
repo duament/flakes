@@ -183,8 +183,8 @@ in
       domain = "*.rvf6.com";
       extraDomainNames = [ "rvf6.com" ];
       dnsProvider = "cloudflare";
-      credentialsFile = config.sops.secrets.cloudflare.path;
       group = "nginx";
+      credentialFiles.CF_DNS_API_TOKEN_FILE = config.sops.secrets.cloudflare.path;
     };
   };
 
