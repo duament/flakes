@@ -17,6 +17,7 @@
       device = "/dev/disk/by-label/router-luks";
       allowDiscards = true;
       bypassWorkqueues = true;
+      tryEmptyPassphrase = true;
     };
     network = {
       enable = true;
