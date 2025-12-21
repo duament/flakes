@@ -10,6 +10,7 @@ let
   inherit (lib) mkForce;
 
   httpPort = 8000;
+  httpCNPort = 8001;
   tuicPort = 11113;
   ssPort = 11114;
 in
@@ -21,7 +22,7 @@ in
       ssPort
     ];
     extraInputRules = ''
-      iifname { ${config.router.wanEnabledIfs} } tcp dport ${toString httpPort} accept
+      iifname { ${config.router.wanEnabledIfs} } tcp dport { ${toString httpPort}, ${toString httpCNPort} } accept
     '';
   };
 
@@ -41,6 +42,12 @@ in
           type = "http";
           listen = "::";
           listen_port = httpPort;
+        }
+        {
+          type = "http";
+          tag = "cn-in";
+          listen = "::";
+          listen_port = httpCNPort;
         }
         {
           type = "tuic";
@@ -78,6 +85,11 @@ in
         }
         {
           type = "direct";
+          tag = "cn";
+          routing_mark = 1;
+        }
+        {
+          type = "direct";
           tag = "warp";
           routing_mark = config.networking.warp.table;
         }
@@ -94,6 +106,10 @@ in
         }
       ];
       route.rules = [
+        {
+          inbound = "cn-in";
+          outbound = "cn";
+        }
         {
           domain_suffix = [
             "byr.pt"
