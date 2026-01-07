@@ -180,7 +180,7 @@ in
             "byr.pt"
             "reddit.com"
           ];
-          domain = [ "prod-ingress.nianticlabs.com" ];
+          domain = [ "prod-ingress.ingress.com" ];
           outbound = "tuic";
         }
         {

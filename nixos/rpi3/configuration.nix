@@ -80,7 +80,7 @@ in
         Family = "both";
       }
       {
-        To = "34.117.196.143"; # prod-ingress.nianticlabs.com
+        To = "34.149.84.206"; # prod-ingress.ingress.com
         Table = "main";
         Priority = 128;
       }

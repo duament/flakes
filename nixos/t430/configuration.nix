@@ -300,7 +300,7 @@ in
             if (
               host.endsWith('byr.pt')
               || host.endsWith('reddit.com')
-              || host === 'prod-ingress.nianticlabs.com'
+              || host === 'prod-ingress.ingress.com'
               || host.endsWith('${self.data.ef}')
             ) {
               return 'PROXY 10.6.0.8:8000';

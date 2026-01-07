@@ -80,7 +80,7 @@ in
       in
       [
         {
-          To = "34.117.196.143"; # prod-ingress.nianticlabs.com
+          To = "34.149.84.206"; # prod-ingress.ingress.com
           Table = table;
           Priority = 128;
         }
