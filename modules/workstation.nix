@@ -119,10 +119,7 @@ in
 
     networking.wireless = {
       enable = mkDefault true;
-      userControlled = {
-        enable = true;
-        group = "rvfg";
-      };
+      userControlled = true;
       secretsFile = config.sops.secrets."wireless".path;
       networks = {
         a5.psk = "ext:PSK_a5";
@@ -345,6 +342,7 @@ in
     users.users.rvfg.extraGroups = [
       "adbusers"
       "wireshark"
+      "wpa_supplicant"
     ];
 
     nixpkgs.config.allowUnfreePredicate =
