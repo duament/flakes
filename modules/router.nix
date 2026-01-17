@@ -75,7 +75,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.resolved.extraConfig = "DNSStubListenerExtra=${lanIP}";
+    services.resolved.settings.Resolve.DNSStubListenerExtra = lanIP;
 
     systemd.network.config.networkConfig = {
       IPv4Forwarding = true;
