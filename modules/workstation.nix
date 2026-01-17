@@ -157,6 +157,7 @@ in
     };
 
     environment.systemPackages = with pkgs; [
+      android-tools
       dmidecode
       e2fsprogs
       efibootmgr
@@ -333,8 +334,6 @@ in
       environment.HOME = "/var/lib/syncthing";
       serviceConfig.ProtectHome = true;
     };
-
-    programs.adb.enable = true;
 
     programs.wireshark = {
       enable = true;
