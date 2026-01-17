@@ -15,15 +15,15 @@
   };
   Nginx-Fancyindex-Theme = {
     pname = "Nginx-Fancyindex-Theme";
-    version = "70136fa6865000cb4f317c6d6f78c089a325ce58";
+    version = "eb8534f32c367840198516de0f8ad83f0dc494d1";
     src = fetchFromGitHub {
       owner = "Naereen";
       repo = "Nginx-Fancyindex-Theme";
-      rev = "70136fa6865000cb4f317c6d6f78c089a325ce58";
+      rev = "eb8534f32c367840198516de0f8ad83f0dc494d1";
       fetchSubmodules = false;
-      sha256 = "sha256-hPn1XZrO9zR/5CAlxqbkV5nWscL6+T+NARUg+eXGgFM=";
+      sha256 = "sha256-yYslKPKM3pdofMMDyym69ef226yKjI7TQ/BZq+bGxEM=";
     };
-    date = "2025-11-20";
+    date = "2025-12-27";
   };
   aleo = {
     pname = "aleo";
@@ -39,10 +39,10 @@
   };
   flood-for-transmission = {
     pname = "flood-for-transmission";
-    version = "2025-07-19T10-51-22";
+    version = "v1.0.1";
     src = fetchTarball {
-      url = "https://github.com/johman10/flood-for-transmission/releases/download/2025-07-19T10-51-22/flood-for-transmission.tar.gz";
-      sha256 = "sha256-DRWD+0ArfNR1V44DLdnT5sv3+4MftTlvoyzJJ4jdcKI=";
+      url = "https://github.com/johman10/flood-for-transmission/releases/download/v1.0.1/flood-for-transmission.tar.gz";
+      sha256 = "sha256-DYqjF0axfJn0Mu7JJIhsB7xQ1uY2qLOIl4eZJsioOC8=";
     };
   };
   ksud = {
