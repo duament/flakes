@@ -28,10 +28,6 @@ in
   config = mkIf config.presets.workstation.enable {
 
     sops.secrets = {
-      clash = {
-        format = "binary";
-        sopsFile = ../secrets/clash;
-      };
       wireless.sopsFile = ../secrets/wireless.yaml;
       d-auth = {
         sopsFile = ../secrets/workstation.yaml;
@@ -111,11 +107,6 @@ in
       ];
     };
     presets.bpf-mark.tailscaled = 1;
-
-    services.clash = {
-      enable = true;
-      configFile = config.sops.secrets.clash.path;
-    };
 
     networking.wireless = {
       enable = mkDefault true;
