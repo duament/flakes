@@ -27,18 +27,6 @@ require("catppuccin").setup({
 })
 vim.cmd.colorscheme 'catppuccin'
 
-require('nvim-treesitter.configs').setup {
-  highlight = {
-    enable = true,
-  },
-  incremental_selection = {
-    enable = true,
-  },
-  indent = {
-    enable = true,
-  }
-}
-
 require('lualine').setup {
   options = {
     icons_enabled = false,
