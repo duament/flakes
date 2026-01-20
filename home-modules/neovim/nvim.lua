@@ -68,6 +68,16 @@ require("bufferline").setup{
 require("fzf-lua").setup()
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 
+local augroup = vim.api.nvim_create_augroup('nixvim_treesitter', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  group = augroup,
+  pattern = '*',
+  callback = function()
+    pcall(vim.treesitter.start)
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
