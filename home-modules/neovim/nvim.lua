@@ -205,14 +205,8 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>a', apply, bufopts)
 end
 
-local lsp_flags = {
-  -- This is the default in Nvim 0.7+
-  debounce_text_changes = 150,
-}
-
 vim.lsp.config('pylsp', {
   on_attach = on_attach,
-  flags = lsp_flags,
   cmd = { "pylsp" },
   settings = {
     pylsp = {
@@ -238,14 +232,12 @@ vim.lsp.enable('pylsp')
 
 vim.lsp.config('clangd', {
   on_attach = on_attach,
-  flags = lsp_flags,
   cmd = { "clangd" },
 })
 vim.lsp.enable('clangd')
 
 vim.lsp.config('gopls', {
   on_attach = on_attach,
-  flags = lsp_flags,
   cmd = { "@gopls@" },
   settings = {
     gopls = {
@@ -264,14 +256,12 @@ vim.lsp.enable('gopls')
 
 vim.lsp.config('rust_analyzer', {
   on_attach = on_attach,
-  flags = lsp_flags,
   cmd = { "@rust_analyzer@" },
 })
 vim.lsp.enable('rust_analyzer')
 
 vim.lsp.config('nil_ls', {
   on_attach = on_attach,
-  flags = lsp_flags,
   cmd = { "@nil@" },
   settings = {
     ['nil'] = {
@@ -285,7 +275,6 @@ vim.lsp.enable('nil_ls')
 
 vim.lsp.config('beancount', {
   on_attach = on_attach,
-  flags = lsp_flags,
   cmd = { "@beancount_language_server@", "--stdio" },
   init_options = {
     journal_file = vim.fn.getcwd() .. "/main.beancount",
@@ -295,27 +284,23 @@ vim.lsp.enable('beancount')
 
 vim.lsp.config('ts_ls', {
   on_attach = on_attach,
-  flags = lsp_flags,
   cmd = { "@typescript_language_server@", "--stdio" },
 })
 vim.lsp.enable('ts_ls')
 
 vim.lsp.config('svelte', {
   on_attach = on_attach,
-  flags = lsp_flags,
 })
 vim.lsp.enable('svelte')
 
 vim.lsp.config('texlab', {
   on_attach = on_attach,
-  flags = lsp_flags,
 })
 vim.lsp.enable('texlab')
 
 vim.lsp.enable('lua_ls')
 vim.lsp.config('lua_ls', {
   on_attach = on_attach,
-  flags = lsp_flags,
   cmd = { "@lua_language_server@" },
   on_init = function(client)
     if client.workspace_folders then
