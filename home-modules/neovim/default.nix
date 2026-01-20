@@ -70,24 +70,51 @@ in
             comment
             cpp
             css
+            csv
+            desktop
+            diff
+            disassembly
             dockerfile
+            editorconfig
             fish
             go
             gomod
+            html
+            ini
             javascript
             json
             latex
             lua
+            make
             markdown
+            markdown_inline
+            meson
+            nginx
+            ninja
             nix
+            objdump
+            passwd
+            pem
+            proto
             python
+            regex
+            requirements
             rust
             rst
             scss
+            sql
+            ssh_config
+            strace
             svelte
+            terraform
+            tmux
+            todotxt
             toml
             tsx
             typescript
+            udev
+            vue
+            xml
             yaml
           ]
         ))
