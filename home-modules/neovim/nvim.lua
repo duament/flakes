@@ -52,7 +52,7 @@ require("nvim-tree").setup()
 vim.keymap.set('n', "<C-t>", function() require("fzf-lua").files() end, { silent = true })
 vim.keymap.set('n', "<C-f>", function() require("fzf-lua").grep_project() end, { silent = true })
 
-require("bufferline").setup{
+require("bufferline").setup {
   options = {
     indicator = {
       style = 'underline'
@@ -84,7 +84,7 @@ local has_words_before = function()
 end
 
 local luasnip = require("luasnip")
-local cmp = require'cmp'
+local cmp = require 'cmp'
 
 cmp.setup({
   snippet = {
@@ -126,7 +126,7 @@ cmp.setup({
   preselect = cmp.PreselectMode.None
 })
 
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
@@ -185,9 +185,9 @@ local on_attach = function(client, bufnr)
       apply = true
     })
   end
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition{on_list=on_list} end, bufopts)
+  vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition { on_list = on_list } end, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
@@ -226,7 +226,7 @@ vim.lsp.config('pylsp', {
           -- Rules that are ignored when a pyproject.toml or ruff.toml is present:
           lineLength = 150,
           select = { "F", "E", "W", "C90" },
-          ignore = { },
+          ignore = {},
           preview = true,
           targetVersion = "py311",
         },
@@ -289,7 +289,7 @@ vim.lsp.config('beancount', {
   cmd = { "@beancount_language_server@", "--stdio" },
   init_options = {
     journal_file = vim.fn.getcwd() .. "/main.beancount",
-  };
+  },
 })
 vim.lsp.enable('beancount')
 
@@ -321,8 +321,8 @@ vim.lsp.config('lua_ls', {
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
       if
-        path ~= vim.fn.stdpath('config')
-        and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
+          path ~= vim.fn.stdpath('config')
+          and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
       then
         return
       end
