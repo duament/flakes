@@ -18,6 +18,7 @@ let
       nixfmt = makeLsp pkgs.nixfmt "nixfmt";
       beancount_language_server = makeLsp pkgs.beancount-language-server "beancount-language-server";
       typescript_language_server = makeLsp pkgs.nodePackages.typescript-language-server "typescript-language-server";
+      lua_language_server = makeLsp pkgs.lua-language-server "lua-language-server";
     };
   };
 in
