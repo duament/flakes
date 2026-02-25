@@ -119,7 +119,7 @@ in
           ]
         ))
       ];
-      extraLuaConfig = ''
+      initLua = ''
         dofile("${luaConfig}")
       '';
     };
