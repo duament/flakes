@@ -35,6 +35,10 @@
   };
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "cursor-cli"
+  ];
+
   home.username = "ruifeng.ma";
   home.homeDirectory = "/home/ruifeng.ma";
 
@@ -45,8 +49,9 @@
     #clang
     coreutils
     curl
+    cursor-cli
     dig
-    docker
+    docker_28
     gcc
     gdb
     home-manager
