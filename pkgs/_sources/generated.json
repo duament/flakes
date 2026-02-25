@@ -22,7 +22,7 @@
     },
     "Nginx-Fancyindex-Theme": {
         "cargoLocks": null,
-        "date": "2025-12-27",
+        "date": "2026-01-30",
         "extract": null,
         "name": "Nginx-Fancyindex-Theme",
         "passthru": null,
@@ -34,12 +34,12 @@
             "name": null,
             "owner": "Naereen",
             "repo": "Nginx-Fancyindex-Theme",
-            "rev": "eb8534f32c367840198516de0f8ad83f0dc494d1",
-            "sha256": "sha256-yYslKPKM3pdofMMDyym69ef226yKjI7TQ/BZq+bGxEM=",
+            "rev": "ee2e73c8dd1584b84ddad0cfcc44fbd903bdccd8",
+            "sha256": "sha256-BrCnumxkMR2gmgwZVVXiQybjXSnpQwtrpQ0tH1AaWP0=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "eb8534f32c367840198516de0f8ad83f0dc494d1"
+        "version": "ee2e73c8dd1584b84ddad0cfcc44fbd903bdccd8"
     },
     "aleo": {
         "cargoLocks": null,
@@ -85,11 +85,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-Z8gffqtWIsf7SvlFOeAQMg4oe0Yvnzo3eQEBJwxHrYU=",
+            "sha256": "sha256-WYPCIJoyQUNqZXzwIKVzJUfPReAn6GW1QUcFnNU2P9U=",
             "type": "url",
-            "url": "https://github.com/tiann/KernelSU/releases/download/v3.0.0/ksud-x86_64-unknown-linux-musl"
+            "url": "https://github.com/tiann/KernelSU/releases/download/v3.1.0/ksud-x86_64-unknown-linux-musl"
         },
-        "version": "v3.0.0"
+        "version": "v3.1.0"
     },
     "magisk": {
         "cargoLocks": null,
@@ -99,11 +99,11 @@
         "passthru": null,
         "pinned": false,
         "src": {
-            "sha256": "sha256-UsxNZf3OoYb4NeXfQYX5IVGXUqL+iM5glDEoziKO9WU=",
+            "sha256": "sha256-Dnp7Ah4BbOTMIKMWU3w+Im+7EJhPSDN1jFLCKaZMzow=",
             "type": "tarball",
-            "url": "https://github.com/topjohnwu/Magisk/releases/download/v30.6/Magisk-v30.6.apk"
+            "url": "https://github.com/topjohnwu/Magisk/releases/download/v30.7/Magisk-v30.7.apk"
         },
-        "version": "v30.6"
+        "version": "v30.7"
     },
     "owntracks-frontend": {
         "cargoLocks": null,
@@ -170,11 +170,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-rUgBGGcu5JT/w/gwIDkZA+95ODYoG7etgarDnvPsLbc=",
+            "sha256": "sha256-8UDcma9aZzZ+Y8gRultVXHSN6jLDsRxrW95q/CWslgw=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v10.15.16/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v12.1.4/uu.tar.gz"
         },
-        "version": "10.15.16"
+        "version": "12.1.4"
     },
     "uuplugin-x86_64": {
         "cargoLocks": null,
@@ -185,11 +185,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-IVXOq5kOlUl1socbBWBcLDRrY7kHlgFx6iC5krFWCVk=",
+            "sha256": "sha256-HdQZrBZrEk+Ng+QHWmW2VHulifl2iUBlzlUaZjE6boQ=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v10.15.16/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v12.1.4/uu.tar.gz"
         },
-        "version": "10.15.16"
+        "version": "12.1.4"
     },
     "uutunnel": {
         "cargoLocks": {
