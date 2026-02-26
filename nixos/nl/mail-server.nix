@@ -14,6 +14,10 @@ let
   systemdHarden = self.data.systemdHarden;
 in
 {
+  nixpkgs.config.permittedInsecurePackages = [
+    "opendkim-2.11.0-Beta2"
+  ];
+
   sops.secrets = {
     "dovecot/passwd".owner = config.services.dovecot2.user;
     "dkim".owner = config.services.opendkim.user;
