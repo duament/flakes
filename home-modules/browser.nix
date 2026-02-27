@@ -183,7 +183,7 @@ with lib;
         "--enable-wayland-ime"
         "--enable-experimental-web-platform-features"
         "--enable-zero-copy"
-        "--enable-features=CanvasOopRasterization,ChromeRefresh2023,ChromeWebuiRefresh2023,VaapiVideoDecodeLinuxGL,Vulkan"
+        "--enable-features=CanvasOopRasterization,Vulkan,VaapiVideoDecoder,VaapiIgnoreDriverChecks,DefaultANGLEVulkan,VulkanFromANGLE"
       ];
     };
   };
