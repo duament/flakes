@@ -26,6 +26,7 @@ let
     "guest"
     "internet"
     "iot"
+    "iotcam"
   ];
   unmanagedVlans = [
     "gaming"
