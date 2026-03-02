@@ -84,98 +84,96 @@ in
       '';
     };
 
-    systemd.network.netdevs =
-      {
-        "25-${bridgeName}" = {
-          netdevConfig = {
-            Name = bridgeName;
-            Kind = "bridge";
-          };
-          bridgeConfig = {
-            DefaultPVID = "none";
-            VLANFiltering = true;
-          };
+    systemd.network.netdevs = {
+      "25-${bridgeName}" = {
+        netdevConfig = {
+          Name = bridgeName;
+          Kind = "bridge";
         };
-      }
-      // (listToAttrs (
+        bridgeConfig = {
+          DefaultPVID = "none";
+          VLANFiltering = true;
+        };
+      };
+    }
+    // (listToAttrs (
+      imap1 (
+        i: name:
+        nameValuePair "30-${ifName name}" {
+          netdevConfig = {
+            Name = ifName name;
+            Kind = "vlan";
+          };
+          vlanConfig.Id = i;
+        }
+      ) vlans
+    ));
+
+    systemd.network.networks = {
+      "25-${bridgeName}" = {
+        name = bridgeName;
+        networkConfig.VLAN = imap1 ifName1 vlans;
+        bridgeVLANs = [ { VLAN = vlanRange; } ];
+      };
+      "50-enp2s0" = {
+        name = "enp2s0";
+        networkConfig.Bridge = bridgeName;
+        bridgeVLANs = [
+          {
+            VLAN = 1;
+            EgressUntagged = 1;
+            PVID = 1;
+          }
+          { VLAN = "2-4"; }
+        ];
+      };
+      "50-enp3s0" = {
+        name = "enp3s0";
+        networkConfig.Bridge = bridgeName;
+        bridgeVLANs = [
+          { VLAN = vlanRange; }
+        ];
+      };
+      "50-enp4s0" = {
+        name = "enp4s0";
+        networkConfig.Bridge = bridgeName;
+        bridgeVLANs = [
+          { VLAN = vlanRange; }
+        ];
+      };
+    }
+    // (listToAttrs (
+      filter (v: v != null) (
         imap1 (
           i: name:
-          nameValuePair "30-${ifName name}" {
-            netdevConfig = {
-              Name = ifName name;
-              Kind = "vlan";
-            };
-            vlanConfig.Id = i;
-          }
-        ) vlans
-      ));
-
-    systemd.network.networks =
-      {
-        "25-${bridgeName}" = {
-          name = bridgeName;
-          networkConfig.VLAN = imap1 ifName1 vlans;
-          bridgeVLANs = [ { VLAN = vlanRange; } ];
-        };
-        "50-enp2s0" = {
-          name = "enp2s0";
-          networkConfig.Bridge = bridgeName;
-          bridgeVLANs = [
-            {
-              VLAN = 1;
-              EgressUntagged = 1;
-              PVID = 1;
+          if (elem name unmanagedVlans) then
+            null
+          else
+            nameValuePair "30-${ifName name}" {
+              name = ifName name;
+              address = [
+                "10.8.${toString (i - 1)}.1/24"
+                "fdd${toHexString (i - 1)}::1/64"
+              ];
+              ipv6Prefixes = [ { Prefix = "fdd${toHexString (i - 1)}::/64"; } ];
+              networkConfig = {
+                DHCPServer = true;
+                IPv6SendRA = true;
+                DHCPPrefixDelegation = true;
+                IPv4Forwarding = true;
+                IPv6Forwarding = true;
+              };
+              dhcpServerConfig = {
+                DNS = "_server_address";
+              };
+              ipv6SendRAConfig = {
+                DNS = "_link_local";
+              };
+              dhcpPrefixDelegationConfig.SubnetId = i - 1;
             }
-            { VLAN = "2-4"; }
-          ];
-        };
-        "50-enp3s0" = {
-          name = "enp3s0";
-          networkConfig.Bridge = bridgeName;
-          bridgeVLANs = [
-            { VLAN = vlanRange; }
-          ];
-        };
-        "50-enp4s0" = {
-          name = "enp4s0";
-          networkConfig.Bridge = bridgeName;
-          bridgeVLANs = [
-            { VLAN = vlanRange; }
-          ];
-        };
-      }
-      // (listToAttrs (
-        filter (v: v != null) (
-          imap1 (
-            i: name:
-            if (elem name unmanagedVlans) then
-              null
-            else
-              nameValuePair "30-${ifName name}" {
-                name = ifName name;
-                address = [
-                  "10.8.${toString (i - 1)}.1/24"
-                  "fdd${toHexString (i - 1)}::1/64"
-                ];
-                ipv6Prefixes = [ { Prefix = "fdd${toHexString (i - 1)}::/64"; } ];
-                networkConfig = {
-                  DHCPServer = true;
-                  IPv6SendRA = true;
-                  DHCPPrefixDelegation = true;
-                  IPv4Forwarding = true;
-                  IPv6Forwarding = true;
-                };
-                dhcpServerConfig = {
-                  DNS = "_server_address";
-                };
-                ipv6SendRAConfig = {
-                  DNS = "_link_local";
-                };
-                dhcpPrefixDelegationConfig.SubnetId = i - 1;
-              }
-          ) vlans
-        )
-      ));
+        ) vlans
+      )
+    ));
 
     services.uu = {
       enable = true;
