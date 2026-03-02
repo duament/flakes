@@ -45,9 +45,7 @@ in
       "d /run/dns 777 - - -"
     ];
 
-    systemd.services.adguardhome.preStart = lib.mkAfter ''
-      ${updateDnsScript false}
-    '';
+    systemd.services.adguardhome.serviceConfig.ExecStartPre = lib.mkAfter "+${updateDnsScript false}";
 
     systemd.services.reload-adguardhome = {
       serviceConfig.Type = "oneshot";
