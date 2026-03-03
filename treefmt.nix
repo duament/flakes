@@ -12,4 +12,14 @@
   programs.nixfmt.enable = true;
 
   programs.yamlfmt.enable = true;
+
+  programs.stylua = {
+    enable = true;
+    settings = {
+      indent_type = "Spaces";
+      indent_width = 2;
+      quote_style = "AutoPreferSingle";
+      call_parentheses = "None";
+    };
+  };
 }
