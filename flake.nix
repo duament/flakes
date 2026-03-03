@@ -4,10 +4,14 @@
   inputs = {
     nixpkgs.url = "github:duament/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    impermanence.url = "github:nix-community/impermanence";
 
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    impermanence = {
+      url = "github:nix-community/impermanence";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
