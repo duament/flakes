@@ -9,6 +9,8 @@
     "*/secrets.yaml"
   ];
 
+  programs.keep-sorted.enable = true;
+
   programs.nixfmt.enable = true;
 
   programs.yamlfmt.enable = true;
