@@ -14,17 +14,17 @@ vim.g.loaded_netrwPlugin = 1
 
 vim.g.gitblame_enabled = 0
 
-require("catppuccin").setup({
+require('catppuccin').setup {
   transparent_background = true,
   custom_highlights = function(colors)
-    local ucolors = require('catppuccin.utils.colors')
+    local ucolors = require 'catppuccin.utils.colors'
     return {
       Pmenu = {
         bg = ucolors.darken(colors.surface0, 0.25, colors.crust),
       },
     }
   end,
-})
+}
 vim.cmd.colorscheme 'catppuccin'
 
 require('lualine').setup {
@@ -32,40 +32,43 @@ require('lualine').setup {
     icons_enabled = false,
     theme = 'catppuccin',
     section_separators = '',
-    component_separators = ''
+    component_separators = '',
   },
 }
 
-require('which-key').setup {
-}
+require('which-key').setup {}
 
-require("ibl").setup {
+require('ibl').setup {
   indent = {
-    char = '│'
+    char = '│',
   },
   scope = {
-    char = '┃'
-  }
+    char = '┃',
+  },
 }
 
-require("nvim-tree").setup()
-vim.keymap.set('n', "<C-t>", function() require("fzf-lua").files() end, { silent = true })
-vim.keymap.set('n', "<C-f>", function() require("fzf-lua").grep_project() end, { silent = true })
+require('nvim-tree').setup()
+vim.keymap.set('n', '<C-t>', function()
+  require('fzf-lua').files()
+end, { silent = true })
+vim.keymap.set('n', '<C-f>', function()
+  require('fzf-lua').grep_project()
+end, { silent = true })
 
-require("bufferline").setup {
+require('bufferline').setup {
   options = {
     indicator = {
-      style = 'underline'
+      style = 'underline',
     },
     buffer_close_icon = '🗙',
     close_icon = '🗙',
     left_trunc_marker = '🡰',
     right_trunc_marker = '🡲',
   },
-  highlights = require('catppuccin.special.bufferline').get_theme()
+  highlights = require('catppuccin.special.bufferline').get_theme(),
 }
 
-require("fzf-lua").setup()
+require('fzf-lua').setup()
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 
 local augroup = vim.api.nvim_create_augroup('nixvim_treesitter', { clear = true })
@@ -80,13 +83,13 @@ vim.api.nvim_create_autocmd('FileType', {
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
 end
 
-local luasnip = require("luasnip")
+local luasnip = require 'luasnip'
 local cmp = require 'cmp'
 
-cmp.setup({
+cmp.setup {
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -95,7 +98,7 @@ cmp.setup({
   mapping = {
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ["<Tab>"] = cmp.mapping(function(fallback)
+    ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
@@ -105,8 +108,8 @@ cmp.setup({
       else
         fallback()
       end
-    end, { "i", "s" }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
@@ -114,7 +117,7 @@ cmp.setup({
       else
         fallback()
       end
-    end, { "i", "s" }),
+    end, { 'i', 's' }),
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -123,8 +126,8 @@ cmp.setup({
     { name = 'buffer' },
     { name = 'path' },
   }),
-  preselect = cmp.PreselectMode.None
-})
+  preselect = cmp.PreselectMode.None,
+}
 
 local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
@@ -133,7 +136,7 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 local function filter(arr, fn)
-  if type(arr) ~= "table" then
+  if type(arr) ~= 'table' then
     return arr
   end
 
@@ -159,9 +162,9 @@ local function on_list(options)
 
   vim.fn.setqflist({}, ' ', { title = options.title, items = items, context = options.context })
   if #items > 1 then
-    vim.api.nvim_command('copen')
+    vim.api.nvim_command 'copen'
   else
-    vim.api.nvim_command('cfirst')
+    vim.api.nvim_command 'cfirst'
   end
 end
 
@@ -174,20 +177,24 @@ local on_attach = function(client, bufnr)
     vim.g.inlay_hints_visible = true
     vim.lsp.inlay_hint.enable(true)
   else
-    print("no inlay hints available")
+    print 'no inlay hints available'
   end
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local apply = function()
-    vim.lsp.buf.code_action({
-      filter = function(a) return a.isPreferred end,
-      apply = true
-    })
+    vim.lsp.buf.code_action {
+      filter = function(a)
+        return a.isPreferred
+      end,
+      apply = true,
+    }
   end
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition { on_list = on_list } end, bufopts)
+  vim.keymap.set('n', 'gd', function()
+    vim.lsp.buf.definition { on_list = on_list }
+  end, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
@@ -200,14 +207,18 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-  vim.keymap.set('v', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('n', '<space>f', function()
+    vim.lsp.buf.format { async = true }
+  end, bufopts)
+  vim.keymap.set('v', '<space>f', function()
+    vim.lsp.buf.format { async = true }
+  end, bufopts)
   vim.keymap.set('n', '<space>a', apply, bufopts)
 end
 
 vim.lsp.config('pylsp', {
   on_attach = on_attach,
-  cmd = { "pylsp" },
+  cmd = { 'pylsp' },
   settings = {
     pylsp = {
       plugins = {
@@ -219,26 +230,26 @@ vim.lsp.config('pylsp', {
           formatEnabled = true,
           -- Rules that are ignored when a pyproject.toml or ruff.toml is present:
           lineLength = 150,
-          select = { "F", "E", "W", "C90" },
+          select = { 'F', 'E', 'W', 'C90' },
           ignore = {},
           preview = true,
-          targetVersion = "py311",
+          targetVersion = 'py311',
         },
-      }
-    }
-  }
+      },
+    },
+  },
 })
-vim.lsp.enable('pylsp')
+vim.lsp.enable 'pylsp'
 
 vim.lsp.config('clangd', {
   on_attach = on_attach,
-  cmd = { "clangd" },
+  cmd = { 'clangd' },
 })
-vim.lsp.enable('clangd')
+vim.lsp.enable 'clangd'
 
 vim.lsp.config('gopls', {
   on_attach = on_attach,
-  cmd = { "@gopls@" },
+  cmd = { '@gopls@' },
   settings = {
     gopls = {
       hints = {
@@ -249,65 +260,65 @@ vim.lsp.config('gopls', {
         parameterNames = true,
         rangeVariableTypes = true,
       },
-    }
+    },
   },
 })
-vim.lsp.enable('gopls')
+vim.lsp.enable 'gopls'
 
 vim.lsp.config('rust_analyzer', {
   on_attach = on_attach,
-  cmd = { "@rust_analyzer@" },
+  cmd = { '@rust_analyzer@' },
 })
-vim.lsp.enable('rust_analyzer')
+vim.lsp.enable 'rust_analyzer'
 
 vim.lsp.config('nil_ls', {
   on_attach = on_attach,
-  cmd = { "@nil@" },
+  cmd = { '@nil@' },
   settings = {
     ['nil'] = {
       formatting = {
-        command = { "@nixfmt@" },
+        command = { '@nixfmt@' },
       },
     },
   },
 })
-vim.lsp.enable('nil_ls')
+vim.lsp.enable 'nil_ls'
 
 vim.lsp.config('beancount', {
   on_attach = on_attach,
-  cmd = { "@beancount_language_server@", "--stdio" },
+  cmd = { '@beancount_language_server@', '--stdio' },
   init_options = {
-    journal_file = vim.fn.getcwd() .. "/main.beancount",
+    journal_file = vim.fn.getcwd() .. '/main.beancount',
   },
 })
-vim.lsp.enable('beancount')
+vim.lsp.enable 'beancount'
 
 vim.lsp.config('ts_ls', {
   on_attach = on_attach,
-  cmd = { "@typescript_language_server@", "--stdio" },
+  cmd = { '@typescript_language_server@', '--stdio' },
 })
-vim.lsp.enable('ts_ls')
+vim.lsp.enable 'ts_ls'
 
 vim.lsp.config('svelte', {
   on_attach = on_attach,
 })
-vim.lsp.enable('svelte')
+vim.lsp.enable 'svelte'
 
 vim.lsp.config('texlab', {
   on_attach = on_attach,
 })
-vim.lsp.enable('texlab')
+vim.lsp.enable 'texlab'
 
-vim.lsp.enable('lua_ls')
+vim.lsp.enable 'lua_ls'
 vim.lsp.config('lua_ls', {
   on_attach = on_attach,
-  cmd = { "@lua_language_server@" },
+  cmd = { '@lua_language_server@' },
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
       if
-          path ~= vim.fn.stdpath('config')
-          and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
+        path ~= vim.fn.stdpath 'config'
+        and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
       then
         return
       end
@@ -329,9 +340,9 @@ vim.lsp.config('lua_ls', {
       workspace = {
         checkThirdParty = false,
         library = {
-          vim.env.VIMRUNTIME
-        }
-      }
+          vim.env.VIMRUNTIME,
+        },
+      },
     })
   end,
 })
