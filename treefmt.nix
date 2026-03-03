@@ -3,6 +3,13 @@
   # Used to find the project root
   projectRootFile = "flake.nix";
 
+  settings.excludes = [
+    "pkgs/_sources/*"
+    "secrets/*"
+    "*/secrets.yaml"
+  ];
+
   programs.nixfmt.enable = true;
-  settings.formatter.nixfmt.excludes = [ "pkgs/_sources/generated.nix" ];
+
+  programs.yamlfmt.enable = true;
 }
