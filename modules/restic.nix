@@ -40,7 +40,8 @@ in
         "/persist/var/log"
         "/persist/var/tmp"
         "/persist/home/*/.cache"
-      ] ++ cfg.exclude;
+      ]
+      ++ cfg.exclude;
       repository = "s3:s3.us-west-004.backblazeb2.com/restic-rvfg";
       environmentFile = config.sops.secrets."restic/s3".path;
       timerConfig = {

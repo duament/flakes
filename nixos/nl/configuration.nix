@@ -145,8 +145,7 @@ in
           fancyindex_header "/Nginx-Fancyindex/header.html";
           fancyindex_footer "/Nginx-Fancyindex/footer.html";
         '';
-        locations."/Nginx-Fancyindex/".alias =
-          "${pkgs.Nginx-Fancyindex-Theme}/share/Nginx-Fancyindex/";
+        locations."/Nginx-Fancyindex/".alias = "${pkgs.Nginx-Fancyindex-Theme}/share/Nginx-Fancyindex/";
       };
       "transmission.rvf6.com" = {
         basicAuthFile = config.sops.secrets.transmission.path;

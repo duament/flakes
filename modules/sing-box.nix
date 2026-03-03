@@ -86,17 +86,19 @@ in
             (pkgs.writeShellScript "sing-box-replace-secrets" (
               utils.genJqSecretsReplacementSnippet cfg.settings "/run/sing-box/config.json"
             ))
-          ] ++ optional (cfg.prepareScript != "") prepareScript;
+          ]
+          ++ optional (cfg.prepareScript != "") prepareScript;
           ExecStart = [
             ""
             "${lib.getExe cfg.package} -D \${STATE_DIRECTORY} -C \${RUNTIME_DIRECTORY} run"
           ];
-          ExecReload =
-            [ "" ]
-            ++ optional (cfg.prepareScript != "") prepareScript
-            ++ [
-              "${lib.getExe' pkgs.coreutils "kill"} -HUP $MAINPID"
-            ];
+          ExecReload = [
+            ""
+          ]
+          ++ optional (cfg.prepareScript != "") prepareScript
+          ++ [
+            "${lib.getExe' pkgs.coreutils "kill"} -HUP $MAINPID"
+          ];
         }
         // (optionalAttrs capNetAdmin {
           PrivateUsers = false;

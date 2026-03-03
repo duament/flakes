@@ -193,7 +193,8 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [
       gammuPackage
-    ] ++ lib.optionals (cfgSrv == "sql" && cfgDrv == "sqlite") [ pkgs.sqlite ];
+    ]
+    ++ lib.optionals (cfgSrv == "sql" && cfgDrv == "sqlite") [ pkgs.sqlite ];
 
     systemd.services.gammu-smsd = {
       description = "gammu-smsd daemon";

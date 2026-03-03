@@ -35,9 +35,11 @@
   };
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "cursor-cli"
-  ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "cursor-cli"
+    ];
 
   home.username = "ruifeng.ma";
   home.homeDirectory = "/home/ruifeng.ma";

@@ -160,23 +160,22 @@ in
         );
       };
 
-      systemd.network.networks."25-wg-${host}" =
-        {
-          name = "wg-${host}";
-          address = toAddress net peer;
-          networkConfig.IPMasquerade = "both";
-        }
-        // (optionalAttrs cfg.dynamicIPv6 {
-          networkConfig = {
-            DHCPPrefixDelegation = true;
-          };
-          dhcpPrefixDelegationConfig = {
-            Token = "::1";
-          };
-          linkConfig = {
-            RequiredForOnline = false;
-          };
-        });
+      systemd.network.networks."25-wg-${host}" = {
+        name = "wg-${host}";
+        address = toAddress net peer;
+        networkConfig.IPMasquerade = "both";
+      }
+      // (optionalAttrs cfg.dynamicIPv6 {
+        networkConfig = {
+          DHCPPrefixDelegation = true;
+        };
+        dhcpPrefixDelegationConfig = {
+          Token = "::1";
+        };
+        linkConfig = {
+          RequiredForOnline = false;
+        };
+      });
 
       presets.wireguard.dynamicIPv6.interfaces = optional cfg.dynamicIPv6 "wg-${host}";
 
@@ -233,59 +232,58 @@ in
       systemd.network.networks = listToAttrs (
         map (h: {
           name = "25-wg-${h}";
-          value =
-            {
-              name = "wg-${h}";
-              address = toAddress wg0.networks.${h} peer;
-              # Add route to 10.8.0.0/16
-              routes = optional (h == "router" && elem host wg0.networks.router.outPeers) {
-                Destination = "10.8.0.0/16";
-              };
-              routingPolicyRules = optional (cfg.clientPeers ? ${h}) {
-                Family = "both";
-                FirewallMark = cfg.clientPeers.${h}.table;
-                Table = cfg.clientPeers.${h}.table;
-                Priority = 1024;
-              };
-            }
-            // (optionalAttrs (h == routePeer) {
-              dns = [ "${wg0.networks.${h}.ipv6Pre}${toLowerHex wg0.peers.${h}.id}" ];
-              domains = [ "~." ];
-              networkConfig = {
-                DNSDefaultRoute = "yes";
-              };
-              routingPolicyRules =
-                map (ip: {
-                  To = ip;
-                  Priority = 128;
-                }) cfg.clientPeers.${h}.routeBypass
-                ++ (
-                  if route == "all" then
-                    [
-                      {
-                        Family = "both";
-                        FirewallMark = wgMark;
-                        InvertRule = "yes";
-                        Table = wgTable;
-                        Priority = 16384;
-                      }
-                    ]
-                  else
-                    [
-                      {
-                        Family = "both";
-                        FirewallMark = wgMark;
-                        Priority = 64;
-                      }
-                      {
-                        Family = "both";
-                        FirewallMark = routeMark;
-                        Table = wgTable;
-                        Priority = 16384;
-                      }
-                    ]
-                );
-            });
+          value = {
+            name = "wg-${h}";
+            address = toAddress wg0.networks.${h} peer;
+            # Add route to 10.8.0.0/16
+            routes = optional (h == "router" && elem host wg0.networks.router.outPeers) {
+              Destination = "10.8.0.0/16";
+            };
+            routingPolicyRules = optional (cfg.clientPeers ? ${h}) {
+              Family = "both";
+              FirewallMark = cfg.clientPeers.${h}.table;
+              Table = cfg.clientPeers.${h}.table;
+              Priority = 1024;
+            };
+          }
+          // (optionalAttrs (h == routePeer) {
+            dns = [ "${wg0.networks.${h}.ipv6Pre}${toLowerHex wg0.peers.${h}.id}" ];
+            domains = [ "~." ];
+            networkConfig = {
+              DNSDefaultRoute = "yes";
+            };
+            routingPolicyRules =
+              map (ip: {
+                To = ip;
+                Priority = 128;
+              }) cfg.clientPeers.${h}.routeBypass
+              ++ (
+                if route == "all" then
+                  [
+                    {
+                      Family = "both";
+                      FirewallMark = wgMark;
+                      InvertRule = "yes";
+                      Table = wgTable;
+                      Priority = 16384;
+                    }
+                  ]
+                else
+                  [
+                    {
+                      Family = "both";
+                      FirewallMark = wgMark;
+                      Priority = 64;
+                    }
+                    {
+                      Family = "both";
+                      FirewallMark = routeMark;
+                      Table = wgTable;
+                      Priority = 16384;
+                    }
+                  ]
+              );
+          });
         }) (reverseClientPeers ++ clientPeers)
       );
 

@@ -138,30 +138,29 @@ in
       name: values:
       nameValuePair "${name}.rvf6.com" {
         extraConfig = "error_page 401 = @error401;";
-        locations =
-          {
-            "/vouch" = {
-              proxyPass = "http://${values.settings.vouch.listen}:${toString values.settings.vouch.port}";
-              extraConfig = ''
-                proxy_pass_request_body off;
-                proxy_set_header Content-Length "";
-                auth_request_set $auth_resp_jwt $upstream_http_x_vouch_jwt;
-                auth_request_set $auth_resp_err $upstream_http_x_vouch_err;
-                auth_request_set $auth_resp_failcount $upstream_http_x_vouch_failcount;
-              '';
-            };
-            "@error401".return =
-              "302 /vouch/login?url=$scheme://$host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
-          }
-          // (builtins.listToAttrs (
-            map (loc: {
-              name = loc;
-              value.extraConfig = ''
-                auth_request /vouch/validate;
-                auth_request_set $auth_resp_x_vouch_user $upstream_http_x_vouch_user;
-              '';
-            }) values.authLocations
-          ));
+        locations = {
+          "/vouch" = {
+            proxyPass = "http://${values.settings.vouch.listen}:${toString values.settings.vouch.port}";
+            extraConfig = ''
+              proxy_pass_request_body off;
+              proxy_set_header Content-Length "";
+              auth_request_set $auth_resp_jwt $upstream_http_x_vouch_jwt;
+              auth_request_set $auth_resp_err $upstream_http_x_vouch_err;
+              auth_request_set $auth_resp_failcount $upstream_http_x_vouch_failcount;
+            '';
+          };
+          "@error401".return =
+            "302 /vouch/login?url=$scheme://$host$request_uri&vouch-failcount=$auth_resp_failcount&X-Vouch-Token=$auth_resp_jwt&error=$auth_resp_err";
+        }
+        // (builtins.listToAttrs (
+          map (loc: {
+            name = loc;
+            value.extraConfig = ''
+              auth_request /vouch/validate;
+              auth_request_set $auth_resp_x_vouch_user $upstream_http_x_vouch_user;
+            '';
+          }) values.authLocations
+        ));
       }
     ) cfg;
   };

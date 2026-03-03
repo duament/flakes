@@ -23,61 +23,60 @@ in
 
 rec {
 
-  secrets =
-    {
-      "secrets/clash" = [
-        "desktop"
-        "xiaoxin"
-      ];
-      "secrets/passwd.yaml" = builtins.attrNames machines;
-      "secrets/shadowsocks.yaml" = [ "rpi3" ];
-      "secrets/ssh-keys.yaml" = [
-        "desktop"
-        "xiaoxin"
-      ];
-      "secrets/restic.yaml" = [
-        "desktop"
-        "xiaoxin"
-        "t430"
-        "router"
-        "nl"
-        "or2"
-        "or3"
-        "az"
-      ];
-      "secrets/github-token.yaml" = [
-        "work"
-        "desktop"
-        "xiaoxin"
-      ];
-      "secrets/avbroot.yaml" = [
-        "desktop"
-        "xiaoxin"
-      ];
-      "secrets/wireless.yaml" = [
-        "desktop"
-        "xiaoxin"
-      ];
-      "secrets/uu.yaml" = [
-        "rpi3"
-        "t430"
-        "router"
-        "desktop"
-        "xiaoxin"
-      ];
-      "secrets/workstation.yaml" = [
-        "desktop"
-        "xiaoxin"
-      ];
-    }
-    // (builtins.listToAttrs (
-      builtins.attrValues (
-        builtins.mapAttrs (name: value: {
-          name = "nixos/${name}/.*";
-          value = [ name ];
-        }) machines
-      )
-    ));
+  secrets = {
+    "secrets/clash" = [
+      "desktop"
+      "xiaoxin"
+    ];
+    "secrets/passwd.yaml" = builtins.attrNames machines;
+    "secrets/shadowsocks.yaml" = [ "rpi3" ];
+    "secrets/ssh-keys.yaml" = [
+      "desktop"
+      "xiaoxin"
+    ];
+    "secrets/restic.yaml" = [
+      "desktop"
+      "xiaoxin"
+      "t430"
+      "router"
+      "nl"
+      "or2"
+      "or3"
+      "az"
+    ];
+    "secrets/github-token.yaml" = [
+      "work"
+      "desktop"
+      "xiaoxin"
+    ];
+    "secrets/avbroot.yaml" = [
+      "desktop"
+      "xiaoxin"
+    ];
+    "secrets/wireless.yaml" = [
+      "desktop"
+      "xiaoxin"
+    ];
+    "secrets/uu.yaml" = [
+      "rpi3"
+      "t430"
+      "router"
+      "desktop"
+      "xiaoxin"
+    ];
+    "secrets/workstation.yaml" = [
+      "desktop"
+      "xiaoxin"
+    ];
+  }
+  // (builtins.listToAttrs (
+    builtins.attrValues (
+      builtins.mapAttrs (name: value: {
+        name = "nixos/${name}/.*";
+        value = [ name ];
+      }) machines
+    )
+  ));
 
   configText = builtins.toJSON {
     creation_rules = builtins.attrValues (

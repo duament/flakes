@@ -55,7 +55,9 @@ in
         ${optionalString (length cfg.inboundInterfaces != 0) ''
           chain output-restore-mark {
             type route hook output priority mangle;
-            ct direction reply ct mark ${markOffset}-${markOffset + (length cfg.inboundInterfaces) - 1} meta mark set ct mark
+            ct direction reply ct mark ${markOffset}-${
+              markOffset + (length cfg.inboundInterfaces) - 1
+            } meta mark set ct mark
           }
         ''}
       '';

@@ -33,7 +33,9 @@ let
 
       objcopy = "${pkgs.binutils}/bin/objcopy";
 
-      efiStubPath = "${inputs.lanzaboote.packages.${pkgs.stdenv.hostPlatform.system}.stub}/bin/lanzaboote_stub.efi";
+      efiStubPath = "${
+        inputs.lanzaboote.packages.${pkgs.stdenv.hostPlatform.system}.stub
+      }/bin/lanzaboote_stub.efi";
 
       sbsign = "${pkgs.sbsigntool}/bin/sbsign";
 
