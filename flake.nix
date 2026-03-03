@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     chn-cidr-list = {
       url = "github:fernvenue/chn-cidr-list";
       flake = false;
@@ -116,9 +121,11 @@
               exec ${pkgs.sops}/bin/sops --config ${pkgs.writeText "sops-config" data.sops.configText} "$@"
             '';
           };
+
+          treefmtEval = inputs.treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
         in
         {
-          formatter = pkgs.nixfmt;
+          formatter = treefmtEval.config.build.wrapper;
 
           packages = import ./pkgs pkgs;
 
