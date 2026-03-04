@@ -105,5 +105,27 @@ in
   #  }
   #];
 
+  services.pipewire.wireplumber.extraConfig."90-disable-suspension" = {
+    "monitor.alsa.rules" = [
+      {
+        matches = [
+          {
+            # Matches all sources
+            "node.name" = "~alsa_input.*";
+          }
+          {
+            # Matches all sinks
+            "node.name" = "~alsa_output.*";
+          }
+        ];
+        actions = {
+          update-props = {
+            "session.suspend-timeout-seconds" = 0;
+          };
+        };
+      }
+    ];
+  };
+
   home-manager.users.rvfg = import ./home.nix;
 }
