@@ -1,6 +1,6 @@
 {
     "Fluent-solid-pink": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2025-11-10",
         "extract": null,
         "name": "Fluent-solid-pink",
@@ -21,7 +21,7 @@
         "version": "44794f29c89de994b0179aebabd2f5776c90d236"
     },
     "Nginx-Fancyindex-Theme": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2026-01-30",
         "extract": null,
         "name": "Nginx-Fancyindex-Theme",
@@ -42,7 +42,7 @@
         "version": "ee2e73c8dd1584b84ddad0cfcc44fbd903bdccd8"
     },
     "aleo": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2025-08-08",
         "extract": null,
         "name": "aleo",
@@ -63,7 +63,7 @@
         "version": "acd8d56d42be24d285708cf463652b194bdcddd2"
     },
     "flood-for-transmission": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "flood-for-transmission",
@@ -77,7 +77,7 @@
         "version": "v1.0.1"
     },
     "ksud": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "ksud",
@@ -92,7 +92,7 @@
         "version": "v3.1.0"
     },
     "magisk": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "magisk",
@@ -106,7 +106,7 @@
         "version": "v30.7"
     },
     "owntracks-frontend": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "owntracks-frontend",
@@ -120,7 +120,7 @@
         "version": "v2.15.3"
     },
     "transmission-client": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2023-02-15",
         "extract": null,
         "name": "transmission-client",
@@ -141,7 +141,7 @@
         "version": "a89c39bf8a5c8786becbd65d54e9f45f296a3b5a"
     },
     "transmission-web-control": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2025-06-01",
         "extract": null,
         "name": "transmission-web-control",
@@ -162,7 +162,7 @@
         "version": "054e2edf7ee1ec859cec3ee5661a550481321a27"
     },
     "uuplugin-aarch64": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "uuplugin-aarch64",
@@ -170,14 +170,14 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-8UDcma9aZzZ+Y8gRultVXHSN6jLDsRxrW95q/CWslgw=",
+            "sha256": "sha256-Hw1a6+XLLYu6jNp9tNPkhy+bdNn4rxhcbzvntfy+J3M=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v12.1.4/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v12.1.18/uu.tar.gz"
         },
-        "version": "12.1.4"
+        "version": "12.1.18"
     },
     "uuplugin-x86_64": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "uuplugin-x86_64",
@@ -185,19 +185,14 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-HdQZrBZrEk+Ng+QHWmW2VHulifl2iUBlzlUaZjE6boQ=",
+            "sha256": "sha256-/iZHULvXorRLX/S8GJnMhtdm0qx1rOOinpVbjKYwE2E=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v12.1.4/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v12.1.18/uu.tar.gz"
         },
-        "version": "12.1.4"
+        "version": "12.1.18"
     },
     "uutunnel": {
-        "cargoLocks": {
-            "Cargo.lock": [
-                "./uutunnel-46b76bb4ee2e523e5b835b5d70d87efa2d099295/Cargo.lock",
-                {}
-            ]
-        },
+        "cargoLock": null,
         "date": "2024-02-29",
         "extract": null,
         "name": "uutunnel",
