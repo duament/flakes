@@ -114,16 +114,4 @@
       sha256 = "sha256-/iZHULvXorRLX/S8GJnMhtdm0qx1rOOinpVbjKYwE2E=";
     };
   };
-  uutunnel = {
-    pname = "uutunnel";
-    version = "46b76bb4ee2e523e5b835b5d70d87efa2d099295";
-    src = fetchFromGitHub {
-      owner = "duament";
-      repo = "uutunnel";
-      rev = "46b76bb4ee2e523e5b835b5d70d87efa2d099295";
-      fetchSubmodules = false;
-      sha256 = "sha256-I6x0outD7wSOdaou3Ner5MclMyKRZPdss/CY0KpZDuE=";
-    };
-    date = "2024-02-29";
-  };
 }

@@ -75,36 +75,6 @@ in
     };
   };
 
-  #presets.uutunnel.enable = true;
-  #networking.warp = {
-  #  enable = true;
-  #  #endpointAddr = "162.159.192.1";
-  #  endpointAddr = "127.0.0.1";
-  #  endpointPort = 20000;
-  #  mtu = 1380;
-  #  mark = 3;
-  #  routingId = "0x616add";
-  #  keyFile = config.sops.secrets.warp_key.path;
-  #  address = [
-  #    "172.16.0.2/32"
-  #    "2606:4700:110:8395:570b:d0c1:ea2a:8251/128"
-  #  ];
-  #  table = 20;
-  #};
-  #presets.wireguard.keepAlive.interfaces = [ "warp" ];
-  #networking.nftables.markChinaIP = {
-  #  enable = true;
-  #  mark = 2;
-  #};
-  #systemd.network.networks."25-warp".routingPolicyRules = [
-  #  {
-  #    FirewallMark = 2;
-  #    Table = 20;
-  #    Priority = 16384;
-  #    Family = "both";
-  #  }
-  #];
-
   services.pipewire.wireplumber.extraConfig."90-disable-suspension" = {
     "monitor.alsa.rules" = [
       {

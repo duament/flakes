@@ -190,26 +190,5 @@
             "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v12.1.18/uu.tar.gz"
         },
         "version": "12.1.18"
-    },
-    "uutunnel": {
-        "cargoLock": null,
-        "date": "2024-02-29",
-        "extract": null,
-        "name": "uutunnel",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "duament",
-            "repo": "uutunnel",
-            "rev": "46b76bb4ee2e523e5b835b5d70d87efa2d099295",
-            "sha256": "sha256-I6x0outD7wSOdaou3Ner5MclMyKRZPdss/CY0KpZDuE=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "46b76bb4ee2e523e5b835b5d70d87efa2d099295"
     }
 }

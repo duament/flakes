@@ -34,7 +34,6 @@
     ./traefik.nix
     ./users.nix
     ./uu.nix
-    ./uutunnel.nix
     ./vouch.nix
     ./warp.nix
     ./wireguard
