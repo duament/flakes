@@ -22,7 +22,7 @@ in
       ssPort
     ];
     extraInputRules = ''
-      iifname { ${config.router.wanEnabledIfs} } tcp dport { ${toString httpPort}, ${toString httpCNPort} } accept
+      iifname @wan_enabled_ifs tcp dport { ${toString httpPort}, ${toString httpCNPort} } accept
     '';
   };
 

@@ -26,14 +26,19 @@ in
   options.router.dnsEnabledIfs = mkOption {
     type = types.listOf types.str;
     default = [ ];
-    apply = v: concatStringsSep ", " v;
   };
 
   config = {
 
+    networking.nftables.tables."nixos-fw".content = ''
+      set dns_enabled_ifs {
+        type ifname
+        elements = { ${concatStringsSep ", " (map (x: ''"${x}"'') config.router.dnsEnabledIfs)} }
+      }
+    '';
     networking.firewall = {
       extraInputRules = ''
-        iifname { ${config.router.dnsEnabledIfs} } meta l4proto { tcp, udp } th dport 53 accept
+        iifname @dns_enabled_ifs meta l4proto { tcp, udp } th dport 53 accept
       '';
     };
 

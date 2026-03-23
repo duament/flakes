@@ -19,7 +19,6 @@ in
     wanEnabledIfs = mkOption {
       type = types.listOf types.str;
       default = [ ];
-      apply = v: concatStringsSep ", " v;
     };
 
   };
@@ -28,8 +27,14 @@ in
 
     sops.secrets.pppoe = { };
 
+    networking.nftables.tables."nixos-fw".content = ''
+      set wan_enabled_ifs {
+        type ifname
+        elements = { ${concatStringsSep ", " (map (x: ''"${x}"'') config.router.wanEnabledIfs)} }
+      }
+    '';
     networking.firewall.extraForwardRules = ''
-      iifname { ${config.router.wanEnabledIfs} } oifname ppp0 accept
+      iifname @wan_enabled_ifs oifname ppp0 accept
     '';
     networking.nftables.masquerade = [
       "meta nfproto ipv4 oifname ppp0"

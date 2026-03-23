@@ -15,7 +15,6 @@ in
   options.router.wgEnabledIfs = mkOption {
     type = types.listOf types.str;
     default = [ ];
-    apply = v: concatStringsSep ", " v;
   };
 
   config = {
@@ -24,8 +23,14 @@ in
     router.wanEnabledIfs = [ "wg-*" ];
     router.dnsEnabledIfs = [ "wg-*" ];
 
+    networking.nftables.tables."nixos-fw".content = ''
+      set wg_enabled_ifs {
+        type ifname
+        elements = { ${concatStringsSep ", " (map (x: ''"${x}"'') config.router.wgEnabledIfs)} }
+      }
+    '';
     networking.firewall.extraForwardRules = ''
-      iifname { ${config.router.wgEnabledIfs} } oifname { wg-*, warp } accept
+      iifname @wg_enabled_ifs oifname { wg-*, warp } accept
       mark ${toString nonCNMark} oifname { wg-*, warp } accept
     '';
 

@@ -50,13 +50,11 @@ in
 
     lanIfs = mkOption {
       type = types.listOf types.str;
-      apply = v: concatStringsSep ", " v;
     };
 
     lanEnabledIfs = mkOption {
       type = types.listOf types.str;
       default = [ ];
-      apply = v: concatStringsSep ", " v;
     };
 
   };
@@ -75,12 +73,22 @@ in
       dnsEnabledIfs = map ifName managedVlans;
     };
 
+    networking.nftables.tables."nixos-fw".content = ''
+      set lan_ifs {
+        type ifname
+        elements = { ${concatStringsSep ", " (map (x: ''"${x}"'') config.router.lanIfs)} }
+      }
+      set lan_enabled_ifs {
+        type ifname
+        elements = { ${concatStringsSep ", " (map (x: ''"${x}"'') config.router.lanEnabledIfs)} }
+      }
+    '';
     networking.firewall = {
       extraInputRules = ''
-        iifname { ${config.router.lanIfs} } udp dport 67 accept
+        iifname @lan_ifs udp dport 67 accept
       '';
       extraForwardRules = ''
-        iifname { ${config.router.lanEnabledIfs} } oifname { ${config.router.lanIfs} } accept
+        iifname @lan_enabled_ifs oifname @lan_ifs accept
       '';
     };
 
