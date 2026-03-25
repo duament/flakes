@@ -49,17 +49,6 @@ in
             server = "223.5.5.5";
           }
         ];
-        rules = [
-          {
-            inbound = "cn-in";
-            action = "route";
-            server = "cn";
-          }
-          {
-            action = "route";
-            server = "local";
-          }
-        ];
       };
       inbounds = [
         {
@@ -111,6 +100,7 @@ in
           type = "direct";
           tag = "cn";
           routing_mark = 1;
+          domain_resolver = "cn";
         }
         {
           type = "direct";
@@ -129,6 +119,7 @@ in
           server_port = 1080;
         }
       ];
+      route.default_domain_resolver = "local";
       route.rules = [
         {
           domain_suffix = [
