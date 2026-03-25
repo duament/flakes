@@ -37,6 +37,7 @@ in
 
     presets.wireguard.wg0 = {
       enable = true;
+      enableDnsmasq = true;
       clientPeers = {
         ak.mark = 3;
         az = {
