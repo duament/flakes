@@ -5,7 +5,10 @@
   ...
 }:
 let
-  inherit (lib) mkOption types concatStringsSep;
+  inherit (lib) mkOption types concatStringsSep mapAttrsToList;
+
+  wg0Cfg = config.presets.wireguard.wg0;
+  dnsPorts = [ 53 ] ++ mapAttrsToList (_: p: p.dnsPort) wg0Cfg.clientPeers;
 
   # TODO reload
   updateDnsScript =
@@ -39,7 +42,7 @@ in
     '';
     networking.firewall = {
       extraInputRules = ''
-        iifname @dns_enabled_ifs meta l4proto { tcp, udp } th dport 53 accept
+        iifname @dns_enabled_ifs meta l4proto { tcp, udp } th dport { ${concatStringsSep ", " (map toString dnsPorts)} } accept
       '';
     };
 
