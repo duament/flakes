@@ -30,7 +30,7 @@ vim.cmd.colorscheme 'catppuccin'
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'catppuccin',
+    theme = 'catppuccin-nvim',
     section_separators = '',
     component_separators = '',
   },
