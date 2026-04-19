@@ -163,6 +163,8 @@ with lib;
             "or3"
             "ak"
             "sg"
+            "tw"
+            "twak"
             "owrt"
             "rpi3"
             "t430"

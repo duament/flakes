@@ -37,4 +37,9 @@
     fqdn = "tw.rvf6.com";
     ipv4 = "103.159.207.18";
   };
+  twak = {
+    fqdn = "twak.rvf6.com";
+    ipv4 = "83.147.12.126";
+    ipv6 = "2407:cdc0:f004:ad20:5da5:6dab:cb83:70a3";
+  };
 }

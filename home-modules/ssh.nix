@@ -75,6 +75,8 @@ in
             "az"
             "ak"
             "sg"
+            "tw"
+            "twak"
             "rpi3"
             "t430"
             "work"
