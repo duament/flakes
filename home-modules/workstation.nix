@@ -86,7 +86,7 @@
         fullscreen = true;
         ao = "pipewire";
         vo = "gpu-next";
-        hwdec = "vaapi";
+        hwdec = "vulkan";
         gpu-api = "vulkan";
         gpu-context = "waylandvk";
         # profile = "gpu-hq";
