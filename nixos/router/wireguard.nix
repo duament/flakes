@@ -68,18 +68,18 @@ in
         table = 20;
       in
       [
-        {
-          FirewallMark = nonCNMark;
-          Table = table;
-          Priority = 16384;
-          #Family = "ipv6";
-          Family = "both";
-        }
-        {
-          To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
-          Table = table;
-          Priority = 128;
-        }
+        #{
+        #  FirewallMark = nonCNMark;
+        #  Table = table;
+        #  Priority = 16384;
+        #  #Family = "ipv6";
+        #  Family = "both";
+        #}
+        #{
+        #  To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
+        #  Table = table;
+        #  Priority = 128;
+        #}
       ];
 
     systemd.network.networks."25-wg-ak".routingPolicyRules =
@@ -87,8 +87,26 @@ in
         table = 100 + wg0.peers.ak.id;
       in
       [
+        #{
+        #  To = "34.149.84.206"; # prod-ingress.ingress.com
+        #  Table = table;
+        #  Priority = 128;
+        #}
+      ];
+
+    systemd.network.networks."25-wg-twak".routingPolicyRules =
+      let
+        table = 100 + wg0.peers.twak.id;
+      in
+      [
         {
-          To = "34.149.84.206"; # prod-ingress.ingress.com
+          FirewallMark = nonCNMark;
+          Table = table;
+          Priority = 16384;
+          Family = "both";
+        }
+        {
+          To = "2001:da8:215:4078:250:56ff:fe97:654d"; # byr.pt
           Table = table;
           Priority = 128;
         }
