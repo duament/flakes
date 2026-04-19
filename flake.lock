@@ -3,11 +3,11 @@
     "chn-cidr-list": {
       "flake": false,
       "locked": {
-        "lastModified": 1773975771,
-        "narHash": "sha256-lcBeqShfdW70naBF+X/9A3r3V5FYelHiqNmDymCQ7i4=",
+        "lastModified": 1776567771,
+        "narHash": "sha256-1S0/lvhglevzPBtGZQUoylx0iuM+ufLONUlPG/8gvcg=",
         "owner": "fernvenue",
         "repo": "chn-cidr-list",
-        "rev": "880203eebed375fe740c4ad55fc89e099ee3a104",
+        "rev": "6a322b01f52ecf68bf36e7a4d94c24a701723030",
         "type": "github"
       },
       "original": {
@@ -54,11 +54,11 @@
     "dnsmasq-china-list": {
       "flake": false,
       "locked": {
-        "lastModified": 1772909102,
-        "narHash": "sha256-2H2gmeuMdBrsliZPmARhv/0xaz4u7YDBJGkOEYrKrxE=",
+        "lastModified": 1776517283,
+        "narHash": "sha256-y+oA3gNhVpyMhjs2/pxel7hIHw7RhAGz1w7yaiS7F5g=",
         "owner": "felixonmars",
         "repo": "dnsmasq-china-list",
-        "rev": "7da1a5a5885c3f19dd000aa76a25e457352dd696",
+        "rev": "e07d9e8baec188a37098068b28c32f5709a4c244",
         "type": "github"
       },
       "original": {
