@@ -17,7 +17,7 @@ let
       nil = makeLsp pkgs.nil "nil";
       nixfmt = makeLsp pkgs.nixfmt "nixfmt";
       beancount_language_server = makeLsp pkgs.beancount-language-server "beancount-language-server";
-      typescript_language_server = makeLsp pkgs.nodePackages.typescript-language-server "typescript-language-server";
+      typescript_language_server = makeLsp pkgs.typescript-language-server "typescript-language-server";
       lua_language_server = makeLsp pkgs.lua-language-server "lua-language-server";
     };
   };
@@ -42,6 +42,8 @@ in
       defaultEditor = true;
       vimAlias = true;
       vimdiffAlias = true;
+      withRuby = false;
+      withPython3 = true;
       plugins = with pkgs.vimPlugins; [
         bufferline-nvim
         catppuccin-nvim
