@@ -19,7 +19,7 @@ in
   ];
 
   sops.secrets = {
-    "dovecot/passwd".owner = config.services.dovecot2.user;
+    "dovecot/passwd".owner = config.services.dovecot2.settings.default_internal_user;
     "dkim".owner = config.services.opendkim.user;
   };
 
@@ -69,53 +69,64 @@ in
     };
   };
 
-  services.dovecot2 = rec {
+  services.dovecot2 = {
     enable = true;
-    enableLmtp = true;
+    package = pkgs.dovecot_2_3;
     enablePAM = false;
-    mailUser = "vmail";
-    mailGroup = "vmail";
-    mailLocation = "maildir:/var/mail";
-    sslServerCert = certificatePath;
-    sslServerKey = keyPath;
-    extraConfig = ''
-      ssl = required
-      ssl_min_protocol = TLSv1.2
+    settings = {
+      mail_location = "maildir:/var/mail";
+      mail_uid = "vmail";
+      mail_gid = "vmail";
+      protocols = [ "imap" "lmtp" ];
 
-      passdb {
-        driver = passwd-file
-        args = ${config.sops.secrets."dovecot/passwd".path}
-      }
+      ssl = "required";
+      ssl_min_protocol = "TLSv1.2";
+      ssl_cert = "<" + certificatePath;
+      ssl_key = "<" + keyPath;
+      ssl_dh = "</var/lib/dhparams/dovecot2.pem";
 
-      userdb {
-        driver = static
-        args = uid=${mailUser} gid=${mailGroup} home=/var/mail allow_all_users=yes
-      }
+      passdb = {
+        driver = "passwd-file";
+        args = config.sops.secrets."dovecot/passwd".path;
+      };
 
-      auth_mechanisms = plain login
+      userdb = {
+        driver = "static";
+        args = [
+          "uid=vmail"
+          "gid=vmail"
+          "home=/var/mail"
+          "allow_all_users=yes"
+        ];
+      };
 
-      service imap-login {
-        inet_listener imap {
-          port=0
-        }
-      }
+      auth_mechanisms = [
+        "plain"
+        "login"
+      ];
 
-      service lmtp {
-        unix_listener dovecot-lmtp {
-          user = ${config.services.postfix.user}
-          group = ${config.services.postfix.group}
-          mode = 0600
-        }
-      }
+      "service imap-login" = {
+        "inet_listener imap" = {
+          port = 0;
+        };
+      };
 
-      service auth {
-        unix_listener auth {
-          user = ${config.services.postfix.user}
-          group = ${config.services.postfix.group}
-          mode = 0600
-        }
-      }
-    '';
+      "service lmtp" = {
+        "unix_listener dovecot-lmtp" = {
+          user = config.services.postfix.user;
+          group = config.services.postfix.group;
+          mode = "0600";
+        };
+      };
+
+      "service auth" = {
+        "unix_listener auth" = {
+          user = config.services.postfix.user;
+          group = config.services.postfix.group;
+          mode = "0600";
+        };
+      };
+    };
   };
 
   services.opendkim = {
