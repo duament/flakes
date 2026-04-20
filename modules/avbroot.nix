@@ -26,7 +26,7 @@ let
       KERNEL_VERSION=''${VERSION%.*}  # 5.10
       KMI="$ANDROID_RELEASE-$KERNEL_VERSION"
 
-      ${pkgs.ksud}/bin/ksud boot-patch --magiskboot ${pkgs.magiskboot}/bin/magiskboot -b "$DIR"/init_boot.img --kmi "$KMI" -o "$DIR"
+      ${pkgs.kernelsu}/bin/ksud boot-patch --magiskboot ${pkgs.magiskboot}/bin/magiskboot -b "$DIR"/init_boot.img --kmi "$KMI" -o "$DIR"
       PREPATCHED_PATH=("$DIR"/kernelsu_patched_*.img)
 
       ${avbroot-bin} ota patch --input "$1" --prepatched "''${PREPATCHED_PATH[0]}" \

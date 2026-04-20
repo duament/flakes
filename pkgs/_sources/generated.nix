@@ -50,12 +50,25 @@
       sha256 = "sha256-DYqjF0axfJn0Mu7JJIhsB7xQ1uY2qLOIl4eZJsioOC8=";
     };
   };
-  ksud = {
-    pname = "ksud";
-    version = "v3.1.0";
-    src = fetchurl {
-      url = "https://github.com/tiann/KernelSU/releases/download/v3.1.0/ksud-x86_64-unknown-linux-musl";
-      sha256 = "sha256-WYPCIJoyQUNqZXzwIKVzJUfPReAn6GW1QUcFnNU2P9U=";
+  kernelsu = {
+    pname = "kernelsu";
+    version = "v3.2.4";
+    src = fetchFromGitHub {
+      owner = "tiann";
+      repo = "KernelSU";
+      rev = "v3.2.4";
+      fetchSubmodules = false;
+      sha256 = "sha256-zzUjs+EsoZgzxaJexnPTd6PBCn1xTxFH1l1CZHX6MkE=";
+    };
+    cargoLock."Cargo.lock" = {
+      lockFile = ./. + "/sha256-zzUjs+EsoZgzxaJexnPTd6PBCn1xTxFH1l1CZHX6MkE=/Cargo.lock";
+      outputHashes = {
+        "kernlog-0.3.1" = "sha256-+jZvmmO4n3G2WWEfeMZpIPXbitM6svec8Q/4wtP8hhc=";
+        "rustix-0.38.34" = "sha256-XzuiOKEvVee6nN8EltOgWrC4sUGhLKkm7pdPqDKuDWY=";
+        "adb_client-3.1.1" = "sha256-+sfv/bvX6gIISV0vR88gCUpRrWL7OiShIxp0EEmE1T4=";
+        "java-properties-2.0.0" = "sha256-fvekRqJI3Xwzo9z0Li36NFMIYnP5FMP8D9uVcK32soc=";
+        "prop-rs-0.1.0" = "sha256-MuNVHIe2xC2E3e9LLURn5WQ98+5VHCfMx58cx07mOF4=";
+      };
     };
   };
   magisk = {

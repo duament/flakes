@@ -41,6 +41,7 @@ fetch.tarball = "https://github.com/owntracks/frontend/releases/download/$ver/$v
 src.github_tag = "topjohnwu/Magisk"
 fetch.tarball = "https://github.com/topjohnwu/Magisk/releases/download/$ver/Magisk-$ver.apk"
 
-[ksud]
+[kernelsu]
 src.github_tag = "tiann/KernelSU"
-fetch.url = "https://github.com/tiann/KernelSU/releases/download/$ver/ksud-x86_64-unknown-linux-musl"
+fetch.github = "tiann/KernelSU"
+cargo_lock = [ "Cargo.lock" ]

@@ -76,20 +76,37 @@
         },
         "version": "v1.0.1"
     },
-    "ksud": {
-        "cargoLock": null,
+    "kernelsu": {
+        "cargoLock": {
+            "Cargo.lock": [
+                "sha256-zzUjs+EsoZgzxaJexnPTd6PBCn1xTxFH1l1CZHX6MkE=/Cargo.lock",
+                {
+                    "adb_client-3.1.1": "sha256-+sfv/bvX6gIISV0vR88gCUpRrWL7OiShIxp0EEmE1T4=",
+                    "java-properties-2.0.0": "sha256-fvekRqJI3Xwzo9z0Li36NFMIYnP5FMP8D9uVcK32soc=",
+                    "kernlog-0.3.1": "sha256-+jZvmmO4n3G2WWEfeMZpIPXbitM6svec8Q/4wtP8hhc=",
+                    "prop-rs-0.1.0": "sha256-MuNVHIe2xC2E3e9LLURn5WQ98+5VHCfMx58cx07mOF4=",
+                    "rustix-0.38.34": "sha256-XzuiOKEvVee6nN8EltOgWrC4sUGhLKkm7pdPqDKuDWY="
+                }
+            ]
+        },
         "date": null,
         "extract": null,
-        "name": "ksud",
+        "name": "kernelsu",
         "passthru": null,
         "pinned": false,
         "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
             "name": null,
-            "sha256": "sha256-WYPCIJoyQUNqZXzwIKVzJUfPReAn6GW1QUcFnNU2P9U=",
-            "type": "url",
-            "url": "https://github.com/tiann/KernelSU/releases/download/v3.1.0/ksud-x86_64-unknown-linux-musl"
+            "owner": "tiann",
+            "repo": "KernelSU",
+            "rev": "v3.2.4",
+            "sha256": "sha256-zzUjs+EsoZgzxaJexnPTd6PBCn1xTxFH1l1CZHX6MkE=",
+            "sparseCheckout": [],
+            "type": "github"
         },
-        "version": "v3.1.0"
+        "version": "v3.2.4"
     },
     "magisk": {
         "cargoLock": null,
