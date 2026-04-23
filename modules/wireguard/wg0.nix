@@ -302,13 +302,13 @@ in
     # dnsmasq
     (mkIf cfg.enableDnsmasq {
 
-      networking.nftables.tables.mark-dnsmasq = {
+      networking.nftables.tables.dnsmasq = {
         family = "inet";
-        name = "mark-dnsmasq";
+        name = "dnsmasq";
         content = ''
           ${concatStrings (
             map (h: ''
-              set dnsmasq-wg-${h}-service {
+              set ${h} {
                 type cgroupsv2
               }
             '') clientPeers
@@ -318,7 +318,7 @@ in
             fib daddr type local accept
             ${concatStrings (
               map (h: ''
-                socket cgroupv2 level 2 @dnsmasq-wg-${h}-service meta l4proto { tcp, udp } th dport 53 mark 0 mark set ${
+                socket cgroupv2 level 2 @${h} meta l4proto { tcp, udp } th dport 53 mark 0 mark set ${
                   toString cfg.clientPeers.${h}.table
                 }
               '') clientPeers
@@ -363,7 +363,7 @@ in
                 "AF_INET6"
                 "AF_NETLINK"
               ];
-              NFTSet = "cgroup:inet:mark-dnsmasq:dnsmasq-wg-${h}-service";
+              NFTSet = "cgroup:inet:dnsmasq:${h}";
             };
           };
         }) clientPeers
