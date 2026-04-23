@@ -57,6 +57,8 @@
     (pkgs.runCommand "firmware" { } ''
       install -dm755 $out/lib/firmware/i915/
       install -Dm644 ${pkgs.linux-firmware}/lib/firmware/i915/* $out/lib/firmware/i915/
+      install -dm755 $out/lib/firmware/rtl_bt/
+      install -Dm644 ${pkgs.linux-firmware}/lib/firmware/rtl_bt/rtl8761bu* $out/lib/firmware/rtl_bt/
     '')
   ];
 }
