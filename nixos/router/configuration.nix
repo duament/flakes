@@ -165,6 +165,7 @@ in
       "met"
       "xiaomi_miio"
       "roborock"
+      "bthome"
     ];
     customComponents = with pkgs.home-assistant-custom-components; [
       xiaomi_miot

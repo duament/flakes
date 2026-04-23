@@ -61,4 +61,6 @@
       install -Dm644 ${pkgs.linux-firmware}/lib/firmware/rtl_bt/rtl8761bu* $out/lib/firmware/rtl_bt/
     '')
   ];
+
+  hardware.bluetooth.enable = true;
 }
