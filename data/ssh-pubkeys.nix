@@ -4,6 +4,7 @@ rec {
   a4b = "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBN/ZYR5bXgmEYjhHWjtCZvocjMg0C921Gl61aib+IxlGIvtgGqJQUJsDu6xVsHQq7G7h0kBvUKJlaVNWitT2HCIAAAAEc3NoOg==";
   ybk = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHBxARed/4cfZg7KhBIyS4t8bip4bfo6U6mjOnyA1Ve9AAAABHNzaDo=";
   ip13 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFst9g9tUKFCQgvpn1FKS5fwszAr3z9J5E6vlCXC/pZb root@ip13";
+  ip16 = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBImURynKuV6AUB6n5e4r2GBRrtolOjonx4XE60mx8EK005BNNv9e7qJgoN4D1dAYyesPKUZA1e8pTkmHFS/H8DE=";
   pixel7 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGJk6qHNPPjJdDUiC7XC2YF6eUg0zu/0uqRlQjN2yIxK pixel7";
 
   owrt = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIISozBuc4XJVzmEu2yuX+O3rdA9jhIJY5qiUN/sTD+do";
@@ -37,6 +38,7 @@ rec {
     ybk
     canokey
     a4b
+    ip16
   ];
 
   authorizedKeys = [
@@ -45,6 +47,7 @@ rec {
     a4b
     ed25519
     ip13
+    ip16
     pixel7
   ];
 }
