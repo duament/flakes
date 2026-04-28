@@ -23,7 +23,7 @@ in
       };
 
       hashedPasswordFile = lib.mkOption {
-        type = lib.types.str;
+        type = lib.types.nullOr lib.types.str;
         default = "";
       };
     };
@@ -41,6 +41,10 @@ in
     };
 
     users.users.root.hashedPasswordFile = hashedPasswordFile;
+
+    users.users.root.openssh.authorizedKeys.keys = lib.optionals (
+      cfg.hashedPasswordFile == null
+    ) self.data.sshPub.authorizedKeys;
 
     users.groups.rvfg = {
       gid = 1000;
