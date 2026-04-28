@@ -1,0 +1,63 @@
+diff --git a/telegram/utils/request.py b/telegram/utils/request.py
+index 4b8de7b4..750417c3 100644
+--- a/telegram/utils/request.py
++++ b/telegram/utils/request.py
+@@ -33,29 +33,17 @@ from typing import Any, Union
+ import certifi
+ 
+ try:
+-    import telegram.vendor.ptb_urllib3.urllib3 as urllib3
+-    import telegram.vendor.ptb_urllib3.urllib3.contrib.appengine as appengine
+-    from telegram.vendor.ptb_urllib3.urllib3.connection import HTTPConnection
+-    from telegram.vendor.ptb_urllib3.urllib3.fields import RequestField
+-    from telegram.vendor.ptb_urllib3.urllib3.util.timeout import Timeout
+-except ImportError:  # pragma: no cover
+-    try:
+-        import urllib3  # type: ignore[no-redef]
+-        import urllib3.contrib.appengine as appengine  # type: ignore[no-redef]
+-        from urllib3.connection import HTTPConnection  # type: ignore[no-redef]
+-        from urllib3.fields import RequestField  # type: ignore[no-redef]
+-        from urllib3.util.timeout import Timeout  # type: ignore[no-redef]
+-
+-        warnings.warn(
+-            'python-telegram-bot is using upstream urllib3. This is allowed but not '
+-            'supported by python-telegram-bot maintainers.'
+-        )
+-    except ImportError:
+-        warnings.warn(
+-            "python-telegram-bot wasn't properly installed. Please refer to README.rst on "
+-            "how to properly install."
+-        )
+-        raise
++    import urllib3  # type: ignore[no-redef]
++    from urllib3.connection import HTTPConnection  # type: ignore[no-redef]
++    from urllib3.fields import RequestField  # type: ignore[no-redef]
++    from urllib3.util.timeout import Timeout  # type: ignore[no-redef]
++
++except ImportError:
++    warnings.warn(
++        "python-telegram-bot wasn't properly installed. Please refer to README.rst on "
++        "how to properly install."
++    )
++    raise
+ 
+ # pylint: disable=C0412
+ from telegram import InputFile, TelegramError
+@@ -164,16 +152,11 @@ class Request:
+ 
+         self._con_pool: Union[
+             urllib3.PoolManager,
+-            appengine.AppEngineManager,
+             'SOCKSProxyManager',  # noqa: F821
+             urllib3.ProxyManager,
+         ] = None  # type: ignore
+         if not proxy_url:
+-            if appengine.is_appengine_sandbox():
+-                # Use URLFetch service if running in App Engine
+-                self._con_pool = appengine.AppEngineManager()
+-            else:
+-                self._con_pool = urllib3.PoolManager(**kwargs)
++            self._con_pool = urllib3.PoolManager(**kwargs)
+         else:
+             kwargs.update(urllib3_proxy_kwargs)
+             if proxy_url.startswith('socks'):

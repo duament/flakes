@@ -1,0 +1,95 @@
+{
+    "bullet": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "bullet",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-36D6gYEK0anmiIFcoE8kr4f/XNvoA7QvpjSx9Q/J2Ic=",
+            "type": "url",
+            "url": "https://pypi.org/packages/source/b/bullet/bullet-2.2.0.tar.gz"
+        },
+        "version": "2.2.0"
+    },
+    "efb-telegram-master": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "efb-telegram-master",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "ehForwarderBot",
+            "repo": "efb-telegram-master",
+            "rev": "v2.3.0",
+            "sha256": "sha256-pFetq8xnGyjd+EDl7G4OqtufPq3jCTxFpYqXm8WtFv4=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v2.3.0"
+    },
+    "efb-wechat-slave": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "efb-wechat-slave",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "ehForwarderBot",
+            "repo": "efb-wechat-slave",
+            "rev": "v2.0.7",
+            "sha256": "sha256-kDFajSfzXjESND0g+kJ/k5YpdjPzBLKYnpIv/6+eb54=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v2.0.7"
+    },
+    "ehforwarderbot": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "ehforwarderbot",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "ehForwarderBot",
+            "repo": "ehForwarderBot",
+            "rev": "v2.1.1",
+            "sha256": "sha256-8axOxwb0NTjAFSFq84rZhYuNPZKakW3tUFDqy0i6jt0=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v2.1.1"
+    },
+    "itchat": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "itchat",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-O7/xs3Vbx8qx+A5Wjai/RyDrRDAUPVUCJc43qNnQpMs=",
+            "type": "url",
+            "url": "https://pypi.org/packages/source/i/itchat/itchat-1.3.10.tar.gz"
+        },
+        "version": "1.3.10"
+    }
+}

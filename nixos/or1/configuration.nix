@@ -1,0 +1,30 @@
+{ ... }:
+{
+  imports = [
+    #./ehforwarderbot
+  ];
+
+  presets.nogui.enable = true;
+  presets.metrics.enable = true;
+
+  #sops.defaultSopsFile = ./secrets.yaml;
+  #sops.secrets = {
+  #  "wireguard_key".owner = "systemd-network";
+  #};
+
+  presets.users.hashedPasswordFile = null;
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  networking.hostName = "or1";
+
+  presets.wireguard.wg0 = {
+    enable = false;
+    mtu = 1400;
+  };
+
+  home-manager.users.rvfg = import ./home.nix;
+
+  presets.nginx.enable = true;
+}

@@ -1,0 +1,19 @@
+[bullet]
+src.pypi = "bullet"
+fetch.pypi = "bullet"
+
+[itchat]
+src.pypi = "itchat"
+fetch.pypi = "itchat"
+
+[ehforwarderbot]
+src.github_tag = "ehForwarderBot/ehForwarderBot"
+fetch.github = "ehForwarderBot/ehForwarderBot"
+
+[efb-telegram-master]
+src.github_tag = "ehForwarderBot/efb-telegram-master"
+fetch.github = "ehForwarderBot/efb-telegram-master"
+
+[efb-wechat-slave]
+src.github_tag = "ehForwarderBot/efb-wechat-slave"
+fetch.github = "ehForwarderBot/efb-wechat-slave"
