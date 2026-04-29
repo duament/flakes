@@ -70,6 +70,7 @@ in
           })
           [
             "nl"
+            "or1"
             "or2"
             "or3"
             "az"
@@ -82,18 +83,6 @@ in
             "work"
             "router"
           ]
-      )
-      // builtins.listToAttrs (
-        map (host: {
-          name = host;
-          value = {
-            user = "duama";
-            hostname = "${host}.rvf6.com";
-            identityFile = sshIdentities;
-            identitiesOnly = true;
-            forwardAgent = true;
-          };
-        }) [ "or1" ]
       )
       // builtins.listToAttrs (
         map
