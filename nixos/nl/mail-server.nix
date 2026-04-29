@@ -77,7 +77,10 @@ in
       mail_location = "maildir:/var/mail";
       mail_uid = "vmail";
       mail_gid = "vmail";
-      protocols = [ "imap" "lmtp" ];
+      protocols = [
+        "imap"
+        "lmtp"
+      ];
 
       ssl = "required";
       ssl_min_protocol = "TLSv1.2";

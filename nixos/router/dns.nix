@@ -5,7 +5,12 @@
   ...
 }:
 let
-  inherit (lib) mkOption types concatStringsSep mapAttrsToList;
+  inherit (lib)
+    mkOption
+    types
+    concatStringsSep
+    mapAttrsToList
+    ;
 
   wg0Cfg = config.presets.wireguard.wg0;
   dnsPorts = [ 53 ] ++ mapAttrsToList (_: p: p.dnsPort) wg0Cfg.clientPeers;
