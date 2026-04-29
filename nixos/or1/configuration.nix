@@ -7,12 +7,10 @@
   presets.nogui.enable = true;
   presets.metrics.enable = true;
 
-  #sops.defaultSopsFile = ./secrets.yaml;
-  #sops.secrets = {
-  #  "wireguard_key".owner = "systemd-network";
-  #};
-
-  presets.users.hashedPasswordFile = null;
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets = {
+    "wireguard_key".owner = "systemd-network";
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -20,7 +18,7 @@
   networking.hostName = "or1";
 
   presets.wireguard.wg0 = {
-    enable = false;
+    enable = true;
     mtu = 1400;
   };
 
