@@ -1,7 +1,7 @@
 { ... }:
 {
   imports = [
-    #./ehforwarderbot
+    ./ehforwarderbot
   ];
 
   presets.nogui.enable = true;
