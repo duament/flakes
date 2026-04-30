@@ -16,7 +16,6 @@ let
     or3 = "age1t7fpg9m0n5cg5vz0fypltc6c7py548uhpyp8f37hmdnq2j73ky9s6cvhgr";
     ak = "age1rvdmtzg5j8298qvtpmq0rwwu6alev5qf3cg36w0j6jcjpyv4lgvqn5ukum";
     sg = "age10akztr0j5e67wfcsv9wtpnsrv2r8sy5us3rc42yt45dg9f54c9rqmzpv57";
-    tw = "age1xll4zqjpqww9yykjzhavavqypaq2wpvxpmr7ynpv8dhkcunyjs7s54rdcq";
     twak = "age1e0e7xzumxk5e2qvsx8mu9q5vyffvjjkv2f4tn0m2gwaj97jvepnq9nyqf7";
     nixctnr = "age192t8u22pq3yhwr7u8zrg38kdxvsxk7n7h4wykjgnsz6u2zx3effqdsmdhc";
   };

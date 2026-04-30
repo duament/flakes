@@ -42,7 +42,6 @@ in
         ak.mark = 3;
         or2.mark = 3;
         sg.mark = 3;
-        tw.mark = 3;
         twak = {
           mark = 3;
           mtu = 1400;
