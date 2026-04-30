@@ -21,6 +21,7 @@ in
   networking.firewall = {
     extraInputRules = ''
       iifname v1-lan tcp dport ${toString config.services.home-assistant.config.homekit.port} accept
+      iifname v1-lan udp dport 5353 accept
     '';
   };
 
@@ -41,12 +42,12 @@ in
         use_x_forwarded_for = true;
         trusted_proxies = [ "::1/128" ];
       };
-      xiaomi_miot = {
-        username = "!secret mi_username";
-        password = "!secret mi_password";
-      };
       homekit = {
         port = 21063;
+        advertise_ip = [
+          "10.8.0.1"
+          "fdd0::1"
+        ];
       };
     };
     extraComponents = [
