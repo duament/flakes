@@ -17,6 +17,7 @@ in
     ./mosquitto.nix
     ./owntracks.nix
     ./vpn.nix
+    ./home-assistant
   ];
 
   presets.nogui.enable = true;
@@ -51,10 +52,6 @@ in
     luci-nginx-add-auth.owner = config.services.nginx.user;
     sim-pin = { };
     tg-bot-token = { };
-    "home-assistant-secrets.yaml" = {
-      owner = "hass";
-      path = "/var/lib/hass/secrets.yaml";
-    };
     "tuic/uuid" = { };
     "tuic/password" = { };
     "tuic/tls_cert" = { };
@@ -136,47 +133,6 @@ in
     };
   };
 
-  services.home-assistant = {
-    enable = true;
-    config = {
-      default_config = { };
-      homeassistant = {
-        name = "Home";
-        latitude = "!secret latitude";
-        longitude = "!secret longitude";
-        elevation = "!secret elevation";
-        unit_system = "metric";
-        time_zone = config.time.timeZone;
-      };
-      http = {
-        server_host = "::1";
-        use_x_forwarded_for = true;
-        trusted_proxies = [ "::1/128" ];
-      };
-      xiaomi_miot = {
-        username = "!secret mi_username";
-        password = "!secret mi_password";
-      };
-    };
-    extraComponents = [
-      "default_config"
-      "esphome"
-      "ffmpeg"
-      "met"
-      "xiaomi_miio"
-      "roborock"
-      "bthome"
-    ];
-    customComponents = with pkgs.home-assistant-custom-components; [
-      xiaomi_miot
-    ];
-    extraPackages =
-      python3Packages: with python3Packages; [
-        hap-python
-        pyqrcode
-      ];
-  };
-
   security.acme = {
     acceptTerms = true;
     defaults.email = "le@rvf6.com";
@@ -240,10 +196,6 @@ in
             "/".proxyPass = "https://10.6.0.1";
           };
         };
-      "ha.rvf6.com".locations."/" = {
-        proxyPass = "http://[::1]:${toString config.services.home-assistant.config.http.server_port}";
-        proxyWebsockets = true;
-      };
       "adg.rvf6.com".locations."/".proxyPass =
         "http://${config.services.adguardhome.host}:${toString config.services.adguardhome.port}";
       "radicale.rvf6.com".locations."/".proxyPass = "http://[::1]:5232";

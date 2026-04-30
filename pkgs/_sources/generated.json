@@ -76,6 +76,27 @@
         },
         "version": "v1.0.1"
     },
+    "haier": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "haier",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "banto6",
+            "repo": "haier",
+            "rev": "v1.1.5",
+            "sha256": "sha256-AtvE07P+7s5z5v2HfK5fNu+MoOpkIl/pgzQeRA0cKkU=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v1.1.5"
+    },
     "kernelsu": {
         "cargoLock": {
             "Cargo.lock": [
@@ -121,6 +142,27 @@
             "url": "https://github.com/topjohnwu/Magisk/releases/download/v30.7/Magisk-v30.7.apk"
         },
         "version": "v30.7"
+    },
+    "midea_auto_cloud": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "midea_auto_cloud",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "sususweet",
+            "repo": "midea_auto_cloud",
+            "rev": "v0.3.3",
+            "sha256": "sha256-nIOUq7HD368VRUyJ5RpL3DJ6pa4XGYTTufreV/Cl954=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v0.3.3"
     },
     "owntracks-frontend": {
         "cargoLock": null,

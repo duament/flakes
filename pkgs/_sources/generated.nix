@@ -50,6 +50,17 @@
       sha256 = "sha256-DYqjF0axfJn0Mu7JJIhsB7xQ1uY2qLOIl4eZJsioOC8=";
     };
   };
+  haier = {
+    pname = "haier";
+    version = "v1.1.5";
+    src = fetchFromGitHub {
+      owner = "banto6";
+      repo = "haier";
+      rev = "v1.1.5";
+      fetchSubmodules = false;
+      sha256 = "sha256-AtvE07P+7s5z5v2HfK5fNu+MoOpkIl/pgzQeRA0cKkU=";
+    };
+  };
   kernelsu = {
     pname = "kernelsu";
     version = "v3.2.4";
@@ -77,6 +88,17 @@
     src = fetchTarball {
       url = "https://github.com/topjohnwu/Magisk/releases/download/v30.7/Magisk-v30.7.apk";
       sha256 = "sha256-Dnp7Ah4BbOTMIKMWU3w+Im+7EJhPSDN1jFLCKaZMzow=";
+    };
+  };
+  midea_auto_cloud = {
+    pname = "midea_auto_cloud";
+    version = "v0.3.3";
+    src = fetchFromGitHub {
+      owner = "sususweet";
+      repo = "midea_auto_cloud";
+      rev = "v0.3.3";
+      fetchSubmodules = false;
+      sha256 = "sha256-nIOUq7HD368VRUyJ5RpL3DJ6pa4XGYTTufreV/Cl954=";
     };
   };
   owntracks-frontend = {

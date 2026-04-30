@@ -175,6 +175,7 @@
       )
     // {
       inherit data;
+      sources = import ./pkgs/_sources/generated.nix;
 
       overlays.default = final: _prev: import ./pkgs final;
 

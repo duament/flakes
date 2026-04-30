@@ -45,3 +45,11 @@ fetch.tarball = "https://github.com/topjohnwu/Magisk/releases/download/$ver/Magi
 src.github_tag = "tiann/KernelSU"
 fetch.github = "tiann/KernelSU"
 cargo_lock = [ "Cargo.lock" ]
+
+[haier]
+src.github_tag = "banto6/haier"
+fetch.github = "banto6/haier"
+
+[midea_auto_cloud]
+src.github_tag = "sususweet/midea_auto_cloud"
+fetch.github = "sususweet/midea_auto_cloud"
