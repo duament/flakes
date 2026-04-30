@@ -40,10 +40,6 @@ in
       enableDnsmasq = true;
       clientPeers = {
         ak.mark = 3;
-        az = {
-          mark = 3;
-          mtu = 1360;
-        };
         or2.mark = 3;
         sg.mark = 3;
         tw.mark = 3;
@@ -57,19 +53,6 @@ in
         };
       };
     };
-
-    systemd.network.networks."25-wg-az".routingPolicyRules =
-      let
-        table = 100 + wg0.peers.az.id;
-      in
-      [
-        #{
-        #  FirewallMark = nonCNMark;
-        #  Table = table;
-        #  Priority = 16384;
-        #  Family = "ipv4";
-        #}
-      ];
 
     systemd.network.networks."25-warp".routingPolicyRules =
       let

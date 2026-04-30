@@ -62,11 +62,6 @@
       pubkey = "60W+Pr5CKSpiJ1tY8Dnz+D/vD+r0au3exf3NgZ5DMVM=";
       port = 11111;
     };
-    az = {
-      id = 24;
-      pubkey = "K8CvTzxt9fEatQzYkhdxuxKfNrCQ/XXVhI2vLlRnESE=";
-      port = 11111;
-    };
     ak = {
       id = 25;
       pubkey = "q4HlrIfkbw9oXa4Bn0mygaOTpsM3SiSIj3gBc+NWWgU=";
@@ -99,7 +94,6 @@
         "nl"
         "or2"
         "or3"
-        "az"
         "ak"
         "sg"
       ];
@@ -114,12 +108,6 @@
       ipv4Pre = "10.6.11.";
       ipv4Mask = 24;
       ipv6Pre = "fd66:b::";
-      ipv6Mask = 120;
-    };
-    az = {
-      ipv4Pre = "10.6.12.";
-      ipv4Mask = 24;
-      ipv6Pre = "fd66:c::";
       ipv6Mask = 120;
     };
     sg = {
@@ -139,7 +127,6 @@
         "or1"
         "or2"
         "or3"
-        "az"
         "ak"
         "sg"
         "tw"

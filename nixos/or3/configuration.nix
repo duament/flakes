@@ -107,7 +107,6 @@ in
             targets = [
               "t430.rvf6.com"
               "nl.rvf6.com"
-              "az.rvf6.com"
               "or2.rvf6.com"
               "or3.rvf6.com"
             ];

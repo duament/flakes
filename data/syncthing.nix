@@ -10,7 +10,6 @@ rec {
     nl = "IHKBJRX-3LF4I3I-56D3VWT-33PELUZ-7AG4E44-7Z477TH-WBD63DQ-HTOJSAM";
     or1 = "CWGVZVP-2PXRUWK-3Z4OFMZ-2DOTS62-ZQVE45B-BFJJFTS-NA3CIG6-2BQZWAF";
     or3 = "KDSHDWD-W3CFYDY-RG3LQGP-BLY6MKJ-3ONN3NK-CCAFXDG-6X7F4SQ-EJOB3AU";
-    az = "3M5RKEG-CA737AY-43AYUKG-6M63PHI-JB3DEB5-2WPJAZG-PB766LJ-4MLSTQS";
   };
 
   devices = builtins.mapAttrs (name: id: {
@@ -32,7 +31,6 @@ rec {
         "pixel7"
         "t430"
         "nl"
-        "az"
       ];
       versioning = {
         type = "staggered";

@@ -21,7 +21,6 @@ let
     xiaoxin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINb9UNoaFdvPTxo9jcoKUhRDh2Wow2KEEIGuUVzUNgbJ";
 
     nl = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO/rhyxwCs+7Q+zzDfXUOrgQLtlNiunlWMKeyJD6+Jfo";
-    az = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ6ZNv7XegBtcAX6EtfomHfix046Qp0kScuk92i1rbB1";
     or1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGhnuNC6/h7v0amQUrWQHk/TL1jyrUSFu6iJCUDWTo9W";
     or2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJQLQnscdJ8dgVxROJmaT63TVkRyUnyhGAs+yUTajBh3";
     or3 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOiFV9RY+V9Yc+qtF+Mt7xZIBcYewmgn6dGkORXW5VrE";
@@ -59,7 +58,6 @@ keys
     "work"
 
     "nl"
-    "az"
     "or1"
     "or2"
     "or3"
