@@ -144,32 +144,13 @@ with lib;
     };
     knownHosts =
       builtins.listToAttrs (
-        map
-          (host: {
-            name = host;
-            value = {
-              hostNames = [ "${host}.rvf6.com" ];
-              publicKey = self.data.sshPub."${host}";
-            };
-          })
-          [
-            "nl"
-            "az"
-            "or1"
-            "or2"
-            "or3"
-            "ak"
-            "sg"
-            "tw"
-            "twak"
-            "owrt"
-            "rpi3"
-            "t430"
-            "k2"
-            "k1"
-            "work"
-            "router"
-          ]
+        map (host: {
+          name = host;
+          value = {
+            hostNames = [ "${host}.rvf6.com" ];
+            publicKey = self.data.sshPub."${host}";
+          };
+        }) (self.data.sshPub.hosts ++ self.data.sshPub.rootHosts)
       )
       // {
         "github" = {
