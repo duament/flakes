@@ -118,10 +118,15 @@ in
                 id = "${name}@rvf6.com";
                 cacerts = cfg.cacerts;
               };
-              children.${name}.local_ts = [
-                "0.0.0.0/0"
-                "::/0"
-              ];
+              children.${name} = {
+                local_ts = [
+                  "0.0.0.0/0"
+                  "::/0"
+                ];
+                esp_proposals = [
+                  "aes256gcm16-prfsha384-curve25519-ke1_mlkem768"
+                ];
+              };
               version = 2;
               pools = [
                 "${name}_vip"
@@ -129,6 +134,9 @@ in
               ];
               if_id_in = "1";
               if_id_out = "1";
+              proposals = [
+                "aes256gcm16-prfsha384-curve25519-ke1_mlkem768"
+              ];
             };
           }) cfg.devices
         );
