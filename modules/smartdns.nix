@@ -79,6 +79,7 @@ in
   config = lib.mkIf cfg.enable {
 
     services.resolved.enable = false;
+    networking.resolvconf.enable = false;
 
     environment.etc."resolv.conf".text = ''
       nameserver ::1
