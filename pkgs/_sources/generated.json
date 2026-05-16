@@ -90,12 +90,12 @@
             "name": null,
             "owner": "banto6",
             "repo": "haier",
-            "rev": "v1.1.5",
-            "sha256": "sha256-AtvE07P+7s5z5v2HfK5fNu+MoOpkIl/pgzQeRA0cKkU=",
+            "rev": "v1.2.0",
+            "sha256": "sha256-92tla8+fvvym6cpz1ZQCjZZwx769diAN7GUzRM6DwGs=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v1.1.5"
+        "version": "v1.2.0"
     },
     "kernelsu": {
         "cargoLock": {
@@ -157,12 +157,12 @@
             "name": null,
             "owner": "sususweet",
             "repo": "midea_auto_cloud",
-            "rev": "v0.3.3",
-            "sha256": "sha256-nIOUq7HD368VRUyJ5RpL3DJ6pa4XGYTTufreV/Cl954=",
+            "rev": "v0.3.4-pre1",
+            "sha256": "sha256-7Lp7XpVTfNQczQLC10R2b0NWUIM2/g2yXCu2Rd9vdJg=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v0.3.3"
+        "version": "v0.3.4-pre1"
     },
     "owntracks-frontend": {
         "cargoLock": null,
@@ -229,11 +229,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-Hw1a6+XLLYu6jNp9tNPkhy+bdNn4rxhcbzvntfy+J3M=",
+            "sha256": "sha256-wk1e2AVZyIIZOAGQEU+a1xrWf51hpY79XnhoKnKqueA=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v12.1.18/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v12.2.10/uu.tar.gz"
         },
-        "version": "12.1.18"
+        "version": "12.2.10"
     },
     "uuplugin-x86_64": {
         "cargoLock": null,
@@ -244,10 +244,10 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-/iZHULvXorRLX/S8GJnMhtdm0qx1rOOinpVbjKYwE2E=",
+            "sha256": "sha256-XrmzK+ap5oD7eYoocipdxZiYvbfMEe1jXDHQ5DHp8x4=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v12.1.18/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v12.2.10/uu.tar.gz"
         },
-        "version": "12.1.18"
+        "version": "12.2.10"
     }
 }
