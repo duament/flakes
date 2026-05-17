@@ -230,13 +230,9 @@ in
       domain = "*.rvf6.com";
       extraDomainNames = [ "rvf6.com" ];
       dnsProvider = "cloudflare";
-      credentialsFile = "/dev/null";
       group = "nginx";
+      credentialFiles.CF_DNS_API_TOKEN_FILE = config.sops.secrets.cloudflare.path;
     };
-  };
-  systemd.services."acme-rvf6.com" = {
-    environment.CF_DNS_API_TOKEN_FILE = "%d/cloudflare";
-    serviceConfig.LoadCredential = [ "cloudflare:${config.sops.secrets.cloudflare.path}" ];
   };
 
   presets.vouch = {
