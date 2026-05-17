@@ -108,7 +108,12 @@
                 args=("-k" "$TOKEN_FILE_PATH")
               fi
               cd pkgs
-              exec ${pkgs.nvfetcher}/bin/nvfetcher "''${args[@]}"
+              ${pkgs.nvfetcher}/bin/nvfetcher "''${args[@]}"
+
+              for filename in *; do
+                extra_script="$filename"/update.py
+                [[ -f "$extra_script" ]] && "$extra_script"
+              done
             '';
           };
 
