@@ -65,7 +65,7 @@ jobs:
           mkdir -p ~/.ssh
           printenv SSH_KEY > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          nix-shell -p openssh --run nix run .#ci-deploy
+          nix-shell -p openssh --run 'nix run .#ci-deploy'
       - name: Check failure
         run: |
           if [ "${{steps.build.outcome}}" != "success" ]; then
