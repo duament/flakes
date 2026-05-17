@@ -27,6 +27,7 @@ let
     ak = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOH+CAQO3TLPppb3GXE8/2+33kn0ejC1Osx1MMsJvQdd";
     sg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGrYMbv6EzBWxkluuydLdIaIpLYBjNWtfX0z9shyQRkR";
     twak = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJwrx9wGDB/AoJyG3s6tX583Da3OO2KmbZJVCbLKdO2i";
+    jp = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDkimtHteI020dAw9nMYlUzAAubx7AdsQER7HZGpzDC9";
 
     github = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
 
@@ -63,6 +64,7 @@ keys
     "ak"
     "sg"
     "twak"
+    "jp"
   ];
 
   rootHosts = [

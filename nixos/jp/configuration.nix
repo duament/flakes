@@ -2,10 +2,10 @@
 {
   presets.nogui.enable = true;
 
-  #sops.defaultSopsFile = ./secrets.yaml;
-  #sops.secrets = {
-  #  "wireguard_key".owner = "systemd-network";
-  #};
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets = {
+    "wireguard_key".owner = "systemd-network";
+  };
 
   presets.users.hashedPasswordFile = null;
 
@@ -37,7 +37,7 @@
   };
 
   presets.wireguard.wg0 = {
-    enable = false;
+    enable = true;
     mtu = 1400;
   };
 
