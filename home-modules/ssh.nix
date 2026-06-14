@@ -44,22 +44,22 @@ in
       enable = true;
       includes = [ "config.d/*" ];
       enableDefaultConfig = false;
-      matchBlocks = {
+      settings = {
         "*" = {
-          serverAliveInterval = 10;
-          compression = true;
-          checkHostIP = false;
+          ServerAliveInterval = 10;
+          Compression = true;
+          CheckHostIP = false;
         };
       }
       // builtins.listToAttrs (
         map (host: {
           name = host;
           value = {
-            user = "rvfg";
-            hostname = "${host}.rvf6.com";
-            identityFile = sshIdentities;
-            identitiesOnly = true;
-            forwardAgent = true;
+            User = "rvfg";
+            Hostname = "${host}.rvf6.com";
+            IdentityFile = sshIdentities;
+            IdentitiesOnly = true;
+            ForwardAgent = true;
           };
         }) sshPub.hosts
       )
@@ -67,10 +67,10 @@ in
         map (host: {
           name = host;
           value = {
-            user = "root";
-            hostname = "${host}.rvf6.com";
-            identitiesOnly = true;
-            identityFile = sshIdentities;
+            User = "root";
+            Hostname = "${host}.rvf6.com";
+            IdentitiesOnly = true;
+            IdentityFile = sshIdentities;
           };
         }) sshPub.rootHosts
       )
@@ -78,27 +78,27 @@ in
         map (host: {
           name = "${host}-init";
           value = {
-            user = "root";
-            hostname = "${host}.rvf6.com";
-            identityFile = sshIdentities;
-            identitiesOnly = true;
-            extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_${host}_init";
+            User = "root";
+            Hostname = "${host}.rvf6.com";
+            IdentityFile = sshIdentities;
+            IdentitiesOnly = true;
+            UserKnownHostsFile = "~/.ssh/known_hosts_${host}_init";
           };
         }) [ "rpi3" ]
       )
       // {
         "t430-init" = {
-          user = "root";
-          hostname = "10.6.0.8";
-          identityFile = sshIdentities;
-          identitiesOnly = true;
-          extraOptions.UserKnownHostsFile = "~/.ssh/known_hosts_t430_init";
+          User = "root";
+          Hostname = "10.6.0.8";
+          IdentityFile = sshIdentities;
+          IdentitiesOnly = true;
+          UserKnownHostsFile = "~/.ssh/known_hosts_t430_init";
         };
       }
       // {
         "github.com" = {
-          identityFile = sshIdentities;
-          identitiesOnly = true;
+          IdentityFile = sshIdentities;
+          IdentitiesOnly = true;
         };
       };
     };
