@@ -6,7 +6,7 @@
 }:
 let
   sources = pkgs.callPackage self.sources { };
-  inherit (config.services.home-assistant.package.python.pkgs) callPackage;
+  inherit (config.services.home-assistant.package.python3Packages) callPackage;
 
   haier = callPackage ./haier.nix { source = sources.haier; };
   midea_auto_cloud = callPackage ./midea_auto_cloud.nix { source = sources.midea_auto_cloud; };
