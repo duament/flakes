@@ -17,6 +17,7 @@ with lib;
   config = mkIf config.presets.browser.enable {
     programs.firefox = {
       enable = true;
+      configPath = ".mozilla/firefox"; # TODO migrate to XDG path
       package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
         extraPolicies = {
           ExtensionSettings = {
