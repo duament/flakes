@@ -160,6 +160,7 @@
                 hosts = [
                   "sg"
                   "nl"
+                  "or1"
                   "or2"
                 ];
                 known_hosts = pkgs.writeText "ssh_known_hosts" (
