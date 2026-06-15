@@ -88,9 +88,9 @@ in
         #}
       ];
 
-    systemd.network.networks."25-wg-twak".routingPolicyRules =
+    systemd.network.networks."25-wg-jp".routingPolicyRules =
       let
-        table = 100 + wg0.peers.twak.id;
+        table = 100 + wg0.peers.jp.id;
       in
       [
         {
