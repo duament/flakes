@@ -40,6 +40,8 @@ in
       };
     };
 
+    services.userborn.enable = true;
+
     users.users.root.hashedPasswordFile = hashedPasswordFile;
 
     users.users.root.openssh.authorizedKeys.keys = lib.optionals (
