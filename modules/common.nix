@@ -65,6 +65,7 @@ with lib;
   };
 
   system.etc.overlay.enable = mkDefault true;
+  system.nixos-init.enable = mkDefault true;
 
   networking = {
     useNetworkd = true;

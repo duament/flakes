@@ -152,6 +152,7 @@ in
           services.openssh.enable = false;
           boot.initrd.systemd.enable = false;
           system.etc.overlay.enable = false;
+          system.nixos-init.enable = false;
           networking = {
             hostName = "uu";
             useHostResolvConf = false;
