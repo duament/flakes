@@ -151,7 +151,7 @@ in
       strongswan
     ];
 
-    environment.persistence."/persist".users.rvfg = {
+    preservation.preserveAt."/persist".users.rvfg = {
       directories = [
         ".config"
         ".gnupg"

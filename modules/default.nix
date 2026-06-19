@@ -2,7 +2,7 @@
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    inputs.impermanence.nixosModules.impermanence
+    inputs.preservation.nixosModules.preservation
     inputs.sops-nix.nixosModules.sops
     # keep-sorted start
     ./adguardhome.nix
@@ -16,12 +16,12 @@
     ./gammu-smsd.nix
     ./git.nix
     ./github-token.nix
-    ./impermanence.nix
     ./metrics.nix
     ./nftables
     ./nginx.nix
     ./nogui.nix
     ./postgresql.nix
+    ./preservation.nix
     ./refind
     ./restic.nix
     ./router.nix

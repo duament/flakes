@@ -69,7 +69,7 @@ in
 
   home-manager.users.rvfg = import ./home.nix;
 
-  environment.persistence."/persist".users.rvfg = {
+  preservation.preserveAt."/persist".users.rvfg = {
     directories = [
       "git"
     ];
