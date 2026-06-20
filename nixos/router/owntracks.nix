@@ -29,6 +29,8 @@ in
         "cert:${config.sops.secrets."owntracks/cert".path}"
         "key:${config.sops.secrets."owntracks/key".path}"
       ];
+      Restart = "on-failure";
+      RestartSec = "4s";
     };
   };
 
