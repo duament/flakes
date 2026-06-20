@@ -61,6 +61,7 @@ in
     shadowsocks = { };
     radicale = { };
   };
+  systemd.services.sops-install-secrets.before = [ "sysinit.target" ];
 
   boot.loader.generationsDir.copyKernels = true;
   boot.loader.systemd-boot.enable = true;
