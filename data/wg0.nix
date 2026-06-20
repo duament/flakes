@@ -82,6 +82,11 @@
       pubkey = "621tcAcrFTv1OJjixoS0XUVZiv8nDhmAfBvuFN4FvCg=";
       port = 11111;
     };
+    jp2 = {
+      id = 30;
+      pubkey = "KcvtvK2P581r9Nykm5CmNSVUlfGKKzmTvT/xeYKeHk0=";
+      port = 11111;
+    };
   };
   networks = {
     t430 = {
@@ -131,6 +136,7 @@
         "sg"
         "twak"
         "jp"
+        "jp2"
       ];
     };
     twak = {
@@ -149,6 +155,12 @@
       ipv4Pre = "10.6.18.";
       ipv4Mask = 24;
       ipv6Pre = "fd66:12::";
+      ipv6Mask = 120;
+    };
+    jp2 = {
+      ipv4Pre = "10.6.19.";
+      ipv4Mask = 24;
+      ipv6Pre = "fd66:13::";
       ipv6Mask = 120;
     };
   };

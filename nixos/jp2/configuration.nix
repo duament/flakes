@@ -2,12 +2,10 @@
 {
   presets.nogui.enable = true;
 
-  #sops.defaultSopsFile = ./secrets.yaml;
-  #sops.secrets = {
-  #  "wireguard_key".owner = "systemd-network";
-  #};
-
-  presets.users.hashedPasswordFile = null;
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets = {
+    "wireguard_key".owner = "systemd-network";
+  };
 
   boot.loader.grub.enable = true;
 
@@ -36,10 +34,10 @@
     ];
   };
 
-  #presets.wireguard.wg0 = {
-  #  enable = true;
-  #  mtu = 1400;
-  #};
+  presets.wireguard.wg0 = {
+    enable = true;
+    mtu = 1400;
+  };
 
   home-manager.users.rvfg = import ./home.nix;
 
