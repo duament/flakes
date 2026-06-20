@@ -92,9 +92,9 @@ in
         #}
       ];
 
-    systemd.network.networks."25-wg-jp".routingPolicyRules =
+    systemd.network.networks."25-wg-jp2".routingPolicyRules =
       let
-        table = 100 + wg0.peers.jp.id;
+        table = 100 + wg0.peers.jp2.id;
       in
       [
         {
