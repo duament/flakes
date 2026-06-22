@@ -164,6 +164,11 @@ in
       strongswan.extraConfig = ''
         charon {
           install_routes = no
+          plugins {
+            socket-default {
+              fwmark = 1
+            }
+          }
         }
       '';
     };

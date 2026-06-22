@@ -17,6 +17,7 @@ in
     ./mosquitto.nix
     ./owntracks.nix
     ./proxy.nix
+    ./swanctl-client.nix
     ./vpn.nix
     ./wan.nix
     ./wireguard-dns.nix
