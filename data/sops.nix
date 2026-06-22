@@ -19,6 +19,7 @@ let
     twak = "age1e0e7xzumxk5e2qvsx8mu9q5vyffvjjkv2f4tn0m2gwaj97jvepnq9nyqf7";
     jp = "age1lexn0h78hhnx6eja2azmv4s8wg99sn20f5jpkq226y9x7eelpuwsqwejdg";
     jp2 = "age1qrawe8zl008qcjjfs9krvrvqww6wzf2wxkumh0h5zr9v5fxr94vsxnkdkv";
+    de = "age1d5htvjp2txa6yvn0p2hg2jj0ed5zjaf73fvmpmlhy7k0helpugcqgk20nz";
     nixctnr = "age192t8u22pq3yhwr7u8zrg38kdxvsxk7n7h4wykjgnsz6u2zx3effqdsmdhc";
   };
 

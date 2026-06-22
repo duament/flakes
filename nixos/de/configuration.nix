@@ -7,8 +7,6 @@
   #  "wireguard_key".owner = "systemd-network";
   #};
 
-  presets.users.hashedPasswordFile = null;
-
   boot.loader.grub.enable = true;
 
   networking.hostName = "de";
