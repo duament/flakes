@@ -10,6 +10,7 @@ in
 {
   imports = [
     # keep-sorted start
+    ./cn-slice.nix
     ./dns.nix
     ./home-assistant
     ./lan.nix

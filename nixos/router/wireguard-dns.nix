@@ -25,7 +25,6 @@ in
 
     networking.nftables.tables.dnsmasq = {
       family = "inet";
-      name = "dnsmasq";
       content = ''
         ${concatStrings (
           map (h: ''
