@@ -9,11 +9,7 @@ let
     mkOption
     types
     concatStringsSep
-    mapAttrsToList
     ;
-
-  wg0Cfg = config.presets.wireguard.wg0;
-  dnsPorts = [ 53 ] ++ mapAttrsToList (_: p: p.dnsPort) wg0Cfg.clientPeers;
 
   # TODO reload
   updateDnsScript =
@@ -36,7 +32,14 @@ in
     default = [ ];
   };
 
+  options.router.dnsPorts = mkOption {
+    type = types.listOf types.port;
+    default = [ ];
+  };
+
   config = {
+
+    router.dnsPorts = [ 53 ];
 
     networking.nftables.tables."nixos-fw".content = ''
       set dns_enabled_ifs {
@@ -47,7 +50,7 @@ in
     '';
     networking.firewall = {
       extraInputRules = ''
-        iifname @dns_enabled_ifs meta l4proto { tcp, udp } th dport { ${concatStringsSep ", " (map toString dnsPorts)} } accept
+        iifname @dns_enabled_ifs meta l4proto { tcp, udp } th dport { ${concatStringsSep ", " (map toString config.router.dnsPorts)} } accept
       '';
     };
 

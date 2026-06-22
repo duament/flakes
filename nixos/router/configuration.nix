@@ -9,15 +9,18 @@ let
 in
 {
   imports = [
-    ./lan.nix
-    ./wan.nix
+    # keep-sorted start
     ./dns.nix
-    ./proxy.nix
-    ./wireguard.nix
+    ./home-assistant
+    ./lan.nix
     ./mosquitto.nix
     ./owntracks.nix
+    ./proxy.nix
     ./vpn.nix
-    ./home-assistant
+    ./wan.nix
+    ./wireguard-dns.nix
+    ./wireguard.nix
+    # keep-sorted end
   ];
 
   presets.nogui.enable = true;
