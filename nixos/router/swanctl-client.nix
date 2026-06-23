@@ -5,7 +5,12 @@
   ...
 }:
 let
-  inherit (lib) imap0 mkMerge attrNames;
+  inherit (lib)
+    imap0
+    mkMerge
+    attrNames
+    concatStringsSep
+    ;
 
   addresses = {
     de = [
@@ -27,7 +32,16 @@ in
 {
 
   config = mkMerge (
-    imap0 (
+    [
+      {
+        networking.firewall.extraForwardRules = ''
+          iifname @wan_enabled_ifs oifname { ${
+            concatStringsSep ", " (map (x: ''"${interface x}"'') hosts)
+          } } accept
+        '';
+      }
+    ]
+    ++ (imap0 (
       i: host:
       let
         interfaceId = i + 16;
@@ -85,7 +99,7 @@ in
         };
 
       }
-    ) hosts
+    ) hosts)
   );
 
 }
