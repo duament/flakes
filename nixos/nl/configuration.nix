@@ -9,11 +9,22 @@ let
   ssPort = 13926;
 in
 {
+
+  imports = [
+    # keep-sorted start
+    ./swanctl.nix
+    # keep-sorted end
+  ];
+
   presets.nogui.enable = true;
   presets.metrics.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
+    "pki/ca".mode = "0444";
+    "pki/ybk".mode = "0444";
+    "pki/nl-bundle" = { };
+    "pki/nl-pkcs8-key" = { };
     "syncthing/cert".owner = config.services.syncthing.user;
     "syncthing/key".owner = config.services.syncthing.user;
     "wireguard_key".owner = "systemd-network";
@@ -170,4 +181,5 @@ in
     commonHttpConfig = "dav_ext_lock_zone zone=default:10m;";
   };
   systemd.services.nginx.serviceConfig.SupplementaryGroups = [ config.services.transmission.group ];
+
 }
