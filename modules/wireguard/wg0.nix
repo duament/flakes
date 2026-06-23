@@ -243,6 +243,7 @@ in
             # Add route to 10.8.0.0/16
             routes = optional (h == "router" && elem host wg0.networks.router.outPeers) {
               Destination = "10.8.0.0/16";
+              Metric = 4096;
             };
             routingPolicyRules = optional (cfg.clientPeers ? ${h}) {
               Family = "both";
