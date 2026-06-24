@@ -10,6 +10,10 @@ let
     "aes256gcm16-prfsha384-curve25519-ke1_mlkem768"
   ];
   pkcs8 = config.sops.secrets."pki/de-pkcs8-key".path;
+
+  ipv4 = "10.5.0.1";
+  ipv6 = "fdc0::1";
+  proxyPort = 8000;
 in
 {
 
@@ -19,6 +23,7 @@ in
       500 # IPsec
       4500 # IPsec
     ];
+    interfaces.${interface}.allowedTCPPorts = [ proxyPort ];
     extraInputRules = ''
       ip protocol { ah, esp } accept
       ip6 nexthdr { ah, esp } accept
@@ -48,8 +53,8 @@ in
   systemd.network.networks."25-${interface}" = {
     name = interface;
     address = [
-      "10.5.0.1/30"
-      "fdc0::1/126"
+      "${ipv4}/30"
+      "${ipv6}/126"
     ];
     routes = [
       { Destination = "10.8.0.0/16"; }
@@ -105,5 +110,36 @@ in
   systemd.services.strongswan-swanctl.serviceConfig.ExecStartPre = [
     "+${pkgs.coreutils}/bin/ln -nsf ${pkcs8} /etc/swanctl/private/private.key"
   ];
+
+  presets.sing-box = {
+    enable = true;
+    settings = {
+      dns.servers = [
+        {
+          type = "local";
+          tag = "local";
+        }
+      ];
+      inbounds = [
+        {
+          type = "http";
+          listen = ipv4;
+          listen_port = proxyPort;
+        }
+        {
+          type = "http";
+          listen = ipv6;
+          listen_port = proxyPort;
+        }
+      ];
+      outbounds = [
+        {
+          type = "direct";
+          tag = "direct";
+        }
+      ];
+      route.default_domain_resolver = "local";
+    };
+  };
 
 }
