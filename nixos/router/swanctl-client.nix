@@ -6,24 +6,40 @@
 }:
 let
   inherit (lib)
+    elemAt
     imap0
     mkMerge
-    attrNames
     concatStringsSep
     ;
 
-  addresses = {
-    de = [
-      "10.5.0.2/30"
-      "fdc0::2/126"
-    ];
-    nl = [
-      "10.5.0.18/30"
-      "fdc0::12/126"
-    ];
-  };
+  cfg = [
+    rec {
+      host = "de";
+      remote = self.data.dns.${host}.ipv6;
+      address = [
+        "10.5.0.2/30"
+        "fdc0::2/126"
+      ];
+    }
+    rec {
+      host = "nl";
+      remote = self.data.dns.${host}.ipv6;
+      address = [
+        "10.5.0.18/30"
+        "fdc0::12/126"
+      ];
+    }
+    rec {
+      host = "de2";
+      remote = self.data.dns.${host}.ipv4;
+      address = [
+        "10.5.0.34/30"
+        "fdc0::22/126"
+      ];
+    }
+  ];
 
-  hosts = attrNames addresses;
+  hosts = map (x: x.host) cfg;
   interface = host: "xfrm-${host}";
   proposals = [
     "aes256gcm16-prfsha384-curve25519-ke1_mlkem768"
@@ -45,6 +61,7 @@ in
       i: host:
       let
         interfaceId = i + 16;
+        hostCfg = elemAt cfg i;
       in
       {
 
@@ -61,7 +78,7 @@ in
 
         systemd.network.networks."25-${interface host}" = {
           name = interface host;
-          address = addresses.${host};
+          address = hostCfg.address;
         };
 
         services.strongswan-swanctl = {
@@ -69,7 +86,7 @@ in
           swanctl = {
             connections.${host} = {
               inherit proposals;
-              remote_addrs = [ self.data.dns.${host}.ipv6 ];
+              remote_addrs = [ hostCfg.remote ];
               local = config.presets.swanctl.local;
               remote.${host} = {
                 auth = "pubkey";

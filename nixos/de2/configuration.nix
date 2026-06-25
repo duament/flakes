@@ -3,19 +3,19 @@
 
   imports = [
     # keep-sorted start
-    #./swanctl.nix
+    ./swanctl.nix
     # keep-sorted end
   ];
 
   presets.nogui.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
-  #sops.secrets = {
-  #  "pki/ca".mode = "0444";
-  #  "pki/ybk".mode = "0444";
-  #  "pki/de-bundle" = { };
-  #  "pki/de-pkcs8-key" = { };
-  #};
+  sops.secrets = {
+    "pki/ca".mode = "0444";
+    "pki/ybk".mode = "0444";
+    "pki/de2-bundle" = { };
+    "pki/de2-pkcs8-key" = { };
+  };
 
   boot.loader.grub.enable = true;
 
