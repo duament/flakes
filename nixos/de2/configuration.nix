@@ -7,11 +7,9 @@
     # keep-sorted end
   ];
 
-  presets.users.hashedPasswordFile = null;
-
   presets.nogui.enable = true;
 
-  #sops.defaultSopsFile = ./secrets.yaml;
+  sops.defaultSopsFile = ./secrets.yaml;
   #sops.secrets = {
   #  "pki/ca".mode = "0444";
   #  "pki/ybk".mode = "0444";
