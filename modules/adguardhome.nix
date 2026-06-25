@@ -79,6 +79,7 @@ in
           upstream_dns_file = "/var/lib/AdGuardHome/upstream";
         };
         dhcp.enabled = false;
+        user_rules = [ "@@amdc.m.taobao.com" ];
       };
     };
 
