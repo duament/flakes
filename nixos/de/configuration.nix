@@ -19,6 +19,11 @@
 
   boot.loader.grub.enable = true;
 
+  boot.kernel.sysctl = {
+    "net.core.wmem_max" = 33554432;
+    "net.ipv4.tcp_wmem" = "4096 65536 33554432";
+  };
+
   networking.hostName = "de";
 
   home-manager.users.rvfg = import ./home.nix;

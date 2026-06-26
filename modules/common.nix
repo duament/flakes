@@ -59,12 +59,12 @@ with lib;
     kernel.sysctl = {
       "net.core.default_qdisc" = "fq";
       "net.ipv4.tcp_congestion_control" = "bbr";
-      "net.core.rmem_max" = 16777216;
-      "net.core.wmem_max" = 16777216;
-      "net.core.rmem_default" = 262144;
-      "net.core.wmem_default" = 262144;
-      "net.ipv4.tcp_rmem" = "4096 262144 16777216";
-      "net.ipv4.tcp_wmem" = "4096 65536 16777216";
+      "net.core.rmem_max" = mkDefault 16777216;
+      "net.core.wmem_max" = mkDefault 16777216;
+      "net.core.rmem_default" = mkDefault 262144;
+      "net.core.wmem_default" = mkDefault 262144;
+      "net.ipv4.tcp_rmem" = mkDefault "4096 262144 16777216";
+      "net.ipv4.tcp_wmem" = mkDefault "4096 65536 16777216";
     };
     initrd.systemd.enable = mkDefault true;
     tmp.useTmpfs = mkDefault true;
