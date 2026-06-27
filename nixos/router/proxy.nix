@@ -7,7 +7,7 @@
   ...
 }:
 let
-  inherit (lib) mkForce;
+  inherit (lib) mkForce concatStringsSep;
 
   fakeIPv4 = "198.18.0.0/15";
   fakeIPv6 = "fc80:ffff::/64";
@@ -18,6 +18,18 @@ let
   httpCNPort = 8001;
   tuicPort = 11113;
   ssPort = 11114;
+
+  downloadDomains = [
+    # NixOS
+    "cache.nixos.org"
+    "releases.nixos.org"
+    # Apple
+    "appldnld.apple.com"
+    "gg.apple.com"
+    "gs.apple.com"
+    "updates-http.cdn-apple.com"
+    "updates.cdn-apple.com"
+  ];
 in
 {
 
@@ -75,6 +87,10 @@ in
       }
     ];
   };
+
+  presets.adguardhome.extraUpstream = ''
+    [/${concatStringsSep "/" downloadDomains}/][::1]:2053
+  '';
 
   systemd.services.sing-box.serviceConfig.LoadCredential = [
     "uuid:${config.sops.secrets."tuic/uuid".path}"
@@ -244,17 +260,7 @@ in
           outbound = "cn";
         }
         {
-          domain = [
-            # NixOS
-            "cache.nixos.org"
-            "releases.nixos.org"
-            # Apple
-            "appldnld.apple.com"
-            "gg.apple.com"
-            "gs.apple.com"
-            "updates-http.cdn-apple.com"
-            "updates.cdn-apple.com"
-          ];
+          domain = downloadDomains;
           outbound = "download";
         }
         {

@@ -18,8 +18,14 @@ let
   adguardhomeUpstream = pkgs.runCommand "adguardhome-upstream-dns" { } ''
     cp -r ${inputs.dnsmasq-china-list}/* .
     make SERVER="${concatStringsSep " " cfg.chinaDns}" adguardhome
+
     cat accelerated-domains.china.adguardhome.conf >> $out
     echo >> $out
+
+    cat <<EOF >> $out
+    ${cfg.extraUpstream}
+    EOF
+
     cat <<EOF >> $out
     ${concatStringsSep "\n" cfg.upstream}
     EOF
@@ -53,6 +59,11 @@ in
     bootstrap_dns = mkOption {
       type = with types; listOf str;
       default = cfg.chinaDns;
+    };
+
+    extraUpstream = mkOption {
+      type = types.lines;
+      default = "";
     };
 
   };
