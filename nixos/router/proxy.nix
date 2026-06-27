@@ -46,7 +46,8 @@ in
           {
             type = "udp";
             tag = "cn";
-            server = "223.5.5.5";
+            server = "::1";
+            server_port = 5300;
           }
         ];
       };
