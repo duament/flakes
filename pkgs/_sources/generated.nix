@@ -63,22 +63,23 @@
   };
   kernelsu = {
     pname = "kernelsu";
-    version = "v3.2.4";
+    version = "v3.2.5";
     src = fetchFromGitHub {
       owner = "tiann";
       repo = "KernelSU";
-      rev = "v3.2.4";
+      rev = "v3.2.5";
       fetchSubmodules = false;
-      sha256 = "sha256-zzUjs+EsoZgzxaJexnPTd6PBCn1xTxFH1l1CZHX6MkE=";
+      sha256 = "sha256-70I/UvKGcsR42yJfyD1jFeuY4XcDbCidUVPdqbNfIdE=";
     };
     cargoLock."Cargo.lock" = {
-      lockFile = ./. + "/sha256-zzUjs+EsoZgzxaJexnPTd6PBCn1xTxFH1l1CZHX6MkE=/Cargo.lock";
+      lockFile = ./. + "/sha256-70I_UvKGcsR42yJfyD1jFeuY4XcDbCidUVPdqbNfIdE=/Cargo.lock";
       outputHashes = {
         "kernlog-0.3.1" = "sha256-+jZvmmO4n3G2WWEfeMZpIPXbitM6svec8Q/4wtP8hhc=";
         "rustix-0.38.34" = "sha256-XzuiOKEvVee6nN8EltOgWrC4sUGhLKkm7pdPqDKuDWY=";
+        "android-bootimg-0.1.0" = "sha256-b+W1/jpzccYP6QgsscjCm55bJXQjOTBR3BUB9u7j1wk=";
+        "prop-rs-0.2.0" = "sha256-O3bSwrR2zmZGwOVxkZm/a9ETTi9MBjsGj1OJXAOtM9I=";
         "adb_client-3.1.1" = "sha256-+sfv/bvX6gIISV0vR88gCUpRrWL7OiShIxp0EEmE1T4=";
         "java-properties-2.0.0" = "sha256-fvekRqJI3Xwzo9z0Li36NFMIYnP5FMP8D9uVcK32soc=";
-        "prop-rs-0.1.0" = "sha256-MuNVHIe2xC2E3e9LLURn5WQ98+5VHCfMx58cx07mOF4=";
       };
     };
   };
@@ -92,13 +93,13 @@
   };
   midea_auto_cloud = {
     pname = "midea_auto_cloud";
-    version = "v0.4.1";
+    version = "v0.4.5";
     src = fetchFromGitHub {
       owner = "sususweet";
       repo = "midea_auto_cloud";
-      rev = "v0.4.1";
+      rev = "v0.4.5";
       fetchSubmodules = false;
-      sha256 = "sha256-vr+KM9n3boVrr0Ft/iJ9k+xULYYxNHAOIGGpdSiee9I=";
+      sha256 = "sha256-CGZmn/MhFIeq7c2JlyHOzjjYKv5KxVtqXM441NejttY=";
     };
   };
   owntracks-frontend = {
@@ -135,18 +136,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "12.2.10";
+    version = "14.0.6";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v12.2.10/uu.tar.gz";
-      sha256 = "sha256-wk1e2AVZyIIZOAGQEU+a1xrWf51hpY79XnhoKnKqueA=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v14.0.6/uu.tar.gz";
+      sha256 = "sha256-T+b8rVJcUlrVMK9p8QLZDBGJMw5OPDGDtXfd3idzHio=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "12.2.10";
+    version = "14.0.6";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v12.2.10/uu.tar.gz";
-      sha256 = "sha256-XrmzK+ap5oD7eYoocipdxZiYvbfMEe1jXDHQ5DHp8x4=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v14.0.6/uu.tar.gz";
+      sha256 = "sha256-G+zV74HSV7IgAvIIzTA7BOQhx9pCMVI7fYLaLHGTtX8=";
     };
   };
 }
