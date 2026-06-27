@@ -9,6 +9,11 @@
 let
   inherit (lib) mkForce;
 
+  fakeIPv4 = "198.18.0.0/15";
+  fakeIPv6 = "fc80:ffff::/64";
+
+  tproxyMark = 256;
+  tproxyPort = 2080;
   httpPort = 8000;
   httpCNPort = 8001;
   tuicPort = 11113;
@@ -22,8 +27,53 @@ in
       ssPort
     ];
     extraInputRules = ''
-      iifname @wan_enabled_ifs tcp dport { ${toString httpPort}, ${toString httpCNPort} } accept
+      iifname @wan_enabled_ifs tcp dport { ${toString tproxyPort}, ${toString httpPort}, ${toString httpCNPort} } accept
     '';
+    extraReversePathFilterRules = ''
+      ip daddr ${fakeIPv4} accept
+      ip6 daddr ${fakeIPv6} accept
+    '';
+  };
+
+  networking.nftables.tables.fakeip = {
+    family = "inet";
+    content = ''
+      chain fakeip {
+        type filter hook prerouting priority mangle;
+        ip daddr ${fakeIPv4} jump do_tproxy
+        ip6 daddr ${fakeIPv6} jump do_tproxy
+      }
+      chain do_tproxy {
+        meta l4proto tcp tproxy to :${toString tproxyPort} meta mark set ${toString tproxyMark} accept
+        reject
+      }
+    '';
+  };
+
+  systemd.network.networks."20-lo" = {
+    name = "lo";
+    networkConfig.KeepConfiguration = "static";
+    routingPolicyRules = [
+      {
+        FirewallMark = tproxyMark;
+        Table = 200;
+        Family = "both";
+        Priority = 512;
+      }
+    ];
+    routes = [
+      {
+        Source = "0.0.0.0/0";
+        Scope = "host";
+        Table = 200;
+        Type = "local";
+      }
+      {
+        Source = "::/0";
+        Table = 200;
+        Type = "local";
+      }
+    ];
   };
 
   systemd.services.sing-box.serviceConfig.LoadCredential = [
@@ -49,9 +99,34 @@ in
             server = "::1";
             server_port = 5300;
           }
+          {
+            type = "fakeip";
+            tag = "fakeip";
+            inet4_range = fakeIPv4;
+            inet6_range = fakeIPv6;
+          }
+        ];
+        rules = [
+          {
+            inbound = [ "dns" ];
+            server = "fakeip";
+          }
+          { server = "local"; }
         ];
       };
       inbounds = [
+        {
+          type = "direct";
+          tag = "dns";
+          listen = "::1";
+          listen_port = 2053;
+        }
+        {
+          type = "tproxy";
+          tag = "tproxy";
+          listen = "::";
+          listen_port = tproxyPort;
+        }
         {
           type = "http";
           listen = "::";
@@ -119,10 +194,46 @@ in
           server = "work.rvf6.com";
           server_port = 1080;
         }
+        {
+          type = "http";
+          tag = "de";
+          server = "10.5.0.1";
+          server_port = 8000;
+        }
+        {
+          type = "http";
+          tag = "nl";
+          server = "10.5.0.17";
+          server_port = 8000;
+        }
+        {
+          type = "http";
+          tag = "de2";
+          server = "10.5.0.33";
+          server_port = 8000;
+        }
+        {
+          type = "selector";
+          tag = "download";
+          outbounds = [
+            "direct"
+            "cn"
+            "de"
+            "nl"
+            "de2"
+          ];
+          default = "nl";
+          interrupt_exist_connections = false;
+        }
       ];
       route.default_domain_resolver = "local";
       route.rules = [
         {
+          inbound = "dns";
+          action = "hijack-dns";
+        }
+        {
+          inbound = "cn-in";
           domain_suffix = [
             "googleapis.com"
           ];
@@ -131,6 +242,20 @@ in
         {
           inbound = "cn-in";
           outbound = "cn";
+        }
+        {
+          domain = [
+            # NixOS
+            "cache.nixos.org"
+            "releases.nixos.org"
+            # Apple
+            "appldnld.apple.com"
+            "gg.apple.com"
+            "gs.apple.com"
+            "updates-http.cdn-apple.com"
+            "updates.cdn-apple.com"
+          ];
+          outbound = "download";
         }
         {
           domain_suffix = [

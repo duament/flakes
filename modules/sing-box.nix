@@ -11,7 +11,8 @@ let
 
   cfg = config.presets.sing-box;
   settingsFormat = pkgs.formats.json { };
-  capNetAdmin = any (o: o ? routing_mark) (cfg.settings.outbounds or [ ]);
+  hasMark = any (o: o ? routing_mark) (cfg.settings.outbounds or [ ]);
+  hasTun = any (i: i.type == "tun") (cfg.settings.inbounds or [ ]);
   prepareScript = pkgs.writeShellScript "sing-box-config-setup" cfg.prepareScript;
 in
 {
@@ -100,16 +101,20 @@ in
             "${lib.getExe' pkgs.coreutils "kill"} -HUP $MAINPID"
           ];
         }
-        // (optionalAttrs capNetAdmin {
+        // (optionalAttrs hasMark {
           PrivateUsers = false;
           CapabilityBoundingSet = [
             ""
-            "CAP_NET_ADMIN"
+            "CAP_NET_RAW"
           ];
           AmbientCapabilities = [
             ""
-            "CAP_NET_ADMIN"
+            "CAP_NET_RAW"
           ];
+        })
+        // (optionalAttrs hasTun {
+          PrivateDevices = false;
+          DeviceAllow = [ "/dev/net/tun rwm" ];
         });
       wantedBy = [ "multi-user.target" ];
     };
