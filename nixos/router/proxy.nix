@@ -50,13 +50,22 @@ in
   networking.nftables.tables.fakeip = {
     family = "inet";
     content = ''
-      chain fakeip {
+      chain router {
         type filter hook prerouting priority mangle;
         ip daddr ${fakeIPv4} jump do_tproxy
         ip6 daddr ${fakeIPv6} jump do_tproxy
       }
       chain do_tproxy {
         meta l4proto tcp tproxy to :${toString tproxyPort} meta mark set ${toString tproxyMark} accept
+        reject
+      }
+      chain local_reroute {
+        type route hook output priority mangle;
+        ip daddr ${fakeIPv4} jump do_reroute
+        ip6 daddr ${fakeIPv6} jump do_reroute
+      }
+      chain do_reroute {
+        meta l4proto tcp meta mark set ${toString tproxyMark} accept
         reject
       }
     '';
