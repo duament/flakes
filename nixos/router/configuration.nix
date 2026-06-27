@@ -65,6 +65,7 @@ in
     tailscale_auth_key = { };
     shadowsocks = { };
     radicale = { };
+    sing-box-api-secret = { };
   };
   systemd.services.sops-install-secrets.before = [ "sysinit.target" ];
 

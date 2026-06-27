@@ -7,7 +7,7 @@
   ...
 }:
 let
-  inherit (lib) mkForce concatStringsSep;
+  inherit (lib) mkForce concatStringsSep concatMapStringsSep;
 
   fakeIPv4 = "198.18.0.0/15";
   fakeIPv6 = "fc80:ffff::/64";
@@ -18,6 +18,14 @@ let
   httpCNPort = 8001;
   tuicPort = 11113;
   ssPort = 11114;
+  apiPort = 9090;
+
+  servicePorts = [
+    tproxyPort
+    httpPort
+    httpCNPort
+    apiPort
+  ];
 
   downloadDomains = [
     # NixOS
@@ -39,7 +47,9 @@ in
       ssPort
     ];
     extraInputRules = ''
-      iifname @wan_enabled_ifs tcp dport { ${toString tproxyPort}, ${toString httpPort}, ${toString httpCNPort} } accept
+      iifname @wan_enabled_ifs tcp dport { ${
+        concatMapStringsSep ", " (port: toString port) servicePorts
+      } } accept
     '';
     extraReversePathFilterRules = ''
       ip daddr ${fakeIPv4} accept
@@ -107,6 +117,7 @@ in
     "tls_cert:${config.sops.secrets."tuic/tls_cert".path}"
     "tls_key:${config.sops.secrets."tuic/tls_key".path}"
     "ech_key:${config.sops.secrets."tuic/ech_key".path}"
+    "api_secret:${config.sops.secrets."sing-box-api-secret".path}"
   ];
 
   presets.sing-box = {
@@ -295,6 +306,18 @@ in
           outbound = "work";
         }
       ];
+      experimental = {
+        cache_file = {
+          enabled = true;
+          store_fakeip = true;
+        };
+        clash_api = {
+          external_controller = "[::]:9090";
+          secret._secret = "/run/credentials/sing-box.service/api_secret";
+          access_control_allow_origin = [ "https://board.zash.run.place" ];
+          access_control_allow_private_network = true;
+        };
+      };
     };
   };
 
