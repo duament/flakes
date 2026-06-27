@@ -83,14 +83,6 @@
       };
     };
   };
-  magisk = {
-    pname = "magisk";
-    version = "v30.7";
-    src = fetchTarball {
-      url = "https://github.com/topjohnwu/Magisk/releases/download/v30.7/Magisk-v30.7.apk";
-      sha256 = "sha256-Dnp7Ah4BbOTMIKMWU3w+Im+7EJhPSDN1jFLCKaZMzow=";
-    };
-  };
   midea_auto_cloud = {
     pname = "midea_auto_cloud";
     version = "v0.4.5";

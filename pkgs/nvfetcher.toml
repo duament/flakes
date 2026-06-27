@@ -37,10 +37,6 @@ fetch.github = "AlessioLaiso/aleo"
 src.github_tag = "owntracks/frontend"
 fetch.tarball = "https://github.com/owntracks/frontend/releases/download/$ver/$ver-dist.zip"
 
-[magisk]
-src.github_tag = "topjohnwu/Magisk"
-fetch.tarball = "https://github.com/topjohnwu/Magisk/releases/download/$ver/Magisk-$ver.apk"
-
 [kernelsu]
 src.github_tag = "tiann/KernelSU"
 fetch.github = "tiann/KernelSU"

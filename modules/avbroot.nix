@@ -30,7 +30,7 @@ let
       ${pkgs.curl}/bin/curl --fail -LJ "https://github.com/tiann/KernelSU/releases/download/${pkgs.kernelsu.version}/$KSU_MODULE_NAME" -o "$DIR/$KSU_MODULE_NAME"
       ${pkgs.curl}/bin/curl --fail -LJ "https://github.com/tiann/KernelSU/releases/download/${pkgs.kernelsu.version}/ksuinit" -o "$DIR/ksuinit"
 
-      ${pkgs.kernelsu}/bin/ksud boot-patch --magiskboot ${pkgs.magiskboot}/bin/magiskboot -b "$DIR"/init_boot.img -m "$DIR/$KSU_MODULE_NAME" -i "$DIR"/ksuinit --kmi "$KMI" -o "$DIR"
+      ${pkgs.kernelsu}/bin/ksud boot-patch -b "$DIR"/init_boot.img -m "$DIR/$KSU_MODULE_NAME" -i "$DIR"/ksuinit --kmi "$KMI" -o "$DIR"
       PREPATCHED_PATH=("$DIR"/kernelsu_patched_*.img)
 
       ${avbroot-bin} ota patch --input "$1" --prepatched "''${PREPATCHED_PATH[0]}" \

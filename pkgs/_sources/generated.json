@@ -130,20 +130,6 @@
         },
         "version": "v3.2.5"
     },
-    "magisk": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "magisk",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "sha256": "sha256-Dnp7Ah4BbOTMIKMWU3w+Im+7EJhPSDN1jFLCKaZMzow=",
-            "type": "tarball",
-            "url": "https://github.com/topjohnwu/Magisk/releases/download/v30.7/Magisk-v30.7.apk"
-        },
-        "version": "v30.7"
-    },
     "midea_auto_cloud": {
         "cargoLock": null,
         "date": null,
