@@ -17,7 +17,6 @@ in
     ./mosquitto.nix
     ./owntracks.nix
     ./proxy.nix
-    ./swanctl-client.nix
     ./vpn.nix
     ./wan.nix
     ./wireguard-dns.nix
@@ -27,6 +26,7 @@ in
 
   presets.nogui.enable = true;
   presets.metrics.enable = true;
+  presets.swanctl-gfw.enableClient = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {

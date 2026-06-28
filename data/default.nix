@@ -1,5 +1,5 @@
 { inputs, lib, ... }:
-{
+rec {
   dns = import ./dns.nix;
   nftChinaIP = import ./nft-china-ip.nix { inherit inputs lib; };
   sops = import ./sops.nix;
@@ -9,6 +9,7 @@
   tailscale = import ./tailscale.nix;
   ublockOriginSettings = import ./ublock-origin-settings.nix;
   wg0 = import ./wg0.nix;
+  swanctl-gfw = import ./swanctl-gfw.nix { inherit dns; };
 
   ef = "enfla" + "me.cn";
   efcom = "enfla" + "me-tech.com";

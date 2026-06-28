@@ -10,14 +10,9 @@ let
 in
 {
 
-  imports = [
-    # keep-sorted start
-    ./swanctl.nix
-    # keep-sorted end
-  ];
-
   presets.nogui.enable = true;
   presets.metrics.enable = true;
+  presets.swanctl-gfw.enableServer = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
