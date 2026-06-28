@@ -94,7 +94,7 @@ in
                 cacerts = config.presets.swanctl.cacerts;
               };
               children.${host} = {
-                start_action = "start";
+                start_action = "trap|start";
                 esp_proposals = proposals;
                 set_mark_out = "1";
                 local_ts = [
