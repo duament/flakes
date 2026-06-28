@@ -146,6 +146,7 @@ in
           {
             inbound = [ "dns" ];
             server = "fakeip";
+            rewrite_ttl = 15;
           }
           { server = "local"; }
         ];
