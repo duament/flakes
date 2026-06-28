@@ -13,6 +13,7 @@ in
     "ublock-privacy"
     "ublock-quick-fixes"
     "ublock-unbreak"
+    "ublock-experimental"
     "easylist"
     "adguard-spyware"
     "adguard-spyware-url"
