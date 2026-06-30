@@ -47,6 +47,7 @@ in
         i: peer:
         let
           interfaceId = ifId i;
+          table = 1024 + interfaceId;
         in
         {
 
@@ -66,6 +67,16 @@ in
             address = [
               "${peer.clientIPv4}/30"
               "${peer.clientIPv6}/126"
+            ];
+            routes = [
+              {
+                Source = "0.0.0.0/0";
+                Table = table;
+              }
+              {
+                Source = "::/0";
+                Table = table;
+              }
             ];
           };
 
