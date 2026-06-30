@@ -5,15 +5,16 @@
   ];
 
   presets.nogui.enable = true;
+  presets.disko = {
+    enable = true;
+    device = "/dev/sda";
+  };
   presets.metrics.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     "wireguard_key".owner = "systemd-network";
   };
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "or1";
 

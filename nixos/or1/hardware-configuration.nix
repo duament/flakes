@@ -16,6 +16,4 @@
     "console=ttyS0,115200"
     "earlyprintk=ttyS0,115200"
   ];
-
-  fileSystems."/persist".neededForBoot = true;
 }

@@ -1,13 +1,16 @@
 { ... }:
 {
   presets.nogui.enable = true;
+  presets.disko = {
+    enable = true;
+    biosBoot = true;
+    device = "/dev/sda";
+  };
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     "wireguard_key".owner = "systemd-network";
   };
-
-  boot.loader.grub.enable = true;
 
   networking.hostName = "twak";
 

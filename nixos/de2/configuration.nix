@@ -2,6 +2,11 @@
 {
 
   presets.nogui.enable = true;
+  presets.disko = {
+    enable = true;
+    biosBoot = true;
+    device = "/dev/sda";
+  };
   presets.swanctl-gfw.enableServer = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
@@ -11,8 +16,6 @@
     "pki/de2-bundle" = { };
     "pki/de2-pkcs8-key" = { };
   };
-
-  boot.loader.grub.enable = true;
 
   boot.kernel.sysctl = {
     "net.core.wmem_max" = 33554432;

@@ -1,9 +1,6 @@
 { inputs, ... }:
 {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
-    inputs.preservation.nixosModules.preservation
-    inputs.sops-nix.nixosModules.sops
     # keep-sorted start
     ./adguardhome.nix
     ./avbroot.nix
@@ -11,6 +8,7 @@
     ./chromium.nix
     ./clash.nix
     ./common.nix
+    ./disko.nix
     ./duckdns.nix
     ./fs.nix
     ./gammu-smsd.nix
@@ -39,6 +37,10 @@
     ./warp.nix
     ./wireguard
     ./workstation.nix
+    inputs.disko.nixosModules.disko
+    inputs.home-manager.nixosModules.home-manager
+    inputs.preservation.nixosModules.preservation
+    inputs.sops-nix.nixosModules.sops
     # keep-sorted end
   ];
 }

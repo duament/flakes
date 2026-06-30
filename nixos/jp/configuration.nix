@@ -1,16 +1,12 @@
 { ... }:
 {
   presets.nogui.enable = true;
+  presets.disko.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     "wireguard_key".owner = "systemd-network";
   };
-
-  presets.users.hashedPasswordFile = null;
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "jp";
 

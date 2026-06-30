@@ -10,9 +10,7 @@ nixpkgs.lib.nixosSystem {
   };
   modules = [
     self.nixosModules.myModules
-    inputs.disko.nixosModules.disko
     ./hardware-configuration.nix
     ./configuration.nix
-    ./disko.nix
   ];
 }
