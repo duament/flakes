@@ -168,7 +168,7 @@ in
               ];
               esp_proposals = proposals;
             };
-            encap = false;
+            encap = peer.encap;
             mobike = false;
             version = 2;
             if_id_in = toString (ifId i);

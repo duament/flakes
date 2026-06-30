@@ -94,7 +94,7 @@ in
                     "0.0.0.0/0"
                   ];
                 };
-                encap = false;
+                encap = peer.encap;
                 mobike = false;
                 version = 2;
                 if_id_in = toString interfaceId;
