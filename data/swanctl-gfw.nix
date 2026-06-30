@@ -31,4 +31,14 @@
     clientIPv4 = "10.5.0.34";
     clientIPv6 = "fdc0::22";
   }
+  rec {
+    host = "jp3";
+    key = "";
+    encap = false;
+    remote = dns.${host}.ipv6;
+    serverIPv4 = "10.5.0.49";
+    serverIPv6 = "fdc0::31";
+    clientIPv4 = "10.5.0.50";
+    clientIPv6 = "fdc0::32";
+  }
 ]

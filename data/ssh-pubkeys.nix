@@ -29,6 +29,7 @@ let
     twak = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJwrx9wGDB/AoJyG3s6tX583Da3OO2KmbZJVCbLKdO2i";
     jp = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDkimtHteI020dAw9nMYlUzAAubx7AdsQER7HZGpzDC9";
     jp2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHiRBAzCnFCda/VAv/woFnYp2uuT7CGDgvNG7ESgHYlt";
+    jp3 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHwu1UYJmBzWNVmxMCgKK/hgA8XCZ1CAzT7uG4fGn04m";
     de = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEBN3u2PUFtaRMrkJUxwiAd4D2+v5gOsyf+ptXs+79o5";
     de2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINFRJWj1+b3XGPqOJo5yOeFREn7Vt52H1Ev2Gv/LRyKA";
 
@@ -69,6 +70,7 @@ keys
     "twak"
     "jp"
     "jp2"
+    "jp3"
     "de"
     "de2"
   ];

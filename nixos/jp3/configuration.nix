@@ -8,17 +8,15 @@
     device = "/dev/nvme0n1";
   };
   presets.nginx.enable = true;
-  presets.swanctl-gfw.enableServer = false;
+  presets.swanctl-gfw.enableServer = true;
 
-  #sops.defaultSopsFile = ./secrets.yaml;
-  #sops.secrets = {
-  #  "pki/ca".mode = "0444";
-  #  "pki/ybk".mode = "0444";
-  #  "pki/jp3-bundle" = { };
-  #  "pki/jp3-pkcs8-key" = { };
-  #};
-
-  presets.users.hashedPasswordFile = null;
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets = {
+    "pki/ca".mode = "0444";
+    "pki/ybk".mode = "0444";
+    "pki/jp3-bundle" = { };
+    "pki/jp3-pkcs8-key" = { };
+  };
 
   networking.hostName = "jp3";
 
