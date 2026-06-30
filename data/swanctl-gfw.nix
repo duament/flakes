@@ -4,7 +4,7 @@
   rec {
     host = "de";
     key = "";
-    encap = false;
+    encap = true;
     remote = dns.${host}.ipv6;
     serverIPv4 = "10.5.0.1";
     serverIPv6 = "fdc0::1";
@@ -14,7 +14,7 @@
   rec {
     host = "nl";
     key = "";
-    encap = false;
+    encap = true;
     remote = dns.${host}.ipv6;
     serverIPv4 = "10.5.0.17";
     serverIPv6 = "fdc0::11";
@@ -24,7 +24,7 @@
   rec {
     host = "de2";
     key = "";
-    encap = false;
+    encap = true;
     remote = dns.${host}.ipv4;
     serverIPv4 = "10.5.0.33";
     serverIPv6 = "fdc0::21";
