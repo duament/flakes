@@ -37,6 +37,9 @@ let
     if [ ! -f "$1".key ]; then
       ${openssl} ecparam -out "$1".key -name secp384r1 -genkey
     fi
+    if [ ! -f "$1"-pkcs8-key ]; then
+      ${openssl} pkcs8 -topk8 -in "$1".key -out "$1"-pkcs8-key -nocrypt
+    fi
     ${openssl} req -new -key "$1".key -out "$1".csr -sha384 -subj "${
       if usage == "client" then "/CN=$1@rvf6.com/emailAddress=$1@rvf6.com" else "/CN=$1.rvf6.com"
     }" -addext 'basicConstraints = critical, CA:FALSE' -addext "subjectAltName = ${
@@ -46,6 +49,10 @@ let
       ${pkgs.yubikey-manager}/bin/ykman piv certificates export 9c ybk.crt
     fi
     ${openssl-p11}/bin/openssl-p11 x509 -req -engine pkcs11 -CAkeyform engine -CAkey slot_0-id_2 -in "$1".csr -CA ybk.crt -days 3650 -out "$1".crt -sha384 -copy_extensions copy
+    if [ ! -f ca ]; then
+      cp /run/secrets/pki/ca . || exit
+    fi
+    cat "$1".crt ybk.crt ca > "$1"-bundle
   '';
 
   sign-server = pkgs.writeShellApplication {
