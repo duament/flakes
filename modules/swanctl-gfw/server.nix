@@ -12,11 +12,13 @@ let
     # keep-sorted start
     concatMap
     concatStringsSep
+    filter
     imap0
     listToAttrs
     mkEnableOption
     mkIf
     mkMerge
+    optional
     # keep-sorted end
     ;
 
@@ -34,6 +36,8 @@ let
     ;
 
   cfg = config.presets.swanctl-gfw;
+
+  masqueradeIfs = ifsNft (filter (peer: peer.masquerade) serverPeers);
 in
 {
 
@@ -66,7 +70,7 @@ in
       '';
     };
     networking.nftables.checkRuleset = false;
-    networking.nftables.masquerade = [ "iifname { ${ifsNft serverPeers} }" ];
+    networking.nftables.masquerade = optional (masqueradeIfs != "") "iifname { ${masqueradeIfs} }";
     networking.nftables.tables.interface-mark = {
       family = "inet";
       content = concatStringsSep "\n" (

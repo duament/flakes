@@ -1,14 +1,24 @@
 { ... }:
 {
+
+  imports = [
+    ./swanctl.nix
+  ];
+
   presets.nogui.enable = true;
   presets.disko = {
     enable = true;
     biosBoot = true;
   };
+  presets.nginx.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     "wireguard_key".owner = "systemd-network";
+    "pki/ca".mode = "0444";
+    "pki/ybk".mode = "0444";
+    "pki/jp2-bundle" = { };
+    "pki/jp2-pkcs8-key" = { };
   };
 
   networking.hostName = "jp2";
@@ -43,5 +53,4 @@
 
   home-manager.users.rvfg = import ./home.nix;
 
-  presets.nginx.enable = true;
 }

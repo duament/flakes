@@ -1,6 +1,10 @@
 { ... }:
 {
 
+  imports = [
+    ./swanctl.nix
+  ];
+
   presets.nogui.enable = true;
   presets.disko = {
     enable = true;
