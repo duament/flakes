@@ -1,16 +1,17 @@
 { config, lib, ... }:
 let
+  inherit (lib) mkIf mkOption types;
   cfg = config.presets.preservation;
 in
 {
   options = {
-    presets.preservation.enable = lib.mkOption {
-      type = lib.types.bool;
+    presets.preservation.enable = mkOption {
+      type = types.bool;
       default = true;
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
 
     # Workaround
     boot.initrd.systemd.tmpfiles.settings.preservation."/sysroot/persistent/etc/machine-id".f = {
@@ -18,7 +19,7 @@ in
     };
     systemd.services.systemd-machine-id-commit.unitConfig.ConditionFirstBoot = true;
 
-    fileSystems."/" = {
+    fileSystems."/" = mkIf (!config.presets.disko.enable) {
       fsType = "tmpfs";
       options = [
         "defaults"
