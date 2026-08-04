@@ -3,6 +3,9 @@ let
   mark = 65536;
 in
 {
+  imports = [
+    ./wgphantun.nix
+  ];
 
   presets.nogui.enable = true;
   presets.disko = {
