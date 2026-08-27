@@ -108,21 +108,7 @@ in
     '';
     virtualHosts."or2.rvf6.com".listen = lib.mkForce httpTlsListen;
     virtualHosts."rvfg.ooxxcc.com" = {
-      listen = lib.mkForce (
-        httpTlsListen
-        ++ [
-          {
-            addr = "0.0.0.0";
-            port = 2053;
-            ssl = true;
-          }
-          {
-            addr = "[::]";
-            port = 2053;
-            ssl = true;
-          }
-        ]
-      );
+      listen = lib.mkForce httpTlsListen;
       locations."/generate_204".return = "204";
       locations."/vlessgrpc".extraConfig = ''
         if ($content_type !~ "application/grpc") { return 404; }
