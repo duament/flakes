@@ -185,7 +185,10 @@ in
     };
   };
   services.nginx = {
-    additionalModules = with pkgs.nginxModules; [ fancyindex ];
+    additionalModules = with pkgs.nginxModules; [
+      dav
+      fancyindex
+    ];
     commonHttpConfig = "dav_ext_lock_zone zone=default:10m;";
   };
   systemd.services.nginx.serviceConfig.SupplementaryGroups = [ config.services.transmission.group ];
