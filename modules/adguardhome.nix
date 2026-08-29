@@ -92,7 +92,10 @@ in
           cache_optimistic = true;
         };
         dhcp.enabled = false;
-        user_rules = [ "@@amdc.m.taobao.com" ];
+        user_rules = [
+          "@@amdc.m.taobao.com"
+          "msmp.abchina.com.cn"
+        ];
       };
     };
 
