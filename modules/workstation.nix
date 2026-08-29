@@ -241,11 +241,13 @@ in
               # keep-sorted start
               "Noto Music"
               "Noto Sans Bamum"
+              "Noto Sans Javanese"
               "Noto Sans Math"
               "Noto Sans Oriya"
               "Noto Sans Symbols 2"
               "Noto Sans Symbols"
               "Noto Sans Thai"
+              "Noto Serif Tibetan"
               # keep-sorted end
             ];
           })
