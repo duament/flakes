@@ -257,6 +257,7 @@ in
           monospace = [
             "Hack"
             "Symbols Nerd Font"
+            "Noto Sans Mono CJK SC"
           ];
           sansSerif = [
             "Inter Variable"
