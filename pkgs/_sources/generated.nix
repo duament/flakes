@@ -85,13 +85,13 @@
   };
   midea_auto_cloud = {
     pname = "midea_auto_cloud";
-    version = "v0.4.13";
+    version = "v0.4.19";
     src = fetchFromGitHub {
       owner = "sususweet";
       repo = "midea_auto_cloud";
-      rev = "v0.4.13";
+      rev = "v0.4.19";
       fetchSubmodules = false;
-      sha256 = "sha256-slbneOkPvl4JiB2kCs2FkAg3k8/rhinFd0qgobN6P44=";
+      sha256 = "sha256-DCskt1H4k5w05WuGKRWhEQoF9gSaepHYvxqnRAZ4EK0=";
     };
   };
   owntracks-frontend = {
@@ -128,18 +128,18 @@
   };
   uuplugin-aarch64 = {
     pname = "uuplugin-aarch64";
-    version = "14.2.2";
+    version = "14.7.6";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v14.2.2/uu.tar.gz";
-      sha256 = "sha256-ReUzAC/6p5kxUorc0lOzXQQ+XEf06RCWTgIeosctW/g=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v14.7.6/uu.tar.gz";
+      sha256 = "sha256-pKr1C2FrS+iWY25LIivQE/XnA3a6nk0dOGhXD4miWqg=";
     };
   };
   uuplugin-x86_64 = {
     pname = "uuplugin-x86_64";
-    version = "14.2.2";
+    version = "14.7.6";
     src = fetchurl {
-      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v14.2.2/uu.tar.gz";
-      sha256 = "sha256-WHuBL/95yJtXzArv7FjcORsoXx3hzx2Zj6AMR35bGEA=";
+      url = "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v14.7.6/uu.tar.gz";
+      sha256 = "sha256-EHR6uiFTC3FiowsmE0Dh8HUYMjShxEX50vSge89qTXk=";
     };
   };
 }
