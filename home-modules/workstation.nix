@@ -141,6 +141,7 @@
         bilibili = {
           profile-cond = "path:find('bilibili.com')";
           ytdl-raw-options-append = "cookies-from-browser=firefox::bilibili";
+          script-opt = "ytdl_hook-try_ytdl_first=yes";
         };
       };
     };
