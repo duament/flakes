@@ -27,7 +27,7 @@
       inkscape
       iputils
       keepassxc
-      libreoffice-fresh
+      libreoffice
       openssl
       papirus-icon-theme
       pciutils

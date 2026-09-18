@@ -8,7 +8,6 @@
 let
   inherit (lib)
     # keep-sorted start
-    concatMapStrings
     concatStrings
     elem
     filterAttrs
@@ -184,7 +183,7 @@ in
     hardware.enableRedistributableFirmware = true;
     hardware.bluetooth.enable = true;
     hardware.logitech.wireless.enable = true;
-    hardware.logitech.wireless.enableGraphical = true;
+    programs.solaar.enable = true;
 
     xdg.portal = {
       enable = true;
