@@ -370,14 +370,6 @@ in
     serviceConfig.RuntimeDirectoryMode = mkForce "0750";
   };
 
-  services.telegraf.package = pkgs.telegraf.overrideAttrs (prev: {
-    patches = (prev.patches or [ ]) ++ [
-      (pkgs.fetchpatch {
-        url = "https://github.com/influxdata/telegraf/commit/56b98de33ba897ab9fe80d3791d8798cfb98fbcf.patch";
-        hash = "sha256-uMK1qzBMCmkq28uGQAWkS+NsG7+xjIhT7GUCYX8yHIo=";
-      })
-    ];
-  });
   services.telegraf.extraConfig.inputs.ping = {
     urls = [
       "10.5.0.5" # g2
