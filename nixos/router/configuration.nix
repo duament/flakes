@@ -352,11 +352,6 @@ in
 
   services.victoriametrics = {
     enable = true;
-    package = pkgs.victoriametrics.overrideAttrs (prev: {
-      patches = (prev.patches or [ ]) ++ [
-        ./victoriametrics-10331.patch
-      ];
-    });
     extraOptions = [
       "-enableTCP6"
     ];
