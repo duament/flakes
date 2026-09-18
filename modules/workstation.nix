@@ -32,23 +32,6 @@ in
 
   config = mkIf config.presets.workstation.enable {
 
-    nixpkgs.overlays = [
-      (self: super: {
-        kdePackages = super.kdePackages.overrideScope (
-          kdeSelf: kdeSuper: {
-            kwin = kdeSuper.kwin.overrideAttrs (oldAttrs: {
-              patches = (oldAttrs.patches or [ ]) ++ [
-                (super.fetchpatch2 {
-                  url = "https://invent.kde.org/plasma/kwin/-/commit/2d0613ac.patch";
-                  hash = "sha256-e4CAL/ZgtO2xeJExhb+sZ9B17gQPtGqTWvPkdt9uXVg=";
-                })
-              ];
-            });
-          }
-        );
-      })
-    ];
-
     sops.secrets = {
       wireless.sopsFile = ../secrets/wireless.yaml;
       d-auth = {
