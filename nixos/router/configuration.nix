@@ -26,7 +26,6 @@ in
     ./proxy.nix
     ./vpn.nix
     ./wan.nix
-    ./wgphantun.nix
     ./wireguard-dns.nix
     ./wireguard.nix
     # keep-sorted end
