@@ -222,6 +222,7 @@ in
             variants = [
               # keep-sorted start
               "Noto Music"
+              "Noto Sans"
               "Noto Sans Bamum"
               "Noto Sans Javanese"
               "Noto Sans Math"
