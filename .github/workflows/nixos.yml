@@ -43,20 +43,29 @@ jobs:
           extraPullNames: nix-community
       - name: Build
         id: build
-        continue-on-error: true
         run: |
           set -eu
+          echo "::group::Build devShell"
           nix build .#devShells.x86_64-linux.default
+          echo "::endgroup::"
+          has_failure=0
           for host in nixos/*; do
             host=${host#nixos/}
             if [[ "$(nix eval .#nixosConfigurations."$host".pkgs.stdenv.hostPlatform.system)" = '"x86_64-linux"' ]]; then
-              echo "host: $host"
-              nix build .#nixosConfigurations."$host".config.system.build.toplevel
+              echo "::group::Build $host"
+              exit_code=0
+              nix build .#nixosConfigurations."$host".config.system.build.toplevel || exit_code=$?
+              echo "::endgroup::"
+              if [[ "$exit_code" -ne 0 ]]; then
+                has_failure=1
+                echo "Failed to build $host"
+              fi
             fi
           done
-      - name: Debug
-        run: |
+          echo "::group::Debug"
           df -Th
+          echo "::endgroup::"
+          if [[ "$has_failure" -ne 0 ]]; then exit 1; fi
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' && steps.build.outcome == 'success' }}
         env:
@@ -66,8 +75,3 @@ jobs:
           printenv SSH_KEY > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           nix-shell -p openssh --run 'nix run .#ci-deploy'
-      - name: Check failure
-        run: |
-          if [ "${{steps.build.outcome}}" != "success" ]; then
-            exit 1
-          fi
