@@ -127,6 +127,7 @@ in
   };
 
   systemd.services."systemd-nspawn@arch" = {
+    restartIfChanged = false;
     overrideStrategy = "asDropin";
     wantedBy = [ "machines.target" ];
     serviceConfig = {
