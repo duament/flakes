@@ -152,30 +152,17 @@
             ];
           };
 
-          apps.ci-deploy = {
+          apps.gen-known-hosts = {
             type = "app";
             program =
               let
-                hosts = [
-                  # keep-sorted start
-                  "nl"
-                  "or1"
-                  "or2"
-                  "sg"
-                  # keep-sorted end
-                ];
+                hosts = data.sshPub.hosts ++ data.sshPub.rootHosts;
                 known_hosts = pkgs.writeText "ssh_known_hosts" (
                   builtins.concatStringsSep "" (map (host: "${host}.rvf6.com ${data.sshPub.${host}}\n") hosts)
                 );
               in
-              (pkgs.writeShellScript "ci-deploy" ''
-                set -eu
-                export NIX_SSHOPTS="-o GlobalKnownHostsFile=${known_hosts}"
-                hosts=(${builtins.concatStringsSep " " hosts})
-                for host in ''${hosts[*]}; do
-                  echo "$host"
-                  ${pkgs.nixos-rebuild}/bin/nixos-rebuild --flake .#"$host" --target-host deploy@"$host".rvf6.com --sudo --use-substitutes switch
-                done
+              (pkgs.writeShellScript "gen-known-hosts" ''
+                echo ${known_hosts}
               '').outPath;
           };
         }

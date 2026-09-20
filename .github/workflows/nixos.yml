@@ -58,7 +58,7 @@ jobs:
               echo "::endgroup::"
               if [[ "$exit_code" -ne 0 ]]; then
                 has_failure=1
-                echo "Failed to build $host"
+                echo "Failed to build $host: exit_code=$exit_code"
               fi
             fi
           done
@@ -71,7 +71,24 @@ jobs:
         env:
           SSH_KEY: ${{secrets.DEPLOY_SSH_KEY}}
         run: |
+          set -eu
           mkdir -p ~/.ssh
           printenv SSH_KEY > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          nix-shell -p openssh --run 'nix run .#ci-deploy'
+          echo "::group::Generate known hosts"
+          export NIX_SSHOPTS="-o GlobalKnownHostsFile=$(nix run .#gen-known-hosts)"
+          echo "::endgroup::"
+          nix shell --inputs-from . nixpkgs#openssh --command bash -c '
+          has_failure=0
+          for host in nl or1 or2 sg; do
+            echo "::group::Deploy $host"
+            exit_code=0
+            nix run nixpkgs#nixos-rebuild -- --flake .#"$host" --target-host deploy@"$host".rvf6.com --sudo --use-substitutes switch || exit_code=$?
+            echo "::endgroup::"
+            if [[ "$exit_code" -ne 0 ]]; then
+              has_failure=1
+              echo "Failed to deploy $host: exit_code=$exit_code"
+            fi
+          done
+          if [[ "$has_failure" -ne 0 ]]; then exit 1; fi
+          '
