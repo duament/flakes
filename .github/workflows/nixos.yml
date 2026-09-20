@@ -80,7 +80,7 @@ jobs:
           echo "::endgroup::"
           nix shell --inputs-from . nixpkgs#openssh --command bash -c '
           has_failure=0
-          for host in nl or1 or2 sg; do
+          for host in de2 g2 jp jp2 jp3 nl or1 or2 sg; do
             echo "::group::Deploy $host"
             exit_code=0
             nix run nixpkgs#nixos-rebuild -- --flake .#"$host" --target-host deploy@"$host".rvf6.com --sudo --use-substitutes switch || exit_code=$?
