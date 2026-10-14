@@ -37,10 +37,9 @@ fetch.github = "AlessioLaiso/aleo"
 src.github_tag = "owntracks/frontend"
 fetch.tarball = "https://github.com/owntracks/frontend/releases/download/$ver/$ver-dist.zip"
 
-[kernelsu]
+[ksud]
 src.github_tag = "tiann/KernelSU"
-fetch.github = "tiann/KernelSU"
-cargo_lock = [ "Cargo.lock" ]
+fetch.url = "https://github.com/tiann/KernelSU/releases/download/$ver/ksud-x86_64-unknown-linux-musl"
 
 [haier]
 src.github_tag = "banto6/haier"

@@ -61,27 +61,12 @@
       sha256 = "sha256-ZVz2Tfkrhq1xpYU4D749wTTePvqOEWmyNse3evDBUgk=";
     };
   };
-  kernelsu = {
-    pname = "kernelsu";
+  ksud = {
+    pname = "ksud";
     version = "v3.3.1";
-    src = fetchFromGitHub {
-      owner = "tiann";
-      repo = "KernelSU";
-      rev = "v3.3.1";
-      fetchSubmodules = false;
-      sha256 = "sha256-fVQTULKx2eb0trdMtqY0SmwU9jYMIfW0Gzw/6X+xz3U=";
-    };
-    cargoLock."Cargo.lock" = {
-      lockFile = ./. + "/sha256-fVQTULKx2eb0trdMtqY0SmwU9jYMIfW0Gzw_6X+xz3U=/Cargo.lock";
-      outputHashes = {
-        "kernlog-0.3.1" = "sha256-+jZvmmO4n3G2WWEfeMZpIPXbitM6svec8Q/4wtP8hhc=";
-        "libc-0.2.189" = "sha256-9JjmaiSr4jqu/xhWY3o08jxvhoWeiKah8SxSMZovfOo=";
-        "rustix-0.38.34" = "sha256-XzuiOKEvVee6nN8EltOgWrC4sUGhLKkm7pdPqDKuDWY=";
-        "android-bootimg-0.1.0" = "sha256-ZgSAFNvEwW8Ngk/iJFfRhlOzqR9KzG0IRncTbVc/Hyo=";
-        "prop-rs-0.2.0" = "sha256-TL8VSl6uK2RubXHXtSxthk+9P5KUCRadYjIBdc3V534=";
-        "adb_client-3.1.1" = "sha256-+sfv/bvX6gIISV0vR88gCUpRrWL7OiShIxp0EEmE1T4=";
-        "java-properties-2.0.0" = "sha256-fvekRqJI3Xwzo9z0Li36NFMIYnP5FMP8D9uVcK32soc=";
-      };
+    src = fetchurl {
+      url = "https://github.com/tiann/KernelSU/releases/download/v3.3.1/ksud-x86_64-unknown-linux-musl";
+      sha256 = "sha256-KbUPlGo8xAsErvPdWHra0if+D3Dt+cVrAshEefCw6VQ=";
     };
   };
   midea_auto_cloud = {
