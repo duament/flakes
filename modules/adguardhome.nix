@@ -79,9 +79,9 @@ in
 
     services.adguardhome = {
       enable = true;
-      host = "[::1]";
       mutableSettings = false;
       settings = {
+        http.address = "[::1]:3000";
         dns = {
           inherit (cfg) bootstrap_dns;
           bind_hosts = [ "::" ];

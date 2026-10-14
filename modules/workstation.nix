@@ -222,7 +222,6 @@ in
             variants = [
               # keep-sorted start
               "Noto Music"
-              "Noto Sans"
               "Noto Sans Bamum"
               "Noto Sans Javanese"
               "Noto Sans Math"
@@ -230,6 +229,7 @@ in
               "Noto Sans Symbols 2"
               "Noto Sans Symbols"
               "Noto Sans Thai"
+              "Noto Sans"
               "Noto Serif Tibetan"
               # keep-sorted end
             ];

@@ -237,7 +237,7 @@ in
           };
         };
       "adg.rvf6.com".locations."/".proxyPass =
-        "http://${config.services.adguardhome.host}:${toString config.services.adguardhome.port}";
+        "http://${config.services.adguardhome.settings.http.address}";
       "radicale.rvf6.com".locations."/".proxyPass = "http://[::1]:5232";
     };
     selfSignedVirtualHosts = {
