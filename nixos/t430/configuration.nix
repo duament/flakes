@@ -286,8 +286,6 @@ in
             "/".proxyPass = "https://10.6.0.1";
           };
         };
-      "adg.rvf6.com".locations."/".proxyPass =
-        "http://${config.services.adguardhome.settings.http.address}";
       "wpad.rvf6.com".locations."= /wpad.dat" = {
         extraConfig = "add_header Content-Type application/x-ns-proxy-autoconfig;";
         alias = pkgs.writeText "wpad.dat" ''
