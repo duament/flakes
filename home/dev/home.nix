@@ -35,12 +35,6 @@
   };
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "cursor-cli"
-    ];
-
   home.username = "ruifeng.ma";
   home.homeDirectory = "/home/ruifeng.ma";
 
@@ -52,17 +46,20 @@
     #clang
     coreutils
     curl
-    cursor-cli
     dig
     docker
     gcc
     gdb
     home-manager
     iproute2
+    kubectl
     less
+    nginx
     openssh
     openssl
+    pi-coding-agent
     procps
+    skopeo
     strace
     unar
     util-linux
@@ -71,7 +68,7 @@
 
   programs.fish.interactiveShellInit = lib.mkOrder 10 ''
     if not set -q IN_NIX_SHELL
-      fish_add_path -g /home/.devtools/tools/bin ~/.nix-profile/bin
+      fish_add_path -g ~/.local/bin /home/.devtools/tools/bin ~/.nix-profile/bin
     end
   '';
 
