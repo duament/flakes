@@ -102,6 +102,8 @@ with lib;
     };
   };
 
+  security.acme.defaults.dnsResolver = mkDefault "1.1.1.1:53";
+
   time.timeZone = "Asia/Taipei";
 
   i18n.defaultLocale = "C.UTF-8";
