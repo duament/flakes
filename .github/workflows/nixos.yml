@@ -2,23 +2,12 @@ name: "NixOS"
 on:
   push:
   workflow_dispatch:
-env:
-  TMPDIR: /mnt/tmp
 jobs:
   nixos:
     runs-on: ubuntu-latest
     steps:
-      - name: Maximize build space
-        uses: AdityaGarg8/remove-unwanted-software@v5
-        with:
-          remove-dotnet: 'true'
-          remove-android: 'true'
-          remove-haskell: 'true'
-          remove-codeql: 'true'
-          remove-docker-images: 'true'
-          remove-large-packages: 'true'
-          remove-cached-tools: 'true'
       - name: Print
+        continue-on-error: true
         run: |
           whoami
           pwd
@@ -26,16 +15,11 @@ jobs:
           lscpu
           free -h
           df -h
-          sudo mkdir -p /mnt/build
-          sudo mkdir -p /mnt/tmp
-          sudo chmod 777 /mnt/tmp
-          sudo systemctl set-environment TMPDIR=/mnt/tmp
-      - uses: actions/checkout@v6
+          lsblk -f
+      - uses: actions/checkout@v7
       - uses: cachix/install-nix-action@v31
         with:
           nix_path: nixpkgs=channel:nixos-unstable
-          extra_nix_config: |
-            build-dir = /mnt/build
       - uses: cachix/cachix-action@v17
         with:
           name: rvfg
