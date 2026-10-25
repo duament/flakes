@@ -70,7 +70,6 @@ with lib;
       "net.ipv4.tcp_wmem" = mkDefault "4096 65536 16777216";
       "net.ipv4.tcp_slow_start_after_idle" = mkDefault 0;
     };
-    initrd.systemd.enable = mkDefault true;
     tmp.useTmpfs = mkDefault true;
   };
 

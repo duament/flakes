@@ -198,11 +198,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-rK/qYwjHluaJGvnm4/K1d57tKG+vbOOFbtB3st3nJ+Q=",
+            "sha256": "sha256-WQAGBzQwsrHKRBYVSC5O7y17zgzrxFX0hqdsnaYFaeU=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v14.9.4/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v14.10.6/uu.tar.gz"
         },
-        "version": "14.9.4"
+        "version": "14.10.6"
     },
     "uuplugin-x86_64": {
         "cargoLock": null,
@@ -213,10 +213,10 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-c+LupG6y0808NL85ReFXLv7lcYtAYBQljUbmXgQbbbw=",
+            "sha256": "sha256-0SS4nLZ4MalHXHcP+ND2Zr794nJh1pSXjVAtwzAfPh0=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v14.9.4/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v14.10.6/uu.tar.gz"
         },
-        "version": "14.9.4"
+        "version": "14.10.6"
     }
 }
