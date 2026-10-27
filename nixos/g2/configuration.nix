@@ -20,8 +20,11 @@
 
   networking.hostName = "g2";
 
-  systemd.network.networks."10-enp3s0" = {
-    name = "enp3s0";
+  systemd.network.networks."10-default" = {
+    matchConfig = {
+      Type = "ether";
+      Kind = "!*";
+    };
     address = [
       "${self.data.dns.g2.ipv6}/64"
       "${self.data.dns.g2.ipv4}/24"
