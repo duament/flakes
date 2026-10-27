@@ -2,6 +2,7 @@
   # keep-sorted start
   config,
   lib,
+  pkgs,
   self,
   # keep-sorted end
   ...
@@ -42,6 +43,8 @@ in
           networking.firewall.extraForwardRules = ''
             iifname @wan_enabled_ifs oifname { ${ifsNft peers} } accept
           '';
+
+          environment.systemPackages = [ pkgs.strongswan ];
         }
       ]
       ++ (map (

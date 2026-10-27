@@ -50,6 +50,8 @@ in
       "net.ipv6.conf.all.forwarding" = true;
     };
 
+    environment.systemPackages = [ pkgs.strongswan ];
+
     networking.firewall = {
       checkReversePath = "loose";
       allowedUDPPorts = [
