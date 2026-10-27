@@ -39,7 +39,7 @@
         GatewayOnLink = true;
       }
       {
-        Gateway = "176.119.148.1";
+        Gateway = "109.121.61.254";
         GatewayOnLink = true;
       }
     ];
