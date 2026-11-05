@@ -126,12 +126,12 @@
             "name": null,
             "owner": "sususweet",
             "repo": "midea_auto_cloud",
-            "rev": "v0.4.19",
-            "sha256": "sha256-DCskt1H4k5w05WuGKRWhEQoF9gSaepHYvxqnRAZ4EK0=",
+            "rev": "v0.4.22",
+            "sha256": "sha256-nCpPNxOs/CNmA3pL449AHpWyrIDl7fMQ4TqiFH4A0SQ=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v0.4.19"
+        "version": "v0.4.22"
     },
     "owntracks-frontend": {
         "cargoLock": null,
@@ -198,11 +198,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-WQAGBzQwsrHKRBYVSC5O7y17zgzrxFX0hqdsnaYFaeU=",
+            "sha256": "sha256-lHwSH2ZGWxciisWNUMpHIZz+2g/UuXgnsKsOs5EETD4=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v14.10.6/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-aarch64/v14.11.2/uu.tar.gz"
         },
-        "version": "14.10.6"
+        "version": "14.11.2"
     },
     "uuplugin-x86_64": {
         "cargoLock": null,
@@ -213,10 +213,10 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-0SS4nLZ4MalHXHcP+ND2Zr794nJh1pSXjVAtwzAfPh0=",
+            "sha256": "sha256-t3C91beMkArsZMBTzvMTI9SUMonq8pGsyiLZkNP6NoA=",
             "type": "url",
-            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v14.10.6/uu.tar.gz"
+            "url": "https://uurouter.gdl.netease.com/uuplugin/openwrt-x86_64/v14.11.2/uu.tar.gz"
         },
-        "version": "14.10.6"
+        "version": "14.11.2"
     }
 }
