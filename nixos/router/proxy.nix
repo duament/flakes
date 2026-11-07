@@ -33,12 +33,6 @@ let
     # NixOS
     "cache.nixos.org"
     "releases.nixos.org"
-    # Apple
-    "appldnld.apple.com"
-    "gg.apple.com"
-    "gs.apple.com"
-    "updates-http.cdn-apple.com"
-    "updates.cdn-apple.com"
   ];
 
   msDomains = [
