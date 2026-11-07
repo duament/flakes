@@ -13,11 +13,21 @@ in
 
   config = mkIf cfg.enable {
 
-    # Workaround
-    boot.initrd.systemd.tmpfiles.settings.preservation."/sysroot/persistent/etc/machine-id".f = {
+    # https://nix-community.github.io/preservation/examples.html
+    # https://github.com/nix-community/preservation/pull/23
+    boot.initrd.systemd.tmpfiles.settings.preservation."/sysroot/persist/etc/machine-id".f = {
       argument = "uninitialized";
     };
-    systemd.services.systemd-machine-id-commit.unitConfig.ConditionFirstBoot = true;
+    systemd.services.systemd-machine-id-commit = {
+      unitConfig.ConditionPathIsMountPoint = [
+        ""
+        "/persist/etc/machine-id"
+      ];
+      serviceConfig.ExecStart = [
+        ""
+        "systemd-machine-id-setup --commit --root /persist"
+      ];
+    };
 
     fileSystems."/" = mkIf (!config.presets.disko.enable) {
       fsType = "tmpfs";
@@ -32,9 +42,8 @@ in
       enable = true;
       preserveAt."/persist" = {
         directories = [
-          "/var"
           {
-            directory = "/var/lib/nixos";
+            directory = "/var";
             inInitrd = true;
           }
         ];
@@ -42,6 +51,9 @@ in
           {
             file = "/etc/machine-id";
             inInitrd = true;
+            how = "symlink";
+            configureParent = true;
+            createLinkTarget = true;
           }
           {
             file = "/etc/ssh/ssh_host_ed25519_key";
@@ -51,12 +63,6 @@ in
           {
             file = "/etc/ssh/ssh_host_ed25519_key.pub";
             how = "symlink";
-            configureParent = true;
-          }
-          {
-            file = "/var/lib/systemd/random-seed";
-            how = "symlink";
-            inInitrd = true;
             configureParent = true;
           }
         ];
