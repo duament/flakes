@@ -48,6 +48,7 @@ let
 
   EUDomains = [
     "splatoon.oatmealdome.me"
+    "f-droid.org"
   ];
 
   redditDomains = [
