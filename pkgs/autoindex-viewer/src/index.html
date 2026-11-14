@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>Files</title>
+  <link rel="stylesheet" href="/.viewer/assets/style.css">
+  <script type="module" src="/.viewer/assets/app.js"></script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
+      <path d="M14 3v5h5"/>
+    </symbol>
+    <symbol id="i-dir" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    </symbol>
+  </svg>
+
+  <header>
+    <nav aria-label="Breadcrumb">
+      <ol id="crumbs" class="crumbs"></ol>
+    </nav>
+  </header>
+
+  <main>
+    <h1 id="title" class="sr-only" tabindex="-1">Files</h1>
+    <p id="status" class="status" role="status"></p>
+    <ul id="listing" class="listing"></ul>
+    <noscript><p class="status">This file listing needs JavaScript.</p></noscript>
+  </main>
+
+  <template id="item-template">
+    <li>
+      <a class="row">
+        <svg class="icon" aria-hidden="true" focusable="false"><use></use></svg>
+        <span class="name"></span>
+        <span class="size"></span>
+        <time class="date"></time>
+      </a>
+    </li>
+  </template>
+</body>
+</html>

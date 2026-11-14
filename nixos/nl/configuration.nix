@@ -153,19 +153,30 @@ in
   presets.nginx = {
     enable = true;
     virtualHosts = {
-      "d.rvf6.com" = {
-        root = config.services.transmission.settings.download-dir;
-        basicAuthFile = config.sops.secrets."basic_auth".path;
-        locations."/".extraConfig = ''
-          dav_ext_methods PROPFIND OPTIONS;
-          fancyindex on;
-          fancyindex_localtime on;
-          fancyindex_exact_size off;
-          fancyindex_header "/Nginx-Fancyindex/header.html";
-          fancyindex_footer "/Nginx-Fancyindex/footer.html";
-        '';
-        locations."/Nginx-Fancyindex/".alias = "${pkgs.Nginx-Fancyindex-Theme}/share/Nginx-Fancyindex/";
-      };
+      "d.rvf6.com" =
+        let
+          root = config.services.transmission.settings.download-dir;
+        in
+        {
+          inherit root;
+          basicAuthFile = config.sops.secrets."basic_auth".path;
+          locations."/" = {
+            index = "/.viewer/index.html";
+            extraConfig = ''
+              dav_ext_methods PROPFIND OPTIONS;
+            '';
+          };
+          locations."= /.autoindex".return = "301 /.autoindex/";
+          locations."/.autoindex/" = {
+            alias = "${root}/";
+            index = "__autoindex_disabled__";
+            extraConfig = ''
+              autoindex on;
+              autoindex_format json;
+            '';
+          };
+          locations."/.viewer/".alias = "${pkgs.autoindex-viewer}/share/autoindex-viewer/";
+        };
       "transmission.rvf6.com" = {
         basicAuthFile = config.sops.secrets.transmission.path;
         locations = {
@@ -187,7 +198,6 @@ in
   services.nginx = {
     additionalModules = with pkgs.nginxModules; [
       dav
-      fancyindex
     ];
     commonHttpConfig = "dav_ext_lock_zone zone=default:10m;";
   };
