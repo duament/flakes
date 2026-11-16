@@ -110,6 +110,11 @@
               for filename in *; do
                 extra_script="$filename"/update.py
                 [[ -f "$extra_script" ]] && "$extra_script"
+                if [[ -f "$filename/enable-nix-update" ]]; then
+                  pushd ..
+                  ${pkgs.nix-update}/bin/nix-update "$filename" --flake
+                  popd
+                fi
               done
             '';
           };
