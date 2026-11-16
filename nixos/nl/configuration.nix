@@ -142,11 +142,13 @@ in
     jwtSecretFile = config.sops.secrets."vouch-bt/jwt".path;
     clientSecretFile = config.sops.secrets."vouch-bt/client".path;
     authLocations = [
+      "/tnu/"
       "/flood/"
       "/twc/"
       "/tc/"
       "/og/"
       "/rpc"
+      "/transmission/rpc"
     ];
   };
 
@@ -185,12 +187,14 @@ in
       };
       "bt.rvf6.com" = {
         locations = {
-          "= /".return = "301 /flood/";
+          "= /".return = "301 /tnu/";
+          "/tnu/".alias = "${pkgs.transmission-next-ui}/share/transmission-next-ui/";
           "/flood/".alias = "${pkgs.flood-for-transmission}/share/flood-for-transmission/";
           "/twc/".alias = "${pkgs.transmission-web-control}/share/transmission-web-control/";
           "/tc/".alias = "${pkgs.transmission-client}/share/transmission-client/";
           "/og/".proxyPass = "http://[::1]:9091/transmission/web/";
           "/rpc".proxyPass = "http://[::1]:9091/transmission/rpc";
+          "/transmission/rpc".proxyPass = "http://[::1]:9091/transmission/rpc";
         };
       };
     };
