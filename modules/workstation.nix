@@ -346,6 +346,8 @@ in
       package = pkgs.wireshark;
     };
 
+    programs.nh.enable = true;
+
     services.usbmuxd.enable = true;
 
     users.users.rvfg.extraGroups = [
