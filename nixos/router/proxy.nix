@@ -49,6 +49,7 @@ let
   EUDomains = [
     "splatoon.oatmealdome.me"
     "f-droid.org"
+    "nodeseek.com"
   ];
 
   redditDomains = [
