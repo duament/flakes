@@ -139,9 +139,10 @@
           };
 
           treefmtEval = inputs.treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+          treefmtWrapper = treefmtEval.config.build.wrapper;
         in
         {
-          formatter = treefmtEval.config.build.wrapper;
+          formatter = treefmtWrapper;
 
           packages = import ./pkgs pkgs;
 
@@ -152,6 +153,7 @@
               deploy-lan-script
               deploy-script
               sops
+              treefmtWrapper
               update-script
               # keep-sorted end
             ];
