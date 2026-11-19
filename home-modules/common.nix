@@ -46,7 +46,7 @@
       {
         plugin = catppuccin;
         extraConfig = ''
-          set -g @catppuccin_flavour 'latte'
+          set -g @catppuccin_flavor 'latte'
           set -g @catppuccin_status_left_separator '█'
         '';
       }
