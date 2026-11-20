@@ -4,12 +4,20 @@ let
 in
 {
 
+  imports = [
+    ./swanctl.nix
+  ];
+
   presets.nogui.enable = true;
   presets.disko.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     "wireguard_key".owner = "systemd-network";
+    "pki/ca".mode = "0444";
+    "pki/ybk".mode = "0444";
+    "pki/jp-bundle" = { };
+    "pki/jp-pkcs8-key" = { };
     pocket-id-encryption-key.owner = config.services.pocket-id.user;
     "miniflux/admin_username" = { };
     "miniflux/admin_password" = { };

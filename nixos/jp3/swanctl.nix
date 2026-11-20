@@ -10,7 +10,8 @@ let
     proposals
     # keep-sorted end
     ;
-  interface = "xfrm-jp3-jp2";
+  peer = "jp";
+  interface = "xfrm-jp3-${peer}";
   ifId = 4;
   table = 256;
 
@@ -59,7 +60,7 @@ in
           Table = interface;
         }
         {
-          IncomingInterface = "xfrm-jp3-jp2";
+          IncomingInterface = interface;
           Priority = 128;
           Family = "both";
           Table = "xfrm-jp3";
@@ -68,23 +69,23 @@ in
     };
   };
 
-  services.strongswan-swanctl.swanctl.connections.jp2 = {
+  services.strongswan-swanctl.swanctl.connections.${peer} = {
     inherit proposals;
-    remote_addrs = [ self.data.dns.jp2.ipv6 ];
+    remote_addrs = [ self.data.dns.${peer}.ipv6 ];
     local.jp3 = {
       auth = "pubkey";
       id = "jp3.rvf6.com";
       certs = [ config.sops.secrets."pki/jp3-bundle".path ];
     };
-    remote.jp2 = {
+    remote.${peer} = {
       auth = "pubkey";
-      id = "jp2.rvf6.com";
+      id = "${peer}.rvf6.com";
       cacerts = [
         config.sops.secrets."pki/ca".path
         config.sops.secrets."pki/ybk".path
       ];
     };
-    children.jp2 = {
+    children.${peer} = {
       local_ts = [
         "0.0.0.0/0"
         "::/0"
