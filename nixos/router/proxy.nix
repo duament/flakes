@@ -52,11 +52,7 @@ let
     "nodeseek.com"
   ];
 
-  redditDomains = [
-    "www.reddit.com"
-  ];
-
-  fakeDNSDomains = downloadDomains ++ msDomains ++ EUDomains ++ redditDomains;
+  fakeDNSDomains = downloadDomains ++ msDomains ++ EUDomains;
 
 in
 {
@@ -376,10 +372,6 @@ in
           {
             domain_suffix = EUDomains;
             outbound = "eu";
-          }
-          {
-            domain_suffix = redditDomains;
-            outbound = "jp2";
           }
           {
             domain_suffix = [
