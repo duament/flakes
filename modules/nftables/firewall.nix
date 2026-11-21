@@ -2,6 +2,7 @@
 let
   inherit (lib)
     # keep-sorted start
+    concatMapStrings
     concatStringsSep
     imap0
     length
@@ -19,6 +20,11 @@ let
 in
 {
   options = {
+
+    networking.nftables.masqRules = mkOption {
+      type = types.lines;
+      default = "";
+    };
 
     networking.nftables.masquerade = mkOption {
       type = types.listOf types.str;
@@ -43,15 +49,17 @@ in
 
   config = mkIf cfg.enable {
 
+    networking.nftables.masqRules = concatMapStrings (expr: ''
+      ${expr} masquerade
+    '') cfg.masquerade;
+
     networking.nftables.tables.misc = {
       family = "inet";
       content = ''
-        ${optionalString (length cfg.masquerade != 0) ''
-          chain masq {
-            type nat hook postrouting priority srcnat;
-            ${concatStringsSep " masquerade\n" cfg.masquerade} masquerade
-          }
-        ''}
+        chain masq {
+          type nat hook postrouting priority srcnat;
+          ${cfg.masqRules}
+        }
         ${optionalString cfg.mssClamping ''
           chain mss-clamping {
             type filter hook postrouting priority mangle;
