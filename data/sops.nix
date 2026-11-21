@@ -17,7 +17,6 @@ let
     ak = "age1rvdmtzg5j8298qvtpmq0rwwu6alev5qf3cg36w0j6jcjpyv4lgvqn5ukum";
     sg = "age10akztr0j5e67wfcsv9wtpnsrv2r8sy5us3rc42yt45dg9f54c9rqmzpv57";
     jp = "age1lexn0h78hhnx6eja2azmv4s8wg99sn20f5jpkq226y9x7eelpuwsqwejdg";
-    jp2 = "age1qrawe8zl008qcjjfs9krvrvqww6wzf2wxkumh0h5zr9v5fxr94vsxnkdkv";
     jp3 = "age16v7u8lxyj3wn0fr6rrjh0mtfs85v8wjxefl2kg5mpcav2z920qwsnpuhn5";
     de2 = "age1tntyd0uuwzngqn90ch657zae87y87jwgpvj7alu2k3d395ru7dcq8w0039";
     g2 = "age1p0zk8hsck6jplwam9e5dajqguvnkcq2ap2xzkh332q7jy46v4uds3k7w9g";

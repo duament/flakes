@@ -65,7 +65,6 @@ in
     "tuic/tls_key" = { };
     "tuic/ech_key" = { };
     shadowsocks = { };
-    shadowsocks-jp2 = { };
   };
 
   networking.firewall = {
@@ -146,7 +145,6 @@ in
     "tls_key:${config.sops.secrets."tuic/tls_key".path}"
     "ech_key:${config.sops.secrets."tuic/ech_key".path}"
     "api_secret:${config.sops.secrets."sing-box-api-secret".path}"
-    "shadowsocks-jp2:${config.sops.secrets.shadowsocks-jp2.path}"
   ];
 
   presets.sing-box = {
@@ -253,14 +251,6 @@ in
           type = "direct";
           tag = "ak";
           routing_mark = 100 + self.data.wg0.peers.ak.id;
-        }
-        {
-          type = "shadowsocks";
-          tag = "jp2";
-          server = self.data.dns.jp2.ipv6;
-          server_port = 13926;
-          method = "2022-blake3-aes-256-gcm";
-          password._secret = "/run/credentials/sing-box.service/shadowsocks-jp2";
         }
         {
           type = "socks";

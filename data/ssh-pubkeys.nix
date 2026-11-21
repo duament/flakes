@@ -27,7 +27,6 @@ let
     ak = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOH+CAQO3TLPppb3GXE8/2+33kn0ejC1Osx1MMsJvQdd";
     sg = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGrYMbv6EzBWxkluuydLdIaIpLYBjNWtfX0z9shyQRkR";
     jp = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDkimtHteI020dAw9nMYlUzAAubx7AdsQER7HZGpzDC9";
-    jp2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHiRBAzCnFCda/VAv/woFnYp2uuT7CGDgvNG7ESgHYlt";
     jp3 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHwu1UYJmBzWNVmxMCgKK/hgA8XCZ1CAzT7uG4fGn04m";
     de2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINFRJWj1+b3XGPqOJo5yOeFREn7Vt52H1Ev2Gv/LRyKA";
     g2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH6swukq9doXDiKkK2Hnb3VOSdyN6SoG5ZRhYGQXzvoA";
@@ -67,7 +66,6 @@ keys
     "ak"
     "sg"
     "jp"
-    "jp2"
     "jp3"
     "de2"
     "g2"
