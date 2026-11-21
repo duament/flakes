@@ -327,6 +327,7 @@ in
     ];
     listenAddress = "unix:/run/victorialogs/sock";
   };
+  systemd.services.victorialogs.postStart = mkForce "";
   systemd.services.victorialogs.serviceConfig = {
     PrivateNetwork = true;
     RuntimeDirectoryMode = mkForce "0750";
