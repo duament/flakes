@@ -19,6 +19,7 @@ in
     ./dns.nix
     ./fakesip.nix
     ./grafana.nix
+    ./gre.nix
     ./home-assistant
     ./lan.nix
     ./mosquitto.nix

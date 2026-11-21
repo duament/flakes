@@ -48,10 +48,13 @@ let
     "${net.ipv4Pre}${toString peer.id}/${toString net.ipv4Mask}"
     "${net.ipv6Pre}${toLowerHex peer.id}/${toString net.ipv6Mask}"
   ];
-  toAllowedIPs = peer: [
-    "${net.ipv4Pre}${toString peer.id}/32"
-    "${net.ipv6Pre}${toLowerHex peer.id}/128"
-  ];
+  toAllowedIPs =
+    h: peer:
+    [
+      "${net.ipv4Pre}${toString peer.id}/32"
+      "${net.ipv6Pre}${toLowerHex peer.id}/128"
+    ]
+    ++ (net.extraAllowedIPs.${h} or [ ]);
   toClientPort = h: if (peer ? port) then peer.port + wg0.peers.${h}.id else null;
 
   clientPeerOptions =
@@ -154,7 +157,7 @@ in
           mapAttrsToList (
             h: p:
             {
-              AllowedIPs = toAllowedIPs p;
+              AllowedIPs = toAllowedIPs h p;
               PublicKey = p.pubkey;
             }
             // (optionalAttrs (elem h (net.outPeers or [ ])) {

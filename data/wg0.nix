@@ -144,6 +144,7 @@
       ipv4Mask = 24;
       ipv6Pre = "fd66:12::";
       ipv6Mask = 120;
+      extraAllowedIPs.router = [ "10.5.0.50/32" ];
     };
     jp2 = {
       ipv4Pre = "10.6.19.";

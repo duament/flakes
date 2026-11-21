@@ -54,6 +54,35 @@ in
     mtu = 1400;
   };
 
+  networking.nftables.masquerade = [ "iifname gre-jp" ];
+  networking.firewall = {
+    extraInputRules = ''
+      iifname wg-jp ip protocol gre accept
+    '';
+    extraForwardRules = ''
+      iifname gre-jp accept
+    '';
+  };
+  systemd.network.netdevs."30-gre-jp" = {
+    netdevConfig = {
+      Name = "gre-jp";
+      Kind = "gre";
+    };
+    tunnelConfig = {
+      Local = "10.6.18.29";
+      Remote = "10.5.0.50";
+      Independent = true;
+    };
+  };
+  systemd.network.networks."25-xfrm-jp3-jp".routes = [ { Destination = "10.5.0.48/30"; } ];
+  systemd.network.networks."30-gre-jp" = {
+    name = "gre-jp";
+    address = [
+      "10.5.1.1/30"
+      "fdc1::1/126"
+    ];
+  };
+
   home-manager.users.rvfg = import ./home.nix;
 
   services.postgresql = {
