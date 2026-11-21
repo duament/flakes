@@ -56,6 +56,7 @@ in
 
   networking.nftables.masquerade = [ "iifname gre-jp" ];
   networking.firewall = {
+    interfaces.gre-jp.allowedTCPPorts = [ 8000 ];
     extraInputRules = ''
       iifname wg-jp ip protocol gre accept
     '';
@@ -81,6 +82,48 @@ in
       "10.5.1.1/30"
       "fdc1::1/126"
     ];
+  };
+
+  presets.sing-box = {
+    enable = true;
+    settings = {
+      dns.servers = [
+        {
+          type = "local";
+          tag = "local";
+        }
+      ];
+      inbounds = [
+        {
+          type = "http";
+          listen = "10.5.1.1";
+          listen_port = 8000;
+        }
+        {
+          type = "http";
+          listen = "fdc1::1";
+          listen_port = 8000;
+        }
+      ];
+      outbounds = [
+        {
+          type = "direct";
+          tag = "direct";
+        }
+      ];
+      route.default_domain_resolver = "local";
+      route.rules = [
+        { action = "resolve"; }
+        {
+          ip_cidr = [
+            "127.0.0.1/8"
+            "::1/128"
+          ];
+          action = "reject";
+        }
+        { outbound = "direct"; }
+      ];
+    };
   };
 
   home-manager.users.rvfg = import ./home.nix;
