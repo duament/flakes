@@ -162,7 +162,6 @@ in
 
   presets.swanctl = {
     enable = false;
-    underlyingNetwork = "10-enp1s0";
     #IPv6Middle = ":1";
     IPv4Prefix = "10.6.9.";
     privateKeyFile = config.sops.secrets."pki/t430-pkcs8-key".path;

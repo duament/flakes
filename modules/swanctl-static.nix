@@ -27,11 +27,6 @@ in
       default = "xfrm0";
     };
 
-    underlyingNetwork = mkOption {
-      type = types.str;
-      example = "10-eth0";
-    };
-
     IPv4Prefix = mkOption {
       type = types.str;
       default = "10.6.6.";
@@ -82,14 +77,15 @@ in
     networking.nftables.checkRuleset = false;
     networking.nftables.masquerade = [ "iifname ${cfg.interface} meta nfproto ipv6" ];
 
-    systemd.network.networks.${cfg.underlyingNetwork}.xfrm = [ cfg.interface ];
-
     systemd.network.netdevs."25-${cfg.interface}" = {
       netdevConfig = {
         Name = cfg.interface;
         Kind = "xfrm";
       };
-      xfrmConfig.InterfaceId = 1;
+      xfrmConfig = {
+        InterfaceId = 1;
+        Independent = true;
+      };
     };
     systemd.network.networks."25-${cfg.interface}" = {
       name = cfg.interface;

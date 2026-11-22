@@ -41,7 +41,6 @@ in
 
   presets.swanctl = {
     enable = true;
-    underlyingNetwork = "10-ppp";
     IPv4Prefix = "10.6.9.";
     IPv6Prefix = "fdda::";
     privateKeyFile = config.sops.secrets."pki/router-pkcs8-key".path;
