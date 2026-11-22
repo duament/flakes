@@ -164,6 +164,9 @@ in
             socket-default {
               fwmark = 65536
             }
+            kernel-netlink {
+              fwmark = !65536
+            }
           }
         }
       '';
