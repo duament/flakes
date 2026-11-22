@@ -14,9 +14,6 @@ let
   systemdHarden = self.data.systemdHarden;
 in
 {
-  nixpkgs.config.permittedInsecurePackages = [
-    "opendkim-2.11.0-Beta2"
-  ];
 
   sops.secrets = {
     "dovecot/passwd".owner = config.services.dovecot2.settings.default_internal_user;
@@ -71,10 +68,12 @@ in
 
   services.dovecot2 = {
     enable = true;
-    package = pkgs.dovecot_2_3;
+    package = pkgs.dovecot;
     enablePAM = false;
     settings = {
-      mail_location = "maildir:/var/mail";
+      dovecot_config_version = "2.4.5";
+      dovecot_storage_version = "2.4.5";
+      mail_path = "/var/mail";
       mail_uid = "vmail";
       mail_gid = "vmail";
       protocols = [
@@ -84,23 +83,16 @@ in
 
       ssl = "required";
       ssl_min_protocol = "TLSv1.2";
-      ssl_cert = "<" + certificatePath;
-      ssl_key = "<" + keyPath;
-      ssl_dh = "</var/lib/dhparams/dovecot2.pem";
+      ssl_server_cert_file = certificatePath;
+      ssl_server_key_file = keyPath;
+      ssl_server_dh_file = "/var/lib/dhparams/dovecot2.pem";
 
-      passdb = {
-        driver = "passwd-file";
-        args = config.sops.secrets."dovecot/passwd".path;
-      };
+      "passdb passwd-file".passwd_file_path = config.sops.secrets."dovecot/passwd".path;
 
-      userdb = {
-        driver = "static";
-        args = [
-          "uid=vmail"
-          "gid=vmail"
-          "home=/var/mail"
-          "allow_all_users=yes"
-        ];
+      "userdb static".fields = {
+        uid = "vmail";
+        gid = "vmail";
+        home = "/var/mail";
       };
 
       auth_mechanisms = [
@@ -167,4 +159,5 @@ in
     "postfix.service"
     "dovecot2.service"
   ];
+
 }
