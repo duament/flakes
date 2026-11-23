@@ -24,6 +24,7 @@ jobs:
           NIXPKGS_NEW_REV=$(lock_rev < flake.lock)
 
           if [[ "$BEFORE_HASH" != "0000000000000000000000000000000000000000" ]]; then
+            git fetch "$BEFORE_HASH"
             NIXPKGS_OLD_REV=$(git show "$BEFORE_HASH:flake.lock" | lock_rev) || NIXPKGS_OLD_REV=
             if [[ "$NIXPKGS_OLD_REV" = "$NIXPKGS_NEW_REV" ]]; then
               echo "nixpkgs unchanged"
