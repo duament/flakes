@@ -47,6 +47,19 @@
     ];
   };
 
+  presets.sing-box.settings.inbounds = [
+    {
+      type = "http";
+      listen = "10.5.1.5";
+      listen_port = 8000;
+    }
+    {
+      type = "http";
+      listen = "fdc1::5";
+      listen_port = 8000;
+    }
+  ];
+
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     "wireguard_key".owner = "systemd-network";
