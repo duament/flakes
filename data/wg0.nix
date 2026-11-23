@@ -77,6 +77,11 @@
       pubkey = "621tcAcrFTv1OJjixoS0XUVZiv8nDhmAfBvuFN4FvCg=";
       port = 11111;
     };
+    jp3 = {
+      id = 30;
+      pubkey = "NslKGOwiP8tJgb1fd7n8iN7x10iccXVFVknpkoQhB2A=";
+      port = 11111;
+    };
   };
   networks = {
     t430 = {
@@ -137,6 +142,13 @@
       ipv4Pre = "10.6.18.";
       ipv4Mask = 24;
       ipv6Pre = "fd66:12::";
+      ipv6Mask = 120;
+      extraAllowedIPs.router = [ "10.5.0.50/32" ];
+    };
+    jp3 = {
+      ipv4Pre = "10.6.19.";
+      ipv4Mask = 24;
+      ipv6Pre = "fd66:13::";
       ipv6Mask = 120;
       extraAllowedIPs.router = [ "10.5.0.50/32" ];
     };

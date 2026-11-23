@@ -14,8 +14,14 @@
   presets.nginx.enable = true;
   presets.swanctl-gfw.enableServer = true;
 
+  presets.wireguard.wg0 = {
+    enable = true;
+    mtu = 1400;
+  };
+
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
+    "wireguard_key".owner = "systemd-network";
     "pki/ca".mode = "0444";
     "pki/ybk".mode = "0444";
     "pki/jp3-bundle" = { };
