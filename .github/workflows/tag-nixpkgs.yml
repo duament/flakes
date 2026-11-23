@@ -1,0 +1,39 @@
+name: "Tag nixpkgs"
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - flake.lock
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Tag
+        id: tag
+        env:
+          GH_TOKEN: ${{ secrets.NIXPKGS_FORK_PAT }}
+          HASH: ${{ github.sha }}
+          BEFORE_HASH: ${{ github.event.before }}
+        run: |
+          set -eu -o pipefail
+
+          lock_rev() { jq -r '.nodes.nixpkgs.locked.rev // empty'; }
+
+          NIXPKGS_NEW_REV=$(lock_rev < flake.lock)
+
+          if [[ "$BEFORE_HASH" != "0000000000000000000000000000000000000000" ]]; then
+            NIXPKGS_OLD_REV=$(git show "$BEFORE_HASH:flake.lock" | lock_rev) || NIXPKGS_OLD_REV=
+            if [[ "$NIXPKGS_OLD_REV" = "$NIXPKGS_NEW_REV" ]]; then
+              echo "nixpkgs unchanged"
+              exit 0
+            fi
+          fi
+
+          TAG="flakes-$(date '+%Y-%m-%d')-${HASH::7}"
+          gh api -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            /repos/duament/nixpkgs/git/refs \
+            -f ref="refs/tags/$TAG" -f sha="$NIXPKGS_NEW_REV"
